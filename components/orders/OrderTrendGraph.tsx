@@ -14,44 +14,222 @@ import {
 export const OrderTrendGraph: React.FC<{ title?: string }> = ({
   title = "Pharma Territory Business Intelligence & Analytics Suite",
 }) => {
-  const [selectedMonth, setSelectedMonth] = useState("June");
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const [monthIndex, setMonthIndex] = useState(5); // Default: June
   const [activeCategory, setActiveCategory] = useState("APEIRIAN");
 
-  // Donut chart segment data
-  const donutSegments = [
-    { label: "June Sales", value: "14.877", color: "#F59E0B" }, // Yellow
-    { label: "Trade Scheme", value: "29.472", color: "#F97316" }, // Orange
-    { label: "Bonus Units", value: "5.173", color: "#EF4444" }, // Red
-    { label: "Prescriptions", value: "38.552", color: "#EC4899" }, // Pink
-    { label: "OTC Reorder", value: "31.346", color: "#3B82F6" }, // Blue
-    { label: "Institutional", value: "30.255", color: "#8B5CF6" }, // Purple
-  ];
+  const currentMonthName = months[monthIndex];
 
-  // Smooth wave graph points (20 timeline coordinates)
-  // X: 20px step from 20 to 620
-  // Y: values between 40 (high peak) and 180 (trough)
-  const wavePoints = [
-    { x: 20, y: 140 },
-    { x: 50, y: 80 },
-    { x: 80, y: 110 },
-    { x: 110, y: 65 },
-    { x: 140, y: 120 },
-    { x: 170, y: 40 },
-    { x: 200, y: 70 },
-    { x: 230, y: 130 },
-    { x: 260, y: 150 },
-    { x: 290, y: 90 },
-    { x: 320, y: 50 },
-    { x: 350, y: 110 },
-    { x: 380, y: 130 },
-    { x: 410, y: 30 },
-    { x: 440, y: 110 },
-    { x: 470, y: 70 },
-    { x: 500, y: 130 },
-    { x: 530, y: 150 },
-    { x: 560, y: 100 },
-    { x: 590, y: 125 },
-  ];
+  const handlePrevMonth = () => {
+    setMonthIndex((prev) => (prev === 0 ? months.length - 1 : prev - 1));
+  };
+
+  const handleNextMonth = () => {
+    setMonthIndex((prev) => (prev === months.length - 1 ? 0 : prev + 1));
+  };
+
+  // Month specific dataset
+  const monthDatasets: Record<
+    string,
+    {
+      totalRevenue: string;
+      growth: string;
+      peakValue: string;
+      segments: { label: string; value: string; color: string }[];
+      waveYValues: number[];
+    }
+  > = {
+    January: {
+      totalRevenue: "৳84,120.00",
+      growth: "+8.4%",
+      peakValue: "14 250",
+      segments: [
+        { label: "Jan Sales", value: "11.240", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "22.150", color: "#F97316" },
+        { label: "Bonus Units", value: "4.890", color: "#EF4444" },
+        { label: "Prescriptions", value: "31.200", color: "#EC4899" },
+        { label: "OTC Reorder", value: "25.640", color: "#3B82F6" },
+        { label: "Institutional", value: "24.100", color: "#8B5CF6" },
+      ],
+      waveYValues: [150, 100, 120, 80, 130, 60, 90, 140, 160, 100, 70, 120, 140, 50, 120, 80, 140, 160, 110, 130],
+    },
+    February: {
+      totalRevenue: "৳89,450.50",
+      growth: "+10.1%",
+      peakValue: "15 890",
+      segments: [
+        { label: "Feb Sales", value: "12.800", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "24.600", color: "#F97316" },
+        { label: "Bonus Units", value: "5.100", color: "#EF4444" },
+        { label: "Prescriptions", value: "33.400", color: "#EC4899" },
+        { label: "OTC Reorder", value: "27.800", color: "#3B82F6" },
+        { label: "Institutional", value: "26.500", color: "#8B5CF6" },
+      ],
+      waveYValues: [145, 90, 115, 75, 125, 55, 85, 135, 155, 95, 65, 115, 135, 45, 115, 75, 135, 155, 105, 125],
+    },
+    March: {
+      totalRevenue: "৳92,780.00",
+      growth: "+11.5%",
+      peakValue: "16 420",
+      segments: [
+        { label: "Mar Sales", value: "13.500", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "26.100", color: "#F97316" },
+        { label: "Bonus Units", value: "4.950", color: "#EF4444" },
+        { label: "Prescriptions", value: "35.800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "29.200", color: "#3B82F6" },
+        { label: "Institutional", value: "28.100", color: "#8B5CF6" },
+      ],
+      waveYValues: [140, 85, 110, 70, 120, 50, 80, 130, 150, 90, 60, 110, 130, 40, 110, 70, 130, 150, 100, 120],
+    },
+    April: {
+      totalRevenue: "৳95,110.25",
+      growth: "+12.8%",
+      peakValue: "16 980",
+      segments: [
+        { label: "Apr Sales", value: "14.100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "27.500", color: "#F97316" },
+        { label: "Bonus Units", value: "5.050", color: "#EF4444" },
+        { label: "Prescriptions", value: "36.900", color: "#EC4899" },
+        { label: "OTC Reorder", value: "30.100", color: "#3B82F6" },
+        { label: "Institutional", value: "29.200", color: "#8B5CF6" },
+      ],
+      waveYValues: [135, 80, 105, 65, 115, 45, 75, 125, 145, 85, 55, 105, 125, 35, 105, 65, 125, 145, 95, 115],
+    },
+    May: {
+      totalRevenue: "৳97,630.00",
+      growth: "+13.6%",
+      peakValue: "17 310",
+      segments: [
+        { label: "May Sales", value: "14.500", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "28.700", color: "#F97316" },
+        { label: "Bonus Units", value: "5.120", color: "#EF4444" },
+        { label: "Prescriptions", value: "37.800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "30.800", color: "#3B82F6" },
+        { label: "Institutional", value: "29.900", color: "#8B5CF6" },
+      ],
+      waveYValues: [142, 82, 108, 68, 118, 42, 72, 128, 148, 88, 52, 108, 128, 32, 108, 68, 128, 148, 98, 122],
+    },
+    June: {
+      totalRevenue: "৳99,845.45",
+      growth: "+14.2%",
+      peakValue: "17 756",
+      segments: [
+        { label: "June Sales", value: "14.877", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "29.472", color: "#F97316" },
+        { label: "Bonus Units", value: "5.173", color: "#EF4444" },
+        { label: "Prescriptions", value: "38.552", color: "#EC4899" },
+        { label: "OTC Reorder", value: "31.346", color: "#3B82F6" },
+        { label: "Institutional", value: "30.255", color: "#8B5CF6" },
+      ],
+      waveYValues: [140, 80, 110, 65, 120, 40, 70, 130, 150, 90, 50, 110, 130, 30, 110, 70, 130, 150, 100, 125],
+    },
+    July: {
+      totalRevenue: "৳102,450.00",
+      growth: "+15.8%",
+      peakValue: "18 420",
+      segments: [
+        { label: "July Sales", value: "15.400", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "30.800", color: "#F97316" },
+        { label: "Bonus Units", value: "5.300", color: "#EF4444" },
+        { label: "Prescriptions", value: "39.800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "32.500", color: "#3B82F6" },
+        { label: "Institutional", value: "31.400", color: "#8B5CF6" },
+      ],
+      waveYValues: [130, 70, 100, 55, 110, 35, 65, 120, 140, 80, 45, 100, 120, 25, 100, 60, 120, 140, 90, 115],
+    },
+    August: {
+      totalRevenue: "৳105,890.75",
+      growth: "+17.1%",
+      peakValue: "19 150",
+      segments: [
+        { label: "Aug Sales", value: "16.100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "31.900", color: "#F97316" },
+        { label: "Bonus Units", value: "5.450", color: "#EF4444" },
+        { label: "Prescriptions", value: "41.200", color: "#EC4899" },
+        { label: "OTC Reorder", value: "33.800", color: "#3B82F6" },
+        { label: "Institutional", value: "32.700", color: "#8B5CF6" },
+      ],
+      waveYValues: [125, 65, 95, 50, 105, 30, 60, 115, 135, 75, 40, 95, 115, 20, 95, 55, 115, 135, 85, 110],
+    },
+    September: {
+      totalRevenue: "৳108,320.00",
+      growth: "+18.4%",
+      peakValue: "19 840",
+      segments: [
+        { label: "Sep Sales", value: "16.800", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "32.600", color: "#F97316" },
+        { label: "Bonus Units", value: "5.600", color: "#EF4444" },
+        { label: "Prescriptions", value: "42.500", color: "#EC4899" },
+        { label: "OTC Reorder", value: "34.900", color: "#3B82F6" },
+        { label: "Institutional", value: "33.800", color: "#8B5CF6" },
+      ],
+      waveYValues: [120, 60, 90, 45, 100, 25, 55, 110, 130, 70, 35, 90, 110, 18, 90, 50, 110, 130, 80, 105],
+    },
+    October: {
+      totalRevenue: "৳112,640.50",
+      growth: "+19.9%",
+      peakValue: "20 560",
+      segments: [
+        { label: "Oct Sales", value: "17.400", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "33.800", color: "#F97316" },
+        { label: "Bonus Units", value: "5.800", color: "#EF4444" },
+        { label: "Prescriptions", value: "44.100", color: "#EC4899" },
+        { label: "OTC Reorder", value: "36.200", color: "#3B82F6" },
+        { label: "Institutional", value: "35.100", color: "#8B5CF6" },
+      ],
+      waveYValues: [115, 55, 85, 40, 95, 20, 50, 105, 125, 65, 30, 85, 105, 15, 85, 45, 105, 125, 75, 100],
+    },
+    November: {
+      totalRevenue: "৳116,980.00",
+      growth: "+21.3%",
+      peakValue: "21 340",
+      segments: [
+        { label: "Nov Sales", value: "18.200", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "35.100", color: "#F97316" },
+        { label: "Bonus Units", value: "6.000", color: "#EF4444" },
+        { label: "Prescriptions", value: "45.800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "37.600", color: "#3B82F6" },
+        { label: "Institutional", value: "36.500", color: "#8B5CF6" },
+      ],
+      waveYValues: [110, 50, 80, 35, 90, 18, 45, 100, 120, 60, 25, 80, 100, 12, 80, 40, 100, 120, 70, 95],
+    },
+    December: {
+      totalRevenue: "৳121,450.00",
+      growth: "+23.5%",
+      peakValue: "22 480",
+      segments: [
+        { label: "Dec Sales", value: "19.100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "36.500", color: "#F97316" },
+        { label: "Bonus Units", value: "6.250", color: "#EF4444" },
+        { label: "Prescriptions", value: "47.600", color: "#EC4899" },
+        { label: "OTC Reorder", value: "39.100", color: "#3B82F6" },
+        { label: "Institutional", value: "37.900", color: "#8B5CF6" },
+      ],
+      waveYValues: [105, 45, 75, 30, 85, 15, 40, 95, 115, 55, 20, 75, 95, 10, 75, 35, 95, 115, 65, 90],
+    },
+  };
+
+  const activeData = monthDatasets[currentMonthName] || monthDatasets["June"];
+
+  // Map 20 x-coordinates
+  const wavePoints = activeData.waveYValues.map((yVal, idx) => ({
+    x: 20 + idx * 30,
+    y: yVal,
+  }));
 
   // Build smooth cubic bezier curve string
   const createSmoothPath = (pts: { x: number; y: number }[]) => {
@@ -212,19 +390,44 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#8B5CF6" strokeWidth="16" strokeDasharray="40 200" strokeDashoffset="-195" />
               </svg>
 
-              {/* Center hole with Month Switcher */}
+              {/* Center hole with Interactive Month Switcher (< Month >) */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex items-center gap-1 font-black text-slate-800 text-sm bg-white px-3 py-1.5 rounded-full shadow-md border border-slate-200">
-                  <ChevronLeft className="w-3.5 h-3.5 cursor-pointer hover:text-purple-600" />
-                  <span>{selectedMonth}</span>
-                  <ChevronRight className="w-3.5 h-3.5 cursor-pointer hover:text-purple-600" />
+                <div className="flex items-center gap-1 font-black text-slate-900 text-xs bg-white px-3 py-1.5 rounded-full shadow-lg border border-slate-200 hover:border-purple-300 transition-all">
+                  <button
+                    onClick={handlePrevMonth}
+                    title="Previous Month"
+                    className="p-1 rounded-full hover:bg-purple-100 text-purple-700 transition-colors"
+                  >
+                    <ChevronLeft className="w-4 h-4 stroke-[3]" />
+                  </button>
+                  
+                  {/* Selectable Month Dropdown / Display */}
+                  <select
+                    value={monthIndex}
+                    onChange={(e) => setMonthIndex(Number(e.target.value))}
+                    className="bg-transparent font-black text-slate-900 text-xs focus:outline-none cursor-pointer px-1 py-0.5"
+                  >
+                    {months.map((m, idx) => (
+                      <option key={m} value={idx}>
+                        {m}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    onClick={handleNextMonth}
+                    title="Next Month"
+                    className="p-1 rounded-full hover:bg-purple-100 text-purple-700 transition-colors"
+                  >
+                    <ChevronRight className="w-4 h-4 stroke-[3]" />
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Donut Legend Items */}
+            {/* Donut Legend Items (Dynamically updating according to selected Month) */}
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs font-mono w-full px-2">
-              {donutSegments.map((s, idx) => (
+              {activeData.segments.map((s, idx) => (
                 <div key={idx} className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
@@ -235,11 +438,11 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               ))}
             </div>
 
-            {/* Total Revenue KPI Pill */}
+            {/* Total Revenue KPI Pill (Dynamically updating) */}
             <div className="pt-2 w-full flex items-center justify-between border-t border-slate-200">
-              <span className="text-xl font-black font-mono text-slate-900">৳99,845.45</span>
+              <span className="text-xl font-black font-mono text-slate-900">{activeData.totalRevenue}</span>
               <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full uppercase">
-                +14.2% Growth
+                {activeData.growth} Growth
               </span>
             </div>
 
@@ -251,11 +454,13 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-black text-slate-900 tracking-tight">FERRILAT / PROCUREMENT</h3>
-                <p className="text-xs text-slate-400 mt-0.5">Continuous Smooth Territory Demand Velocity</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Demand Velocity for <span className="font-bold text-purple-700">{currentMonthName} 2026</span>
+                </p>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-black font-mono text-purple-700">17 756</span>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">LATINE USU EX DUO</p>
+                <span className="text-2xl font-black font-mono text-purple-700">{activeData.peakValue}</span>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">MONTHLY UNITS</p>
               </div>
             </div>
 
@@ -275,6 +480,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                   <path
                     d={`${smoothCurveD} L 590 200 L 20 200 Z`}
                     fill="url(#purpleAreaGrad)"
+                    className="transition-all duration-500 ease-in-out"
                   />
 
                   {/* Smooth Wave Line */}
@@ -284,9 +490,10 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                     stroke="#6D28D9"
                     strokeWidth="3.5"
                     strokeLinecap="round"
+                    className="transition-all duration-500 ease-in-out"
                   />
 
-                  {/* Nodes / Dots on Wave Peaks & Valleys (Static Crisp Dots) */}
+                  {/* Nodes / Dots on Wave Peaks & Valleys */}
                   {wavePoints.map((pt, idx) => (
                     <circle
                       key={idx}
@@ -296,6 +503,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                       fill="#FFFFFF"
                       stroke="#6D28D9"
                       strokeWidth="2.5"
+                      className="transition-all duration-300"
                     />
                   ))}
 
