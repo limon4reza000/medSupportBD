@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { OrderStatus } from "@/types/domain";
+import { OrderTrendGraph } from "@/components/orders/OrderTrendGraph";
 
 export default function MyOrdersPage() {
   const { orders, currentPharmacy } = useApp();
@@ -67,6 +68,9 @@ export default function MyOrdersPage() {
           <span>Advanced History & Export</span>
         </Link>
       </div>
+
+      {/* Order Cutting & Procurement Volume Trend Graph */}
+      <OrderTrendGraph title="Pharmacy Order Cutting & Volume Growth Trend" />
 
       {/* Tabs & Search Filter Bar (Pure White Card) */}
       <div className="premium-card p-4 space-y-3">

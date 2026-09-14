@@ -15,6 +15,7 @@ import {
   Printer,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
+import { OrderTrendGraph } from "@/components/orders/OrderTrendGraph";
 
 export default function OrderHistoryPage() {
   const { orders } = useApp();
@@ -72,6 +73,9 @@ export default function OrderHistoryPage() {
           <span>Export CSV Report</span>
         </button>
       </div>
+
+      {/* Historical Order Growth & Volume Graph */}
+      <OrderTrendGraph title="Historical Order Cutting & Growth Graph" />
 
       {/* Filter Bar (Pure White Card) */}
       <div className="premium-card p-4">

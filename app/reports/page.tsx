@@ -16,6 +16,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
+import { OrderTrendGraph } from "@/components/orders/OrderTrendGraph";
 
 export default function ReportsPage() {
   const { orders, medicines, batches, pharmacies } = useApp();
@@ -79,6 +80,9 @@ export default function ReportsPage() {
           <div className="text-[11px] text-slate-400 mt-1">Across {pharmacies.length} pharmacies</div>
         </div>
       </div>
+
+      {/* Analytics & Order Growth Trend Graph */}
+      <OrderTrendGraph title="Pharma Territory Order Velocity & Annual Growth Analytics" />
 
       {/* Report Selector Bar (Pure White Card) */}
       <div className="premium-card p-4 flex flex-wrap items-center justify-between gap-3">
