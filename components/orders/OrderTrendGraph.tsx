@@ -200,7 +200,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({ title = "Order C
                   fill="#FFFFFF"
                   stroke="#0F8F78"
                   strokeWidth="4"
-                  className="transition-all duration-200 group-hover:scale-125 shadow-md"
+                  className="transition-colors duration-200 group-hover:stroke-[#065F52]"
                 />
 
                 {/* Inner Dot Center */}
