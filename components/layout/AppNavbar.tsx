@@ -37,7 +37,7 @@ export const AppNavbar: React.FC = () => {
           </div>
 
           {/* =================================================================== */}
-          {/* CENTER SECTION: Search Bar (Main Feature with Ctrl + K)             */}
+          {/* CENTER SECTION: Search Bar                                          */}
           {/* =================================================================== */}
           <div className="flex-1 max-w-xl mx-2 sm:mx-6">
             <button
@@ -48,9 +48,6 @@ export const AppNavbar: React.FC = () => {
                 <Search className="w-4 h-4 text-emerald-300 group-hover:text-emerald-200 shrink-0" />
                 <span className="truncate">Search medicines, generics, brands, SKU...</span>
               </div>
-              <kbd className="hidden md:inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-[#01382a] border border-emerald-500/40 text-[10px] font-mono text-emerald-300 font-bold shrink-0">
-                Ctrl + K
-              </kbd>
             </button>
           </div>
 
