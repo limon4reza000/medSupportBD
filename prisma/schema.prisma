@@ -1,0 +1,471 @@
+// MedSupply - Production-Grade B2B Pharmaceutical Order Cutting & Inventory Distribution Platform
+// Prisma Schema Definition
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // Compatible with PostgreSQL or MySQL
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// ENUMS
+// -----------------------------------------------------------------------------
+
+enum UserRole {
+  ADMIN
+  DEPOT_MANAGER
+  SALES_REP      // Medical Promotion Officer (MPO / SR)
+  PHARMACY_OWNER
+}
+
+enum PackagingUnit {
+  BOX
+  STRIP
+  PIECE // Loose unit (tablet, capsule, ampoule, vial)
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_CREDIT_APPROVAL
+  PROCESSING
+  ALLOCATED
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+}
+
+enum TradeSchemeType {
+  BUY_X_GET_Y_FREE  // e.g. Buy 10 Boxes, Get 1 Box Free (10+1)
+  SLAB_DISCOUNT     // e.g. Orders > 50 Strips get 5% instant discount
+  BONUS_RATIO       // e.g. 5% additional loose pieces bonus
+  FLAT_CASH_DISCOUNT
+}
+
+enum TransactionType {
+  INVOICE_DEBIT   // Order confirmed and billed to pharmacy
+  PAYMENT_CREDIT  // Pharmacy makes a payment against outstanding balance
+  RETURN_CREDIT   // Product returned / damaged batch return
+  ADJUSTMENT      // Manual reconciliation / debit-credit memo
+}
+
+enum DosageForm {
+  TABLET
+  CAPSULE
+  SYRUP
+  INJECTION
+  CREAM_OINTMENT
+  EYE_DROPS
+  INHALER
+  INFUSION
+}
+
+enum StockLockStatus {
+  ACTIVE
+  RELEASED
+  EXPIRED
+  COMMITTED
+}
+
+// -----------------------------------------------------------------------------
+// USER & RBAC
+// -----------------------------------------------------------------------------
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  phone         String       @unique
+  fullName      String
+  passwordHash  String
+  role          UserRole     @default(SALES_REP)
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relationships
+  managedDepots     Depot[]          @relation("DepotManager")
+  assignedPharmacies Pharmacy[]      @relation("AssignedSalesRep")
+  placedOrders      Order[]          @relation("OrderPlacedBy")
+  approvedOrders    Order[]          @relation("OrderApprovedBy")
+  auditLogs         AuditLog[]
+
+  @@index([role])
+  @@index([phone])
+}
+
+// -----------------------------------------------------------------------------
+// DEPOT & WAREHOUSE INVENTORY
+// -----------------------------------------------------------------------------
+
+model Depot {
+  id          String    @id @default(cuid())
+  code        String    @unique // e.g. DEPOT-DHK-01
+  name        String
+  region      String    // e.g. Dhaka Central, Chittagong South
+  address     String
+  contactNo   String
+  managerId   String?
+  manager     User?     @relation("DepotManager", fields: [managerId], references: [id])
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  batches     Batch[]
+  orders      Order[]
+  pharmacies  Pharmacy[]
+
+  @@index([region])
+}
+
+// -----------------------------------------------------------------------------
+// PHARMACY & CREDIT LEDGER
+// -----------------------------------------------------------------------------
+
+model Pharmacy {
+  id              String    @id @default(cuid())
+  code            String    @unique // e.g. PHARM-0092
+  tradeName       String
+  ownerName       String
+  drugLicenseNo   String    @unique
+  taxId           String?
+  phone           String    @unique
+  email           String?
+  address         String
+  thana           String
+  district        String
+  
+  // Financial & Credit Controls
+  creditLimit     Decimal   @default(50000.00) @db.Decimal(12, 2)
+  currentBalance  Decimal   @default(0.00) @db.Decimal(12, 2) // Total outstanding debit
+  creditDaysLimit Int       @default(30) // Maximum allowed credit cycle in days
+  isCreditBlocked Boolean   @default(false)
+  
+  // Relations
+  depotId         String
+  depot           Depot     @relation(fields: [depotId], references: [id])
+  salesRepId      String?
+  salesRep        User?     @relation("AssignedSalesRep", fields: [salesRepId], references: [id])
+  
+  orders          Order[]
+  ledgerEntries   LedgerTransaction[]
+  forecasts       DemandForecast[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([depotId])
+  @@index([salesRepId])
+  @@index([isCreditBlocked])
+}
+
+// -----------------------------------------------------------------------------
+// PRODUCT CATALOG & PACKAGING HIERARCHY
+// -----------------------------------------------------------------------------
+
+model Medicine {
+  id               String       @id @default(cuid())
+  code             String       @unique // e.g. MED-PAR-500
+  brandName        String       // e.g. Napa Extra, Ace Plus, Seclo 20
+  genericName      String       // e.g. Paracetamol + Caffeine, Omeprazole
+  dosageForm       DosageForm   @default(TABLET)
+  strength         String       // e.g. "500mg + 65mg", "20mg"
+  manufacturer     String       // e.g. Beximco, Square, Incepta
+  description      String?      @db.Text
+  
+  // Packaging Hierarchy Metrics: Box -> Strip -> Piece (Loose unit)
+  piecesPerStrip   Int          @default(10) // 10 tablets in 1 strip
+  stripsPerBox     Int          @default(10) // 10 strips in 1 box (Total loose pieces per box = 10 * 10 = 100)
+  
+  // Pricing
+  mrpPerPiece      Decimal      @db.Decimal(10, 2) // Maximum Retail Price per piece
+  tradePricePerPiece Decimal    @db.Decimal(10, 2) // B2B Base Trade Price per piece
+  vatPercentage    Decimal      @default(2.40) @db.Decimal(5, 2) // Standard Pharma VAT
+  
+  isActive         Boolean      @default(true)
+  isNarcotic       Boolean      @default(false)
+  requiresColdChain Boolean     @default(false)
+  
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  // Relations
+  batches          Batch[]
+  tradeOffers      TradeOffer[]
+  orderItems       OrderItem[]
+  forecasts        DemandForecast[]
+
+  @@index([brandName])
+  @@index([genericName])
+  @@index([manufacturer])
+}
+
+// -----------------------------------------------------------------------------
+// BATCH INVENTORY (NEAR-EXPIRY FIFO SUPPORT)
+// -----------------------------------------------------------------------------
+
+model Batch {
+  id                 String       @id @default(cuid())
+  batchNumber        String       // e.g. BATCH-2024-NAPA-08
+  medicineId         String
+  medicine           Medicine     @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  depotId            String
+  depot              Depot        @relation(fields: [depotId], references: [id])
+  
+  // Expiry & Production
+  manufacturingDate  DateTime
+  expiryDate         DateTime     // Crucial for FIFO ordering (Earliest Expiry First)
+  
+  // Stock Levels in atomic loose units (Pieces)
+  initialLooseUnits  Int          // Initial pieces received
+  availableLooseUnits Int         // Current allocatable loose units
+  reservedLooseUnits Int          @default(0) // Locked during active checkouts
+  
+  costPricePerPiece  Decimal      @db.Decimal(10, 2)
+  mrpPerPiece        Decimal      @db.Decimal(10, 2)
+  
+  isQuarantined      Boolean      @default(false)
+  isRecalled         Boolean      @default(false)
+  
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  // Relations
+  allocations        BatchAllocation[]
+
+  @@unique([batchNumber, medicineId, depotId])
+  @@index([expiryDate])
+  @@index([medicineId, depotId, availableLooseUnits])
+}
+
+// -----------------------------------------------------------------------------
+// TRADE BONUS & DYNAMIC SCHEMES
+// -----------------------------------------------------------------------------
+
+model TradeOffer {
+  id                 String          @id @default(cuid())
+  title              String          // e.g. "Monsoon Mega Bonus: 10+1 on Napa Extra Box"
+  medicineId         String
+  medicine           Medicine        @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+  schemeType         TradeSchemeType @default(BUY_X_GET_Y_FREE)
+  
+  // Packaging threshold
+  qualifyingUnit     PackagingUnit   @default(BOX)
+  minQualifyingQty   Int             @default(10) // Buy 10 Boxes...
+  bonusQty           Int             @default(1)  // ...Get 1 Box Free
+  bonusUnit          PackagingUnit   @default(BOX)
+  
+  // Or Slab Discount Percentage
+  discountPercent    Decimal?        @db.Decimal(5, 2) // e.g. 5.50%
+  flatDiscountAmount Decimal?        @db.Decimal(10, 2)
+  
+  startDate          DateTime
+  endDate            DateTime
+  isActive           Boolean         @default(true)
+  
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@index([medicineId, isActive])
+  @@index([startDate, endDate])
+}
+
+// -----------------------------------------------------------------------------
+// ORDERS & ORDER CUTTING ITEMS
+// -----------------------------------------------------------------------------
+
+model Order {
+  id                 String          @id @default(cuid())
+  orderNumber        String          @unique // e.g. ORD-20260914-0042
+  pharmacyId         String
+  pharmacy           Pharmacy        @relation(fields: [pharmacyId], references: [id])
+  depotId            String
+  depot              Depot           @relation(fields: [depotId], references: [id])
+  
+  placedById         String
+  placedBy           User            @relation("OrderPlacedBy", fields: [placedById], references: [id])
+  approvedById       String?
+  approvedBy         User?           @relation("OrderApprovedBy", fields: [approvedById], references: [id])
+  
+  status             OrderStatus     @default(PROCESSING)
+  paymentStatus      PaymentStatus   @default(UNPAID)
+  
+  // Financial Breakdown
+  grossAmount        Decimal         @db.Decimal(12, 2) // Total Trade Price before bonuses/discounts
+  tradeDiscountAmount Decimal        @default(0.00) @db.Decimal(12, 2)
+  vatAmount          Decimal         @default(0.00) @db.Decimal(12, 2)
+  netPayableAmount   Decimal         @db.Decimal(12, 2)
+  
+  totalLoosePieces   Int             @default(0)
+  totalBonusPieces   Int             @default(0)
+  
+  deliveryNotes      String?         @db.Text
+  dispatchDate       DateTime?
+  deliveredDate      DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  // Relations
+  items              OrderItem[]
+  ledgerTransactions LedgerTransaction[]
+  stockReservations  StockReservation[]
+
+  @@index([pharmacyId, status])
+  @@index([depotId, createdAt])
+}
+
+model OrderItem {
+  id                 String          @id @default(cuid())
+  orderId            String
+  order              Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  medicineId         String
+  medicine           Medicine        @relation(fields: [medicineId], references: [id])
+  
+  // Ordered input hierarchy
+  orderedUnit        PackagingUnit   @default(BOX)
+  orderedQty         Int             // e.g. 5 Boxes
+  
+  // Converted loose calculation
+  looseUnitsBilled   Int             // e.g. 5 * 100 = 500 pieces
+  bonusLooseUnits    Int             @default(0) // e.g. 100 free pieces from 10+1 scheme
+  totalUnitsAllocated Int            // billed + bonus pieces
+  
+  // Pricing
+  unitTradePrice     Decimal         @db.Decimal(10, 2)
+  grossPrice         Decimal         @db.Decimal(12, 2)
+  discountApplied    Decimal         @default(0.00) @db.Decimal(12, 2)
+  netItemTotal       Decimal         @db.Decimal(12, 2)
+  
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  // FIFO Batch Allocation Tracking
+  batchAllocations   BatchAllocation[]
+
+  @@index([orderId])
+  @@index([medicineId])
+}
+
+// -----------------------------------------------------------------------------
+// FIFO BATCH ALLOCATIONS (Item to Batch mapping)
+// -----------------------------------------------------------------------------
+
+model BatchAllocation {
+  id                 String       @id @default(cuid())
+  orderItemId        String
+  orderItem          OrderItem    @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  batchId            String
+  batch              Batch        @relation(fields: [batchId], references: [id])
+  
+  loosePiecesAllocated Int        // Exact loose pieces taken from this batch
+  batchExpiryAtOrder DateTime     // Snapshot of expiry date at allocation time
+  costBasisPerPiece  Decimal      @db.Decimal(10, 2)
+  
+  createdAt          DateTime     @default(now())
+
+  @@index([orderItemId])
+  @@index([batchId])
+}
+
+// -----------------------------------------------------------------------------
+// FINANCIAL LEDGER & CREDIT TRANSACTION HISTORY
+// -----------------------------------------------------------------------------
+
+model LedgerTransaction {
+  id                 String          @id @default(cuid())
+  pharmacyId         String
+  pharmacy           Pharmacy        @relation(fields: [pharmacyId], references: [id])
+  orderId            String?
+  order              Order?          @relation(fields: [orderId], references: [id])
+  
+  transactionType    TransactionType
+  amount             Decimal         @db.Decimal(12, 2)
+  previousBalance    Decimal         @db.Decimal(12, 2)
+  newBalance         Decimal         @db.Decimal(12, 2) // Outstanding ledger balance after tx
+  
+  referenceNumber    String          @unique // e.g. LEDG-TX-2026-88392
+  notes              String?
+  paymentMethod      String?         // Cash, Cheque, Bank Transfer, MFS (bKash/Nagad)
+  
+  createdAt          DateTime        @default(now())
+
+  @@index([pharmacyId, createdAt])
+  @@index([orderId])
+}
+
+// -----------------------------------------------------------------------------
+// STOCK RESERVATION & OPTIMISTIC CONCURRENCY LOCK
+// -----------------------------------------------------------------------------
+
+model StockReservation {
+  id                 String          @id @default(cuid())
+  lockToken          String          @unique // UUID / Redis Lock Key
+  orderId            String?
+  order              Order?          @relation(fields: [orderId], references: [id])
+  medicineId         String
+  batchId            String
+  quantityReserved   Int             // Loose units locked
+  status             StockLockStatus @default(ACTIVE)
+  expiresAt          DateTime        // TTL (e.g. 5 minutes for cart checkout)
+  
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@index([lockToken, status])
+  @@index([expiresAt])
+}
+
+// -----------------------------------------------------------------------------
+// AI DEMAND FORECAST & REPLENISHMENT
+// -----------------------------------------------------------------------------
+
+model DemandForecast {
+  id                   String       @id @default(cuid())
+  pharmacyId           String
+  pharmacy             Pharmacy     @relation(fields: [pharmacyId], references: [id])
+  medicineId           String
+  medicine             Medicine     @relation(fields: [medicineId], references: [id])
+  
+  historical30DayAvg   Float        // Average daily loose consumption
+  predictedMonthlyUnits Int         // AI Forecast for next 30 days
+  recommendedReorderQty Int         // Recommended purchase qty in standardized packaging
+  safetyStockUnits     Int
+  seasonalMultiplier   Float        @default(1.0) // Disease spike factor (e.g. 1.4x for Dengue)
+  confidenceScore      Float        // 0.0 to 1.0
+  reasoning            String?      @db.Text
+  
+  generatedAt          DateTime     @default(now())
+
+  @@unique([pharmacyId, medicineId])
+  @@index([pharmacyId])
+}
+
+// -----------------------------------------------------------------------------
+// SYSTEM AUDIT LOGGING
+// -----------------------------------------------------------------------------
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+  action      String    // e.g. "ORDER_CUT", "CREDIT_OVERRIDE", "STOCK_LOCK"
+  resource    String    // e.g. "Order:ORD-001"
+  metadata    Json?
+  ipAddress   String?
+  createdAt   DateTime  @default(now())
+
+  @@index([userId])
+  @@index([action])
+}
