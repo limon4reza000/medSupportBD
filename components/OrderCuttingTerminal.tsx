@@ -23,6 +23,7 @@ import {
   Layers,
   ArrowRight,
   ShieldCheck,
+  Zap,
 } from "lucide-react";
 
 export interface CartItem {
@@ -187,7 +188,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
           orderedUnit: c.orderedUnit,
           orderedQty: c.orderedQty,
         })),
-        deliveryNotes: "Urgent Express Delivery via MedSupply Cold-Chain Van",
+        deliveryNotes: "Priority Express Dispatch via MedSupply Pharma Van",
       };
 
       const res = await fetch("/api/orders/checkout", {
@@ -215,7 +216,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
   return (
     <div className="space-y-6">
       {/* Search and Category Filter Bar */}
-      <div className="glass-panel bg-white text-slate-900 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-200 shadow-md">
+      <div className="premium-panel p-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-96">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -223,20 +224,20 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
             placeholder="Search Brand (Napa, Seclo), Generic, or Manufacturer..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#025540] font-medium transition-all"
+            className="w-full bg-slate-50 border border-slate-200/80 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#025540] focus:ring-2 focus:ring-[#025540]/10 font-medium transition-all"
           />
         </div>
 
         {/* Categories */}
-        <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto">
+        <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
           {["ALL", "TABLET", "CAPSULE", "SYRUP", "INJECTION"].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-200 ${
                 selectedCategory === cat
                   ? "bg-[#025540] text-white shadow-sm font-bold"
-                  : "bg-slate-100 text-slate-700 hover:text-slate-900 hover:bg-slate-200"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
               }`}
             >
               {cat}
@@ -253,9 +254,9 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
           <div className="flex items-center justify-between">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
               <Layers className="w-4 h-4 text-white" />
-              Medicine Catalog ({filteredMedicines.length} Products Available)
+              Medicine Catalog ({filteredMedicines.length} Verified Products)
             </h2>
-            <span className="text-xs text-white/90 font-medium">Prices exclusive of standard 2.4% VAT</span>
+            <span className="text-xs text-emerald-100 font-medium">B2B Base Trade Pricing</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -271,59 +272,59 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
               return (
                 <div
                   key={med.id}
-                  className="glass-card bg-white text-slate-900 rounded-2xl p-4 border border-slate-200 shadow-md flex flex-col justify-between hover:border-[#025540] transition-all duration-200"
+                  className="premium-card p-5 flex flex-col justify-between group"
                 >
                   <div>
                     {/* Brand Name & Active Offer Badge */}
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                        <h3 className="text-base font-extrabold text-slate-900 tracking-tight flex items-center gap-1.5">
                           {med.brandName}
-                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-[#025540] border border-emerald-200">
                             {med.strength}
                           </span>
                         </h3>
-                        <p className="text-xs text-slate-600 font-semibold">{med.genericName}</p>
-                        <p className="text-[10px] text-slate-400 uppercase font-bold mt-0.5">
+                        <p className="text-xs text-slate-500 font-medium mt-0.5">{med.genericName}</p>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold mt-0.5 tracking-wider">
                           {med.manufacturer}
                         </p>
                       </div>
 
                       {/* Stock Badge */}
                       <span
-                        className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                        className={`text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider shrink-0 ${
                           availableStock > 500
-                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                            ? "bg-emerald-50 text-emerald-800 border border-emerald-200/80"
                             : availableStock > 0
-                            ? "bg-amber-50 text-amber-800 border border-amber-200"
-                            : "bg-red-50 text-red-800 border border-red-200"
+                            ? "bg-amber-50 text-amber-800 border border-amber-200/80"
+                            : "bg-red-50 text-red-800 border border-red-200/80"
                         }`}
                       >
-                        {availableStock.toLocaleString()} Pcs In Stock
+                        {availableStock.toLocaleString()} Pcs
                       </span>
                     </div>
 
                     {/* Packaging Hierarchy Specs */}
-                    <div className="mt-3 grid grid-cols-3 gap-1 bg-slate-50 p-2.5 rounded-xl text-[10px] border border-slate-200 text-slate-700 font-medium">
+                    <div className="mt-3.5 grid grid-cols-3 gap-1.5 bg-slate-50/90 p-2.5 rounded-xl border border-slate-200/80 text-[10px] text-slate-700">
                       <div>
-                        <span className="text-slate-500 block font-bold">1 Strip</span>
-                        <strong className="text-slate-900 font-bold">{med.piecesPerStrip} Pcs</strong>
+                        <span className="text-slate-400 block font-bold">1 Strip</span>
+                        <strong className="text-slate-900 font-bold text-xs">{med.piecesPerStrip} Pcs</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block font-bold">1 Box</span>
-                        <strong className="text-slate-900 font-bold">{med.stripsPerBox} Strips ({piecesPerBox} Pcs)</strong>
+                        <span className="text-slate-400 block font-bold">1 Box</span>
+                        <strong className="text-slate-900 font-bold text-xs">{piecesPerBox} Pcs</strong>
                       </div>
                       <div>
-                        <span className="text-slate-500 block font-bold">Trade Price</span>
-                        <strong className="text-[#025540] font-bold">৳{med.tradePricePerPiece}/pc</strong>
+                        <span className="text-slate-400 block font-bold">Trade Price</span>
+                        <strong className="text-[#025540] font-black text-xs">৳{med.tradePricePerPiece}/pc</strong>
                       </div>
                     </div>
 
                     {/* Active Promotional Offer Banner */}
                     {activeOffer && (
-                      <div className="mt-2.5 p-2 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center gap-2">
+                      <div className="mt-3 p-2.5 rounded-xl bg-gradient-to-r from-emerald-50 via-teal-50/50 to-emerald-50 border border-emerald-300 flex items-center gap-2 shadow-sm">
                         <Gift className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
-                        <p className="text-[10px] text-emerald-900 font-bold leading-tight">
+                        <p className="text-[11px] text-emerald-900 font-bold leading-tight">
                           {activeOffer.title}
                         </p>
                       </div>
@@ -331,9 +332,9 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                   </div>
 
                   {/* Order Input Controls: Unit Selector & Quantity */}
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
                     {/* Unit Selector */}
-                    <div className="flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-xs">
+                    <div className="flex rounded-xl bg-slate-100 p-0.5 border border-slate-200 text-xs">
                       {[
                         { unit: PackagingUnit.BOX, label: "Box" },
                         { unit: PackagingUnit.STRIP, label: "Strip" },
@@ -342,7 +343,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                         <button
                           key={u.unit}
                           onClick={() => handleUnitChange(med.id, u.unit)}
-                          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all ${
+                          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all duration-150 ${
                             selectedUnit === u.unit
                               ? "bg-[#025540] text-white shadow-sm font-bold"
                               : "text-slate-600 hover:text-slate-900"
@@ -354,19 +355,19 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                     </div>
 
                     {/* Quantity Selector */}
-                    <div className="flex items-center space-x-1.5">
+                    <div className="flex items-center space-x-1 bg-slate-50 rounded-xl p-0.5 border border-slate-200">
                       <button
                         onClick={() => handleQtyChange(med.id, -1)}
-                        className="w-7 h-7 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center hover:bg-slate-200 text-slate-700"
+                        className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 transition-colors"
                       >
                         <Minus className="w-3 h-3 text-slate-700" />
                       </button>
-                      <span className="w-8 text-center text-xs font-mono font-bold text-slate-900">
+                      <span className="w-8 text-center text-xs font-mono font-black text-slate-900">
                         {selectedQty}
                       </span>
                       <button
                         onClick={() => handleQtyChange(med.id, 1)}
-                        className="w-7 h-7 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center hover:bg-slate-200 text-slate-700"
+                        className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 transition-colors"
                       >
                         <Plus className="w-3 h-3 text-slate-700" />
                       </button>
@@ -376,7 +377,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                     <button
                       onClick={() => addToCart(med)}
                       disabled={availableStock <= 0}
-                      className="px-3.5 py-1.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#025540] to-[#036b51] hover:from-[#036b51] hover:to-[#047857] text-white font-bold text-xs shadow-md shadow-[#025540]/20 flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       Add
@@ -390,18 +391,18 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
         {/* Right Column: Live Cart & Transaction Checkout Station */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="glass-panel bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-xl sticky top-24">
+          <div className="premium-panel p-5 sticky top-24">
             
             {/* Cart Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
+              <h2 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
                 <ShoppingCart className="w-5 h-5 text-[#025540]" />
-                Order Cutting Cart ({cart.length} Items)
+                Order Cutting Cart ({cart.length} Lines)
               </h2>
               {cart.length > 0 && (
                 <button
                   onClick={() => setCart([])}
-                  className="text-xs text-red-600 hover:text-red-700 font-bold"
+                  className="text-xs text-red-600 hover:text-red-700 font-bold px-2 py-1 rounded-lg hover:bg-red-50 transition-colors"
                 >
                   Clear All
                 </button>
@@ -410,11 +411,13 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
             {/* Empty State */}
             {cart.length === 0 ? (
-              <div className="py-12 text-center text-slate-400">
-                <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-30 text-slate-400" />
+              <div className="py-14 text-center text-slate-400">
+                <div className="w-16 h-16 rounded-3xl bg-slate-50 border border-slate-200 flex items-center justify-center mx-auto mb-3 text-slate-300">
+                  <ShoppingCart className="w-7 h-7" />
+                </div>
                 <p className="text-sm font-bold text-slate-700">Your order cart is empty</p>
-                <p className="text-xs text-slate-500 mt-1">
-                  Select medicines from catalog or import from AI Prescription Scanner
+                <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
+                  Add medicines from catalog or import from AI Prescription Scanner
                 </p>
               </div>
             ) : (
@@ -425,26 +428,26 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                   {calculatedCartItems.map((item, idx) => (
                     <div
                       key={`${item.medicine.id}-${item.orderedUnit}-${idx}`}
-                      className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs"
+                      className="p-3.5 rounded-2xl bg-slate-50/90 border border-slate-200 space-y-2.5 text-xs"
                     >
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
                             {item.medicine.brandName}
-                            <span className="text-[10px] px-2 py-0.2 rounded-full bg-[#025540] text-white font-bold">
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#025540] text-white font-bold">
                               {item.orderedQty} {item.orderedUnit}
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-500 font-medium">
+                          <p className="text-[11px] text-slate-500 font-medium mt-0.5">
                             {item.tradeResult.looseUnitsBilled} loose pieces billed
                           </p>
                         </div>
 
                         <div className="text-right">
-                          <p className="font-bold font-mono text-slate-900 text-sm">
+                          <p className="font-black font-mono text-slate-900 text-sm">
                             ৳{item.tradeResult.netItemTotal.toLocaleString()}
                           </p>
-                          <p className="text-[10px] text-slate-500">
+                          <p className="text-[10px] text-slate-400">
                             (incl. ৳{item.tradeResult.vatAmount} VAT)
                           </p>
                         </div>
@@ -452,8 +455,8 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
                       {/* Trade Bonus Pill */}
                       {item.tradeResult.bonusLooseUnits > 0 && (
-                        <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-300 text-[10px] text-emerald-900 font-bold flex items-center gap-1.5">
-                          <Gift className="w-3.5 h-3.5 text-emerald-700" />
+                        <div className="p-2 rounded-xl bg-emerald-100/70 border border-emerald-300 text-[10px] text-emerald-950 font-bold flex items-center gap-1.5 shadow-sm">
+                          <Gift className="w-3.5 h-3.5 text-emerald-800" />
                           <span>Bonus: +{item.tradeResult.bonusLooseUnits} Free Loose Pieces Awarded</span>
                         </div>
                       )}
@@ -489,14 +492,14 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => updateCartQty(idx, -1)}
-                            className="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-slate-100"
+                            className="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors"
                           >
                             <Minus className="w-2.5 h-2.5" />
                           </button>
                           <span className="font-bold text-slate-900">{item.orderedQty}</span>
                           <button
                             onClick={() => updateCartQty(idx, 1)}
-                            className="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-slate-100"
+                            className="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition-colors"
                           >
                             <Plus className="w-2.5 h-2.5" />
                           </button>
@@ -504,7 +507,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
                         <button
                           onClick={() => removeFromCart(idx)}
-                          className="text-red-600 hover:text-red-700 font-bold flex items-center gap-1"
+                          className="text-red-600 hover:text-red-700 font-bold flex items-center gap-1 hover:underline"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           Remove
@@ -515,7 +518,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                 </div>
 
                 {/* Financial Summary Breakdown */}
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2 text-xs">
                   <div className="flex justify-between text-slate-600 font-medium">
                     <span>Gross Trade Amount:</span>
                     <span className="font-mono text-slate-900 font-bold">৳{cartGross.toLocaleString()}</span>
@@ -536,9 +539,9 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                       {totalBilledPieces} + <strong className="text-emerald-700">+{totalBonusPieces} Free</strong> = {totalBilledPieces + totalBonusPieces} pcs
                     </span>
                   </div>
-                  <div className="pt-2 border-t border-slate-200 flex justify-between text-sm font-bold text-slate-900">
+                  <div className="pt-2.5 border-t border-slate-200 flex justify-between text-sm font-black text-slate-900">
                     <span>Net Invoice Payable:</span>
-                    <span className="font-mono text-base text-[#025540] font-bold">
+                    <span className="font-mono text-base text-[#025540] font-black">
                       ৳{cartNetTotal.toLocaleString()}
                     </span>
                   </div>
@@ -546,7 +549,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
                 {/* Credit Risk Gating Box */}
                 <div
-                  className={`p-3.5 rounded-xl border text-xs space-y-1.5 ${
+                  className={`p-3.5 rounded-2xl border text-xs space-y-1.5 ${
                     creditAudit.isApproved
                       ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-medium"
                       : "bg-red-50 border-red-300 text-red-950 font-bold"
@@ -561,20 +564,20 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                       )}
                       Credit Gating Check:
                     </span>
-                    <span>
-                      {creditAudit.isApproved ? "Approved (Within Limit)" : "BLOCKED BY POLICY"}
+                    <span className="font-extrabold">
+                      {creditAudit.isApproved ? "Approved" : "BLOCKED BY POLICY"}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-700">
+                  <p className="text-[11px] text-slate-700 leading-relaxed">
                     {creditAudit.isApproved
-                      ? `Projected balance ৳${creditAudit.projectedBalance.toLocaleString()} will remain within limit of ৳${creditAudit.creditLimit.toLocaleString()}.`
+                      ? `Projected balance ৳${creditAudit.projectedBalance.toLocaleString()} will remain safely within limit of ৳${creditAudit.creditLimit.toLocaleString()}.`
                       : creditAudit.rejectionReason}
                   </p>
                 </div>
 
                 {/* Error Banner */}
                 {errorMessage && (
-                  <div className="p-3 rounded-xl bg-red-50 border border-red-300 text-xs text-red-900 flex items-start gap-2">
+                  <div className="p-3.5 rounded-2xl bg-red-50 border border-red-300 text-xs text-red-900 flex items-start gap-2">
                     <AlertOctagon className="w-4 h-4 text-red-700 shrink-0 mt-0.5" />
                     <div>
                       <strong className="block font-bold">Checkout Failed</strong>
@@ -587,7 +590,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                 <button
                   onClick={handleCheckout}
                   disabled={isSubmitting || !creditAudit.isApproved}
-                  className="w-full py-3.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#025540] to-[#036b51] hover:from-[#036b51] hover:to-[#047857] text-white font-extrabold text-sm shadow-xl shadow-[#025540]/25 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 active:scale-[0.99]"
                 >
                   {isSubmitting ? (
                     <span>Acquiring Lock & Deducting FIFO Batches...</span>
@@ -606,32 +609,32 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
       {/* Success Receipt Modal */}
       {orderReceipt && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-white text-slate-900 max-w-lg w-full rounded-2xl p-6 border border-slate-200 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+          <div className="bg-white text-slate-900 max-w-lg w-full rounded-3xl p-6 border border-slate-200 shadow-2xl space-y-4 animate-in fade-in zoom-in duration-200">
             <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-300 mx-auto flex items-center justify-center">
-                <CheckCircle2 className="w-6 h-6 text-[#025540]" />
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 mx-auto flex items-center justify-center shadow-md">
+                <CheckCircle2 className="w-7 h-7 text-[#025540]" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900">Order Confirmed & Allocated</h3>
+              <h3 className="text-xl font-extrabold text-slate-900">Order Confirmed & Allocated</h3>
               <p className="text-xs text-slate-600">
                 Order #{orderReceipt.orderNumber} successfully cut and recorded in Ledger.
               </p>
             </div>
 
-            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 font-mono text-slate-800">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2 font-mono text-slate-800">
               <div className="flex justify-between">
                 <span>Pharmacy:</span>
                 <strong className="text-slate-900">{orderReceipt.pharmacyName}</strong>
               </div>
               <div className="flex justify-between">
                 <span>Total Net Payable:</span>
-                <strong className="text-[#025540] text-sm">
+                <strong className="text-[#025540] text-sm font-black">
                   ৳{orderReceipt.netPayableAmount.toLocaleString()}
                 </strong>
               </div>
               <div className="flex justify-between">
                 <span>Total Loose Pieces:</span>
-                <span className="text-slate-900">
+                <span className="text-slate-900 font-bold">
                   {orderReceipt.totalLoosePieces} billed + {orderReceipt.totalBonusPieces} free
                 </span>
               </div>
@@ -641,7 +644,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
               </div>
               <div className="flex justify-between">
                 <span>New Outstanding Balance:</span>
-                <span className="text-slate-900">
+                <span className="text-slate-900 font-bold">
                   ৳{orderReceipt.creditSnapshot.newBalance.toLocaleString()}
                 </span>
               </div>
@@ -649,7 +652,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
             <button
               onClick={() => setOrderReceipt(null)}
-              className="w-full py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs transition-all shadow-md"
+              className="w-full py-3 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs transition-all shadow-lg"
             >
               Close Receipt & Continue Cutting Orders
             </button>

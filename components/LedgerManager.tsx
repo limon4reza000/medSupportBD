@@ -94,25 +94,25 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="glass-panel bg-white text-slate-900 rounded-2xl p-6 border border-slate-200 shadow-md">
+      <div className="premium-panel p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-xl bg-[#025540] flex items-center justify-center shadow-md">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center shadow-md">
                 <CreditCard className="w-4 h-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">
                 Pharmacy Ledger & Real-Time Credit Control
               </h2>
             </div>
-            <p className="text-xs text-slate-600 mt-1 font-medium">
+            <p className="text-xs text-slate-500 mt-1 font-medium max-w-2xl">
               Maintains an immutable double-entry financial transaction log for {pharmacy.tradeName}, tracking order invoice debits, payment credit settlements, and credit headroom.
             </p>
           </div>
 
           <button
             onClick={fetchLedger}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-1.5 transition-all"
+            className="px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-all shadow-sm"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-[#025540] ${isLoading ? "animate-spin" : ""}`} />
             <span>Refresh Ledger</span>
@@ -123,13 +123,13 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Side: Ledger Transaction History Table */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="glass-card bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <div className="premium-card p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
+              <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
                 <Building className="w-4 h-4 text-[#025540]" />
                 Transaction Statement ({entries.length} Records)
               </h3>
-              <span className="text-xs text-slate-600 font-mono font-bold">
+              <span className="text-xs text-slate-500 font-mono font-bold">
                 License: {pharmacy.drugLicenseNo}
               </span>
             </div>
@@ -146,11 +146,11 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
                   return (
                     <div
                       key={entry.id}
-                      className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                      className="p-4 rounded-2xl bg-slate-50/90 border border-slate-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                     >
-                      <div className="flex items-start space-x-3">
+                      <div className="flex items-start space-x-3.5">
                         <div
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                             isDebit
                               ? "bg-red-100 text-red-700 border border-red-200"
                               : "bg-emerald-100 text-emerald-800 border border-emerald-200"
@@ -165,11 +165,11 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-900 font-mono">
+                            <span className="font-extrabold text-slate-900 font-mono text-sm">
                               {entry.referenceNumber}
                             </span>
                             <span
-                              className={`text-[10px] px-2 py-0.2 rounded-full font-bold ${
+                              className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold ${
                                 isDebit
                                   ? "bg-red-100 text-red-800 border border-red-200"
                                   : "bg-emerald-100 text-emerald-800 border border-emerald-200"
@@ -178,7 +178,7 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
                               {isDebit ? "INVOICE DEBIT" : "PAYMENT SETTLEMENT"}
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-600 font-medium mt-0.5">{entry.notes}</p>
+                          <p className="text-[11px] text-slate-500 font-medium mt-0.5">{entry.notes}</p>
                           <span className="text-[10px] text-slate-400">
                             {new Date(entry.createdAt).toLocaleString()}
                           </span>
@@ -187,13 +187,13 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
                       <div className="text-right font-mono">
                         <p
-                          className={`text-sm font-bold ${
+                          className={`text-sm font-black ${
                             isDebit ? "text-red-600" : "text-[#025540]"
                           }`}
                         >
                           {isDebit ? "+" : "-"}৳{entry.amount.toLocaleString()}
                         </p>
-                        <p className="text-[10px] text-slate-500 font-bold">
+                        <p className="text-[10px] text-slate-400 font-medium">
                           Balance: ৳{entry.newBalance.toLocaleString()}
                         </p>
                       </div>
@@ -207,25 +207,25 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
         {/* Right Side: Account Summary & Payment Settlement Simulator */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="glass-panel bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 pb-2 border-b border-slate-100 flex items-center gap-2">
+          <div className="premium-panel p-6 space-y-4">
+            <h3 className="text-sm font-extrabold text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#025540]" />
               Account Balance & Credit Exposure
             </h3>
 
             {/* Metrics */}
-            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs font-mono space-y-2">
-              <div className="flex justify-between text-slate-600">
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs font-mono space-y-2.5">
+              <div className="flex justify-between text-slate-600 font-medium">
                 <span>Total Credit Limit:</span>
                 <strong className="text-slate-900 font-bold">৳{pharmacy.creditLimit.toLocaleString()}</strong>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-slate-600 font-medium">
                 <span>Current Outstanding:</span>
                 <strong className="text-amber-700 font-bold">৳{pharmacy.currentBalance.toLocaleString()}</strong>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-slate-600 font-medium">
                 <span>Available Headroom:</span>
-                <strong className="text-[#025540] font-bold">
+                <strong className="text-[#025540] font-black">
                   ৳{Math.max(0, pharmacy.creditLimit - pharmacy.currentBalance).toLocaleString()}
                 </strong>
               </div>
@@ -233,7 +233,7 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
             {/* Progress Bar */}
             <div>
-              <div className="flex justify-between text-[11px] text-slate-600 font-medium mb-1">
+              <div className="flex justify-between text-[11px] text-slate-600 font-medium mb-1.5">
                 <span>Credit Utilization:</span>
                 <strong className="text-slate-900 font-mono font-bold">{utilizationPercent}%</strong>
               </div>
@@ -252,28 +252,28 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
             </div>
 
             {/* Payment Settlement Simulation Form */}
-            <div className="pt-3 border-t border-slate-100 space-y-3">
-              <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+            <div className="pt-3.5 border-t border-slate-100 space-y-3">
+              <h4 className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
                 <PlusCircle className="w-3.5 h-3.5 text-[#025540]" />
                 Receive Settlement / Clear Balance
               </h4>
 
               <div>
-                <label className="text-[11px] text-slate-700 font-bold block mb-1">Payment Amount (৳):</label>
+                <label className="text-[11px] text-slate-500 font-bold block mb-1">Payment Amount (৳):</label>
                 <input
                   type="number"
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#025540]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs font-mono font-black text-slate-900 focus:outline-none focus:border-[#025540] focus:ring-2 focus:ring-[#025540]/10"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] text-slate-700 font-bold block mb-1">Payment Channel:</label>
+                <label className="text-[11px] text-slate-500 font-bold block mb-1">Payment Channel:</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 font-bold focus:outline-none focus:border-[#025540]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs text-slate-900 font-bold focus:outline-none focus:border-[#025540]"
                 >
                   <option value="bKash Merchant">bKash Merchant Pay</option>
                   <option value="Nagad Pay">Nagad Direct Settlement</option>
@@ -285,7 +285,7 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
               <button
                 onClick={handleSimulatePayment}
                 disabled={isSubmitting || paymentAmount <= 0}
-                className="w-full py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center justify-center gap-1.5 transition-all"
+                className="w-full py-3 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs shadow-md shadow-[#025540]/20 flex items-center justify-center gap-1.5 transition-all active:scale-[0.98]"
               >
                 <span>Post Settlement & Restore Credit</span>
               </button>

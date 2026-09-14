@@ -33,48 +33,61 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: #036b51;
-  border-radius: 4px;
-  border: 1px solid #10b981;
+  border-radius: 6px;
+  border: 2px solid #014232;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #10b981;
 }
 
-/* White Cards with Deep Green Accents */
-.glass-panel {
+/* Ultra-Premium White Cards */
+.premium-card {
   background: #ffffff;
   color: #0f172a;
-  border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.22);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.premium-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.16), 0 10px 12px -5px rgba(0, 0, 0, 0.06);
+  border-color: rgba(2, 85, 64, 0.3);
+}
+
+.premium-panel {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
 }
 
 .glass-card {
   background: #ffffff;
   color: #0f172a;
-  border-radius: 1rem;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.12);
-  transition: all 0.2s ease-in-out;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 32px 0 rgba(0, 0, 0, 0.2);
-  border-color: #025540;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.16), 0 10px 12px -5px rgba(0, 0, 0, 0.06);
+  border-color: rgba(2, 85, 64, 0.3);
+}
+
+.glass-panel {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
 }
 
 .badge-glow {
-  box-shadow: 0 0 10px rgba(2, 85, 64, 0.25);
-}
-
-/* Subtle pulsating animation */
-@keyframes pulse-emerald {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.animate-pulse-emerald {
-  animation: pulse-emerald 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 0 12px rgba(2, 85, 64, 0.15);
 }

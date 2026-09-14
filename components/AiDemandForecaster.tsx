@@ -75,18 +75,18 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="glass-panel bg-white text-slate-900 rounded-2xl p-6 border border-slate-200 shadow-md">
+      <div className="premium-panel p-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-xl bg-[#025540] flex items-center justify-center shadow-md">
+            <div className="flex items-center space-x-2.5">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center shadow-md">
                 <TrendingUp className="w-4 h-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">
                 AI Demand Forecasting & Disease Spike Replenishment
               </h2>
             </div>
-            <p className="text-xs text-slate-600 mt-1 font-medium">
+            <p className="text-xs text-slate-500 mt-1 font-medium max-w-2xl">
               Synthesizes 30-day historical consumption velocity, monsoon disease surge indices (Dengue, Typhoid, Viral Fever), and local pharmacy demographics to automatically recommend optimal reorder quantities in Boxes.
             </p>
           </div>
@@ -95,7 +95,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
             <button
               onClick={loadForecast}
               disabled={isLoading}
-              className="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-1.5 transition-all"
+              className="px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-all shadow-sm"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-[#025540] ${isLoading ? "animate-spin" : ""}`} />
               <span>Refresh Forecast</span>
@@ -104,10 +104,10 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
             {forecast && (
               <button
                 onClick={handleOrderAllReplenishments}
-                className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all"
+                className="px-4 py-2 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs shadow-md shadow-[#025540]/20 flex items-center gap-1.5 transition-all active:scale-[0.98]"
               >
                 <PackageCheck className="w-4 h-4" />
-                <span>One-Click Restock Cart (৳{forecast.total_recommended_investment.toLocaleString()})</span>
+                <span>Restock All (৳{forecast.total_recommended_investment.toLocaleString()})</span>
               </button>
             )}
           </div>
@@ -122,7 +122,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
       )}
 
       {error && (
-        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-bold">
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-xs text-red-800 font-bold">
           {error}
         </div>
       )}
@@ -136,14 +136,14 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
             return (
               <div
                 key={rec.medicine_id}
-                className="glass-card bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md flex flex-col justify-between hover:border-[#025540] transition-all space-y-4"
+                className="premium-card p-5 flex flex-col justify-between group space-y-4"
               >
                 <div>
                   {/* Top Bar: Brand Name & Risk Status */}
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <h3 className="text-base font-bold text-slate-900">{rec.brand_name}</h3>
-                      <p className="text-xs text-slate-600 font-semibold">{rec.generic_name}</p>
+                      <h3 className="text-base font-extrabold text-slate-900 tracking-tight">{rec.brand_name}</h3>
+                      <p className="text-xs text-slate-500 font-medium">{rec.generic_name}</p>
                     </div>
 
                     <span
@@ -161,50 +161,50 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
 
                   {/* Seasonal Surge Multiplier Banner */}
                   {hasSpike && (
-                    <div className="mt-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-between text-[11px] text-emerald-900 font-bold">
-                      <span className="flex items-center gap-1">
+                    <div className="mt-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-between text-[11px] text-emerald-950 font-bold shadow-sm">
+                      <span className="flex items-center gap-1 text-emerald-900">
                         <Zap className="w-3.5 h-3.5 text-[#025540]" />
                         Seasonal Disease Factor:
                       </span>
-                      <strong className="font-mono text-[#025540] font-bold">
+                      <strong className="font-mono text-[#025540] font-black">
                         +{Math.round((rec.seasonal_multiplier - 1) * 100)}% Surge ({rec.seasonal_multiplier}x)
                       </strong>
                     </div>
                   )}
 
                   {/* Trend Velocity Metrics */}
-                  <div className="mt-3 grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-xl text-xs font-mono border border-slate-200 text-slate-800">
+                  <div className="mt-3 grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-2xl text-xs font-mono border border-slate-200/90 text-slate-800">
                     <div>
-                      <span className="text-slate-500 text-[10px] block font-sans font-bold">30-Day Historical</span>
+                      <span className="text-slate-400 text-[10px] block font-sans font-bold">30-Day Historical</span>
                       <strong className="text-slate-900 font-bold">{rec.historical_30_day_consumption} pcs</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 text-[10px] block font-sans font-bold">AI Forecasted</span>
-                      <strong className="text-[#025540] font-bold">{rec.predicted_30_day_demand} pcs</strong>
+                      <span className="text-slate-400 text-[10px] block font-sans font-bold">AI Forecasted</span>
+                      <strong className="text-[#025540] font-black">{rec.predicted_30_day_demand} pcs</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 text-[10px] block font-sans font-bold">Current Stock</span>
+                      <span className="text-slate-400 text-[10px] block font-sans font-bold">Current Stock</span>
                       <strong className="text-slate-900 font-bold">{rec.current_stock_units} pcs</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500 text-[10px] block font-sans font-bold">Safety Reserve</span>
+                      <span className="text-slate-400 text-[10px] block font-sans font-bold">Safety Reserve</span>
                       <strong className="text-amber-700 font-bold">{rec.safety_stock_units} pcs</strong>
                     </div>
                   </div>
 
                   {/* AI Rationale Text */}
-                  <p className="mt-3 text-[11px] text-slate-700 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <p className="mt-3 text-[11px] text-slate-600 leading-relaxed bg-slate-50/70 p-3 rounded-2xl border border-slate-200/60">
                     💡 <span className="font-medium text-slate-900">{rec.ai_rationale}</span>
                   </p>
                 </div>
 
                 {/* Recommended Order Action */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-500 uppercase block font-bold">
+                    <span className="text-[10px] text-slate-400 uppercase block font-bold">
                       Recommended Restock
                     </span>
-                    <strong className="text-base font-bold text-slate-900 font-mono">
+                    <strong className="text-base font-black text-slate-900 font-mono">
                       {rec.recommended_order_boxes} Boxes
                     </strong>
                   </div>
@@ -222,7 +222,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
                         ]);
                       }
                     }}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs flex items-center gap-1 transition-all shadow-sm"
+                    className="px-3.5 py-2 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs flex items-center gap-1 transition-all shadow-md active:scale-[0.98]"
                   >
                     <span>Restock SKU</span>
                     <ArrowRight className="w-3.5 h-3.5" />
