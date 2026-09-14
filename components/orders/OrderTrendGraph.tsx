@@ -390,22 +390,22 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#8B5CF6" strokeWidth="16" strokeDasharray="40 200" strokeDashoffset="-195" />
               </svg>
 
-              {/* Center hole with Interactive Month Switcher (< Month >) */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex items-center gap-1 font-black text-slate-900 text-xs bg-white px-3 py-1.5 rounded-full shadow-lg border border-slate-200 hover:border-purple-300 transition-all">
+              {/* Center hole with Compact Month Switcher (< Month >) - Fits 100% inside circle */}
+              <div className="absolute inset-0 flex items-center justify-center p-2">
+                <div className="flex items-center justify-between w-[108px] font-black text-slate-900 text-[11px] bg-white px-2 py-1 rounded-full shadow-md border border-slate-200 transition-all select-none">
                   <button
                     onClick={handlePrevMonth}
                     title="Previous Month"
-                    className="p-1 rounded-full hover:bg-purple-100 text-purple-700 transition-colors"
+                    className="p-0.5 rounded-full hover:bg-purple-100 text-purple-700 transition-colors flex-shrink-0"
                   >
-                    <ChevronLeft className="w-4 h-4 stroke-[3]" />
+                    <ChevronLeft className="w-3.5 h-3.5 stroke-[3]" />
                   </button>
                   
                   {/* Selectable Month Dropdown / Display */}
                   <select
                     value={monthIndex}
                     onChange={(e) => setMonthIndex(Number(e.target.value))}
-                    className="bg-transparent font-black text-slate-900 text-xs focus:outline-none cursor-pointer px-1 py-0.5"
+                    className="bg-transparent font-black text-slate-900 text-[11px] focus:outline-none cursor-pointer text-center appearance-none px-0.5"
                   >
                     {months.map((m, idx) => (
                       <option key={m} value={idx}>
@@ -417,9 +417,9 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                   <button
                     onClick={handleNextMonth}
                     title="Next Month"
-                    className="p-1 rounded-full hover:bg-purple-100 text-purple-700 transition-colors"
+                    className="p-0.5 rounded-full hover:bg-purple-100 text-purple-700 transition-colors flex-shrink-0"
                   >
-                    <ChevronRight className="w-4 h-4 stroke-[3]" />
+                    <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
                   </button>
                 </div>
               </div>
