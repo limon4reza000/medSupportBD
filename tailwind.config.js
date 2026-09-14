@@ -10,15 +10,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        theme: {
-          DEFAULT: "#025540",
-          dark: "#01382a",
-          darker: "#01241b",
-          deep: "#021c15",
-          light: "#047857",
-          luminous: "#10b981",
-          accent: "#34d399",
-          glow: "#6ee7b7",
+        brand: {
+          bg: "#F6F8F7", // Main Background: Soft Cool White
+          card: "#FFFFFF", // Card Background: Pure White
+          navbar: "#065F52", // Navbar: Deep Emerald
+          heroFrom: "#065F52", // Hero Start: Deep Emerald
+          heroTo: "#0F8F78", // Hero End: Emerald Gradient
+          primary: "#10B981", // Primary Button: Medical Green
+          primaryHover: "#059669", // Button Hover: Dark Green
+          navy: "#0F172A", // Main Text: Deep Navy
+          slate: "#64748B", // Secondary Text: Slate Gray
+          border: "#DDE8E3", // Border: Soft Gray Green
         },
       },
       fontFamily: {

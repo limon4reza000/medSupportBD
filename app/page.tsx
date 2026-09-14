@@ -91,22 +91,22 @@ export default function HomePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         
         {/* Hero Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#014232] via-[#025540] to-[#01382a] rounded-2xl p-6 border border-emerald-500/30 shadow-2xl flex flex-col justify-between relative overflow-hidden text-white">
+        <div className="lg:col-span-2 bg-gradient-to-r from-[#065F52] to-[#0F8F78] rounded-2xl p-6 border border-[#DDE8E3]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden text-white">
           <div className="absolute top-0 right-0 -mr-8 -mt-8 w-56 h-56 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
           
           <div>
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/30">
                 Authorized Pharmacy Terminal
               </span>
-              <span className="text-xs text-emerald-200/70 font-mono">
+              <span className="text-xs text-emerald-100/80 font-mono">
                 Lic: {currentPharmacy.drugLicenseNo}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
-              Welcome back, <span className="text-emerald-300">{currentPharmacy.tradeName}</span>
+              Welcome back, <span className="text-emerald-200">{currentPharmacy.tradeName}</span>
             </h1>
-            <p className="text-xs sm:text-sm text-emerald-100/80 mt-1.5 max-w-xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-emerald-100/90 mt-1.5 max-w-xl leading-relaxed">
               Real-time B2B pharmaceutical order cutting with Near-Expiry FEFO batch allocation, automated trade bonus calculations, and AI-assisted slip ordering.
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function HomePage() {
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
               onClick={() => setIsQuickOrderOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-bold text-xs shadow-md transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
+              className="px-4 py-2.5 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
             >
               <Zap className="w-4 h-4 fill-current" />
               <span>Fast Order Matrix</span>
@@ -500,7 +500,7 @@ export default function HomePage() {
                       className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
                         isAdded
                           ? "bg-emerald-600 text-white"
-                          : "bg-[#025540] hover:bg-[#036b51] text-white hover:scale-105 active:scale-95"
+                          : "bg-[#10B981] hover:bg-[#059669] text-white hover:scale-105 active:scale-95"
                       }`}
                     >
                       {isAdded ? (

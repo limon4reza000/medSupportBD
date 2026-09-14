@@ -12,7 +12,7 @@ import { Package, ShieldCheck, Headphones } from "lucide-react";
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <AppProvider>
-      <div className="min-h-screen flex flex-col bg-[#025540] text-white selection:bg-[#34d399] selection:text-black">
+      <div className="min-h-screen flex flex-col bg-[#F6F8F7] text-[#0F172A] selection:bg-[#10B981] selection:text-white font-sans">
         {/* Minimal Modern Sticky SaaS Navbar */}
         <AppNavbar />
 
@@ -31,7 +31,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
         </main>
 
         {/* Premium Enterprise SaaS Footer */}
-        <footer className="border-t border-[#10b981]/25 bg-[#01382a] py-8 text-xs text-emerald-100/90 mt-12">
+        <footer className="border-t border-[#DDE8E3] bg-[#065F52] py-8 text-xs text-emerald-100/90 mt-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#10b981]/20">
               
