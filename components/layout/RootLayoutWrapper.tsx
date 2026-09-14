@@ -3,24 +3,24 @@
 import React, { ReactNode } from "react";
 import { AppProvider } from "@/lib/context/AppContext";
 import { AppNavbar } from "@/components/layout/AppNavbar";
-import { MobileDrawer } from "@/components/layout/MobileDrawer";
-import { GlobalSearchModal } from "@/components/layout/GlobalSearchModal";
+import { HamburgerDrawer } from "@/components/layout/HamburgerDrawer";
+import { SearchCommand } from "@/components/layout/SearchCommand";
 import { QuickOrderModal } from "@/components/layout/QuickOrderModal";
 import Link from "next/link";
-import { Package, ShieldCheck, HeartPulse, Headphones } from "lucide-react";
+import { Package, ShieldCheck, Headphones } from "lucide-react";
 
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <AppProvider>
       <div className="min-h-screen flex flex-col bg-[#025540] text-white selection:bg-[#34d399] selection:text-black">
-        {/* Sticky Top SaaS Navbar */}
+        {/* Minimal Modern Sticky SaaS Navbar */}
         <AppNavbar />
 
-        {/* Mobile / Tablet Left Sheet Drawer */}
-        <MobileDrawer />
+        {/* Slide-In Navigation Drawer (Hamburger Triggered) */}
+        <HamburgerDrawer />
 
-        {/* Global Keyboard Search Modal (Cmd+K / Ctrl+K) */}
-        <GlobalSearchModal />
+        {/* Global Command Search Modal (Ctrl + K / Cmd + K) */}
+        <SearchCommand />
 
         {/* Quick Matrix Order Modal */}
         <QuickOrderModal />
@@ -46,7 +46,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                   </span>
                 </div>
                 <p className="text-xs text-emerald-200/70 leading-relaxed">
-                  Enterprise B2B Pharmaceutical Order Cutting, Multi-Tier Inventory Distribution, Dynamic Trade Scheme & AI-Assisted Procurement Platform.
+                  Smart Pharmaceutical Supply Network — Order Cutting, FEFO Inventory Distribution & Credit Management.
                 </p>
                 <div className="flex items-center gap-2 text-[11px] text-emerald-300 font-semibold">
                   <ShieldCheck className="w-4 h-4" /> DGDA Verified Digital Distribution
