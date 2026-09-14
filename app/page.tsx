@@ -21,6 +21,9 @@ import {
   Plus,
   Boxes,
   Eye,
+  Clock,
+  DollarSign,
+  AlertCircle,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit } from "@/types/domain";
@@ -47,7 +50,7 @@ export default function HomePage() {
   );
 
   const categories = [
-    { id: "ALL", label: "All Medicines" },
+    { id: "ALL", label: "All Catalog Medicines" },
     { id: "TABLET", label: "Tablets" },
     { id: "CAPSULE", label: "Capsules" },
     { id: "ANTIBIOTIC", label: "Antibiotics" },
@@ -82,15 +85,17 @@ export default function HomePage() {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       
-      {/* TOP: Welcome Hero & Credit Health Card */}
+      {/* =================================================================== */}
+      {/* 🟢 HERO SECTION: Emerald Gradient Background                       */}
+      {/* =================================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         
         {/* Hero Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#014232] via-[#025540] to-[#01382a] rounded-2xl p-6 border border-emerald-500/30 shadow-xl flex flex-col justify-between relative overflow-hidden text-white">
-          <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="lg:col-span-2 bg-gradient-to-br from-[#014232] via-[#025540] to-[#01382a] rounded-2xl p-6 border border-emerald-500/30 shadow-2xl flex flex-col justify-between relative overflow-hidden text-white">
+          <div className="absolute top-0 right-0 -mr-8 -mt-8 w-56 h-56 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
           
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
                 Authorized Pharmacy Terminal
               </span>
@@ -98,7 +103,7 @@ export default function HomePage() {
                 Lic: {currentPharmacy.drugLicenseNo}
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
               Welcome back, <span className="text-emerald-300">{currentPharmacy.tradeName}</span>
             </h1>
             <p className="text-xs sm:text-sm text-emerald-100/80 mt-1.5 max-w-xl leading-relaxed">
@@ -117,9 +122,9 @@ export default function HomePage() {
 
             <Link
               href="/ai-order"
-              className="px-4 py-2.5 rounded-xl bg-[#036b51] hover:bg-[#048263] border border-emerald-400/30 text-emerald-100 font-semibold text-xs shadow-sm transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4 text-teal-300 animate-pulse" />
+              <Sparkles className="w-4 h-4 text-purple-200 animate-pulse" />
               <span>AI Prescription Parser</span>
             </Link>
 
@@ -128,24 +133,27 @@ export default function HomePage() {
               className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
             >
               <Search className="w-3.5 h-3.5 text-emerald-300" />
-              <span>Find Medicines (⌘K)</span>
+              <span>Search Medicines</span>
             </button>
           </div>
         </div>
 
-        {/* Credit Limit & Headroom Gauge (Pure White Card) */}
-        <div className="premium-card p-6 flex flex-col justify-between">
+        {/* 💙 BLUE SECTION: Financial Credit Health Card (Pure White Card) */}
+        <div className="premium-card p-6 flex flex-col justify-between border-l-4 border-l-blue-600">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Credit Health</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+              <span className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                <CreditCard className="w-4 h-4 text-blue-600" />
+                <span>Credit Health</span>
+              </span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
                 Active 30-Day Terms
               </span>
             </div>
 
             <div className="mt-3">
-              <div className="text-xs text-slate-500">Available Headroom</div>
-              <div className="text-2xl font-black font-mono text-emerald-700">
+              <div className="text-xs text-slate-500">Available Credit Headroom</div>
+              <div className="text-2xl font-black font-mono text-blue-700">
                 ৳{availableCredit.toLocaleString(undefined, { minimumFractionDigits: 2 })}
               </div>
             </div>
@@ -159,7 +167,7 @@ export default function HomePage() {
               <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    creditUtilizationPercent > 80 ? "bg-amber-500" : "bg-emerald-600"
+                    creditUtilizationPercent > 80 ? "bg-amber-500" : "bg-blue-600"
                   }`}
                   style={{ width: `${creditUtilizationPercent}%` }}
                 />
@@ -170,7 +178,7 @@ export default function HomePage() {
           <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <Link
               href="/credit"
-              className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1"
+              className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1"
             >
               Credit Details <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -185,20 +193,22 @@ export default function HomePage() {
 
       </div>
 
-      {/* ACTIVE TRADE PROMOTIONS BANNER (Pure White Card) */}
-      <div className="premium-card p-5">
+      {/* =================================================================== */}
+      {/* 💛 OFFER YELLOW SECTION: Trade Bonus & Volume Schemes Banner       */}
+      {/* =================================================================== */}
+      <div className="premium-card p-5 border-l-4 border-l-amber-500 bg-amber-50/30">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800">
+            <div className="p-1.5 rounded-lg bg-amber-500 text-white font-bold shadow-sm">
               <Tag className="w-4 h-4" />
             </div>
-            <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide">
+            <h2 className="font-black text-sm text-slate-900 uppercase tracking-wide">
               Active Trade Bonuses & Volume Schemes
             </h2>
           </div>
           <Link
             href="/trade-offers"
-            className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1"
+            className="text-xs font-bold text-amber-800 hover:text-amber-950 flex items-center gap-1"
           >
             View All ({offers.length}) <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -210,14 +220,14 @@ export default function HomePage() {
             return (
               <div
                 key={offer.id}
-                className="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40 hover:bg-emerald-50 transition-colors flex flex-col justify-between"
+                className="p-3.5 rounded-xl border border-amber-300/80 bg-amber-100/50 hover:bg-amber-100 transition-all flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/60 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-950 bg-amber-200 px-2 py-0.5 rounded-md border border-amber-300">
                       {offer.schemeType.replace(/_/g, " ")}
                     </span>
-                    <span className="text-[10px] font-mono text-emerald-700 font-semibold">Active</span>
+                    <span className="text-[10px] font-mono text-amber-800 font-bold">Active Promo</span>
                   </div>
                   <h3 className="text-xs font-bold text-slate-900 mt-2 line-clamp-2">
                     {offer.title}
@@ -227,8 +237,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="mt-3 pt-2 border-t border-emerald-200/60 flex items-center justify-between">
-                  <span className="text-[10px] text-slate-500">Auto-calculated in cart</span>
+                <div className="mt-3 pt-2 border-t border-amber-200 flex items-center justify-between">
+                  <span className="text-[10px] text-amber-900 font-medium">Auto-applied in cart</span>
                   <button
                     onClick={() => {
                       if (med) {
@@ -240,7 +250,7 @@ export default function HomePage() {
                         router.push("/cart");
                       }
                     }}
-                    className="text-[11px] font-bold text-emerald-800 hover:underline flex items-center gap-1"
+                    className="text-[11px] font-bold text-amber-900 hover:underline flex items-center gap-1"
                   >
                     Apply Offer <ArrowRight className="w-3 h-3" />
                   </button>
@@ -251,7 +261,107 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* MEDICINE MARKETPLACE CATALOG */}
+      {/* =================================================================== */}
+      {/* 💜 AI PURPLE SECTION: AI Prescription Parser & Demand Insights      */}
+      {/* =================================================================== */}
+      <div className="premium-card p-5 border-l-4 border-l-purple-600 bg-purple-50/40">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="p-2.5 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white shadow-md shrink-0">
+              <Sparkles className="w-6 h-6 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-purple-200 text-purple-900 border border-purple-300">
+                  AI Smart Procurement Engine
+                </span>
+              </div>
+              <h2 className="text-lg font-black text-slate-900 mt-0.5">
+                AI Slip Parser & Demand Forecaster
+              </h2>
+              <p className="text-xs text-slate-600 mt-0.5 max-w-xl">
+                Upload handwritten doctor prescriptions or pharmacy purchase slips to instantly convert them into FEFO-allocated orders.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href="/ai-order"
+              className="px-4 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4 text-purple-200" />
+              <span>Upload Slip (OCR)</span>
+            </Link>
+
+            <Link
+              href="/ai-insights"
+              className="px-4 py-2.5 rounded-xl border border-purple-300 bg-white text-purple-900 hover:bg-purple-100 font-bold text-xs transition-colors flex items-center gap-2"
+            >
+              <TrendingUp className="w-4 h-4 text-purple-700" />
+              <span>AI Insights</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* =================================================================== */}
+      {/* 🟠 ALERT ORANGE SECTION: Near-Expiry FEFO Batch Warning            */}
+      {/* =================================================================== */}
+      <div className="premium-card p-5 border-l-4 border-l-orange-500 bg-orange-50/40">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-lg bg-orange-500 text-white font-bold shadow-sm">
+              <AlertTriangle className="w-4 h-4" />
+            </div>
+            <h2 className="font-black text-sm text-slate-900 uppercase tracking-wide">
+              Near-Expiry FEFO Batch Priority Alerts
+            </h2>
+          </div>
+          <Link
+            href="/inventory/batches"
+            className="text-xs font-bold text-orange-800 hover:text-orange-950 flex items-center gap-1"
+          >
+            Manage Batches <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+          <div className="p-3 rounded-xl bg-white border border-orange-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="font-bold text-slate-900">Napa Extra (Paracetamol)</div>
+              <div className="text-[11px] text-slate-500">Batch: BN-2024-NAPA-01</div>
+            </div>
+            <span className="px-2 py-1 rounded-lg bg-orange-100 text-orange-800 font-mono font-bold text-[10px]">
+              Exp: 2026-11-30
+            </span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-white border border-orange-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="font-bold text-slate-900">Seclo 20 (Omeprazole)</div>
+              <div className="text-[11px] text-slate-500">Batch: BN-2024-SEC-03</div>
+            </div>
+            <span className="px-2 py-1 rounded-lg bg-orange-100 text-orange-800 font-mono font-bold text-[10px]">
+              Exp: 2026-10-31
+            </span>
+          </div>
+
+          <div className="p-3 rounded-xl bg-white border border-orange-200 shadow-sm flex items-center justify-between">
+            <div>
+              <div className="font-bold text-slate-900">Ace Plus (Paracetamol)</div>
+              <div className="text-[11px] text-slate-500">Batch: BN-2024-ACE-08</div>
+            </div>
+            <span className="px-2 py-1 rounded-lg bg-orange-100 text-orange-800 font-mono font-bold text-[10px]">
+              Exp: 2026-12-15
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* =================================================================== */}
+      {/* 🌿 MINT SECTION: FEFO Stock Availability & Catalog Marketplace     */}
+      {/* =================================================================== */}
       <div className="space-y-4">
         
         {/* Filters Header */}
@@ -262,7 +372,7 @@ export default function HomePage() {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                   selectedCategory === cat.id
                     ? "bg-white text-[#01382a] shadow-md scale-105"
                     : "bg-[#014232] text-emerald-100 hover:bg-[#036b51] hover:text-white"
@@ -280,7 +390,7 @@ export default function HomePage() {
               className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>Advanced Filter Catalog</span>
+              <span>Full Catalog ({medicines.length})</span>
             </Link>
           </div>
         </div>
@@ -308,11 +418,11 @@ export default function HomePage() {
                       {med.dosageForm}
                     </span>
                     {totalStockPieces > 200 ? (
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
-                        <CheckCircle2 className="w-2.5 h-2.5" /> In Stock
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1 border border-emerald-200">
+                        <CheckCircle2 className="w-2.5 h-2.5" /> Stock Ready
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold flex items-center gap-1">
+                      <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold flex items-center gap-1 border border-orange-200">
                         <AlertTriangle className="w-2.5 h-2.5" /> Low Stock
                       </span>
                     )}
@@ -351,8 +461,8 @@ export default function HomePage() {
 
                   {/* Running Trade Scheme Badge */}
                   {activeOffer && (
-                    <div className="mt-2.5 p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-900 font-semibold flex items-center gap-1.5">
-                      <Tag className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                    <div className="mt-2.5 p-2 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-900 font-semibold flex items-center gap-1.5">
+                      <Tag className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                       <span className="truncate">{activeOffer.title}</span>
                     </div>
                   )}
