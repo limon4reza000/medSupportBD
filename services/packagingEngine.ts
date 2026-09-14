@@ -69,6 +69,18 @@ export class PackagingEngine {
   }
 
   /**
+   * Alias helper for packaging hierarchy calculation
+   */
+  public static calculateHierarchy(
+    medicine: Pick<IMedicine, "piecesPerStrip" | "stripsPerBox">,
+    unit: PackagingUnit,
+    quantity: number
+  ): PackagingBreakdown {
+    const totalLoose = this.calculateLooseUnits(medicine, unit, quantity);
+    return this.breakdownLooseUnits(medicine, totalLoose);
+  }
+
+  /**
    * Calculate trade price, discount slabs, and bonus units awarded for an order item.
    */
   public static evaluateTradeAndBonus(
@@ -176,5 +188,17 @@ export class PackagingEngine {
       vatAmount,
       netItemTotal,
     };
+  }
+
+  /**
+   * Alias helper for pricing evaluation
+   */
+  public static calculateTradePricing(
+    medicine: IMedicine,
+    orderedUnit: PackagingUnit,
+    orderedQty: number,
+    activeOffer?: ITradeOffer | null
+  ): TradeCalculationResult {
+    return this.evaluateTradeAndBonus(medicine, orderedUnit, orderedQty, activeOffer);
   }
 }
