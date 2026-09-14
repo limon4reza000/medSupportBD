@@ -32,6 +32,7 @@ import {
   ChevronRight,
   Activity,
   LucideIcon,
+  Camera,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 
@@ -55,10 +56,25 @@ export const HamburgerDrawer: React.FC = () => {
     setIsMobileNavOpen,
     currentPharmacy,
     currentUser,
+    updateUserAvatar,
     cartItemCount,
     orders,
     notifications,
   } = useApp();
+
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        updateUserAvatar(event.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
 
   const unreadNotifs = notifications.filter((n) => !n.isRead).length;
   const activeOrdersCount = orders.filter(
@@ -159,12 +175,30 @@ export const HamburgerDrawer: React.FC = () => {
             </button>
           </div>
 
+          {/* Hidden file input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/png, image/jpeg, image/webp"
+            className="hidden"
+          />
+
           <div className="mt-3 flex items-center gap-3">
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-11 h-11 rounded-xl object-cover ring-2 ring-emerald-300 shadow-md"
-            />
+            <div
+              className="relative group cursor-pointer shrink-0"
+              onClick={() => fileInputRef.current?.click()}
+              title="Click to upload photo"
+            >
+              <img
+                src={currentUser.avatar}
+                alt={currentUser.name}
+                className="w-11 h-11 rounded-xl object-cover ring-2 ring-emerald-300 shadow-md group-hover:opacity-80 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                <Camera className="w-4 h-4 text-emerald-300" />
+              </div>
+            </div>
             <div className="truncate flex-1">
               <div className="font-bold text-sm truncate">{currentUser.name}</div>
               <div className="text-[11px] text-emerald-200 truncate flex items-center gap-1">
