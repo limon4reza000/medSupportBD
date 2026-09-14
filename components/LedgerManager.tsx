@@ -7,7 +7,6 @@ import {
   ArrowDownLeft,
   ArrowUpRight,
   ShieldCheck,
-  AlertTriangle,
   RefreshCw,
   PlusCircle,
   Building,
@@ -95,27 +94,27 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="glass-panel rounded-2xl p-6 border border-[#10b981]/40">
+      <div className="glass-panel bg-white text-slate-900 rounded-2xl p-6 border border-slate-200 shadow-md">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-lg bg-[#025540] border border-[#10b981] flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-[#34d399]" />
+              <div className="w-8 h-8 rounded-xl bg-[#025540] flex items-center justify-center shadow-md">
+                <CreditCard className="w-4 h-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-slate-900">
                 Pharmacy Ledger & Real-Time Credit Control
               </h2>
             </div>
-            <p className="text-xs text-emerald-200/80 mt-1">
+            <p className="text-xs text-slate-600 mt-1 font-medium">
               Maintains an immutable double-entry financial transaction log for {pharmacy.tradeName}, tracking order invoice debits, payment credit settlements, and credit headroom.
             </p>
           </div>
 
           <button
             onClick={fetchLedger}
-            className="px-3 py-2 rounded-xl bg-[#023528] border border-[#047857]/60 text-xs font-semibold text-white hover:bg-[#025540] flex items-center gap-1.5 transition-all"
+            className="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-200 flex items-center gap-1.5 transition-all"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-[#34d399] ${isLoading ? "animate-spin" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 text-[#025540] ${isLoading ? "animate-spin" : ""}`} />
             <span>Refresh Ledger</span>
           </button>
         </div>
@@ -124,21 +123,21 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Side: Ledger Transaction History Table */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="glass-card rounded-2xl p-5 border border-[#047857]/40 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[#047857]/40">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Building className="w-4 h-4 text-[#34d399]" />
+          <div className="glass-card bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <Building className="w-4 h-4 text-[#025540]" />
                 Transaction Statement ({entries.length} Records)
               </h3>
-              <span className="text-xs text-emerald-300 font-mono">
+              <span className="text-xs text-slate-600 font-mono font-bold">
                 License: {pharmacy.drugLicenseNo}
               </span>
             </div>
 
             <div className="space-y-3 max-h-[480px] overflow-y-auto pr-1">
               {entries.length === 0 ? (
-                <div className="py-12 text-center text-emerald-300/60">
-                  <p className="text-xs font-semibold text-white">No ledger entries found</p>
+                <div className="py-12 text-center text-slate-400">
+                  <p className="text-xs font-bold text-slate-700">No ledger entries found</p>
                 </div>
               ) : (
                 entries.map((entry) => {
@@ -147,14 +146,14 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
                   return (
                     <div
                       key={entry.id}
-                      className="p-3.5 rounded-xl bg-[#011e17] border border-[#047857]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                      className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                     >
                       <div className="flex items-start space-x-3">
                         <div
                           className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                             isDebit
-                              ? "bg-red-950/80 text-red-400 border border-red-500/40"
-                              : "bg-emerald-950/80 text-emerald-400 border border-emerald-500/40"
+                              ? "bg-red-100 text-red-700 border border-red-200"
+                              : "bg-emerald-100 text-emerald-800 border border-emerald-200"
                           }`}
                         >
                           {isDebit ? (
@@ -166,21 +165,21 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-white font-mono">
+                            <span className="font-bold text-slate-900 font-mono">
                               {entry.referenceNumber}
                             </span>
                             <span
-                              className={`text-[10px] px-2 py-0.2 rounded font-semibold ${
+                              className={`text-[10px] px-2 py-0.2 rounded-full font-bold ${
                                 isDebit
-                                  ? "bg-red-950 text-red-300 border border-red-500/40"
-                                  : "bg-emerald-950 text-emerald-300 border border-emerald-500/40"
+                                  ? "bg-red-100 text-red-800 border border-red-200"
+                                  : "bg-emerald-100 text-emerald-800 border border-emerald-200"
                               }`}
                             >
                               {isDebit ? "INVOICE DEBIT" : "PAYMENT SETTLEMENT"}
                             </span>
                           </div>
-                          <p className="text-[11px] text-emerald-300/70 mt-0.5">{entry.notes}</p>
-                          <span className="text-[10px] text-emerald-400/50">
+                          <p className="text-[11px] text-slate-600 font-medium mt-0.5">{entry.notes}</p>
+                          <span className="text-[10px] text-slate-400">
                             {new Date(entry.createdAt).toLocaleString()}
                           </span>
                         </div>
@@ -189,12 +188,12 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
                       <div className="text-right font-mono">
                         <p
                           className={`text-sm font-bold ${
-                            isDebit ? "text-red-400" : "text-[#34d399]"
+                            isDebit ? "text-red-600" : "text-[#025540]"
                           }`}
                         >
                           {isDebit ? "+" : "-"}৳{entry.amount.toLocaleString()}
                         </p>
-                        <p className="text-[10px] text-emerald-300/70">
+                        <p className="text-[10px] text-slate-500 font-bold">
                           Balance: ৳{entry.newBalance.toLocaleString()}
                         </p>
                       </div>
@@ -208,25 +207,25 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
         {/* Right Side: Account Summary & Payment Settlement Simulator */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="glass-panel rounded-2xl p-5 border border-[#10b981]/40 space-y-4">
-            <h3 className="text-sm font-bold text-white pb-2 border-b border-[#047857]/40 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#34d399]" />
+          <div className="glass-panel bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-4">
+            <h3 className="text-sm font-bold text-slate-900 pb-2 border-b border-slate-100 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#025540]" />
               Account Balance & Credit Exposure
             </h3>
 
             {/* Metrics */}
-            <div className="p-3.5 bg-[#01140f] rounded-xl border border-[#047857]/50 text-xs font-mono space-y-2">
-              <div className="flex justify-between text-emerald-200">
+            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs font-mono space-y-2">
+              <div className="flex justify-between text-slate-600">
                 <span>Total Credit Limit:</span>
-                <strong className="text-white font-bold">৳{pharmacy.creditLimit.toLocaleString()}</strong>
+                <strong className="text-slate-900 font-bold">৳{pharmacy.creditLimit.toLocaleString()}</strong>
               </div>
-              <div className="flex justify-between text-emerald-200">
+              <div className="flex justify-between text-slate-600">
                 <span>Current Outstanding:</span>
-                <strong className="text-amber-300 font-bold">৳{pharmacy.currentBalance.toLocaleString()}</strong>
+                <strong className="text-amber-700 font-bold">৳{pharmacy.currentBalance.toLocaleString()}</strong>
               </div>
-              <div className="flex justify-between text-emerald-200">
+              <div className="flex justify-between text-slate-600">
                 <span>Available Headroom:</span>
-                <strong className="text-[#34d399] font-bold">
+                <strong className="text-[#025540] font-bold">
                   ৳{Math.max(0, pharmacy.creditLimit - pharmacy.currentBalance).toLocaleString()}
                 </strong>
               </div>
@@ -234,18 +233,18 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
 
             {/* Progress Bar */}
             <div>
-              <div className="flex justify-between text-[11px] text-emerald-200 mb-1">
+              <div className="flex justify-between text-[11px] text-slate-600 font-medium mb-1">
                 <span>Credit Utilization:</span>
-                <strong className="text-white font-mono">{utilizationPercent}%</strong>
+                <strong className="text-slate-900 font-mono font-bold">{utilizationPercent}%</strong>
               </div>
-              <div className="w-full bg-[#01140f] h-2.5 rounded-full overflow-hidden border border-[#047857]/30">
+              <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
                 <div
                   className={`h-full transition-all duration-500 ${
                     utilizationPercent > 90
                       ? "bg-red-500"
                       : utilizationPercent > 70
-                      ? "bg-amber-400"
-                      : "bg-[#10b981]"
+                      ? "bg-amber-500"
+                      : "bg-[#025540]"
                   }`}
                   style={{ width: `${utilizationPercent}%` }}
                 />
@@ -253,28 +252,28 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
             </div>
 
             {/* Payment Settlement Simulation Form */}
-            <div className="pt-3 border-t border-[#047857]/40 space-y-3">
-              <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
-                <PlusCircle className="w-3.5 h-3.5 text-[#34d399]" />
+            <div className="pt-3 border-t border-slate-100 space-y-3">
+              <h4 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                <PlusCircle className="w-3.5 h-3.5 text-[#025540]" />
                 Receive Settlement / Clear Balance
               </h4>
 
               <div>
-                <label className="text-[11px] text-emerald-300 block mb-1">Payment Amount (৳):</label>
+                <label className="text-[11px] text-slate-700 font-bold block mb-1">Payment Amount (৳):</label>
                 <input
                   type="number"
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#01140f] border border-[#047857]/50 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-[#10b981]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-[#025540]"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] text-emerald-300 block mb-1">Payment Channel:</label>
+                <label className="text-[11px] text-slate-700 font-bold block mb-1">Payment Channel:</label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full bg-[#01140f] border border-[#047857]/50 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-[#10b981]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 font-bold focus:outline-none focus:border-[#025540]"
                 >
                   <option value="bKash Merchant">bKash Merchant Pay</option>
                   <option value="Nagad Pay">Nagad Direct Settlement</option>
@@ -286,7 +285,7 @@ export const LedgerManager: React.FC<LedgerManagerProps> = ({
               <button
                 onClick={handleSimulatePayment}
                 disabled={isSubmitting || paymentAmount <= 0}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#10b981] to-[#025540] hover:from-[#34d399] hover:to-[#047857] text-white font-bold text-xs shadow-md shadow-[#10b981]/20 flex items-center justify-center gap-1.5 transition-all"
+                className="w-full py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center justify-center gap-1.5 transition-all"
               >
                 <span>Post Settlement & Restore Credit</span>
               </button>

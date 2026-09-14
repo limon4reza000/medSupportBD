@@ -4,13 +4,11 @@ import React, { useState } from "react";
 import { IMedicine, ISlipParserResponse, PackagingUnit } from "@/types/domain";
 import {
   Sparkles,
-  Upload,
   FileText,
   CheckCircle2,
   AlertCircle,
   ArrowRight,
   RefreshCw,
-  Image as ImageIcon,
 } from "lucide-react";
 import { CartItem } from "./OrderCuttingTerminal";
 
@@ -112,25 +110,25 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="glass-panel rounded-2xl p-6 border border-[#10b981]/40">
+      <div className="glass-panel bg-white text-slate-900 rounded-2xl p-6 border border-slate-200 shadow-md">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-lg bg-[#025540] border border-[#10b981] flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-[#34d399]" />
+              <div className="w-8 h-8 rounded-xl bg-[#025540] flex items-center justify-center shadow-md">
+                <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-slate-900">
                 AI Prescription & Handwritten Memo Slip Parser
               </h2>
             </div>
-            <p className="text-xs text-emerald-200/80 mt-1">
+            <p className="text-xs text-slate-600 mt-1 font-medium">
               Ingests raw doctor prescriptions or handwritten memo notes, parses chemical compounds & quantities, and fuzzy matches against the MedSupply database catalog with strict Zod validation.
             </p>
           </div>
 
           {/* Preset Buttons */}
           <div className="flex items-center flex-wrap gap-2 text-xs">
-            <span className="text-emerald-300/70 text-[11px] font-semibold">Presets:</span>
+            <span className="text-slate-500 font-bold text-[11px]">Presets:</span>
             {SAMPLE_MEMO_PRESETS.map((p, idx) => (
               <button
                 key={idx}
@@ -138,7 +136,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                   setMemoText(p.text);
                   setParseResult(null);
                 }}
-                className="px-2.5 py-1 rounded-lg bg-[#023528] border border-[#047857]/60 text-emerald-200 hover:text-white hover:bg-[#025540] text-[11px] font-medium transition-all"
+                className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-200 text-[11px] font-bold transition-all"
               >
                 Preset {idx + 1}
               </button>
@@ -151,13 +149,13 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Side: Input Text / Prescription Image */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="glass-card rounded-2xl p-5 border border-[#047857]/40 space-y-3">
+          <div className="glass-card bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-[#34d399]" />
+              <label className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                <FileText className="w-3.5 h-3.5 text-[#025540]" />
                 Doctor Prescription / Handwritten Memo Note
               </label>
-              <span className="text-[10px] text-emerald-400/60 font-mono">
+              <span className="text-[10px] text-slate-400 font-mono font-bold">
                 {memoText.length} characters
               </span>
             </div>
@@ -167,7 +165,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
               value={memoText}
               onChange={(e) => setMemoText(e.target.value)}
               placeholder="Paste doctor prescription text, memo notes, or WhatsApp order request here..."
-              className="w-full bg-[#01140f] border border-[#047857]/50 rounded-xl p-3.5 text-xs text-white placeholder-emerald-300/40 font-mono focus:outline-none focus:border-[#10b981] transition-all resize-none leading-relaxed"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-900 placeholder-slate-400 font-mono focus:outline-none focus:border-[#025540] transition-all resize-none leading-relaxed"
             />
 
             {/* Action Buttons */}
@@ -175,16 +173,16 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
               <button
                 onClick={handleParse}
                 disabled={isParsing || !memoText.trim()}
-                className="flex-1 py-3 rounded-xl bg-gradient-to-r from-[#10b981] to-[#025540] hover:from-[#34d399] hover:to-[#047857] text-white font-bold text-xs shadow-lg shadow-[#10b981]/20 flex items-center justify-center gap-2 disabled:opacity-50 transition-all"
+                className="flex-1 py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center justify-center gap-2 disabled:opacity-50 transition-all"
               >
                 {isParsing ? (
                   <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-white" />
                     <span>Extracting Entities & Matching Catalog...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-3.5 h-3.5" />
+                    <Sparkles className="w-3.5 h-3.5 text-white" />
                     <span>Parse with AI Engine (Zod Validated)</span>
                   </>
                 )}
@@ -195,23 +193,23 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
 
         {/* Right Side: Structured JSON & Catalog Entity Match Output */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="glass-card rounded-2xl p-5 border border-[#047857]/40 space-y-4 min-h-[420px] flex flex-col justify-between">
+          <div className="glass-card bg-white text-slate-900 rounded-2xl p-5 border border-slate-200 shadow-md space-y-4 min-h-[420px] flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-[#047857]/40">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#34d399]" />
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#025540]" />
                   Structured Catalog Output ({parseResult?.parsed_items?.length || 0} Entities Found)
                 </h3>
 
                 {parseResult && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-emerald-200">
+                    <span className="text-[11px] text-slate-600 font-bold">
                       Confidence:{" "}
-                      <strong className="text-[#34d399] font-mono">
+                      <strong className="text-[#025540] font-mono">
                         {Math.round(parseResult.overall_confidence * 100)}%
                       </strong>
                     </span>
-                    <span className="text-[10px] text-emerald-300/60 font-mono">
+                    <span className="text-[10px] text-slate-400 font-mono">
                       ({parseResult.processing_time_ms}ms)
                     </span>
                   </div>
@@ -219,17 +217,17 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
               </div>
 
               {error && (
-                <div className="mt-4 p-3 rounded-xl bg-red-950/80 border border-red-500 text-xs text-red-200 flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-400" />
+                <div className="mt-4 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-bold flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-600" />
                   <span>{error}</span>
                 </div>
               )}
 
               {!parseResult && !isParsing && (
-                <div className="py-20 text-center text-emerald-300/60">
-                  <Sparkles className="w-10 h-10 mx-auto mb-2 opacity-30 text-[#10b981]" />
-                  <p className="text-xs font-semibold text-white">No parsed items yet</p>
-                  <p className="text-[11px] text-emerald-300/60 mt-1">
+                <div className="py-20 text-center text-slate-400">
+                  <Sparkles className="w-10 h-10 mx-auto mb-2 opacity-30 text-slate-400" />
+                  <p className="text-xs font-bold text-slate-700">No parsed items yet</p>
+                  <p className="text-[11px] text-slate-500 mt-1">
                     Click &quot;Parse with AI Engine&quot; to extract structured medicines from the memo
                   </p>
                 </div>
@@ -247,37 +245,37 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                         key={idx}
                         className={`p-3.5 rounded-xl border text-xs space-y-2 transition-all ${
                           isMatched
-                            ? "bg-[#011e17] border-[#047857]/50"
-                            : "bg-amber-950/30 border-amber-500/40"
+                            ? "bg-slate-50 border-slate-200"
+                            : "bg-amber-50/70 border-amber-200"
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="font-bold text-white text-sm">
+                              <span className="font-bold text-slate-900 text-sm">
                                 {item.brand_name}
                               </span>
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#025540] text-[#6ee7b7] border border-[#10b981]/40 font-bold">
+                              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#025540] text-white font-bold">
                                 {item.qty} {item.packaging_type}
                               </span>
                             </div>
-                            <p className="text-[11px] text-emerald-300/80 font-medium">
+                            <p className="text-[11px] text-slate-600 font-semibold">
                               Generic: {item.generic || "Unspecified"}
                             </p>
                           </div>
 
                           <div className="text-right">
                             <span
-                              className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${
+                              className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
                                 confidencePercent > 80
-                                  ? "bg-emerald-950 text-[#34d399] border border-[#10b981]/50"
-                                  : "bg-amber-950 text-amber-300 border border-amber-500/50"
+                                  ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
+                                  : "bg-amber-100 text-amber-900 border border-amber-300"
                               }`}
                             >
                               {confidencePercent}% OCR Match
                             </span>
                             {item.unit_price ? (
-                              <p className="text-[10px] text-emerald-400 font-mono mt-0.5">
+                              <p className="text-[10px] text-[#025540] font-mono font-bold mt-0.5">
                                 ৳{item.unit_price}/pc
                               </p>
                             ) : null}
@@ -285,7 +283,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                         </div>
 
                         {item.notes && (
-                          <p className="text-[10px] text-emerald-300/60 italic bg-[#01140f] p-1.5 rounded border border-[#047857]/30">
+                          <p className="text-[10px] text-slate-600 italic bg-white p-2 rounded-lg border border-slate-200">
                             {item.notes}
                           </p>
                         )}
@@ -298,17 +296,17 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
 
             {/* Transfer to Order Cart Button */}
             {parseResult && parseResult.parsed_items.length > 0 && (
-              <div className="pt-3 border-t border-[#047857]/40 flex items-center justify-between">
-                <span className="text-xs text-emerald-200">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-xs text-slate-600 font-medium">
                   Ready to cut order for{" "}
-                  <strong className="text-white">
+                  <strong className="text-slate-900 font-bold">
                     {parseResult.parsed_items.filter((i) => i.matched_medicine_id).length} catalog items
                   </strong>
                 </span>
 
                 <button
                   onClick={handleTransferToCart}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#10b981] to-[#025540] hover:from-[#34d399] hover:to-[#047857] text-white font-bold text-xs shadow-md shadow-[#10b981]/20 flex items-center gap-1.5 transition-all"
+                  className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all"
                 >
                   <span>Import to Order Cutting POS</span>
                   <ArrowRight className="w-3.5 h-3.5" />

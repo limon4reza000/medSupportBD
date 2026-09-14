@@ -34,94 +34,94 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {/* 1. Total Available Loose Stock */}
-      <div className="glass-card rounded-xl p-4 border border-[#047857]/50 relative overflow-hidden">
+      <div className="glass-card rounded-2xl p-4 bg-white text-slate-900 border border-slate-200 shadow-md relative overflow-hidden">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-emerald-300/70 uppercase tracking-wider">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               Warehouse Stock (Depot-01)
             </p>
-            <h3 className="text-2xl font-bold text-white mt-1 font-mono">
+            <h3 className="text-2xl font-bold text-[#025540] mt-1 font-mono">
               {totalLooseStock.toLocaleString()}{" "}
-              <span className="text-xs font-normal text-emerald-300/80">loose units</span>
+              <span className="text-xs font-semibold text-slate-600">loose units</span>
             </h3>
-            <p className="text-[11px] text-emerald-200/60 mt-1">Across {medicines.length} verified SKU lines</p>
+            <p className="text-[11px] text-slate-600 mt-1 font-medium">Across {medicines.length} verified SKU lines</p>
           </div>
-          <div className="w-11 h-11 rounded-lg bg-[#025540] flex items-center justify-center border border-[#10b981]/30">
-            <Package className="w-5 h-5 text-[#34d399]" />
+          <div className="w-11 h-11 rounded-xl bg-[#025540] flex items-center justify-center text-white shadow-md">
+            <Package className="w-5 h-5 text-white" />
           </div>
         </div>
-        <div className="mt-3 flex items-center text-[11px] text-emerald-300 gap-1 font-medium">
-          <TrendingUp className="w-3.5 h-3.5 text-[#10b981]" />
+        <div className="mt-3 flex items-center text-[11px] text-[#025540] gap-1.5 font-bold">
+          <TrendingUp className="w-3.5 h-3.5 text-[#025540]" />
           <span>FIFO near-expiry auto allocation active</span>
         </div>
       </div>
 
       {/* 2. Pharmacy Credit Ceiling & Exposure */}
-      <div className="glass-card rounded-xl p-4 border border-[#047857]/50 relative overflow-hidden">
+      <div className="glass-card rounded-2xl p-4 bg-white text-slate-900 border border-slate-200 shadow-md relative overflow-hidden">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-emerald-300/70 uppercase tracking-wider">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               Available Credit Headroom
             </p>
-            <h3 className="text-2xl font-bold text-white mt-1 font-mono">
+            <h3 className="text-2xl font-bold text-[#025540] mt-1 font-mono">
               ৳{availableCredit.toLocaleString()}
             </h3>
-            <p className="text-[11px] text-emerald-200/60 mt-1">
+            <p className="text-[11px] text-slate-600 mt-1 font-medium">
               Used: ৳{pharmacy.currentBalance.toLocaleString()} of ৳{pharmacy.creditLimit.toLocaleString()}
             </p>
           </div>
-          <div className="w-11 h-11 rounded-lg bg-[#025540] flex items-center justify-center border border-[#10b981]/30">
-            <ShieldAlert className="w-5 h-5 text-[#34d399]" />
+          <div className="w-11 h-11 rounded-xl bg-[#025540] flex items-center justify-center text-white shadow-md">
+            <ShieldAlert className="w-5 h-5 text-white" />
           </div>
         </div>
-        <div className="mt-3 flex items-center text-[11px] text-emerald-300 gap-1 font-medium">
-          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <div className="mt-3 flex items-center text-[11px] text-[#025540] gap-1.5 font-bold">
+          <span className="w-2 h-2 rounded-full bg-[#025540]"></span>
           <span>Max Credit Term: {pharmacy.creditDaysLimit} Days</span>
         </div>
       </div>
 
       {/* 3. Dynamic Trade Schemes */}
-      <div className="glass-card rounded-xl p-4 border border-[#047857]/50 relative overflow-hidden">
+      <div className="glass-card rounded-2xl p-4 bg-white text-slate-900 border border-slate-200 shadow-md relative overflow-hidden">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-emerald-300/70 uppercase tracking-wider">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               Active Trade Schemes
             </p>
-            <h3 className="text-2xl font-bold text-white mt-1 font-mono">
+            <h3 className="text-2xl font-bold text-[#025540] mt-1 font-mono">
               {activeOffersCount}{" "}
-              <span className="text-xs font-normal text-emerald-300/80">promotions</span>
+              <span className="text-xs font-semibold text-slate-600">promotions</span>
             </h3>
-            <p className="text-[11px] text-emerald-200/60 mt-1">10+1 Napa Extra, 5% Seclo Slab</p>
+            <p className="text-[11px] text-slate-600 mt-1 font-medium">10+1 Napa Extra, 5% Seclo Slab</p>
           </div>
-          <div className="w-11 h-11 rounded-lg bg-[#025540] flex items-center justify-center border border-[#10b981]/30">
-            <Sparkles className="w-5 h-5 text-[#34d399]" />
+          <div className="w-11 h-11 rounded-xl bg-[#025540] flex items-center justify-center text-white shadow-md">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
         </div>
-        <div className="mt-3 flex items-center text-[11px] text-[#6ee7b7] gap-1 font-medium">
-          <Sparkles className="w-3.5 h-3.5 text-[#34d399]" />
+        <div className="mt-3 flex items-center text-[11px] text-[#025540] gap-1.5 font-bold">
+          <Sparkles className="w-3.5 h-3.5 text-[#025540]" />
           <span>Auto-calculated bonus on checkout</span>
         </div>
       </div>
 
       {/* 4. Near-Expiry FIFO Watchlist */}
-      <div className="glass-card rounded-xl p-4 border border-[#047857]/50 relative overflow-hidden">
+      <div className="glass-card rounded-2xl p-4 bg-white text-slate-900 border border-slate-200 shadow-md relative overflow-hidden">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold text-emerald-300/70 uppercase tracking-wider">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               Near-Expiry Watchlist
             </p>
-            <h3 className="text-2xl font-bold text-amber-300 mt-1 font-mono">
+            <h3 className="text-2xl font-bold text-amber-700 mt-1 font-mono">
               {nearExpiryBatches.length}{" "}
-              <span className="text-xs font-normal text-emerald-200/80">batches</span>
+              <span className="text-xs font-semibold text-slate-600">batches</span>
             </h3>
-            <p className="text-[11px] text-emerald-200/60 mt-1">Expiring within 90 days</p>
+            <p className="text-[11px] text-slate-600 mt-1 font-medium">Expiring within 90 days</p>
           </div>
-          <div className="w-11 h-11 rounded-lg bg-amber-950/40 flex items-center justify-center border border-amber-500/30">
-            <AlertCircle className="w-5 h-5 text-amber-400" />
+          <div className="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center border border-amber-300 shadow-md">
+            <AlertCircle className="w-5 h-5 text-amber-600" />
           </div>
         </div>
-        <div className="mt-3 flex items-center text-[11px] text-amber-300 gap-1 font-medium">
-          <AlertCircle className="w-3.5 h-3.5 text-amber-400" />
+        <div className="mt-3 flex items-center text-[11px] text-amber-700 gap-1.5 font-bold">
+          <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
           <span>Priority FIFO dispatch forced</span>
         </div>
       </div>

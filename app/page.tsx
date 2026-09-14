@@ -63,7 +63,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#01140f] text-white selection:bg-[#10b981] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-[#025540] text-white selection:bg-[#34d399] selection:text-black">
       {/* Top Navbar */}
       <Navbar
         pharmacies={pharmacies}
@@ -131,10 +131,10 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#047857]/30 bg-[#011b14] py-4 text-center text-xs text-emerald-300/60">
+      <footer className="border-t border-[#10b981]/30 bg-[#014232] py-4 text-center text-xs text-emerald-100/90">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>MedSupply BD — B2B Pharmaceutical Order Cutting & Inventory Platform</span>
-          <span className="text-emerald-400 font-mono">Theme: #025540 Surgical Green • Text: Pure White</span>
+          <span className="font-semibold text-white">MedSupply BD — B2B Pharmaceutical Order Cutting & Inventory Platform</span>
+          <span className="text-emerald-200 font-mono">Theme: #025540 Surgical Green • Text: Pure White</span>
         </div>
       </footer>
     </div>
