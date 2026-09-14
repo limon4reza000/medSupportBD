@@ -225,13 +225,23 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
   const activeData = monthDatasets[currentMonthName] || monthDatasets["June"];
 
-  // Map 20 x-coordinates
-  const wavePoints = activeData.waveYValues.map((yVal, idx) => ({
-    x: 20 + idx * 30,
-    y: yVal,
-  }));
+  // Days count for selected month (28, 30, or 31)
+  const daysInMonth = currentMonthName === "February" ? 28 : ["April", "June", "September", "November"].includes(currentMonthName) ? 30 : 31;
 
-  // Build smooth cubic bezier curve string
+  // Generate 28, 30, or 31 dynamic wave Y values for full month timeline
+  const wavePoints = Array.from({ length: daysInMonth }).map((_, idx) => {
+    const dayNum = idx + 1;
+    const seed = (idx * 17 + (monthIndex + 1) * 23) % 100;
+    const baseWave = Math.sin((dayNum / daysInMonth) * Math.PI * 6) * 45;
+    const yVal = 105 + baseWave + (seed % 35) - 18;
+    return {
+      x: 20 + idx * 25,
+      y: Math.max(25, Math.min(175, yVal)),
+      day: String(dayNum).padStart(2, "0"),
+    };
+  });
+
+  // Build smooth cubic bezier curve string for full month
   const createSmoothPath = (pts: { x: number; y: number }[]) => {
     if (pts.length === 0) return "";
     let d = `M ${pts[0].x} ${pts[0].y}`;
@@ -248,6 +258,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
   };
 
   const smoothCurveD = createSmoothPath(wavePoints);
+  const endX = wavePoints[wavePoints.length - 1]?.x || 770;
 
   // Capsule Bar Chart heights (14 items)
   const capsuleHeights = [
@@ -466,8 +477,8 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
             {/* Smooth SVG Wavy Area Graph */}
             <div className="w-full overflow-x-auto">
-              <div className="min-w-[580px] p-2">
-                <svg viewBox="0 0 620 220" className="w-full h-auto overflow-visible select-none">
+              <div className="min-w-[780px] p-2">
+                <svg viewBox="0 0 800 220" className="w-full h-auto overflow-visible select-none">
                   <defs>
                     <linearGradient id="purpleAreaGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.85" />
@@ -478,7 +489,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
                   {/* Filled Wave Path */}
                   <path
-                    d={`${smoothCurveD} L 590 200 L 20 200 Z`}
+                    d={`${smoothCurveD} L ${endX} 200 L 20 200 Z`}
                     fill="url(#purpleAreaGrad)"
                     className="transition-all duration-500 ease-in-out"
                   />
@@ -499,7 +510,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                       key={idx}
                       cx={pt.x}
                       cy={pt.y}
-                      r="4.5"
+                      r="4"
                       fill="#FFFFFF"
                       stroke="#6D28D9"
                       strokeWidth="2.5"
@@ -507,7 +518,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                     />
                   ))}
 
-                  {/* Timeline X-Labels (01 to 20) */}
+                  {/* Timeline X-Labels (Full month 01 to 30/31) */}
                   {wavePoints.map((pt, idx) => (
                     <text
                       key={`lbl-${idx}`}
@@ -515,10 +526,10 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                       y="215"
                       textAnchor="middle"
                       fill="#64748B"
-                      fontSize="10"
+                      fontSize="9.5"
                       fontWeight="700"
                     >
-                      {String(idx + 1).padStart(2, "0")}
+                      {pt.day}
                     </text>
                   ))}
                 </svg>
