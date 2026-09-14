@@ -3,12 +3,13 @@
 import React from "react";
 import { IPharmacy } from "@/types/domain";
 import {
-  Building2,
-  ShieldCheck,
-  UserCheck,
-  CreditCard,
-  AlertTriangle,
   Pill,
+  Sparkles,
+  Layers,
+  TrendingUp,
+  CreditCard,
+  Building2,
+  ChevronDown,
 } from "lucide-react";
 
 interface NavbarProps {
@@ -28,160 +29,117 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const currentPharmacy = pharmacies.find((p) => p.id === selectedPharmacyId) || pharmacies[0];
 
-  const creditUsedPercent = currentPharmacy
-    ? Math.min(100, Math.round((currentPharmacy.currentBalance / currentPharmacy.creditLimit) * 100))
-    : 0;
+  const navItems = [
+    { id: "order-cutting", label: "Order Cutting", icon: Pill },
+    { id: "ai-slip-parser", label: "AI Slip Parser", icon: Sparkles },
+    { id: "fifo-inspector", label: "FIFO Batches", icon: Layers },
+    { id: "ai-forecast", label: "Demand Forecast", icon: TrendingUp },
+    { id: "generic-substitute", label: "Generics", icon: Pill },
+    { id: "credit-ledger", label: "Ledger", icon: CreditCard },
+  ];
 
   return (
-    <header className="border-b border-[#10b981]/40 bg-[#014232]/95 backdrop-blur-md sticky top-0 z-50 shadow-xl">
-      {/* Top Banner with Brand & Profiles */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 bg-[#025540]/95 backdrop-blur-md border-b border-white/10 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-4">
           
-          {/* Logo & Platform Tagline */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#34d399] to-[#025540] p-0.5 flex items-center justify-center shadow-lg shadow-[#10b981]/30">
-              <div className="w-full h-full bg-[#025540] rounded-[10px] flex items-center justify-center">
-                <Pill className="w-5 h-5 text-white" />
-              </div>
+          {/* 1. Left: Brand Logo & Title */}
+          <div className="flex items-center space-x-3 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md">
+              <Pill className="w-5 h-5 text-[#025540]" />
             </div>
             <div>
-              <div className="flex items-center space-x-2">
-                <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
-                  MedSupply <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#036b51] border border-[#34d399]/60 text-white font-bold">B2B Core</span>
-                </h1>
-              </div>
-              <p className="text-xs text-white/90 font-medium">
-                Pharma Order Cutting • Near-Expiry FIFO • Dynamic Trade Schemes
-              </p>
+              <span className="text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
+                MedSupply
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30">
+                  B2B
+                </span>
+              </span>
             </div>
           </div>
 
-          {/* Depot & Sales Rep Profile Badges */}
-          <div className="flex items-center flex-wrap gap-2 text-xs">
-            {/* Depot Badge */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-[#025540] border border-[#10b981]/50 text-white shadow-sm">
-              <Building2 className="w-3.5 h-3.5 text-[#6ee7b7]" />
-              <div>
-                <span className="text-emerald-200 block text-[10px] uppercase font-bold">Depot</span>
-                <span className="font-bold text-white">Dhaka Central (DEPOT-01)</span>
-              </div>
-            </div>
+          {/* 2. Center: Sleek Horizontal Navigation Tabs */}
+          <nav className="hidden md:flex items-center space-x-1 bg-white/10 p-1 rounded-xl border border-white/10">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
 
-            {/* Sales Rep / MPO Badge */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-[#025540] border border-[#10b981]/50 text-white shadow-sm">
-              <UserCheck className="w-3.5 h-3.5 text-[#6ee7b7]" />
-              <div>
-                <span className="text-emerald-200 block text-[10px] uppercase font-bold">Field MPO</span>
-                <span className="font-bold text-white">Tanvir Ahmed (#SR-804)</span>
-              </div>
-            </div>
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
+                    isActive
+                      ? "bg-white text-[#025540] shadow-sm font-bold"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#025540]" : "text-white/80"}`} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
 
-            {/* Target Pharmacy Selector */}
-            <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-[#036b51] border border-[#34d399]/70 text-white shadow-md">
-              <CreditCard className="w-3.5 h-3.5 text-white" />
-              <div>
-                <label htmlFor="pharmacy-select" className="text-emerald-100 block text-[10px] uppercase font-bold">
-                  Billed Pharmacy
-                </label>
+          {/* 3. Right: Compact Pharmacy Selector & Status */}
+          <div className="flex items-center space-x-3">
+            {/* Pharmacy Selector Dropdown */}
+            <div className="relative">
+              <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-white/20 shadow-sm">
+                <Building2 className="w-4 h-4 text-[#025540]" />
                 <select
-                  id="pharmacy-select"
                   value={selectedPharmacyId}
                   onChange={(e) => onSelectPharmacy(e.target.value)}
-                  className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer pr-2"
+                  className="bg-transparent text-slate-900 font-bold text-xs focus:outline-none cursor-pointer pr-4 appearance-none"
                 >
                   {pharmacies.map((pharm) => (
-                    <option key={pharm.id} value={pharm.id} className="bg-[#014232] text-white">
+                    <option key={pharm.id} value={pharm.id} className="text-slate-900 bg-white font-medium">
                       {pharm.tradeName} ({pharm.thana})
                     </option>
                   ))}
                 </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-3 pointer-events-none" />
               </div>
             </div>
+
+            {/* Quick Credit Status Indicator */}
+            {currentPharmacy && (
+              <div
+                className={`hidden lg:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-[11px] font-bold border ${
+                  currentPharmacy.isCreditBlocked
+                    ? "bg-red-500/20 text-red-200 border-red-400/40"
+                    : "bg-white/15 text-white border-white/20"
+                }`}
+              >
+                <span className={`w-2 h-2 rounded-full ${currentPharmacy.isCreditBlocked ? "bg-red-400" : "bg-[#34d399]"}`} />
+                <span>৳{(currentPharmacy.creditLimit - currentPharmacy.currentBalance).toLocaleString()} Cr</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Pharmacy Credit Exposure Bar */}
-        {currentPharmacy && (
-          <div className="mt-3 pt-2 border-t border-[#10b981]/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <div className="flex items-center space-x-2">
-              <span className="text-white font-bold">Credit Status:</span>
-              {currentPharmacy.isCreditBlocked ? (
-                <span className="inline-flex items-center px-2 py-0.5 rounded bg-red-900/90 text-white border border-red-400 font-bold gap-1">
-                  <AlertTriangle className="w-3 h-3 text-red-200" /> Account Blocked
-                </span>
-              ) : creditUsedPercent >= 80 ? (
-                <span className="inline-flex items-center px-2 py-0.5 rounded bg-amber-900/90 text-white border border-amber-400 font-bold gap-1">
-                  <AlertTriangle className="w-3 h-3 text-amber-200" /> Limit Critical ({creditUsedPercent}%)
-                </span>
-              ) : (
-                <span className="inline-flex items-center px-2 py-0.5 rounded bg-[#025540] text-white border border-[#34d399] font-bold gap-1">
-                  <ShieldCheck className="w-3 h-3 text-[#6ee7b7]" /> Credit Approved ({creditUsedPercent}% Used)
-                </span>
-              )}
-              <span className="text-emerald-100 font-medium">
-                License: <strong className="text-white">{currentPharmacy.drugLicenseNo}</strong>
-              </span>
-            </div>
+        {/* Mobile Navigation Tabs (Scrollable on small screens) */}
+        <div className="flex md:hidden overflow-x-auto py-2 border-t border-white/10 space-x-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
 
-            <div className="flex items-center space-x-4">
-              <div>
-                <span className="text-emerald-100">Outstanding: </span>
-                <strong className="text-white font-mono">৳{currentPharmacy.currentBalance.toLocaleString()}</strong>
-                <span className="text-emerald-100"> / Limit: </span>
-                <strong className="text-white font-mono">৳{currentPharmacy.creditLimit.toLocaleString()}</strong>
-              </div>
-              <div className="w-24 sm:w-32 bg-[#01382a] h-2.5 rounded-full overflow-hidden border border-[#10b981]/50">
-                <div
-                  className={`h-full transition-all duration-500 ${
-                    creditUsedPercent > 90
-                      ? "bg-red-400"
-                      : creditUsedPercent > 70
-                      ? "bg-amber-300"
-                      : "bg-[#34d399]"
-                  }`}
-                  style={{ width: `${creditUsedPercent}%` }}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#10b981]/30">
-        <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2">
-          {[
-            { id: "order-cutting", label: "Order Cutting POS", icon: Pill },
-            { id: "ai-slip-parser", label: "AI Prescription Slip Parser", icon: Pill, badge: "AI Vision" },
-            { id: "fifo-inspector", label: "Near-Expiry FIFO Inspector", icon: ShieldCheck },
-            { id: "ai-forecast", label: "Demand Forecaster & Spikes", icon: Pill, badge: "AI Trend" },
-            { id: "generic-substitute", label: "Generic Alternatives", icon: Pill },
-            { id: "credit-ledger", label: "Pharmacy Ledger & Settlement", icon: CreditCard },
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
             return (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all duration-200 ${
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-[#025540] text-white border border-[#34d399] shadow-lg shadow-[#10b981]/30 font-bold"
-                    : "text-emerald-100 hover:text-white hover:bg-[#025540]/60"
+                    ? "bg-white text-[#025540] font-bold shadow-sm"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-[#6ee7b7]" : "text-emerald-200"}`} />
-                <span className="text-white">{tab.label}</span>
-                {tab.badge && (
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#10b981]/30 text-white border border-[#34d399]/50 font-bold">
-                    {tab.badge}
-                  </span>
-                )}
+                <Icon className={`w-3 h-3 ${isActive ? "text-[#025540]" : "text-white/80"}`} />
+                <span>{item.label}</span>
               </button>
             );
           })}
-        </nav>
+        </div>
       </div>
     </header>
   );
