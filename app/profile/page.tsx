@@ -121,18 +121,17 @@ export default function ProfilePage() {
         {/* Left Col: User Avatar & Upload Card */}
         <div className="premium-card p-6 flex flex-col items-center text-center space-y-4">
           
-          {/* Avatar Upload Container */}
+          {/* Avatar Upload Container matching user screenshot */}
           <div className="relative group cursor-pointer" onClick={triggerFileInput}>
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-28 h-28 rounded-2xl object-cover ring-4 ring-emerald-500/30 shadow-md group-hover:opacity-90 transition-opacity"
-            />
-            {/* Hover overlay with camera icon */}
-            <div className="absolute inset-0 bg-black/50 rounded-2xl flex flex-col items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-              <Camera className="w-6 h-6 mb-1 text-emerald-300" />
-              <span className="text-[10px] font-bold">Change Image</span>
+            <div className="p-1.5 bg-[#a3e6cd]/25 border-[3px] border-[#a3e6cd] rounded-[28px] shadow-sm transition-all group-hover:border-[#34d399]">
+              <img
+                src={currentUser.avatar}
+                alt={currentUser.name}
+                className="w-32 h-32 rounded-[22px] object-cover group-hover:opacity-90 transition-opacity"
+              />
             </div>
+
+            {/* Dark Green Camera Badge Button (Exact design from screenshot) */}
             <button
               type="button"
               onClick={(e) => {
@@ -140,9 +139,10 @@ export default function ProfilePage() {
                 triggerFileInput();
               }}
               aria-label="Upload photo"
-              className="absolute -bottom-2 -right-2 p-2 bg-[#025540] hover:bg-[#036b51] text-white rounded-xl shadow-lg border border-white transition-transform hover:scale-110"
+              title="Click to upload profile photo"
+              className="absolute -bottom-2 -right-2 p-2.5 bg-[#014232] hover:bg-[#025540] text-white rounded-2xl shadow-xl border-4 border-white transition-transform hover:scale-110 flex items-center justify-center"
             >
-              <Camera className="w-4 h-4" />
+              <Camera className="w-5 h-5 stroke-[2.2]" />
             </button>
           </div>
 

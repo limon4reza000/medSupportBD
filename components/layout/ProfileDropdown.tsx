@@ -73,22 +73,23 @@ export const ProfileDropdown: React.FC = () => {
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="User profile menu"
-          className="flex items-center gap-1.5 p-1 rounded-full hover:ring-2 hover:ring-emerald-400/60 transition-all group relative"
+          className="flex items-center gap-1.5 p-0.5 rounded-xl hover:ring-2 hover:ring-emerald-400/60 transition-all group relative"
         >
-          <img
-            src={currentUser.avatar}
-            alt={currentUser.name}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover ring-2 ring-emerald-400/50 group-hover:scale-105 transition-transform"
-          />
-          
-          {/* Quick Camera Overlay Badge */}
-          <span
-            onClick={triggerFileInput}
-            title="Upload profile picture directly"
-            className="absolute bottom-0 right-0 p-1 bg-[#025540] hover:bg-[#036b51] text-white rounded-full ring-2 ring-white shadow-md transition-transform hover:scale-125 cursor-pointer"
-          >
-            <Camera className="w-2.5 h-2.5" />
-          </span>
+          <div className="relative p-0.5 bg-[#a3e6cd]/20 border-2 border-[#a3e6cd] rounded-xl shadow-sm">
+            <img
+              src={currentUser.avatar}
+              alt={currentUser.name}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover group-hover:scale-105 transition-transform"
+            />
+            {/* Camera Overlay Badge matching screenshot */}
+            <span
+              onClick={triggerFileInput}
+              title="Upload profile picture directly"
+              className="absolute -bottom-1.5 -right-1.5 p-1 bg-[#014232] hover:bg-[#025540] text-white rounded-lg border-2 border-white shadow-md transition-transform hover:scale-110 cursor-pointer"
+            >
+              <Camera className="w-3 h-3 stroke-[2.5]" />
+            </span>
+          </div>
 
           <ChevronDown className="w-3.5 h-3.5 text-emerald-200/80 group-hover:text-white hidden sm:block transition-colors ml-1" />
         </button>
@@ -101,20 +102,20 @@ export const ProfileDropdown: React.FC = () => {
           {/* User & Pharmacy Header with Quick Avatar Upload */}
           <div className="px-3.5 py-3 border-b border-slate-100 bg-slate-50/60 rounded-xl mb-1 flex items-start gap-3">
             
-            {/* Clickable Header Avatar */}
+            {/* Clickable Header Avatar matching screenshot */}
             <div
-              className="relative group cursor-pointer shrink-0"
+              className="relative group cursor-pointer shrink-0 p-0.5 bg-[#a3e6cd]/30 border-2 border-[#a3e6cd] rounded-2xl"
               onClick={triggerFileInput}
               title="Click to upload new photo"
             >
               <img
                 src={currentUser.avatar}
                 alt={currentUser.name}
-                className="w-12 h-12 rounded-xl object-cover ring-2 ring-emerald-500/40 group-hover:opacity-80 transition-opacity"
+                className="w-12 h-12 rounded-xl object-cover group-hover:opacity-80 transition-opacity"
               />
-              <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                <Camera className="w-4 h-4 text-emerald-300" />
-              </div>
+              <span className="absolute -bottom-1.5 -right-1.5 p-1.5 bg-[#014232] text-white rounded-xl border-2 border-white shadow-md">
+                <Camera className="w-3 h-3 stroke-[2.5]" />
+              </span>
             </div>
 
             <div className="flex-1 min-w-0">
