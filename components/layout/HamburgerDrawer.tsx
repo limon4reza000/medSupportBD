@@ -141,6 +141,7 @@ export const HamburgerDrawer: React.FC = () => {
         { label: "Reports", href: "/reports", icon: FileBarChart2 },
         { label: "Notifications", href: "/notifications", icon: Bell, badge: unreadNotifs > 0 ? `${unreadNotifs}` : undefined },
         { label: "Profile", href: "/profile", icon: Users },
+        { label: "Security Center", href: "/security", icon: ShieldCheck },
         { label: "Settings", href: "/settings", icon: Settings },
         { label: "Support", href: "/support", icon: HelpCircle },
       ],

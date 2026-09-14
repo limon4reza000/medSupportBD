@@ -14,6 +14,7 @@ import {
   Upload,
   CheckCircle2,
   X,
+  ShieldCheck,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -70,6 +71,7 @@ export const ProfileDropdown: React.FC = () => {
 
   const dropdownMenuItems = [
     { label: "My Profile", href: "/profile", icon: User },
+    { label: "Security & Login", href: "/security", icon: ShieldCheck },
     { label: "Settings", href: "/settings", icon: Settings },
     { label: "Transactions", href: "/transactions", icon: Receipt },
   ];
