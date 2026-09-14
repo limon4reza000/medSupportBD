@@ -132,15 +132,15 @@ export const HamburgerDrawer: React.FC = () => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in"
         onClick={closeDrawer}
       />
 
-      {/* Drawer Panel */}
-      <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-900 animate-in slide-in-from-left duration-250">
+      {/* Drawer Panel (Right Side Slide-In) */}
+      <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-900 animate-in slide-in-from-right duration-250">
         
         {/* Header with User Profile Section */}
         <div className="p-4 bg-gradient-to-b from-[#014232] to-[#025540] text-white">

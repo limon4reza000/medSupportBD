@@ -16,19 +16,9 @@ export const AppNavbar: React.FC = () => {
         <div className="flex items-center justify-between h-[60px] md:h-[72px] gap-3">
           
           {/* =================================================================== */}
-          {/* LEFT SECTION: Hamburger Menu (Always Visible) + SaaS Brand Logo     */}
+          {/* LEFT SECTION: SaaS Brand Logo & Healthcare Tagline                   */}
           {/* =================================================================== */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-            {/* Hamburger Button (Always visible on all screens per spec) */}
-            <button
-              onClick={() => setIsMobileNavOpen(true)}
-              aria-label="Open navigation drawer"
-              className="p-2 rounded-xl text-emerald-100 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"
-            >
-              <Menu className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2]" />
-            </button>
-
-            {/* Brand Logo & Healthcare Tagline */}
+          <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-emerald-400 to-teal-200 flex items-center justify-center text-[#01382a] shadow-md group-hover:scale-105 transition-transform">
                 <Package className="w-5 h-5 stroke-[2.5]" />
@@ -65,7 +55,7 @@ export const AppNavbar: React.FC = () => {
           </div>
 
           {/* =================================================================== */}
-          {/* RIGHT SECTION: Only Notification Bell + User Profile Avatar         */}
+          {/* RIGHT SECTION: Notification Bell | Profile Avatar | Hamburger Menu  */}
           {/* =================================================================== */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Notification Bell Dropdown */}
@@ -73,6 +63,15 @@ export const AppNavbar: React.FC = () => {
 
             {/* User Profile Avatar Dropdown */}
             <ProfileDropdown />
+
+            {/* Hamburger Button (Positioned at the right side of the profile avatar per user request) */}
+            <button
+              onClick={() => setIsMobileNavOpen(true)}
+              aria-label="Open navigation drawer"
+              className="p-2 rounded-xl text-emerald-100 hover:text-white hover:bg-white/10 transition-colors focus:outline-none border border-emerald-500/30 bg-[#025540]/60"
+            >
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2]" />
+            </button>
           </div>
 
         </div>
