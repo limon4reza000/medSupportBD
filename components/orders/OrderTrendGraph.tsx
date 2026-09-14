@@ -266,29 +266,44 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
   ];
 
   return (
-    <div className="w-full bg-[#7C3AED]/10 p-4 sm:p-6 rounded-3xl space-y-6">
+    <div className="w-full bg-[#7C3AED]/10 p-2 sm:p-4 md:p-6 rounded-2xl sm:rounded-3xl space-y-4 sm:space-y-6">
       
       {/* Outer Dashboard Card Wrapper (Pure White Container) */}
-      <div className="bg-white rounded-2xl p-6 shadow-xl border border-slate-200/80 space-y-6 text-slate-900">
+      <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border border-slate-200/80 space-y-5 sm:space-y-6 text-slate-900 overflow-hidden">
         
+        {/* Header Title */}
+        <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
+          <div className="p-2 rounded-xl bg-purple-600 text-white shadow-sm flex-shrink-0">
+            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+          </div>
+          <div>
+            <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 leading-tight">
+              {title}
+            </h3>
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
+              Live Territory Procurement Velocity & Sales Intelligence
+            </p>
+          </div>
+        </div>
+
         {/* ================= TOP ROW: Radial Gauges & Bar Metric Cards ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pb-6 border-b border-slate-100">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-center pb-5 sm:pb-6 border-b border-slate-100">
           
           {/* 4 Circular Radial Progress Gauges (Top Left) */}
-          <div className="lg:col-span-4 flex items-center justify-between sm:justify-start gap-4">
+          <div className="lg:col-span-4 grid grid-cols-4 gap-1.5 sm:gap-4 w-full justify-items-center">
             {[
               { val: "66", color: "border-rose-500 text-rose-600", label: "CLINICAL" },
               { val: "78", color: "border-emerald-500 text-emerald-600", label: "FULFILL" },
               { val: "58", color: "border-purple-500 text-purple-600", label: "DISPENSE" },
               { val: "94", color: "border-amber-500 text-amber-600", label: "RECOVERY" },
             ].map((g, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-1.5">
+              <div key={idx} className="flex flex-col items-center gap-1">
                 <div
-                  className={`w-14 h-14 rounded-full border-4 ${g.color} flex items-center justify-center bg-slate-50 shadow-inner font-black text-sm`}
+                  className={`w-11 h-11 sm:w-14 sm:h-14 rounded-full border-2 sm:border-4 ${g.color} flex items-center justify-center bg-slate-50 shadow-inner font-black text-xs sm:text-sm`}
                 >
                   {g.val}
                 </div>
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
+                <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-tighter text-center">
                   {g.label}
                 </span>
               </div>
@@ -296,7 +311,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           {/* Middle Progress Segment Tracks (Top Middle) */}
-          <div className="lg:col-span-4 space-y-2 px-2 border-y lg:border-y-0 lg:border-x border-slate-100 py-3 lg:py-0">
+          <div className="lg:col-span-4 space-y-2 px-1 sm:px-2 border-y lg:border-y-0 lg:border-x border-slate-100 py-3 lg:py-0">
             <div className="flex items-center justify-between text-xs font-black">
               <span className="text-slate-400 text-[10px]">ADOLESCENS QUI</span>
               <div className="flex items-center gap-1 text-slate-900 font-mono">
@@ -305,7 +320,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </div>
             </div>
             {/* Segmented bar */}
-            <div className="flex gap-1 h-2">
+            <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
               {Array.from({ length: 24 }).map((_, i) => (
                 <div
                   key={i}
@@ -323,7 +338,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <span>9 478</span>
               </div>
             </div>
-            <div className="flex gap-1 h-2">
+            <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
               {Array.from({ length: 24 }).map((_, i) => (
                 <div
                   key={i}
@@ -341,7 +356,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <span>15 323</span>
               </div>
             </div>
-            <div className="flex gap-1 h-2">
+            <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
               {Array.from({ length: 24 }).map((_, i) => (
                 <div
                   key={i}
@@ -354,22 +369,22 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           {/* Metric Bar Summary Columns (Top Right) */}
-          <div className="lg:col-span-4 flex items-center justify-around">
+          <div className="lg:col-span-4 grid grid-cols-3 gap-2 sm:flex sm:justify-around w-full">
             {[
               { val: "234", bars: [4, 7, 3, 9, 6, 8, 10] },
               { val: "457", bars: [6, 10, 8, 7, 9, 5, 8] },
               { val: "315", bars: [5, 6, 8, 4, 7, 9, 6] },
             ].map((col, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-2">
-                <span className="text-xl font-black font-mono text-slate-900 tracking-tight">
+              <div key={idx} className="flex flex-col items-center gap-1.5">
+                <span className="text-base sm:text-xl font-black font-mono text-slate-900 tracking-tight">
                   {col.val}
                 </span>
-                <div className="flex items-end gap-1 h-8">
+                <div className="flex items-end gap-1 h-7 sm:h-8">
                   {col.bars.map((h, bIdx) => (
                     <div
                       key={bIdx}
-                      className="w-1.5 bg-emerald-500 rounded-t-sm"
-                      style={{ height: `${h * 3}px` }}
+                      className="w-1 sm:w-1.5 bg-emerald-500 rounded-t-sm"
+                      style={{ height: `${h * 2.5}px` }}
                     />
                   ))}
                 </div>
@@ -380,12 +395,12 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
         </div>
 
         {/* ================= MIDDLE ROW: Donut Chart & Purple Smooth Wave Chart ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
           
           {/* Left Column: Multi-Segment Donut Chart */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center p-4 bg-slate-50/60 rounded-2xl border border-slate-100 space-y-4">
+          <div className="lg:col-span-4 flex flex-col items-center justify-center p-3 sm:p-4 bg-slate-50/60 rounded-2xl border border-slate-100 space-y-4 w-full">
             
-            <div className="relative w-48 h-48 flex items-center justify-center select-none">
+            <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center select-none">
               <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
                 {/* Segment 1: Yellow */}
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#F59E0B" strokeWidth="16" strokeDasharray="40 200" strokeDashoffset="0" />
@@ -403,20 +418,20 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
               {/* Center hole with Compact Month Switcher (< Month >) - Fits 100% inside circle */}
               <div className="absolute inset-0 flex items-center justify-center p-2">
-                <div className="flex items-center justify-between w-[108px] font-black text-slate-900 text-[11px] bg-white px-2 py-1 rounded-full shadow-md border border-slate-200 transition-all select-none">
+                <div className="flex items-center justify-between w-[100px] sm:w-[108px] font-black text-slate-900 text-[10px] sm:text-[11px] bg-white px-1.5 sm:px-2 py-1 rounded-full shadow-md border border-slate-200 transition-all select-none">
                   <button
                     onClick={handlePrevMonth}
                     title="Previous Month"
                     className="p-0.5 rounded-full hover:bg-purple-100 text-purple-700 transition-colors flex-shrink-0"
                   >
-                    <ChevronLeft className="w-3.5 h-3.5 stroke-[3]" />
+                    <ChevronLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
                   </button>
                   
                   {/* Selectable Month Dropdown / Display */}
                   <select
                     value={monthIndex}
                     onChange={(e) => setMonthIndex(Number(e.target.value))}
-                    className="bg-transparent font-black text-slate-900 text-[11px] focus:outline-none cursor-pointer text-center appearance-none px-0.5"
+                    className="bg-transparent font-black text-slate-900 text-[10px] sm:text-[11px] focus:outline-none cursor-pointer text-center appearance-none px-0.5"
                   >
                     {months.map((m, idx) => (
                       <option key={m} value={idx}>
@@ -430,29 +445,29 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                     title="Next Month"
                     className="p-0.5 rounded-full hover:bg-purple-100 text-purple-700 transition-colors flex-shrink-0"
                   >
-                    <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
+                    <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Donut Legend Items (Dynamically updating according to selected Month) */}
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs font-mono w-full px-2">
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs font-mono w-full px-1">
               {activeData.segments.map((s, idx) => (
                 <div key={idx} className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
-                    <span className="text-[11px] font-bold text-slate-500">{s.label}</span>
+                  <div className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
+                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 truncate max-w-[70px] sm:max-w-none">{s.label}</span>
                   </div>
-                  <span className="font-bold text-slate-900">{s.value}</span>
+                  <span className="font-bold text-slate-900 text-[10px] sm:text-xs">{s.value}</span>
                 </div>
               ))}
             </div>
 
             {/* Total Revenue KPI Pill (Dynamically updating) */}
             <div className="pt-2 w-full flex items-center justify-between border-t border-slate-200">
-              <span className="text-xl font-black font-mono text-slate-900">{activeData.totalRevenue}</span>
-              <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full uppercase">
+              <span className="text-base sm:text-xl font-black font-mono text-slate-900">{activeData.totalRevenue}</span>
+              <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase">
                 {activeData.growth} Growth
               </span>
             </div>
@@ -460,24 +475,30 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           {/* Right Column: Purple Smooth Wave Area Graph (FERRILAT) */}
-          <div className="lg:col-span-8 space-y-3">
+          <div className="lg:col-span-8 space-y-3 w-full min-w-0">
             
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
               <div>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight">FERRILAT / PROCUREMENT</h3>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <h3 className="text-base sm:text-xl font-black text-slate-900 tracking-tight">
+                  FERRILAT / PROCUREMENT
+                </h3>
+                <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
                   Demand Velocity for <span className="font-bold text-purple-700">{currentMonthName} 2026</span>
                 </p>
               </div>
-              <div className="text-right">
-                <span className="text-2xl font-black font-mono text-purple-700">{activeData.peakValue}</span>
-                <p className="text-[10px] font-bold text-slate-400 uppercase">MONTHLY UNITS</p>
+              <div className="flex items-center sm:flex-col justify-between sm:text-right">
+                <span className="text-lg sm:text-2xl font-black font-mono text-purple-700">
+                  {activeData.peakValue}
+                </span>
+                <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase">
+                  MONTHLY UNITS
+                </p>
               </div>
             </div>
 
-            {/* Smooth SVG Wavy Area Graph */}
-            <div className="w-full overflow-x-auto">
-              <div className="min-w-[780px] p-2">
+            {/* Smooth SVG Wavy Area Graph (Mobile Scrollable) */}
+            <div className="w-full overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/40">
+              <div className="min-w-[700px] sm:min-w-[780px] p-2">
                 <svg viewBox="0 0 800 220" className="w-full h-auto overflow-visible select-none">
                   <defs>
                     <linearGradient id="purpleAreaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -541,29 +562,31 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
         </div>
 
         {/* ================= BOTTOM ROW: Capsule Bars, Mini Sparklines, Step Counters ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-6 border-t border-slate-100">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 pt-5 sm:pt-6 border-t border-slate-100">
           
           {/* Left: Capsule Bar Chart (Teal Vertical Pill Bars) */}
-          <div className="lg:col-span-5 space-y-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-            <div className="flex items-center justify-between h-28 px-2">
-              {capsuleHeights.map((h, i) => (
-                <div key={i} className="flex flex-col items-center gap-1.5 h-full justify-end">
-                  <div
-                    className="w-3 bg-emerald-500 rounded-full transition-all"
-                    style={{ height: `${h}%` }}
-                  />
-                  <span className="text-[9px] font-bold text-slate-400">{String(i + 1).padStart(2, "0")}</span>
-                </div>
-              ))}
+          <div className="lg:col-span-5 space-y-3 bg-slate-50/50 p-3 sm:p-4 rounded-2xl border border-slate-100 w-full">
+            <div className="overflow-x-auto pb-1">
+              <div className="flex items-center justify-between min-w-[280px] h-24 sm:h-28 px-1 sm:px-2">
+                {capsuleHeights.map((h, i) => (
+                  <div key={i} className="flex flex-col items-center gap-1 h-full justify-end">
+                    <div
+                      className="w-2.5 sm:w-3 bg-emerald-500 rounded-full transition-all"
+                      style={{ height: `${h}%` }}
+                    />
+                    <span className="text-[8px] sm:text-[9px] font-bold text-slate-400">{String(i + 1).padStart(2, "0")}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Filter Pill Buttons */}
-            <div className="flex flex-wrap items-center justify-around gap-1 pt-2 border-t border-slate-200">
+            <div className="flex flex-wrap items-center justify-center sm:justify-around gap-1.5 pt-2 border-t border-slate-200">
               {["APEIRIAN", "DESET", "FACETE", "LATINEUS"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-3 py-1 rounded-full text-[10px] font-black transition-all ${
+                  className={`px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black transition-all ${
                     activeCategory === cat
                       ? "bg-emerald-600 text-white shadow-sm"
                       : "bg-slate-200 text-slate-600 hover:bg-slate-300"
@@ -576,11 +599,11 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           {/* Middle: Mini Sparkline Waves & Metrics */}
-          <div className="lg:col-span-4 flex items-center justify-around p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+          <div className="lg:col-span-4 flex items-center justify-between sm:justify-around p-3 sm:p-4 bg-slate-50/50 rounded-2xl border border-slate-100 gap-2">
             <div className="space-y-1 text-center font-mono">
-              <div className="text-sm font-black text-slate-900">4567</div>
-              <div className="text-sm font-black text-slate-900">6683</div>
-              <div className="text-sm font-black text-slate-900">2876</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">4567</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">6683</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">2876</div>
             </div>
 
             {/* 3 Red/Rose Sparkline Curves */}
@@ -590,22 +613,22 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 "M 0 10 Q 15 20, 30 5 T 60 10",
                 "M 0 10 Q 15 5, 30 15 T 60 10",
               ].map((dStr, idx) => (
-                <svg key={idx} width="60" height="20" className="overflow-visible">
+                <svg key={idx} width="48" height="18" className="overflow-visible">
                   <path d={dStr} fill="none" stroke="#EF4444" strokeWidth="2" />
                 </svg>
               ))}
             </div>
 
             {/* Vertical Mini Columns with Numbers 78, 65, 98 */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               {[
                 { num: "78", h: 70 },
                 { num: "65", h: 55 },
                 { num: "98", h: 90 },
               ].map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-1">
-                  <span className="text-xs font-black font-mono text-slate-900">{item.num}</span>
-                  <div className="w-2 bg-emerald-500 rounded-t-sm h-12 flex items-end">
+                  <span className="text-[10px] sm:text-xs font-black font-mono text-slate-900">{item.num}</span>
+                  <div className="w-1.5 sm:w-2 bg-emerald-500 rounded-t-sm h-10 sm:h-12 flex items-end">
                     <div className="w-full bg-emerald-600 rounded-t-sm" style={{ height: `${item.h}%` }} />
                   </div>
                 </div>
@@ -614,22 +637,22 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           {/* Right: Step Counter Badges & Final Revenue Pill */}
-          <div className="lg:col-span-3 flex flex-col justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-3">
+          <div className="lg:col-span-3 flex flex-col justify-between p-3 sm:p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-3">
             <div className="flex items-center justify-between">
               <div className="font-mono font-black text-[#7C3AED]">
-                <span className="text-lg text-slate-900">268</span>
-                <span className="mx-2 text-slate-300">|</span>
-                <span className="text-lg text-purple-700">946</span>
+                <span className="text-base sm:text-lg text-slate-900">268</span>
+                <span className="mx-1.5 text-slate-300">|</span>
+                <span className="text-base sm:text-lg text-purple-700">946</span>
               </div>
-              <span className="text-sm font-black font-mono text-emerald-700">৳3,809.50</span>
+              <span className="text-xs sm:text-sm font-black font-mono text-emerald-700">৳3,809.50</span>
             </div>
 
             {/* Numbered Step Circles (01 to 05) */}
-            <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center justify-between gap-1 overflow-x-auto pt-1">
               {["01", "02", "03", "04", "05"].map((num, idx) => (
                 <div
                   key={idx}
-                  className={`w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center border ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[9px] sm:text-[10px] font-black flex items-center justify-center border flex-shrink-0 ${
                     idx === 0
                       ? "bg-purple-600 text-white border-purple-600"
                       : "bg-white text-slate-600 border-slate-300"
@@ -642,7 +665,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
             {/* Mini Pink Wave Curve at bottom right */}
             <div className="w-full flex justify-center">
-              <svg width="120" height="16" viewBox="0 0 120 16">
+              <svg width="100" height="14" viewBox="0 0 120 16">
                 <path
                   d="M 0 10 Q 15 2, 30 10 T 60 10 T 90 4 T 120 10"
                   fill="none"
