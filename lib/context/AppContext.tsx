@@ -134,6 +134,8 @@ interface AppContextType {
   markAllNotificationsRead: () => void;
   refreshData: () => Promise<void>;
   setCurrentUserRole: (role: UserRole) => void;
+  updateUserAvatar: (avatarUrl: string) => void;
+  updateUserProfile: (data: Partial<{ name: string; email: string; avatar: string }>) => void;
 }
 
 const initialOrdersSeed: AppOrder[] = [
@@ -410,6 +412,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
+  const updateUserAvatar = (avatarUrl: string) => {
+    setCurrentUser((prev) => ({ ...prev, avatar: avatarUrl }));
+  };
+
+  const updateUserProfile = (data: Partial<{ name: string; email: string; avatar: string }>) => {
+    setCurrentUser((prev) => ({ ...prev, ...data }));
+  };
+
   const setCurrentUserRole = (role: UserRole) => {
     setCurrentUser((prev) => ({
       ...prev,
@@ -557,6 +567,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         markAllNotificationsRead,
         refreshData,
         setCurrentUserRole,
+        updateUserAvatar,
+        updateUserProfile,
       }}
     >
       {children}
