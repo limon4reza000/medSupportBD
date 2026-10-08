@@ -54,6 +54,7 @@ export interface CartItem {
   medicineId: string;
   orderedUnit: PackagingUnit;
   orderedQty: number;
+  medicine?: IMedicine;
 }
 
 export interface CalculatedCartItem extends CartItem {
@@ -1005,6 +1006,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // B2B Cart Management
   // ---------------------------------------------------------------------------
   const addToCart = (item: CartItem) => {
+    if (item.medicine) {
+      setMedicines((prev) => {
+        if (!prev.some((m) => m.id === item.medicineId)) {
+          return [item.medicine!, ...prev];
+        }
+        return prev;
+      });
+    }
+
     setCart((prev) => {
       const existing = prev.find(
         (c) => c.medicineId === item.medicineId && c.orderedUnit === item.orderedUnit
