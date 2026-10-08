@@ -178,7 +178,7 @@ export const SearchCommand: React.FC = () => {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search 41,000+ medicines by brand, generic, manufacturer, SKU (e.g. Napa, Paracetamol, Seclo)..."
+            placeholder="Search medicine..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-transparent text-sm sm:text-base lg:text-lg text-slate-900 placeholder-slate-400 outline-none font-medium"

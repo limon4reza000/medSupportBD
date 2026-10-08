@@ -34,18 +34,15 @@ export const TopHeaderBar: React.FC = () => {
           <div
             onClick={() => setIsSearchOpen(true)}
             className="relative flex-1 w-full flex items-center bg-white hover:bg-slate-50/90 cursor-pointer border border-slate-200/90 hover:border-emerald-500 rounded-2xl px-4 py-2.5 sm:py-3 shadow-xs hover:shadow-md transition-all group"
-            title="Click to search 41,000+ medicines, orders, customers"
+            title="Search medicine"
           >
             <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:text-emerald-600 transition-colors mr-3 shrink-0" />
             <input
               type="text"
               readOnly
-              placeholder="Search medicines, generics, brands, orders, customers (41,000+ items)..."
-              className="w-full bg-transparent text-xs sm:text-sm md:text-base text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium"
+              placeholder="Search medicine"
+              className="w-full bg-transparent text-sm sm:text-base text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium"
             />
-            <kbd className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono text-slate-500 bg-slate-100 rounded-lg border border-slate-200 shadow-2xs shrink-0 ml-2 group-hover:border-emerald-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
-              <span className="text-[12px]">⌘</span>K
-            </kbd>
           </div>
         </div>
 
