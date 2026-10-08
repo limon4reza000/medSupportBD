@@ -227,9 +227,9 @@ export default function HomePage() {
             {/* Right Side: 3D Medicine Bottle Illustration */}
             <div className="relative shrink-0 flex items-center justify-center md:justify-end">
               <img
-                src="/images/hero-medicine.jpg"
+                src="/images/hero-medicine.png"
                 alt="3D Medicine Protection"
-                className="w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500 rounded-3xl"
+                className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] transform hover:scale-105 transition-transform duration-500 pointer-events-none select-none"
               />
             </div>
           </div>
@@ -453,8 +453,9 @@ export default function HomePage() {
               desc: "Fast billing, returns and thermal printing.",
               href: "/pos",
               btnText: "Open POS",
-              image: "/images/module-pos.jpg",
+              image: "/images/module-pos.png",
               iconBg: "bg-emerald-500",
+              cardBg: "bg-[#ebfbf3] border-[#cbf0dd] hover:border-emerald-400 hover:shadow-emerald-100/50",
               icon: ShoppingCart,
             },
             {
@@ -462,8 +463,9 @@ export default function HomePage() {
               desc: "Batch tracking, expiry alerts and stock control.",
               href: "/inventory",
               btnText: "Manage Stock",
-              image: "/images/module-stock.jpg",
+              image: "/images/module-stock.png",
               iconBg: "bg-blue-500",
+              cardBg: "bg-[#edf6ff] border-[#d4e7fe] hover:border-blue-400 hover:shadow-blue-100/50",
               icon: Boxes,
             },
             {
@@ -471,8 +473,9 @@ export default function HomePage() {
               desc: "Send orders to manufacturers via app.",
               href: "/distributor-orders",
               btnText: "Create Order",
-              image: "/images/module-truck.jpg",
+              image: "/images/module-truck.png",
               iconBg: "bg-orange-500",
+              cardBg: "bg-[#fff7ee] border-[#fedcc2] hover:border-orange-400 hover:shadow-orange-100/50",
               icon: Truck,
             },
             {
@@ -480,8 +483,9 @@ export default function HomePage() {
               desc: "Baki khata, customer ledger & SMS alerts.",
               href: "/customer-due",
               btnText: "View Customers",
-              image: "/images/module-customer.jpg",
+              image: "/images/module-customer.png",
               iconBg: "bg-pink-500",
+              cardBg: "bg-[#fef2f6] border-[#fcd5e5] hover:border-pink-400 hover:shadow-pink-100/50",
               icon: User,
             },
             {
@@ -489,8 +493,9 @@ export default function HomePage() {
               desc: "Attendance, salary and auto payroll.",
               href: "/employees",
               btnText: "Manage Staff",
-              image: "/images/module-staff.jpg",
+              image: "/images/module-staff.png",
               iconBg: "bg-purple-500",
+              cardBg: "bg-[#f7f2fe] border-[#eddcff] hover:border-purple-400 hover:shadow-purple-100/50",
               icon: Users,
             },
             {
@@ -498,8 +503,9 @@ export default function HomePage() {
               desc: "Sales trends, top brands and net profit insights.",
               href: "/reports",
               btnText: "View Reports",
-              image: "/images/module-reports.jpg",
+              image: "/images/module-reports.png",
               iconBg: "bg-cyan-500",
+              cardBg: "bg-[#edf8fd] border-[#d2f0fd] hover:border-cyan-400 hover:shadow-cyan-100/50",
               icon: BarChart3,
             },
             {
@@ -507,8 +513,9 @@ export default function HomePage() {
               desc: "Rent, electricity, OPEX and full expense tracking.",
               href: "/expenses",
               btnText: "Track Expenses",
-              image: "/images/module-expenses.jpg",
+              image: "/images/module-expenses.png",
               iconBg: "bg-amber-500",
+              cardBg: "bg-[#fff9ea] border-[#fef2b8] hover:border-amber-400 hover:shadow-amber-100/50",
               icon: DollarSign,
             },
             {
@@ -516,15 +523,16 @@ export default function HomePage() {
               desc: "Private territory management for field team.",
               href: "/mr-portal",
               btnText: "Open Portal",
-              image: "/images/module-mr.jpg",
+              image: "/images/module-mr.png",
               iconBg: "bg-blue-600",
+              cardBg: "bg-[#edf6fd] border-[#d1e7fd] hover:border-blue-400 hover:shadow-blue-100/50",
               icon: Briefcase,
             },
           ].map((mod) => (
             <Link
               key={mod.href}
               href={mod.href}
-              className="bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-emerald-400 hover:shadow-lg transition-all flex items-center justify-between gap-3 group relative overflow-hidden"
+              className={`${mod.cardBg} rounded-2xl p-4 border hover:shadow-lg transition-all flex items-center justify-between gap-3 group relative overflow-hidden`}
             >
               <div className="flex-1 space-y-1 z-10">
                 <div className="flex items-center gap-2">
