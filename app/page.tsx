@@ -219,69 +219,6 @@ export default function HomePage() {
               />
             </div>
           </div>
-
-          {/* Quick Action Buttons */}
-          <div className="relative z-10 mt-6 pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <Link
-              href="/pos"
-              className="p-3 rounded-2xl bg-[#00c48c]/20 hover:bg-[#00c48c]/30 border border-[#00c48c]/30 text-white transition-all flex items-center gap-3 group"
-            >
-              <div className="w-9 h-9 rounded-xl bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-sm">
-                <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
-              </div>
-              <div className="truncate">
-                <div className="text-xs font-black truncate">Daily Sales (POS)</div>
-                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
-                  Start New Sale <ArrowRight className="w-2.5 h-2.5" />
-                </div>
-              </div>
-            </Link>
-
-            <button
-              onClick={() => setIsQuickOrderOpen(true)}
-              className="p-3 rounded-2xl bg-[#10b981]/25 hover:bg-[#10b981]/35 border border-[#10b981]/40 text-white transition-all flex items-center gap-3 text-left group"
-            >
-              <div className="w-9 h-9 rounded-xl bg-[#10b981] text-white flex items-center justify-center shrink-0 shadow-sm">
-                <Zap className="w-4 h-4 fill-current stroke-[2.5]" />
-              </div>
-              <div className="truncate">
-                <div className="text-xs font-black truncate">Fast Order</div>
-                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
-                  Create Order <ArrowRight className="w-2.5 h-2.5" />
-                </div>
-              </div>
-            </button>
-
-            <Link
-              href="/ai-order"
-              className="p-3 rounded-2xl bg-purple-600/30 hover:bg-purple-600/40 border border-purple-400/30 text-white transition-all flex items-center gap-3 group"
-            >
-              <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-                <Sparkles className="w-4 h-4 stroke-[2.5]" />
-              </div>
-              <div className="truncate">
-                <div className="text-xs font-black truncate">AI Slip Parser</div>
-                <div className="text-[10px] text-purple-200/80 font-medium flex items-center gap-0.5">
-                  Upload & Process <ArrowRight className="w-2.5 h-2.5" />
-                </div>
-              </div>
-            </Link>
-
-            <button
-              onClick={() => setIsSearchOpen(true)}
-              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-all flex items-center gap-3 text-left group"
-            >
-              <div className="w-9 h-9 rounded-xl bg-emerald-700/60 text-white flex items-center justify-center shrink-0 shadow-sm">
-                <Search className="w-4 h-4 stroke-[2.5]" />
-              </div>
-              <div className="truncate">
-                <div className="text-xs font-black truncate">Search Medicines</div>
-                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
-                  Quick Lookup <ArrowRight className="w-2.5 h-2.5" />
-                </div>
-              </div>
-            </button>
-          </div>
         </div>
 
         {/* =================================================================== */}
@@ -396,6 +333,87 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* =================================================================== */}
+      {/* ⚡ STANDALONE QUICK ACTIONS (4 Core Operations)                     */}
+      {/* =================================================================== */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* 1. Daily Sales (POS) */}
+        <Link
+          href="/pos"
+          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 group"
+        >
+          <div className="w-11 h-11 rounded-2xl bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
+            <ShoppingCart className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div className="truncate">
+            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
+              Daily Sales (POS)
+            </div>
+            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
+              <span>Start New Sale</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </Link>
+
+        {/* 2. Fast Order */}
+        <button
+          onClick={() => setIsQuickOrderOpen(true)}
+          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 text-left group"
+        >
+          <div className="w-11 h-11 rounded-2xl bg-[#10b981] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
+            <Zap className="w-5 h-5 fill-current stroke-[2.5]" />
+          </div>
+          <div className="truncate">
+            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
+              Fast Order
+            </div>
+            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
+              <span>Create Order</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </button>
+
+        {/* 3. AI Slip Parser */}
+        <Link
+          href="/ai-order"
+          className="p-4 rounded-2xl bg-white hover:bg-purple-50/50 border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 group"
+        >
+          <div className="w-11 h-11 rounded-2xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-900/15 group-hover:scale-105 transition-transform">
+            <Sparkles className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div className="truncate">
+            <div className="text-sm font-black text-slate-900 group-hover:text-purple-950 transition-colors truncate">
+              AI Slip Parser
+            </div>
+            <div className="text-xs text-purple-700 font-semibold flex items-center gap-1 mt-0.5">
+              <span>Upload & Process</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </Link>
+
+        {/* 4. Search Medicines */}
+        <button
+          onClick={() => setIsSearchOpen(true)}
+          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 text-left group"
+        >
+          <div className="w-11 h-11 rounded-2xl bg-[#025540] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-950/20 group-hover:scale-105 transition-transform">
+            <Search className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div className="truncate">
+            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
+              Search Medicines
+            </div>
+            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
+              <span>Quick Lookup</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </button>
       </div>
 
       {/* =================================================================== */}
