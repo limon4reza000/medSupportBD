@@ -33,6 +33,7 @@ import {
   Activity,
   Calendar,
   LucideIcon,
+  Globe,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -60,7 +61,13 @@ export const MobileDrawer: React.FC = () => {
     cartItemCount,
     orders,
     notifications,
+    language,
+    setLanguage,
   } = useApp();
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "bn" : "en");
+  };
 
   const unreadNotifs = notifications.filter((n) => !n.isRead).length;
   const activeOrdersCount = orders.filter(
@@ -233,12 +240,28 @@ export const MobileDrawer: React.FC = () => {
           ))}
         </div>
 
-        {/* Footer with Logout */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50">
+        {/* Footer with Language Toggle & Logout */}
+        <div className="p-4 border-t border-slate-100 bg-slate-50 space-y-2.5">
+          {/* Language Toggle Button */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-950 text-xs font-bold transition-all border border-slate-200 hover:border-emerald-300 shadow-sm group"
+            title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
+          >
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+              <span>Language / ভাষা</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-[11px] font-black border border-emerald-200">
+              <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
+            </div>
+          </button>
+
+          {/* Sign Out */}
           <Link
             href="/login"
             onClick={closeDrawer}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors border border-rose-200"
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors border border-rose-200 shadow-sm"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out from MedSupply</span>

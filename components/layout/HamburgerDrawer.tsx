@@ -35,6 +35,7 @@ import {
   LucideIcon,
   Camera,
   Pill,
+  Globe,
 } from "lucide-react";
 import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 import { useApp } from "@/lib/context/AppContext";
@@ -63,7 +64,13 @@ export const HamburgerDrawer: React.FC = () => {
     cartItemCount,
     orders,
     notifications,
+    language,
+    setLanguage,
   } = useApp();
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "bn" : "en");
+  };
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -260,12 +267,28 @@ export const HamburgerDrawer: React.FC = () => {
           ))}
         </div>
 
-        {/* Sign Out Footer */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50">
+        {/* Sign Out & Language Toggle Footer */}
+        <div className="p-4 border-t border-slate-100 bg-slate-50 space-y-2.5">
+          {/* Language Toggle Button (English / বাংলা) */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-950 text-xs font-bold transition-all border border-slate-200 hover:border-emerald-300 shadow-sm group"
+            title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
+          >
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+              <span>Language / ভাষা</span>
+            </div>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-[11px] font-black border border-emerald-200 group-hover:bg-emerald-200/70 transition-colors">
+              <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
+            </div>
+          </button>
+
+          {/* Sign Out Button */}
           <Link
             href="/login"
             onClick={closeDrawer}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors border border-rose-200"
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-colors border border-rose-200 shadow-sm"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

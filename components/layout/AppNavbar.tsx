@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Menu, Search, ShoppingCart, Globe, Wifi, WifiOff, RefreshCw } from "lucide-react";
+import { Menu, Search, ShoppingCart, Wifi, WifiOff, RefreshCw } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { NotificationMenu } from "@/components/layout/NotificationMenu";
 import { HelpDropdown } from "@/components/layout/HelpDropdown";
@@ -13,17 +13,11 @@ export const AppNavbar: React.FC = () => {
   const {
     setIsSearchOpen,
     setIsMobileNavOpen,
-    language,
-    setLanguage,
     isOnline,
     setIsOnline,
     offlineQueueCount,
     syncOfflineQueue,
   } = useApp();
-
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "bn" : "en");
-  };
 
   const toggleOfflineSimulation = () => {
     setIsOnline(!isOnline);
@@ -83,15 +77,6 @@ export const AppNavbar: React.FC = () => {
               <span className="hidden sm:inline">POS Sales</span>
             </Link>
 
-            {/* Language Toggle Button (BN / EN) */}
-            <button
-              onClick={toggleLanguage}
-              className="px-2.5 py-1.5 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all flex items-center gap-1"
-              title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
-            >
-              <Globe className="w-3.5 h-3.5 text-emerald-300" />
-              <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
-            </button>
 
             {/* Offline / Online Status Badge & Toggle */}
             <button
