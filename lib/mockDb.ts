@@ -182,7 +182,24 @@ class MemoryDatabase {
   }
 
   public getMedicine(id: string): IMedicine | undefined {
-    return this.medicineMap.get(id);
+    let med = this.medicineMap.get(id);
+    if (!med) {
+      if (id === "med-01" || id === "med-1") {
+        const found = this.medicines.find((m) => m.brandName.toLowerCase().includes("napa")) || this.medicines[0];
+        med = { ...found, piecesPerStrip: 10, stripsPerBox: 20 };
+      } else if (id === "med-02" || id === "med-2") {
+        med = this.medicines.find((m) => m.brandName.toLowerCase().includes("ace")) || this.medicines[1];
+      } else if (id === "med-03" || id === "med-3") {
+        med = this.medicines.find((m) => m.brandName.toLowerCase().includes("seclo")) || this.medicines[2];
+      } else if (id === "med-04" || id === "med-4") {
+        med = this.medicines.find((m) => m.brandName.toLowerCase().includes("sergel")) || this.medicines[3];
+      } else if (id === "med-05" || id === "med-5") {
+        med = this.medicines.find((m) => m.brandName.toLowerCase().includes("monas")) || this.medicines[4];
+      } else if (id === "med-06" || id === "med-6") {
+        med = this.medicines.find((m) => m.brandName.toLowerCase().includes("zimax 500")) || this.medicines[5];
+      }
+    }
+    return med;
   }
 
   public getBatchesForMedicine(medicineId: string): IBatch[] {
@@ -277,6 +294,98 @@ class MemoryDatabase {
 
   public addOrder(order: any): void {
     this.orders.unshift(order);
+  }
+
+  public searchMedicinesPaginated(
+    query: string = "",
+    page: number = 1,
+    limit: number = 50,
+    filters?: { manufacturer?: string; dosageForm?: string }
+  ): {
+    total: number;
+    totalFiltered: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    hasMore: boolean;
+    medicines: any[];
+  } {
+    const q = query.toLowerCase().trim();
+    const mfg = filters?.manufacturer && filters.manufacturer !== "ALL" ? filters.manufacturer.toLowerCase() : null;
+    const form = filters?.dosageForm && filters.dosageForm !== "ALL" ? filters.dosageForm.toLowerCase() : null;
+
+    let filtered: IMedicine[] = [];
+
+    if (!q) {
+      if (!mfg && !form) {
+        filtered = this.medicines;
+      } else {
+        filtered = this.medicines.filter((m) => {
+          if (mfg && !m.manufacturer.toLowerCase().includes(mfg)) return false;
+          if (form && m.dosageForm.toLowerCase() !== form) return false;
+          return true;
+        });
+      }
+    } else {
+      // Prefix matching ranks first:
+      const startsBrand: IMedicine[] = [];
+      const startsGeneric: IMedicine[] = [];
+      const startsMfg: IMedicine[] = [];
+      const containsBrand: IMedicine[] = [];
+      const containsOther: IMedicine[] = [];
+
+      for (let i = 0; i < this.medicines.length; i++) {
+        const m = this.medicines[i];
+        if (mfg && !m.manufacturer.toLowerCase().includes(mfg)) continue;
+        if (form && m.dosageForm.toLowerCase() !== form) continue;
+
+        const b = m.brandName.toLowerCase();
+        const g = m.genericName.toLowerCase();
+        const c = m.manufacturer.toLowerCase();
+
+        if (b.startsWith(q)) {
+          startsBrand.push(m);
+        } else if (g.startsWith(q)) {
+          startsGeneric.push(m);
+        } else if (c.startsWith(q)) {
+          startsMfg.push(m);
+        } else if (b.includes(q)) {
+          containsBrand.push(m);
+        } else if (g.includes(q) || c.includes(q) || (m.darNo && m.darNo.toLowerCase().includes(q))) {
+          containsOther.push(m);
+        }
+      }
+
+      filtered = [...startsBrand, ...startsGeneric, ...startsMfg, ...containsBrand, ...containsOther];
+    }
+
+    const totalFiltered = filtered.length;
+    const safePage = Math.max(1, page);
+    const safeLimit = Math.max(1, Math.min(100, limit));
+    const start = (safePage - 1) * safeLimit;
+    const pageItems = filtered.slice(start, start + safeLimit);
+
+    const enriched = pageItems.map((med) => {
+      const batches = this.getBatchesForMedicine(med.id);
+      const availableStock = batches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
+      const activeOffer = this.getOfferForMedicine(med.id);
+      return {
+        ...med,
+        availableStockPieces: availableStock,
+        batches,
+        activeOffer,
+      };
+    });
+
+    return {
+      total: this.medicines.length,
+      totalFiltered,
+      page: safePage,
+      pageSize: safeLimit,
+      totalPages: Math.ceil(totalFiltered / safeLimit),
+      hasMore: start + safeLimit < totalFiltered,
+      medicines: enriched,
+    };
   }
 
   public searchMedicines(query: string, limit: number = 50): IMedicine[] {

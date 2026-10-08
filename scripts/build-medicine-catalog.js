@@ -221,29 +221,23 @@ async function buildCatalog() {
     }
 
     const cols = parseCsvLine(line);
-    if (cols.length < 5) continue;
-
+    const sl = cols[0] || '';
     const company = cols[1] || '';
     const tradeName = cols[2] || '';
     const genericWithStrength = cols[3] || '';
     const rawForm = cols[4] || '';
     const darNo = cols[5] || '';
 
-    if (!tradeName || tradeName.trim().length === 0) continue;
-
-    const brandLower = tradeName.toLowerCase().trim();
-    if (existingBrandSet.has(brandLower)) continue;
-
-    const productKey = `${brandLower}||${company.toLowerCase().trim()}||${(genericWithStrength || '').toLowerCase().trim()}`;
-    if (seenProductKey.has(productKey)) continue;
-    seenProductKey.add(productKey);
-
     const { generic, strength } = extractGenericAndStrength(genericWithStrength);
+    const finalBrand = (tradeName && tradeName.trim().length > 0)
+      ? tradeName.trim()
+      : (generic ? generic.trim() : (sl ? `Formulation #${sl}` : 'Pharmaceutical Formulation'));
+
     const dosageForm = mapDosageForm(rawForm);
     const pricing = estimatePricing(generic, dosageForm, strength);
     const packaging = estimatePackaging(dosageForm);
 
-    const idNum = String(candidateIndex++).padStart(5, '0');
+    const idNum = sl ? String(sl).padStart(5, '0') : String(candidateIndex++).padStart(5, '0');
     const id = `med-${idNum}`;
     
     // Clean manufacturer display name
@@ -251,7 +245,7 @@ async function buildCatalog() {
 
     // Generate code
     const mfgPrefix = cleanMfg.slice(0, 3).toUpperCase().replace(/[^A-Z]/g, 'PH');
-    const brandPrefix = tradeName.slice(0, 3).toUpperCase().replace(/[^A-Z]/g, 'MD');
+    const brandPrefix = (finalBrand || 'MED').slice(0, 3).toUpperCase().replace(/[^A-Z]/g, 'MD');
     const code = `MED-${mfgPrefix}-${brandPrefix}-${idNum}`;
 
     // Look up in DGDA generic index for regulatory cross-reference
@@ -261,8 +255,8 @@ async function buildCatalog() {
     const medicineObj = {
       id,
       code,
-      brandName: tradeName.trim(),
-      genericName: generic,
+      brandName: finalBrand,
+      genericName: generic || 'General Formulation',
       dosageForm,
       strength: strength || 'Standard',
       manufacturer: cleanMfg || 'Pharmaceutical Manufacturer',
@@ -283,7 +277,7 @@ async function buildCatalog() {
     importedMedicines.push(medicineObj);
   }
 
-  const fullMedicinesCatalog = [...existingCoreMeds, ...importedMedicines];
+  const fullMedicinesCatalog = importedMedicines;
   console.log(`✅ Assembled complete catalog: ${fullMedicinesCatalog.length} medicines.`);
 
   // 4. Batches setup: Include core batches + top 1,500 SKU batches

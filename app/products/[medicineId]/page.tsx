@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -21,7 +21,7 @@ import {
   Info,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
-import { PackagingUnit } from "@/types/domain";
+import { PackagingUnit, IMedicine } from "@/types/domain";
 import { PackagingEngine } from "@/services/packagingEngine";
 
 export default function ProductDetailPage() {
@@ -31,7 +31,43 @@ export default function ProductDetailPage() {
 
   const { medicines, batches, offers, addToCart } = useApp();
 
-  const medicine = medicines.find((m) => m.id === medicineId) || medicines[0];
+  const [fetchedMedicine, setFetchedMedicine] = useState<IMedicine | null>(null);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
+
+  useEffect(() => {
+    const existing = medicines.find((m) => m.id === medicineId);
+    if (!existing && medicineId) {
+      setIsLoadingDetails(true);
+      fetch(`/api/medicines/${medicineId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && !data.error) {
+            setFetchedMedicine(data);
+          }
+        })
+        .catch(console.error)
+        .finally(() => setIsLoadingDetails(false));
+    }
+  }, [medicineId, medicines]);
+
+  const medicine = medicines.find((m) => m.id === medicineId) || fetchedMedicine || medicines[0] || {
+    id: medicineId,
+    code: `MED-${medicineId}`,
+    brandName: "Loading Medicine...",
+    genericName: "Generic Formulation",
+    dosageForm: "TABLET",
+    strength: "Standard",
+    manufacturer: "Pharmaceutical Manufacturer",
+    description: "Loading medicine details from database...",
+    piecesPerStrip: 10,
+    stripsPerBox: 10,
+    mrpPerPiece: 5.0,
+    tradePricePerPiece: 4.1,
+    vatPercentage: 2.4,
+    isActive: true,
+    darNo: "DGDA",
+    dgdaApproved: true,
+  };
   const medBatches = batches.filter((b) => b.medicineId === medicine.id);
   const activeOffer = offers.find((o) => o.medicineId === medicine.id && o.isActive);
 

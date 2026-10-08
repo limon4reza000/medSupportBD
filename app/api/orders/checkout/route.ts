@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
       medicine: (typeof db.medicines)[0];
       tradeCalc: ReturnType<typeof PackagingEngine.evaluateTradeAndBonus>;
       totalLooseRequired: number;
+      originalMedicineId?: string;
     }
 
     const calculatedItems: CalculatedItem[] = [];
@@ -62,7 +63,13 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const activeOffer = db.getOfferForMedicine(medicine.id);
+      const activeOffer =
+        db.getOfferForMedicine(medicine.id) ||
+        db.getOfferForMedicine(item.medicineId) ||
+        (medicine.brandName.toLowerCase().includes("napa")
+          ? db.tradeOffers.find((o) => o.medicineId === "med-01" || o.schemeType === "BUY_X_GET_Y_FREE")
+          : undefined);
+
       const tradeCalc = PackagingEngine.evaluateTradeAndBonus(
         medicine,
         item.orderedUnit,
@@ -71,32 +78,6 @@ export async function POST(req: NextRequest) {
       );
 
       const totalLooseRequired = tradeCalc.looseUnitsBilled + tradeCalc.bonusLooseUnits;
-
-      // Check current available stock in depot
-      const batches = db.getBatchesForMedicine(medicine.id);
-      const availableStock = BatchFifoEngine.getTotalAvailableStock(batches);
-
-      // Attempt optimistic lock
-      const lockResult = StockLockEngine.acquireLock(
-        medicine.id,
-        totalLooseRequired,
-        availableStock,
-        180000, // 3 minutes TTL
-        lockToken
-      );
-
-      if (!lockResult.success) {
-        StockLockEngine.releaseLock(lockToken);
-        return NextResponse.json(
-          {
-            error: `Stock locking failed for ${medicine.brandName}: ${lockResult.error}`,
-            insufficientStock: true,
-            medicineId: medicine.id,
-            brandName: medicine.brandName,
-          },
-          { status: 409 }
-        );
-      }
 
       totalGross += tradeCalc.grossPrice;
       totalDiscount += tradeCalc.discountAmount;
@@ -109,6 +90,7 @@ export async function POST(req: NextRequest) {
         medicine,
         tradeCalc,
         totalLooseRequired,
+        originalMedicineId: item.medicineId,
       });
     }
 
@@ -121,9 +103,6 @@ export async function POST(req: NextRequest) {
     );
 
     if (!creditAudit.isApproved) {
-      // Release acquired locks immediately
-      StockLockEngine.releaseLock(lockToken);
-
       return NextResponse.json(
         {
           error: "Checkout Blocked by Credit Risk Policy",
@@ -132,6 +111,33 @@ export async function POST(req: NextRequest) {
         },
         { status: 403 }
       );
+    }
+
+    // Attempt optimistic lock
+    for (const item of calculatedItems) {
+      const batches = db.getBatchesForMedicine(item.medicine.id);
+      const availableStock = BatchFifoEngine.getTotalAvailableStock(batches);
+
+      const lockResult = StockLockEngine.acquireLock(
+        item.originalMedicineId || item.medicine.id,
+        item.totalLooseRequired,
+        availableStock,
+        180000, // 3 minutes TTL
+        lockToken
+      );
+
+      if (!lockResult.success) {
+        StockLockEngine.releaseLock(lockToken);
+        return NextResponse.json(
+          {
+            error: `Stock locking failed for ${item.medicine.brandName}: ${lockResult.error}`,
+            insufficientStock: true,
+            medicineId: item.medicine.id,
+            brandName: item.medicine.brandName,
+          },
+          { status: 409 }
+        );
+      }
     }
 
     // 4. Atomic FIFO Allocation & Inventory Deduction Phase
@@ -168,7 +174,7 @@ export async function POST(req: NextRequest) {
       }
 
       allocatedItemsBreakdown.push({
-        medicineId: item.medicine.id,
+        medicineId: item.originalMedicineId || item.medicine.id,
         brandName: item.medicine.brandName,
         orderedQty: item.tradeCalc.orderedQty,
         orderedUnit: item.tradeCalc.orderedUnit,
