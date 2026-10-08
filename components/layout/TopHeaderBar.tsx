@@ -16,11 +16,11 @@ export const TopHeaderBar: React.FC = () => {
   const unreadCount = notifications?.filter((n) => !n.isRead).length || 1;
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#f1f5f3]/90 backdrop-blur-md border-b border-slate-200/70 px-4 sm:px-6 lg:px-8 py-3.5 transition-all">
-      <div className="flex items-center justify-between gap-4 max-w-[1600px] mx-auto">
+    <header className="sticky top-0 z-30 w-full bg-[#f1f5f3]/90 backdrop-blur-md border-b border-slate-200/70 px-4 sm:px-6 lg:px-8 py-3 transition-all">
+      <div className="flex items-center justify-between gap-4 w-full">
         
-        {/* Left: Mobile Drawer Trigger + Search Bar */}
-        <div className="flex items-center gap-3 flex-1 max-w-xl">
+        {/* Left: Mobile Drawer Trigger + Full Width Desktop Search Bar */}
+        <div className="flex items-center gap-3 flex-1 w-full">
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setIsMobileNavOpen(true)}
@@ -30,20 +30,21 @@ export const TopHeaderBar: React.FC = () => {
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Search Bar Input */}
+          {/* Full Screen / Full Width Search Bar Input on Desktop */}
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="relative flex-1 flex items-center bg-white hover:bg-slate-50/80 cursor-pointer border border-slate-200/80 rounded-2xl px-3.5 py-2.5 shadow-xs transition-all hover:border-emerald-400 group"
+            className="relative flex-1 w-full flex items-center bg-white hover:bg-slate-50/90 cursor-pointer border border-slate-200/90 hover:border-emerald-500 rounded-2xl px-4 py-2.5 sm:py-3 shadow-xs hover:shadow-md transition-all group"
+            title="Click to search 41,000+ medicines, orders, customers"
           >
-            <Search className="w-4 h-4 text-slate-400 group-hover:text-emerald-600 transition-colors mr-2.5 shrink-0" />
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:text-emerald-600 transition-colors mr-3 shrink-0" />
             <input
               type="text"
               readOnly
-              placeholder="Search medicines, orders, customers..."
-              className="w-full bg-transparent text-xs sm:text-sm text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium"
+              placeholder="Search medicines, generics, brands, orders, customers (41,000+ items)..."
+              className="w-full bg-transparent text-xs sm:text-sm md:text-base text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium"
             />
-            <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono text-slate-400 bg-slate-100 rounded-md border border-slate-200 ml-2">
-              ⌘K
+            <kbd className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-mono text-slate-500 bg-slate-100 rounded-lg border border-slate-200 shadow-2xs shrink-0 ml-2 group-hover:border-emerald-300 group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+              <span className="text-[12px]">⌘</span>K
             </kbd>
           </div>
         </div>

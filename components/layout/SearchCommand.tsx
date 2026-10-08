@@ -157,48 +157,52 @@ export const SearchCommand: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-14 sm:pt-20 px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 lg:p-6">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150"
+        className="fixed inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-150"
         onClick={() => setIsSearchOpen(false)}
       />
 
-      {/* Main Dialog Container */}
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150 text-slate-900 flex flex-col max-h-[85vh]">
+      {/* Main Dialog Container - Full Screen Desktop Search Command Center */}
+      <div className="relative w-full max-w-2xl lg:max-w-[96vw] xl:max-w-[1550px] h-[94vh] bg-white rounded-2xl lg:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-150 text-slate-900 flex flex-col">
         
         {/* Search Input Header */}
-        <div className="flex items-center px-4 py-3.5 border-b border-slate-100 bg-slate-50/70 shrink-0">
+        <div className="flex items-center px-4 sm:px-6 py-4 border-b border-slate-100 bg-slate-50/80 shrink-0">
           {isLoading ? (
-            <Loader2 className="w-5 h-5 text-emerald-700 mr-3 shrink-0 animate-spin" />
+            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700 mr-3 shrink-0 animate-spin" />
           ) : (
-            <Search className="w-5 h-5 text-emerald-700 mr-3 shrink-0" />
+            <Search className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700 mr-3 shrink-0" />
           )}
 
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search medicines, generics, brands, SKU..."
+            placeholder="Search 41,000+ medicines by brand, generic, manufacturer, SKU (e.g. Napa, Paracetamol, Seclo)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-transparent text-sm sm:text-base text-slate-900 placeholder-slate-400 outline-none font-medium"
+            className="w-full bg-transparent text-sm sm:text-base lg:text-lg text-slate-900 placeholder-slate-400 outline-none font-medium"
           />
 
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 mr-2"
+              className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-200 mr-2 shrink-0"
               title="Clear text"
             >
               <X className="w-4 h-4" />
             </button>
           )}
 
+          <div className="hidden sm:flex items-center gap-1.5 mr-3 shrink-0 text-xs text-slate-400 bg-white px-2.5 py-1 rounded-lg border border-slate-200 font-mono">
+            <span>ESC</span>
+          </div>
+
           <button
             onClick={() => setIsSearchOpen(false)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/80 transition-colors ml-1 shrink-0"
-            title="Close"
-            aria-label="Close"
+            className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-200/80 transition-colors ml-1 shrink-0"
+            title="Close Search"
+            aria-label="Close Search"
           >
             <X className="w-5 h-5" />
           </button>
@@ -207,24 +211,25 @@ export const SearchCommand: React.FC = () => {
         {/* Results List */}
         <div
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto p-3 space-y-2 min-h-[220px]"
+          className="flex-1 overflow-y-auto p-3 sm:p-4 lg:p-6 min-h-[220px]"
         >
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-16 text-slate-500 gap-3">
-              <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
-              <div className="text-xs font-semibold">Searching 41,302 medicines...</div>
+            <div className="flex flex-col items-center justify-center py-20 text-slate-500 gap-3">
+              <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
+              <div className="text-sm font-semibold">Searching 41,302 medicines across catalog...</div>
             </div>
           ) : catalogMedicines.length === 0 ? (
-            <div className="text-center py-12">
-              <Boxes className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">No matching medicines found</p>
-              <p className="text-xs text-slate-400 mt-1">
-                Try searching by generic (e.g. Paracetamol), brand (e.g. Napa), or company (e.g. Square)
+            <div className="text-center py-16">
+              <Boxes className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+              <p className="text-base font-bold text-slate-800">No matching medicines found</p>
+              <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                Try searching by generic name (e.g. Paracetamol, Omeprazole), brand name (e.g. Napa, Seclo), or company (e.g. Square, Beximco)
               </p>
             </div>
           ) : (
             <>
-              {catalogMedicines.map((med: any) => {
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5">
+                {catalogMedicines.map((med: any) => {
                 const medBatches = med.batches || batches.filter((b) => b.medicineId === med.id);
                 const totalStockPieces =
                   med.availableStockPieces ??
@@ -348,31 +353,32 @@ export const SearchCommand: React.FC = () => {
                   </div>
                 );
               })}
+            </div>
 
-              {/* Load more button inside list */}
-              {hasMore && (
-                <div className="pt-2 pb-1 text-center">
-                  <button
-                    onClick={handleLoadMore}
-                    disabled={isLoadingMore}
-                    className="px-4 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition-colors inline-flex items-center gap-2"
-                  >
-                    {isLoadingMore ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        <span>Loading More Medicines...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Load More Medicines (+40 SKUs)</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </>
-          )}
+            {/* Load more button inside list */}
+            {hasMore && (
+              <div className="pt-4 pb-2 text-center">
+                <button
+                  onClick={handleLoadMore}
+                  disabled={isLoadingMore}
+                  className="px-6 py-2.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 rounded-xl border border-emerald-200 transition-colors inline-flex items-center gap-2 shadow-xs"
+                >
+                  {isLoadingMore ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Loading More Medicines...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Load More Medicines (+40 SKUs)</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </>
+        )}
         </div>
 
         {/* Footer info matching design */}
