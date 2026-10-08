@@ -204,7 +204,7 @@ export default function HomePage() {
         {/* =================================================================== */}
         {/* 1. HERO BANNER CAROUSEL (3 Banners from assets/hero banner)         */}
         {/* =================================================================== */}
-        <div className="lg:col-span-2 rounded-[28px] overflow-hidden border border-emerald-500/20 shadow-xl relative group bg-gradient-to-br from-[#014232] to-[#04624b] min-h-[350px] sm:min-h-[380px] lg:min-h-[400px] flex items-center select-none">
+        <div className="lg:col-span-2 rounded-2xl sm:rounded-[28px] overflow-hidden border border-emerald-500/20 shadow-xl relative group bg-gradient-to-br from-[#014232] to-[#04624b] aspect-[1916/821] sm:aspect-auto sm:min-h-[320px] lg:min-h-[380px] lg:h-full flex items-center select-none">
           {/* Banner Slides (Crossfade Transition) */}
           <Link
             href="/inventory"
@@ -236,7 +236,7 @@ export default function HomePage() {
               e.stopPropagation();
               setCurrentHeroSlide((prev) => (prev - 1 + heroBanners.length) % heroBanners.length);
             }}
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
             title="Previous Banner"
             aria-label="Previous Slide"
           >
@@ -251,7 +251,7 @@ export default function HomePage() {
               e.stopPropagation();
               setCurrentHeroSlide((prev) => (prev + 1) % heroBanners.length);
             }}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
             title="Next Banner"
             aria-label="Next Slide"
           >
@@ -259,7 +259,7 @@ export default function HomePage() {
           </button>
 
           {/* Bottom Pagination Dots Hitboxes */}
-          <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
+          <div className="absolute bottom-1 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 sm:gap-2 z-20">
             {heroBanners.map((_, idx) => (
               <button
                 key={idx}
@@ -269,7 +269,7 @@ export default function HomePage() {
                   e.stopPropagation();
                   setCurrentHeroSlide(idx);
                 }}
-                className="w-7 sm:w-8 h-4 rounded-full cursor-pointer focus:outline-none"
+                className="w-5 sm:w-8 h-3 sm:h-4 rounded-full cursor-pointer focus:outline-none"
                 title={`Slide ${idx + 1}`}
                 aria-label={`Slide ${idx + 1}`}
               />
