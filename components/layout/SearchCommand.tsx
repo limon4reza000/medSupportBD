@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { IMedicine, PackagingUnit } from "@/types/domain";
+import { getMedicineTypeBadge } from "@/lib/medicineUtils";
 
 export const SearchCommand: React.FC = () => {
   const router = useRouter();
@@ -256,9 +257,19 @@ export const SearchCommand: React.FC = () => {
                         <span className="font-bold text-sm text-slate-900 group-hover:text-emerald-800 transition-colors">
                           {med.brandName}
                         </span>
-                        <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
-                          {med.strength} • {med.dosageForm}
-                        </span>
+                        {(() => {
+                          const typeInfo = getMedicineTypeBadge(med);
+                          return (
+                            <span className={`text-[10px] px-2 py-0.5 rounded font-bold border ${typeInfo.badgeClass}`}>
+                              {typeInfo.label}
+                            </span>
+                          );
+                        })()}
+                        {med.strength && med.strength !== "Standard" && (
+                          <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                            {med.strength}
+                          </span>
+                        )}
                         {activeOffer && (
                           <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center gap-1">
                             <Tag className="w-2.5 h-2.5" />

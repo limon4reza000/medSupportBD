@@ -14,6 +14,7 @@ import {
   Package,
 } from "lucide-react";
 import { IMedicine, DosageForm } from "@/types/domain";
+import { getMedicineTypeBadge } from "@/lib/medicineUtils";
 
 interface VirtualizedMedicineListProps {
   medicines: IMedicine[];
@@ -151,13 +152,16 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
                         {item.brandName}
                       </h4>
 
-                      <span
-                        className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase border ${getFormBadgeStyle(
-                          item.dosageForm
-                        )}`}
-                      >
-                        {item.dosageForm}
-                      </span>
+                      {(() => {
+                        const typeInfo = getMedicineTypeBadge(item);
+                        return (
+                          <span
+                            className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${typeInfo.badgeClass}`}
+                          >
+                            {typeInfo.label}
+                          </span>
+                        );
+                      })()}
 
                       {item.strength && item.strength !== "Standard" && (
                         <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">

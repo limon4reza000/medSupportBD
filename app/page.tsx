@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine } from "@/types/domain";
+import { getMedicineTypeBadge } from "@/lib/medicineUtils";
 
 export default function HomePage() {
   const router = useRouter();
@@ -929,31 +930,7 @@ export default function HomePage() {
               const boxMrp = (Number(med.mrpPerPiece || 3.0) * boxPieces).toFixed(2);
               const isAdded = !!addedMap[med.id];
 
-              // Color themes matching the screenshot exactly
-              const dosageBadgeThemes = [
-                "bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]", // blue
-                "bg-[#f3e8ff] text-[#7e22ce] border-[#e9d5ff]", // purple
-                "bg-[#dcfce7] text-[#15803d] border-[#bbf7d0]", // green
-                "bg-[#ffedd5] text-[#c2410c] border-[#fed7aa]", // orange
-                "bg-[#ffe4e6] text-[#be123c] border-[#fecdd3]", // rose
-                "bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]", // blue
-                "bg-[#f3e8ff] text-[#7e22ce] border-[#e9d5ff]", // purple
-                "bg-[#ccfbf1] text-[#0f766e] border-[#99f6e4]", // teal
-              ];
-
-              const actionBtnThemes = [
-                "bg-[#2563eb] hover:bg-[#1d4ed8]", // Blue (Card 1)
-                "bg-[#8b5cf6] hover:bg-[#7c3aed]", // Purple (Card 2)
-                "bg-[#059669] hover:bg-[#047857]", // Green (Card 3)
-                "bg-[#ea580c] hover:bg-[#c2410c]", // Orange (Card 4)
-                "bg-[#e11d48] hover:bg-[#be123c]", // Pink/Rose (Card 5)
-                "bg-[#2563eb] hover:bg-[#1d4ed8]", // Blue (Card 6)
-                "bg-[#8b5cf6] hover:bg-[#7c3aed]", // Purple (Card 7)
-                "bg-[#0d9488] hover:bg-[#0f766e]", // Teal (Card 8)
-              ];
-
-              const badgeTheme = dosageBadgeThemes[index % dosageBadgeThemes.length];
-              const btnTheme = actionBtnThemes[index % actionBtnThemes.length];
+              const typeInfo = getMedicineTypeBadge(med);
               const productImageSrc = `/images/med-product-${(index % 8) + 1}.png`;
 
               return (
@@ -964,8 +941,8 @@ export default function HomePage() {
                   <div>
                     {/* Top Badges */}
                     <div className="flex items-center justify-between gap-1">
-                      <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${badgeTheme}`}>
-                        {med.dosageForm || "TABLET"}
+                      <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${typeInfo.badgeClass}`}>
+                        {typeInfo.label}
                       </span>
                       <span className="px-2.5 py-0.5 rounded-full bg-[#ecfdf5] text-[#047857] border border-[#a7f3d0] text-[10px] font-bold flex items-center gap-1.5 shadow-2xs">
                         <CheckCircle2 className="w-3 h-3 text-[#10b981]" />
@@ -1062,7 +1039,7 @@ export default function HomePage() {
 
                       <button
                         onClick={() => handleQuickAdd(med, PackagingUnit.BOX)}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 ${btnTheme}`}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 ${typeInfo.btnClass}`}
                       >
                         {isAdded ? (
                           <>
