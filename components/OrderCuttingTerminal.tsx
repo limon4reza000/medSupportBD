@@ -167,10 +167,11 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
   const totalBonusPieces = calculatedCartItems.reduce((sum, i) => sum + i.tradeResult.bonusLooseUnits, 0);
 
   // Credit Safety check
+  const simulatedOldestInvoice = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString();
   const creditAudit = CreditLedgerEngine.auditPharmacyCredit(
     pharmacy,
     cartNetTotal,
-    "2026-08-20"
+    simulatedOldestInvoice
   );
 
   const handleCheckout = async () => {

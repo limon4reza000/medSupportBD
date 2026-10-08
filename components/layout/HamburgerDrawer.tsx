@@ -7,6 +7,7 @@ import {
   X,
   Package,
   ShoppingCart,
+  ShoppingBag,
   Clock,
   Receipt,
   CreditCard,
@@ -34,6 +35,7 @@ import {
   LucideIcon,
   Camera,
 } from "lucide-react";
+import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 import { useApp } from "@/lib/context/AppContext";
 
 interface DrawerMenuItem {
@@ -99,51 +101,44 @@ export const HamburgerDrawer: React.FC = () => {
 
   const menuGroups: DrawerMenuGroup[] = [
     {
-      title: "Core Operations",
+      title: "Pharmacy Operations (POS & Stock)",
+      items: [
+        { label: "Daily Sales (POS)", href: "/pos", icon: ShoppingCart, highlight: true },
+        { label: "Medicine Database & Stock", href: "/inventory", icon: Boxes },
+        { label: "Company / Distributor Orders", href: "/distributor-orders", icon: Truck },
+        { label: "Customer Due Ledger", href: "/customer-due", icon: CreditCard },
+        { label: "Expense Tracking", href: "/expenses", icon: DollarSign },
+        { label: "Employee Management", href: "/employees", icon: Users },
+        { label: "Reports & Charts", href: "/reports", icon: FileBarChart2 },
+        { label: "MR Private Panel", href: "/mr-portal", icon: Briefcase },
+      ],
+    },
+    {
+      title: "B2B Depot Procurement",
       items: [
         { label: "Dashboard", href: "/dashboard", icon: Package },
-        { label: "Products Catalog", href: "/products", icon: Boxes },
+        { label: "Products Catalog", href: "/products", icon: Layers },
         { label: "My Orders", href: "/my-orders", icon: Clock, badge: activeOrdersCount > 0 ? `${activeOrdersCount}` : undefined },
         { label: "Order History", href: "/order-history", icon: FileText },
-        { label: "Cart", href: "/cart", icon: ShoppingCart, badge: cartItemCount > 0 ? `${cartItemCount}` : undefined },
-      ],
-    },
-    {
-      title: "Finance & Trade",
-      items: [
-        { label: "Transactions", href: "/transactions", icon: Receipt },
-        { label: "Credit Dashboard", href: "/credit", icon: CreditCard },
+        { label: "B2B Cart", href: "/cart", icon: ShoppingBag, badge: cartItemCount > 0 ? `${cartItemCount}` : undefined },
         { label: "Trade Offers", href: "/trade-offers", icon: Tag },
-        { label: "Collections", href: "/collections", icon: DollarSign },
+        { label: "Transactions Ledger", href: "/transactions", icon: Receipt },
       ],
     },
     {
-      title: "AI Tools",
+      title: "AI Procurement Tools",
       items: [
         { label: "AI Order (Slip Parser)", href: "/ai-order", icon: Sparkles, highlight: true },
         { label: "AI Insights (Forecaster)", href: "/ai-insights", icon: TrendingUp },
       ],
     },
     {
-      title: "Authorized Staff & Management",
+      title: "System & Administration",
       items: [
-        { label: "Inventory", href: "/inventory", icon: Layers },
-        { label: "Batch Management", href: "/inventory/batches", icon: Activity },
-        { label: "Sales Dashboard", href: "/sales", icon: Briefcase },
-        { label: "Depot Management", href: "/depot", icon: Truck },
-        { label: "Pharmacy Management", href: "/pharmacies", icon: Building2 },
-        { label: "User Management", href: "/users", icon: UserCheck },
-      ],
-    },
-    {
-      title: "System & Account",
-      items: [
-        { label: "Reports", href: "/reports", icon: FileBarChart2 },
         { label: "Notifications", href: "/notifications", icon: Bell, badge: unreadNotifs > 0 ? `${unreadNotifs}` : undefined },
-        { label: "Profile", href: "/profile", icon: Users },
+        { label: "Settings & Backup", href: "/settings", icon: Settings },
         { label: "Security Center", href: "/security", icon: ShieldCheck },
-        { label: "Settings", href: "/settings", icon: Settings },
-        { label: "Support", href: "/support", icon: HelpCircle },
+        { label: "Support & Help", href: "/support", icon: HelpCircle },
       ],
     },
   ];
@@ -162,10 +157,8 @@ export const HamburgerDrawer: React.FC = () => {
         {/* Header with User Profile Section */}
         <div className="p-4 bg-gradient-to-b from-[#014232] to-[#025540] text-white">
           <div className="flex items-center justify-between pb-3 border-b border-emerald-600/30">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-400 flex items-center justify-center text-[#01382a] font-bold">
-                <Package className="w-5 h-5" />
-              </div>
+            <div className="flex items-center gap-[2px]">
+              <MedSupportLogo className="w-12 h-12 object-contain shrink-0" />
               <span className="font-black text-lg tracking-tight">MedSupply<span className="text-emerald-300">BD</span></span>
             </div>
             <button

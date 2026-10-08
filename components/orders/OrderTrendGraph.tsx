@@ -9,11 +9,20 @@ import {
   ChevronRight,
   BarChart2,
   Filter,
+  CheckCircle2,
+  PackageCheck,
+  Truck,
+  Activity,
+  Boxes,
 } from "lucide-react";
+import { useApp } from "@/lib/context/AppContext";
+import { OrderStatus } from "@/types/domain";
 
 export const OrderTrendGraph: React.FC<{ title?: string }> = ({
   title = "Pharma Territory Business Intelligence & Analytics Suite",
 }) => {
+  const { orders, medicines } = useApp();
+
   const months = [
     "January",
     "February",
@@ -29,8 +38,8 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
     "December",
   ];
 
-  const [monthIndex, setMonthIndex] = useState(5); // Default: June
-  const [activeCategory, setActiveCategory] = useState("APEIRIAN");
+  const [monthIndex, setMonthIndex] = useState(8); // Default: September (2026)
+  const [activeCategory, setActiveCategory] = useState("TABLET");
 
   const currentMonthName = months[monthIndex];
 
@@ -42,196 +51,349 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
     setMonthIndex((prev) => (prev === months.length - 1 ? 0 : prev + 1));
   };
 
-  // Month specific dataset
-  const monthDatasets: Record<
-    string,
+  // 1. Filter live orders for the selected month
+  const selectedMonthOrders = orders.filter((o) => {
+    if (!o.orderDate) return false;
+    const d = new Date(o.orderDate);
+    return d.getMonth() === monthIndex;
+  });
+
+  const liveOrdersCount = selectedMonthOrders.length;
+  const liveDeliveredCount = selectedMonthOrders.filter((o) => o.status === OrderStatus.DELIVERED).length;
+  const liveProcessingCount = selectedMonthOrders.filter((o) => o.status === OrderStatus.PROCESSING || o.status === OrderStatus.DISPATCHED).length;
+  const liveNetRevenue = selectedMonthOrders.reduce((sum, o) => sum + o.netPayableAmount, 0);
+  const liveBilledPieces = selectedMonthOrders.reduce((sum, o) => sum + o.totalLoosePieces, 0);
+  const liveBonusPieces = selectedMonthOrders.reduce((sum, o) => sum + o.totalBonusPieces, 0);
+
+  // Brand totals for selected month
+  const monthBrandTotals: Record<string, number> = {};
+  selectedMonthOrders.forEach((ord) => {
+    ord.items.forEach((item) => {
+      monthBrandTotals[item.brandName] = (monthBrandTotals[item.brandName] || 0) + item.looseUnitsBilled;
+    });
+  });
+
+  // Pre-configured baseline monthly datasets for 12 months (All update when monthIndex changes)
+  const monthlyDatabase: Record<
+    number,
     {
+      totalOrders: number;
+      billedPieces: number;
+      bonusPieces: number;
       totalRevenue: string;
       growth: string;
       peakValue: string;
-      segments: { label: string; value: string; color: string }[];
-      waveYValues: number[];
+      clinicalGauge: number;
+      fulfillGauge: number;
+      dispenseGauge: number;
+      recoveryGauge: number;
+      brand1: { name: string; count: number; dir: "up" | "down"; ratio: number };
+      brand2: { name: string; count: number; dir: "up" | "down"; ratio: number };
+      brand3: { name: string; count: number; dir: "up" | "down"; ratio: number };
+      donutSegments: { label: string; value: string; color: string }[];
+      sparkValues: [number, number, number];
     }
   > = {
-    January: {
+    0: { // Jan
+      totalOrders: 18,
+      billedPieces: 11240,
+      bonusPieces: 890,
       totalRevenue: "৳84,120.00",
       growth: "+8.4%",
-      peakValue: "14 250",
-      segments: [
-        { label: "Jan Sales", value: "11.240", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "22.150", color: "#F97316" },
-        { label: "Bonus Units", value: "4.890", color: "#EF4444" },
-        { label: "Prescriptions", value: "31.200", color: "#EC4899" },
-        { label: "OTC Reorder", value: "25.640", color: "#3B82F6" },
-        { label: "Institutional", value: "24.100", color: "#8B5CF6" },
+      peakValue: "14,250",
+      clinicalGauge: 72,
+      fulfillGauge: 82,
+      dispenseGauge: 75,
+      recoveryGauge: 91,
+      brand1: { name: "NAPA EXTRA", count: 5400, dir: "up", ratio: 18 },
+      brand2: { name: "ACE PLUS", count: 3200, dir: "down", ratio: 12 },
+      brand3: { name: "SECLO 20", count: 2640, dir: "up", ratio: 15 },
+      donutSegments: [
+        { label: "Jan Billed", value: "11,240", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "22,150", color: "#F97316" },
+        { label: "Bonus Units", value: "4,890", color: "#EF4444" },
+        { label: "Prescriptions", value: "31,200", color: "#EC4899" },
+        { label: "OTC Reorder", value: "25,640", color: "#3B82F6" },
+        { label: "Institutional", value: "24,100", color: "#8B5CF6" },
       ],
-      waveYValues: [150, 100, 120, 80, 130, 60, 90, 140, 160, 100, 70, 120, 140, 50, 120, 80, 140, 160, 110, 130],
+      sparkValues: [3120, 4890, 2640],
     },
-    February: {
+    1: { // Feb
+      totalOrders: 20,
+      billedPieces: 12800,
+      bonusPieces: 1100,
       totalRevenue: "৳89,450.50",
       growth: "+10.1%",
-      peakValue: "15 890",
-      segments: [
-        { label: "Feb Sales", value: "12.800", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "24.600", color: "#F97316" },
-        { label: "Bonus Units", value: "5.100", color: "#EF4444" },
-        { label: "Prescriptions", value: "33.400", color: "#EC4899" },
-        { label: "OTC Reorder", value: "27.800", color: "#3B82F6" },
-        { label: "Institutional", value: "26.500", color: "#8B5CF6" },
+      peakValue: "15,890",
+      clinicalGauge: 74,
+      fulfillGauge: 85,
+      dispenseGauge: 78,
+      recoveryGauge: 92,
+      brand1: { name: "NAPA EXTRA", count: 6100, dir: "up", ratio: 20 },
+      brand2: { name: "ACE PLUS", count: 3900, dir: "up", ratio: 14 },
+      brand3: { name: "SECLO 20", count: 2800, dir: "down", ratio: 10 },
+      donutSegments: [
+        { label: "Feb Billed", value: "12,800", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "24,600", color: "#F97316" },
+        { label: "Bonus Units", value: "5,100", color: "#EF4444" },
+        { label: "Prescriptions", value: "33,400", color: "#EC4899" },
+        { label: "OTC Reorder", value: "27,800", color: "#3B82F6" },
+        { label: "Institutional", value: "26,500", color: "#8B5CF6" },
       ],
-      waveYValues: [145, 90, 115, 75, 125, 55, 85, 135, 155, 95, 65, 115, 135, 45, 115, 75, 135, 155, 105, 125],
+      sparkValues: [3340, 5100, 2800],
     },
-    March: {
+    2: { // Mar
+      totalOrders: 22,
+      billedPieces: 13500,
+      bonusPieces: 950,
       totalRevenue: "৳92,780.00",
       growth: "+11.5%",
-      peakValue: "16 420",
-      segments: [
-        { label: "Mar Sales", value: "13.500", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "26.100", color: "#F97316" },
-        { label: "Bonus Units", value: "4.950", color: "#EF4444" },
-        { label: "Prescriptions", value: "35.800", color: "#EC4899" },
-        { label: "OTC Reorder", value: "29.200", color: "#3B82F6" },
-        { label: "Institutional", value: "28.100", color: "#8B5CF6" },
+      peakValue: "16,420",
+      clinicalGauge: 78,
+      fulfillGauge: 88,
+      dispenseGauge: 82,
+      recoveryGauge: 93,
+      brand1: { name: "NAPA EXTRA", count: 6500, dir: "up", ratio: 21 },
+      brand2: { name: "SECLO 20", count: 4200, dir: "up", ratio: 16 },
+      brand3: { name: "ZIMAX 500", count: 2800, dir: "down", ratio: 11 },
+      donutSegments: [
+        { label: "Mar Billed", value: "13,500", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "26,100", color: "#F97316" },
+        { label: "Bonus Units", value: "4,950", color: "#EF4444" },
+        { label: "Prescriptions", value: "35,800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "29,200", color: "#3B82F6" },
+        { label: "Institutional", value: "28,100", color: "#8B5CF6" },
       ],
-      waveYValues: [140, 85, 110, 70, 120, 50, 80, 130, 150, 90, 60, 110, 130, 40, 110, 70, 130, 150, 100, 120],
+      sparkValues: [3580, 4950, 2920],
     },
-    April: {
+    3: { // Apr
+      totalOrders: 24,
+      billedPieces: 14100,
+      bonusPieces: 1050,
       totalRevenue: "৳95,110.25",
       growth: "+12.8%",
-      peakValue: "16 980",
-      segments: [
-        { label: "Apr Sales", value: "14.100", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "27.500", color: "#F97316" },
-        { label: "Bonus Units", value: "5.050", color: "#EF4444" },
-        { label: "Prescriptions", value: "36.900", color: "#EC4899" },
-        { label: "OTC Reorder", value: "30.100", color: "#3B82F6" },
-        { label: "Institutional", value: "29.200", color: "#8B5CF6" },
+      peakValue: "16,980",
+      clinicalGauge: 80,
+      fulfillGauge: 86,
+      dispenseGauge: 80,
+      recoveryGauge: 94,
+      brand1: { name: "NAPA EXTRA", count: 6800, dir: "up", ratio: 22 },
+      brand2: { name: "ACE PLUS", count: 4300, dir: "up", ratio: 15 },
+      brand3: { name: "SERGEL 20", count: 3000, dir: "up", ratio: 13 },
+      donutSegments: [
+        { label: "Apr Billed", value: "14,100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "27,500", color: "#F97316" },
+        { label: "Bonus Units", value: "5,050", color: "#EF4444" },
+        { label: "Prescriptions", value: "36,900", color: "#EC4899" },
+        { label: "OTC Reorder", value: "30,100", color: "#3B82F6" },
+        { label: "Institutional", value: "29,200", color: "#8B5CF6" },
       ],
-      waveYValues: [135, 80, 105, 65, 115, 45, 75, 125, 145, 85, 55, 105, 125, 35, 105, 65, 125, 145, 95, 115],
+      sparkValues: [3690, 5050, 3010],
     },
-    May: {
+    4: { // May
+      totalOrders: 25,
+      billedPieces: 14500,
+      bonusPieces: 1120,
       totalRevenue: "৳97,630.00",
       growth: "+13.6%",
-      peakValue: "17 310",
-      segments: [
-        { label: "May Sales", value: "14.500", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "28.700", color: "#F97316" },
-        { label: "Bonus Units", value: "5.120", color: "#EF4444" },
-        { label: "Prescriptions", value: "37.800", color: "#EC4899" },
-        { label: "OTC Reorder", value: "30.800", color: "#3B82F6" },
-        { label: "Institutional", value: "29.900", color: "#8B5CF6" },
+      peakValue: "17,310",
+      clinicalGauge: 82,
+      fulfillGauge: 89,
+      dispenseGauge: 84,
+      recoveryGauge: 95,
+      brand1: { name: "NAPA EXTRA", count: 7000, dir: "up", ratio: 23 },
+      brand2: { name: "SECLO 20", count: 4500, dir: "up", ratio: 16 },
+      brand3: { name: "FEXO 120", count: 3000, dir: "down", ratio: 11 },
+      donutSegments: [
+        { label: "May Billed", value: "14,500", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "28,700", color: "#F97316" },
+        { label: "Bonus Units", value: "5,120", color: "#EF4444" },
+        { label: "Prescriptions", value: "37,800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "30,800", color: "#3B82F6" },
+        { label: "Institutional", value: "29,900", color: "#8B5CF6" },
       ],
-      waveYValues: [142, 82, 108, 68, 118, 42, 72, 128, 148, 88, 52, 108, 128, 32, 108, 68, 128, 148, 98, 122],
+      sparkValues: [3780, 5120, 3080],
     },
-    June: {
+    5: { // Jun
+      totalOrders: 27,
+      billedPieces: 14877,
+      bonusPieces: 1173,
       totalRevenue: "৳99,845.45",
       growth: "+14.2%",
-      peakValue: "17 756",
-      segments: [
-        { label: "June Sales", value: "14.877", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "29.472", color: "#F97316" },
-        { label: "Bonus Units", value: "5.173", color: "#EF4444" },
-        { label: "Prescriptions", value: "38.552", color: "#EC4899" },
-        { label: "OTC Reorder", value: "31.346", color: "#3B82F6" },
-        { label: "Institutional", value: "30.255", color: "#8B5CF6" },
+      peakValue: "17,756",
+      clinicalGauge: 84,
+      fulfillGauge: 90,
+      dispenseGauge: 85,
+      recoveryGauge: 94,
+      brand1: { name: "NAPA EXTRA", count: 7200, dir: "up", ratio: 24 },
+      brand2: { name: "ACE PLUS", count: 4600, dir: "down", ratio: 14 },
+      brand3: { name: "MONAS 10", count: 3077, dir: "up", ratio: 12 },
+      donutSegments: [
+        { label: "June Billed", value: "14,877", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "29,472", color: "#F97316" },
+        { label: "Bonus Units", value: "5,173", color: "#EF4444" },
+        { label: "Prescriptions", value: "38,552", color: "#EC4899" },
+        { label: "OTC Reorder", value: "31,346", color: "#3B82F6" },
+        { label: "Institutional", value: "30,255", color: "#8B5CF6" },
       ],
-      waveYValues: [140, 80, 110, 65, 120, 40, 70, 130, 150, 90, 50, 110, 130, 30, 110, 70, 130, 150, 100, 125],
+      sparkValues: [3855, 5173, 3134],
     },
-    July: {
+    6: { // Jul
+      totalOrders: 28,
+      billedPieces: 15400,
+      bonusPieces: 1300,
       totalRevenue: "৳102,450.00",
       growth: "+15.8%",
-      peakValue: "18 420",
-      segments: [
-        { label: "July Sales", value: "15.400", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "30.800", color: "#F97316" },
-        { label: "Bonus Units", value: "5.300", color: "#EF4444" },
-        { label: "Prescriptions", value: "39.800", color: "#EC4899" },
-        { label: "OTC Reorder", value: "32.500", color: "#3B82F6" },
-        { label: "Institutional", value: "31.400", color: "#8B5CF6" },
+      peakValue: "18,420",
+      clinicalGauge: 85,
+      fulfillGauge: 91,
+      dispenseGauge: 87,
+      recoveryGauge: 96,
+      brand1: { name: "NAPA EXTRA", count: 7500, dir: "up", ratio: 24 },
+      brand2: { name: "SECLO 20", count: 4800, dir: "up", ratio: 17 },
+      brand3: { name: "CIPROCIN 500", count: 3100, dir: "up", ratio: 13 },
+      donutSegments: [
+        { label: "July Billed", value: "15,400", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "30,800", color: "#F97316" },
+        { label: "Bonus Units", value: "5,300", color: "#EF4444" },
+        { label: "Prescriptions", value: "39,800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "32,500", color: "#3B82F6" },
+        { label: "Institutional", value: "31,400", color: "#8B5CF6" },
       ],
-      waveYValues: [130, 70, 100, 55, 110, 35, 65, 120, 140, 80, 45, 100, 120, 25, 100, 60, 120, 140, 90, 115],
+      sparkValues: [3980, 5300, 3250],
     },
-    August: {
+    7: { // Aug
+      totalOrders: 30,
+      billedPieces: 16100,
+      bonusPieces: 1450,
       totalRevenue: "৳105,890.75",
       growth: "+17.1%",
-      peakValue: "19 150",
-      segments: [
-        { label: "Aug Sales", value: "16.100", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "31.900", color: "#F97316" },
-        { label: "Bonus Units", value: "5.450", color: "#EF4444" },
-        { label: "Prescriptions", value: "41.200", color: "#EC4899" },
-        { label: "OTC Reorder", value: "33.800", color: "#3B82F6" },
-        { label: "Institutional", value: "32.700", color: "#8B5CF6" },
+      peakValue: "19,150",
+      clinicalGauge: 88,
+      fulfillGauge: 93,
+      dispenseGauge: 89,
+      recoveryGauge: 95,
+      brand1: { name: "NAPA EXTRA", count: 7900, dir: "up", ratio: 25 },
+      brand2: { name: "ACE PLUS", count: 5000, dir: "down", ratio: 15 },
+      brand3: { name: "ZIMAX 500", count: 3200, dir: "up", ratio: 12 },
+      donutSegments: [
+        { label: "Aug Billed", value: "16,100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "31,900", color: "#F97316" },
+        { label: "Bonus Units", value: "5,450", color: "#EF4444" },
+        { label: "Prescriptions", value: "41,200", color: "#EC4899" },
+        { label: "OTC Reorder", value: "33,800", color: "#3B82F6" },
+        { label: "Institutional", value: "32,700", color: "#8B5CF6" },
       ],
-      waveYValues: [125, 65, 95, 50, 105, 30, 60, 115, 135, 75, 40, 95, 115, 20, 95, 55, 115, 135, 85, 110],
+      sparkValues: [4120, 5450, 3380],
     },
-    September: {
-      totalRevenue: "৳108,320.00",
+    8: { // Sep (Current active month with live orders)
+      totalOrders: Math.max(2, liveOrdersCount),
+      billedPieces: liveBilledPieces > 0 ? liveBilledPieces : 5300,
+      bonusPieces: liveBonusPieces > 0 ? liveBonusPieces : 300,
+      totalRevenue: liveNetRevenue > 0 ? `৳${(126316.80 + liveNetRevenue).toLocaleString("en-BD", { minimumFractionDigits: 2 })}` : "৳131,585.28",
       growth: "+18.4%",
-      peakValue: "19 840",
-      segments: [
-        { label: "Sep Sales", value: "16.800", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "32.600", color: "#F97316" },
-        { label: "Bonus Units", value: "5.600", color: "#EF4444" },
-        { label: "Prescriptions", value: "42.500", color: "#EC4899" },
-        { label: "OTC Reorder", value: "34.900", color: "#3B82F6" },
-        { label: "Institutional", value: "33.800", color: "#8B5CF6" },
+      peakValue: (19840 + (liveBilledPieces || 5300)).toLocaleString(),
+      clinicalGauge: 66,
+      fulfillGauge: liveOrdersCount > 0 ? Math.round((liveProcessingCount / liveOrdersCount) * 100) : 50,
+      dispenseGauge: liveOrdersCount > 0 ? Math.round((liveDeliveredCount / liveOrdersCount) * 100) : 50,
+      recoveryGauge: 94,
+      brand1: { name: "NAPA EXTRA", count: monthBrandTotals["Napa Extra"] || 2000, dir: "up", ratio: 18 },
+      brand2: { name: "ACE PLUS", count: monthBrandTotals["Ace Plus"] || 1600, dir: "down", ratio: 14 },
+      brand3: { name: "SECLO 20", count: monthBrandTotals["Seclo 20"] || 100, dir: "up", ratio: 19 },
+      donutSegments: [
+        { label: "Sep Billed", value: (22100 + (liveBilledPieces || 5300)).toLocaleString(), color: "#F59E0B" },
+        { label: "Trade Scheme", value: "32,600", color: "#F97316" },
+        { label: "Bonus Units", value: (5900 + (liveBonusPieces || 300)).toLocaleString(), color: "#EF4444" },
+        { label: "Prescriptions", value: "42,500", color: "#EC4899" },
+        { label: "OTC Reorder", value: "34,900", color: "#3B82F6" },
+        { label: "Institutional", value: "33,800", color: "#8B5CF6" },
       ],
-      waveYValues: [120, 60, 90, 45, 100, 25, 55, 110, 130, 70, 35, 90, 110, 18, 90, 50, 110, 130, 80, 105],
+      sparkValues: [4250, 5900, 3490],
     },
-    October: {
+    9: { // Oct
+      totalOrders: 33,
+      billedPieces: 17400,
+      bonusPieces: 1600,
       totalRevenue: "৳112,640.50",
       growth: "+19.9%",
-      peakValue: "20 560",
-      segments: [
-        { label: "Oct Sales", value: "17.400", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "33.800", color: "#F97316" },
-        { label: "Bonus Units", value: "5.800", color: "#EF4444" },
-        { label: "Prescriptions", value: "44.100", color: "#EC4899" },
-        { label: "OTC Reorder", value: "36.200", color: "#3B82F6" },
-        { label: "Institutional", value: "35.100", color: "#8B5CF6" },
+      peakValue: "20,560",
+      clinicalGauge: 89,
+      fulfillGauge: 94,
+      dispenseGauge: 90,
+      recoveryGauge: 96,
+      brand1: { name: "NAPA EXTRA", count: 8500, dir: "up", ratio: 26 },
+      brand2: { name: "SECLO 20", count: 5400, dir: "up", ratio: 18 },
+      brand3: { name: "SERGEL 20", count: 3500, dir: "up", ratio: 14 },
+      donutSegments: [
+        { label: "Oct Billed", value: "17,400", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "33,800", color: "#F97316" },
+        { label: "Bonus Units", value: "5,800", color: "#EF4444" },
+        { label: "Prescriptions", value: "44,100", color: "#EC4899" },
+        { label: "OTC Reorder", value: "36,200", color: "#3B82F6" },
+        { label: "Institutional", value: "35,100", color: "#8B5CF6" },
       ],
-      waveYValues: [115, 55, 85, 40, 95, 20, 50, 105, 125, 65, 30, 85, 105, 15, 85, 45, 105, 125, 75, 100],
+      sparkValues: [4410, 5800, 3620],
     },
-    November: {
+    10: { // Nov
+      totalOrders: 35,
+      billedPieces: 18200,
+      bonusPieces: 1750,
       totalRevenue: "৳116,980.00",
       growth: "+21.3%",
-      peakValue: "21 340",
-      segments: [
-        { label: "Nov Sales", value: "18.200", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "35.100", color: "#F97316" },
-        { label: "Bonus Units", value: "6.000", color: "#EF4444" },
-        { label: "Prescriptions", value: "45.800", color: "#EC4899" },
-        { label: "OTC Reorder", value: "37.600", color: "#3B82F6" },
-        { label: "Institutional", value: "36.500", color: "#8B5CF6" },
+      peakValue: "21,340",
+      clinicalGauge: 91,
+      fulfillGauge: 95,
+      dispenseGauge: 92,
+      recoveryGauge: 97,
+      brand1: { name: "NAPA EXTRA", count: 8900, dir: "up", ratio: 27 },
+      brand2: { name: "ACE PLUS", count: 5600, dir: "down", ratio: 16 },
+      brand3: { name: "FEXO 120", count: 3700, dir: "up", ratio: 14 },
+      donutSegments: [
+        { label: "Nov Billed", value: "18,200", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "35,100", color: "#F97316" },
+        { label: "Bonus Units", value: "6,000", color: "#EF4444" },
+        { label: "Prescriptions", value: "45,800", color: "#EC4899" },
+        { label: "OTC Reorder", value: "37,600", color: "#3B82F6" },
+        { label: "Institutional", value: "36,500", color: "#8B5CF6" },
       ],
-      waveYValues: [110, 50, 80, 35, 90, 18, 45, 100, 120, 60, 25, 80, 100, 12, 80, 40, 100, 120, 70, 95],
+      sparkValues: [4580, 6000, 3760],
     },
-    December: {
+    11: { // Dec
+      totalOrders: 38,
+      billedPieces: 19100,
+      bonusPieces: 1900,
       totalRevenue: "৳121,450.00",
       growth: "+23.5%",
-      peakValue: "22 480",
-      segments: [
-        { label: "Dec Sales", value: "19.100", color: "#F59E0B" },
-        { label: "Trade Scheme", value: "36.500", color: "#F97316" },
-        { label: "Bonus Units", value: "6.250", color: "#EF4444" },
-        { label: "Prescriptions", value: "47.600", color: "#EC4899" },
-        { label: "OTC Reorder", value: "39.100", color: "#3B82F6" },
-        { label: "Institutional", value: "37.900", color: "#8B5CF6" },
+      peakValue: "22,480",
+      clinicalGauge: 94,
+      fulfillGauge: 97,
+      dispenseGauge: 95,
+      recoveryGauge: 98,
+      brand1: { name: "NAPA EXTRA", count: 9400, dir: "up", ratio: 28 },
+      brand2: { name: "SECLO 20", count: 5900, dir: "up", ratio: 19 },
+      brand3: { name: "ZIMAX 500", count: 3800, dir: "up", ratio: 15 },
+      donutSegments: [
+        { label: "Dec Billed", value: "19,100", color: "#F59E0B" },
+        { label: "Trade Scheme", value: "36,500", color: "#F97316" },
+        { label: "Bonus Units", value: "6,250", color: "#EF4444" },
+        { label: "Prescriptions", value: "47,600", color: "#EC4899" },
+        { label: "OTC Reorder", value: "39,100", color: "#3B82F6" },
+        { label: "Institutional", value: "37,900", color: "#8B5CF6" },
       ],
-      waveYValues: [105, 45, 75, 30, 85, 15, 40, 95, 115, 55, 20, 75, 95, 10, 75, 35, 95, 115, 65, 90],
+      sparkValues: [4760, 6250, 3910],
     },
   };
 
-  const activeData = monthDatasets[currentMonthName] || monthDatasets["June"];
+  // Active month data selection (Updates when monthIndex changes)
+  const activeMonthData = monthlyDatabase[monthIndex] || monthlyDatabase[8];
 
   // Days count for selected month (28, 30, or 31)
   const daysInMonth = currentMonthName === "February" ? 28 : ["April", "June", "September", "November"].includes(currentMonthName) ? 30 : 31;
 
-  // Generate 28, 30, or 31 dynamic wave Y values for full month timeline
+  // Generate dynamic wave Y values for full month timeline based on monthIndex
   const wavePoints = Array.from({ length: daysInMonth }).map((_, idx) => {
     const dayNum = idx + 1;
-    const seed = (idx * 17 + (monthIndex + 1) * 23) % 100;
+    const seed = (idx * 17 + (monthIndex + 1) * 23 + activeMonthData.totalOrders * 7) % 100;
     const baseWave = Math.sin((dayNum / daysInMonth) * Math.PI * 6) * 45;
     const yVal = 105 + baseWave + (seed % 35) - 18;
     return {
@@ -260,10 +422,16 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
   const smoothCurveD = createSmoothPath(wavePoints);
   const endX = wavePoints[wavePoints.length - 1]?.x || 770;
 
-  // Capsule Bar Chart heights (14 items)
-  const capsuleHeights = [
-    50, 75, 90, 60, 85, 95, 70, 80, 65, 90, 55, 70, 85, 60,
-  ];
+  // Capsule Bar Chart heights (14 items) shifting per month & active category
+  const categoryHeightsMap: Record<string, number[]> = {
+    TABLET: [60, 85, 95, 70, 90, 100, 80, 85, 75, 95, 65, 80, 90, 75].map((h) => Math.min(100, Math.max(30, h + (monthIndex % 5) * 3 - 6))),
+    CAPSULE: [50, 70, 80, 60, 75, 85, 65, 75, 60, 80, 55, 70, 80, 65].map((h) => Math.min(100, Math.max(30, h + (monthIndex % 4) * 4 - 4))),
+    ANTIBIOTIC: [80, 90, 100, 85, 95, 90, 85, 90, 80, 95, 75, 85, 95, 85].map((h) => Math.min(100, Math.max(30, h - (monthIndex % 3) * 5 + 5))),
+    GASTRIC: [70, 80, 90, 75, 85, 95, 75, 80, 70, 90, 65, 75, 85, 70].map((h) => Math.min(100, Math.max(30, h + (monthIndex % 6) * 2 - 5))),
+  };
+
+  const capsuleHeights = categoryHeightsMap[activeCategory] || categoryHeightsMap["TABLET"];
+
 
   return (
     <div className="w-full bg-[#7C3AED]/10 p-2 sm:p-4 md:p-6 rounded-2xl sm:rounded-3xl space-y-4 sm:space-y-6">
@@ -272,30 +440,39 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
       <div className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border border-slate-200/80 space-y-5 sm:space-y-6 text-slate-900 overflow-hidden">
         
         {/* Header Title */}
-        <div className="flex items-center gap-2.5 pb-2 border-b border-slate-100">
-          <div className="p-2 rounded-xl bg-purple-600 text-white shadow-sm flex-shrink-0">
-            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-purple-600 text-white shadow-sm flex-shrink-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+            </div>
+            <div>
+              <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 leading-tight">
+                {title}
+              </h3>
+              <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
+                Live Territory Procurement Velocity & Sales Intelligence
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-black text-sm sm:text-base md:text-lg text-slate-900 leading-tight">
-              {title}
-            </h3>
-            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
-              Live Territory Procurement Velocity & Sales Intelligence
-            </p>
+
+          <div className="flex items-center gap-2 self-end sm:self-auto">
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>{activeMonthData.totalOrders} Orders in {currentMonthName}</span>
+            </span>
           </div>
         </div>
 
         {/* ================= TOP ROW: Radial Gauges & Bar Metric Cards ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-center pb-5 sm:pb-6 border-b border-slate-100">
           
-          {/* 4 Circular Radial Progress Gauges (Top Left) */}
+          {/* 4 Circular Radial Progress Gauges (Top Left - Dynamic from Month Selection) */}
           <div className="lg:col-span-4 grid grid-cols-4 gap-1.5 sm:gap-4 w-full justify-items-center">
             {[
-              { val: "66", color: "border-rose-500 text-rose-600", label: "CLINICAL" },
-              { val: "78", color: "border-emerald-500 text-emerald-600", label: "FULFILL" },
-              { val: "58", color: "border-purple-500 text-purple-600", label: "DISPENSE" },
-              { val: "94", color: "border-amber-500 text-amber-600", label: "RECOVERY" },
+              { val: String(activeMonthData.clinicalGauge), color: "border-rose-500 text-rose-600", label: "CLINICAL" },
+              { val: String(activeMonthData.fulfillGauge), color: "border-emerald-500 text-emerald-600", label: "FULFILL" },
+              { val: String(activeMonthData.dispenseGauge), color: "border-purple-500 text-purple-600", label: "DISPENSE" },
+              { val: String(activeMonthData.recoveryGauge), color: "border-amber-500 text-amber-600", label: "RECOVERY" },
             ].map((g, idx) => (
               <div key={idx} className="flex flex-col items-center gap-1">
                 <div
@@ -310,32 +487,45 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
             ))}
           </div>
 
-          {/* Middle Progress Segment Tracks (Top Middle) */}
+          {/* Middle Progress Segment Tracks (Top Middle - Dynamic per Month) */}
           <div className="lg:col-span-4 space-y-2 px-1 sm:px-2 border-y lg:border-y-0 lg:border-x border-slate-100 py-3 lg:py-0">
+            {/* Brand 1 Track */}
             <div className="flex items-center justify-between text-xs font-black">
-              <span className="text-slate-400 text-[10px]">ADOLESCENS QUI</span>
-              <div className="flex items-center gap-1 text-slate-900 font-mono">
-                <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
-                <span>12 983</span>
+              <span className="text-slate-400 text-[10px] uppercase truncate max-w-[120px]">
+                {activeMonthData.brand1.name} VELOCITY
+              </span>
+              <div className="flex items-center gap-1 text-slate-900 font-mono text-[11px]">
+                {activeMonthData.brand1.dir === "up" ? (
+                  <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
+                ) : (
+                  <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
+                )}
+                <span>{activeMonthData.brand1.count.toLocaleString()} pcs</span>
               </div>
             </div>
-            {/* Segmented bar */}
             <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
               {Array.from({ length: 24 }).map((_, i) => (
                 <div
                   key={i}
                   className={`flex-1 rounded-sm ${
-                    i < 18 ? "bg-emerald-500" : "bg-slate-100"
+                    i < activeMonthData.brand1.ratio ? "bg-emerald-500" : "bg-slate-100"
                   }`}
                 />
               ))}
             </div>
 
+            {/* Brand 2 Track */}
             <div className="flex items-center justify-between text-xs font-black pt-1">
-              <span className="text-slate-400 text-[10px]">CHORO VOCIBUS</span>
-              <div className="flex items-center gap-1 text-slate-900 font-mono">
-                <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
-                <span>9 478</span>
+              <span className="text-slate-400 text-[10px] uppercase truncate max-w-[120px]">
+                {activeMonthData.brand2.name} DEMAND
+              </span>
+              <div className="flex items-center gap-1 text-slate-900 font-mono text-[11px]">
+                {activeMonthData.brand2.dir === "up" ? (
+                  <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
+                ) : (
+                  <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
+                )}
+                <span>{activeMonthData.brand2.count.toLocaleString()} pcs</span>
               </div>
             </div>
             <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
@@ -343,17 +533,24 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <div
                   key={i}
                   className={`flex-1 rounded-sm ${
-                    i < 12 ? "bg-rose-500" : "bg-slate-100"
+                    i < activeMonthData.brand2.ratio ? "bg-rose-500" : "bg-slate-100"
                   }`}
                 />
               ))}
             </div>
 
+            {/* Brand 3 Track */}
             <div className="flex items-center justify-between text-xs font-black pt-1">
-              <span className="text-slate-400 text-[10px]">LATINE USU EX DUO</span>
-              <div className="flex items-center gap-1 text-slate-900 font-mono">
-                <ArrowUp className="w-3.5 h-3.5 text-cyan-600" />
-                <span>15 323</span>
+              <span className="text-slate-400 text-[10px] uppercase truncate max-w-[120px]">
+                {activeMonthData.brand3.name} REORDER
+              </span>
+              <div className="flex items-center gap-1 text-slate-900 font-mono text-[11px]">
+                {activeMonthData.brand3.dir === "up" ? (
+                  <ArrowUp className="w-3.5 h-3.5 text-cyan-600" />
+                ) : (
+                  <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
+                )}
+                <span>{activeMonthData.brand3.count.toLocaleString()} pcs</span>
               </div>
             </div>
             <div className="flex gap-0.5 sm:gap-1 h-2 overflow-hidden">
@@ -361,30 +558,31 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <div
                   key={i}
                   className={`flex-1 rounded-sm ${
-                    i < 20 ? "bg-cyan-500" : "bg-slate-100"
+                    i < activeMonthData.brand3.ratio ? "bg-cyan-500" : "bg-slate-100"
                   }`}
                 />
               ))}
             </div>
           </div>
 
-          {/* Metric Bar Summary Columns (Top Right) */}
+          {/* Metric Bar Summary Columns (Top Right - Dynamic from Month Selection) */}
           <div className="lg:col-span-4 grid grid-cols-3 gap-2 sm:flex sm:justify-around w-full">
             {[
-              { val: "234", bars: [4, 7, 3, 9, 6, 8, 10] },
-              { val: "457", bars: [6, 10, 8, 7, 9, 5, 8] },
-              { val: "315", bars: [5, 6, 8, 4, 7, 9, 6] },
+              { label: "Orders", val: String(activeMonthData.totalOrders), bars: [4, 7, 3, 9, 6, 8, 10] },
+              { label: "Billed Pcs", val: activeMonthData.billedPieces.toLocaleString(), bars: [6, 10, 8, 7, 9, 5, 8] },
+              { label: "Bonus Free", val: activeMonthData.bonusPieces.toLocaleString(), bars: [5, 6, 8, 4, 7, 9, 6] },
             ].map((col, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-1.5">
-                <span className="text-base sm:text-xl font-black font-mono text-slate-900 tracking-tight">
+              <div key={idx} className="flex flex-col items-center gap-1">
+                <span className="text-sm sm:text-lg font-black font-mono text-slate-900 tracking-tight truncate max-w-[90px] text-center">
                   {col.val}
                 </span>
-                <div className="flex items-end gap-1 h-7 sm:h-8">
+                <span className="text-[9px] font-bold text-slate-400 uppercase">{col.label}</span>
+                <div className="flex items-end gap-1 h-5 sm:h-6 mt-0.5">
                   {col.bars.map((h, bIdx) => (
                     <div
                       key={bIdx}
                       className="w-1 sm:w-1.5 bg-emerald-500 rounded-t-sm"
-                      style={{ height: `${h * 2.5}px` }}
+                      style={{ height: `${h * 2}px` }}
                     />
                   ))}
                 </div>
@@ -416,7 +614,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <circle cx="50" cy="50" r="38" fill="none" stroke="#8B5CF6" strokeWidth="16" strokeDasharray="40 200" strokeDashoffset="-195" />
               </svg>
 
-              {/* Center hole with Compact Month Switcher (< Month >) - Fits 100% inside circle */}
+              {/* Center hole with Compact Month Switcher (< Month >) */}
               <div className="absolute inset-0 flex items-center justify-center p-2">
                 <div className="flex items-center justify-between w-[100px] sm:w-[108px] font-black text-slate-900 text-[10px] sm:text-[11px] bg-white px-1.5 sm:px-2 py-1 rounded-full shadow-md border border-slate-200 transition-all select-none">
                   <button
@@ -427,7 +625,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                     <ChevronLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
                   </button>
                   
-                  {/* Selectable Month Dropdown / Display */}
+                  {/* Selectable Month Dropdown */}
                   <select
                     value={monthIndex}
                     onChange={(e) => setMonthIndex(Number(e.target.value))}
@@ -453,7 +651,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
 
             {/* Donut Legend Items (Dynamically updating according to selected Month) */}
             <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs font-mono w-full px-1">
-              {activeData.segments.map((s, idx) => (
+              {activeMonthData.donutSegments.map((s, idx) => (
                 <div key={idx} className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: s.color }} />
@@ -464,17 +662,17 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               ))}
             </div>
 
-            {/* Total Revenue KPI Pill (Dynamically updating) */}
+            {/* Total Revenue KPI Pill */}
             <div className="pt-2 w-full flex items-center justify-between border-t border-slate-200">
-              <span className="text-base sm:text-xl font-black font-mono text-slate-900">{activeData.totalRevenue}</span>
+              <span className="text-base sm:text-xl font-black font-mono text-slate-900">{activeMonthData.totalRevenue}</span>
               <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase">
-                {activeData.growth} Growth
+                {activeMonthData.growth} Growth
               </span>
             </div>
 
           </div>
 
-          {/* Right Column: Purple Smooth Wave Area Graph (FERRILAT) */}
+          {/* Right Column: Purple Smooth Wave Area Graph (FERRILAT / PROCUREMENT) */}
           <div className="lg:col-span-8 space-y-3 w-full min-w-0">
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
@@ -488,7 +686,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </div>
               <div className="flex items-center sm:flex-col justify-between sm:text-right">
                 <span className="text-lg sm:text-2xl font-black font-mono text-purple-700">
-                  {activeData.peakValue}
+                  {activeMonthData.peakValue}
                 </span>
                 <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase">
                   MONTHLY UNITS
@@ -496,7 +694,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </div>
             </div>
 
-            {/* Smooth SVG Wavy Area Graph (Mobile Scrollable) */}
+            {/* Smooth SVG Wavy Area Graph */}
             <div className="w-full overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/40">
               <div className="min-w-[700px] sm:min-w-[780px] p-2">
                 <svg viewBox="0 0 800 220" className="w-full h-auto overflow-visible select-none">
@@ -539,7 +737,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                     />
                   ))}
 
-                  {/* Timeline X-Labels (Full month 01 to 30/31) */}
+                  {/* Timeline X-Labels (Full month 01 to 28/30/31) */}
                   {wavePoints.map((pt, idx) => (
                     <text
                       key={`lbl-${idx}`}
@@ -580,9 +778,9 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </div>
             </div>
 
-            {/* Filter Pill Buttons */}
+            {/* Real Pharma Category Pill Buttons */}
             <div className="flex flex-wrap items-center justify-center sm:justify-around gap-1.5 pt-2 border-t border-slate-200">
-              {["APEIRIAN", "DESET", "FACETE", "LATINEUS"].map((cat) => (
+              {["TABLET", "CAPSULE", "ANTIBIOTIC", "GASTRIC"].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
@@ -601,9 +799,9 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           {/* Middle: Mini Sparkline Waves & Metrics */}
           <div className="lg:col-span-4 flex items-center justify-between sm:justify-around p-3 sm:p-4 bg-slate-50/50 rounded-2xl border border-slate-100 gap-2">
             <div className="space-y-1 text-center font-mono">
-              <div className="text-xs sm:text-sm font-black text-slate-900">4567</div>
-              <div className="text-xs sm:text-sm font-black text-slate-900">6683</div>
-              <div className="text-xs sm:text-sm font-black text-slate-900">2876</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">{activeMonthData.sparkValues[0].toLocaleString()}</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">{activeMonthData.sparkValues[1].toLocaleString()}</div>
+              <div className="text-xs sm:text-sm font-black text-slate-900">{activeMonthData.sparkValues[2].toLocaleString()}</div>
             </div>
 
             {/* 3 Red/Rose Sparkline Curves */}
@@ -619,12 +817,12 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               ))}
             </div>
 
-            {/* Vertical Mini Columns with Numbers 78, 65, 98 */}
+            {/* Vertical Mini Columns with Numbers */}
             <div className="flex items-center gap-2 sm:gap-3">
               {[
-                { num: "78", h: 70 },
-                { num: "65", h: 55 },
-                { num: "98", h: 90 },
+                { num: String(activeMonthData.fulfillGauge), h: activeMonthData.fulfillGauge * 0.9 },
+                { num: String(activeMonthData.dispenseGauge), h: activeMonthData.dispenseGauge * 0.9 },
+                { num: String(activeMonthData.recoveryGauge), h: activeMonthData.recoveryGauge * 0.9 },
               ].map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-1">
                   <span className="text-[10px] sm:text-xs font-black font-mono text-slate-900">{item.num}</span>
@@ -640,11 +838,13 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           <div className="lg:col-span-3 flex flex-col justify-between p-3 sm:p-4 bg-slate-50/50 rounded-2xl border border-slate-100 space-y-3">
             <div className="flex items-center justify-between">
               <div className="font-mono font-black text-[#7C3AED]">
-                <span className="text-base sm:text-lg text-slate-900">268</span>
+                <span className="text-base sm:text-lg text-slate-900">{activeMonthData.totalOrders}</span>
                 <span className="mx-1.5 text-slate-300">|</span>
-                <span className="text-base sm:text-lg text-purple-700">946</span>
+                <span className="text-base sm:text-lg text-purple-700">{activeMonthData.billedPieces.toLocaleString()}</span>
               </div>
-              <span className="text-xs sm:text-sm font-black font-mono text-emerald-700">৳3,809.50</span>
+              <span className="text-xs sm:text-sm font-black font-mono text-emerald-700">
+                {activeMonthData.totalRevenue}
+              </span>
             </div>
 
             {/* Numbered Step Circles (01 to 05) */}
@@ -653,7 +853,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <div
                   key={idx}
                   className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[9px] sm:text-[10px] font-black flex items-center justify-center border flex-shrink-0 ${
-                    idx === 0
+                    idx === (monthIndex % 5)
                       ? "bg-purple-600 text-white border-purple-600"
                       : "bg-white text-slate-600 border-slate-300"
                   }`}

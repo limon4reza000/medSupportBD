@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
   const [isAdded, setIsAdded] = useState(false);
 
   const totalStockPieces = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
-  const boxPieces = medicine.piecesPerStrip * medicine.stripsPerBox;
+  const boxPieces = Math.max(1, (medicine.piecesPerStrip || 1) * (medicine.stripsPerBox || 1));
   const availableBoxes = (totalStockPieces / boxPieces).toFixed(1);
 
   // Price Calculation using PackagingEngine
@@ -59,10 +59,11 @@ export default function ProductDetailPage() {
     customStripInput
   );
 
-  // Alternative medicines with same generic
-  const alternativeMedicines = medicines.filter(
-    (m) => m.genericName.toLowerCase().includes(medicine.genericName.toLowerCase().split("+")[0].trim()) && m.id !== medicine.id
-  );
+  // Alternative medicines with same generic (top 6 substitutes)
+  const genericPrefix = (medicine.genericName || "").toLowerCase().split("+")[0].trim();
+  const alternativeMedicines = medicines
+    .filter((m) => m.id !== medicine.id && (m.genericName || "").toLowerCase().includes(genericPrefix))
+    .slice(0, 6);
 
   const handleAddToCart = () => {
     addToCart({

@@ -33,5 +33,5 @@ Thumbs.db
 *.swp
 *.swo
 
-# Prisma
-# prisma/*.db
+# TypeScript build info
+*.tsbuildinfo

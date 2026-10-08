@@ -191,14 +191,26 @@ export class PackagingEngine {
   }
 
   /**
-   * Alias helper for pricing evaluation
+   * Alias helper for pricing evaluation (supports object or positional arguments)
    */
   public static calculateTradePricing(
-    medicine: IMedicine,
-    orderedUnit: PackagingUnit,
-    orderedQty: number,
+    medicineOrOptions:
+      | IMedicine
+      | {
+          medicine: IMedicine;
+          orderedUnit: PackagingUnit;
+          orderedQty: number;
+          availableOffers?: ITradeOffer[] | null;
+        },
+    orderedUnit?: PackagingUnit,
+    orderedQty?: number,
     activeOffer?: ITradeOffer | null
   ): TradeCalculationResult {
-    return this.evaluateTradeAndBonus(medicine, orderedUnit, orderedQty, activeOffer);
+    if ("medicine" in medicineOrOptions) {
+      const { medicine, orderedUnit: u, orderedQty: q, availableOffers } = medicineOrOptions;
+      const offer = availableOffers?.find((o) => o.medicineId === medicine.id && o.isActive);
+      return this.evaluateTradeAndBonus(medicine, u, q, offer);
+    }
+    return this.evaluateTradeAndBonus(medicineOrOptions, orderedUnit!, orderedQty!, activeOffer);
   }
 }

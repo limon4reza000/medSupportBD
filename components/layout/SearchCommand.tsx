@@ -57,20 +57,25 @@ export const SearchCommand: React.FC = () => {
     }
   }, [isSearchOpen]);
 
-  if (!isSearchOpen) return null;
-
-  const filteredMedicines = medicines.filter((med) => {
+  const filteredMedicines = React.useMemo(() => {
+    if (!isSearchOpen) return [];
     const q = searchQuery.toLowerCase().trim();
-    if (!q) return true;
-    return (
-      med.brandName.toLowerCase().includes(q) ||
-      med.genericName.toLowerCase().includes(q) ||
-      med.manufacturer.toLowerCase().includes(q) ||
-      med.strength.toLowerCase().includes(q) ||
-      med.code.toLowerCase().includes(q) ||
-      med.dosageForm.toLowerCase().includes(q)
-    );
-  });
+    const list = medicines.filter((med) => {
+      if (!q) return true;
+      return (
+        med.brandName.toLowerCase().includes(q) ||
+        med.genericName.toLowerCase().includes(q) ||
+        med.manufacturer.toLowerCase().includes(q) ||
+        med.strength.toLowerCase().includes(q) ||
+        med.code.toLowerCase().includes(q) ||
+        med.dosageForm.toLowerCase().includes(q) ||
+        (med.darNo && med.darNo.toLowerCase().includes(q))
+      );
+    });
+    return list.slice(0, 40);
+  }, [medicines, searchQuery, isSearchOpen]);
+
+  if (!isSearchOpen) return null;
 
   const handleQuickAdd = (medicineId: string, unit: PackagingUnit) => {
     addToCart({ medicineId, orderedUnit: unit, orderedQty: 1 });
@@ -115,9 +120,14 @@ export const SearchCommand: React.FC = () => {
               <X className="w-4 h-4" />
             </button>
           )}
-          <kbd className="hidden sm:inline-block px-2 py-0.5 rounded bg-slate-200 text-slate-600 text-[10px] font-mono font-bold">
-            ESC
-          </kbd>
+          <button
+            onClick={() => setIsSearchOpen(false)}
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/80 transition-colors ml-1 shrink-0"
+            title="Close"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Results List */}

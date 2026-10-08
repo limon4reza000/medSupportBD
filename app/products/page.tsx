@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -16,9 +16,14 @@ import {
   ArrowUpDown,
   Filter,
   Package,
+  ShieldCheck,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit } from "@/types/domain";
+
+const PAGE_SIZE = 24;
 
 export default function ProductsPage() {
   const { medicines, batches, offers, addToCart } = useApp();
@@ -29,50 +34,83 @@ export default function ProductsPage() {
   const [selectedStockStatus, setSelectedStockStatus] = useState("ALL");
   const [sortBy, setSortBy] = useState("brand-asc");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [currentPage, setCurrentPage] = useState(1);
   const [addedMap, setAddedMap] = useState<Record<string, boolean>>({});
 
-  // Unique manufacturers
-  const manufacturers = ["ALL", ...Array.from(new Set(medicines.map((m) => m.manufacturer)))];
-  const dosageForms = ["ALL", ...Array.from(new Set(medicines.map((m) => m.dosageForm)))];
+  // Unique manufacturers sorted alphabetically
+  const manufacturers = useMemo(() => {
+    const set = new Set(medicines.map((m) => m.manufacturer));
+    return ["ALL", ...Array.from(set).sort()];
+  }, [medicines]);
 
-  const filteredMedicines = medicines
-    .filter((med) => {
-      // Search Query
-      const q = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        !q ||
-        med.brandName.toLowerCase().includes(q) ||
-        med.genericName.toLowerCase().includes(q) ||
-        med.manufacturer.toLowerCase().includes(q) ||
-        med.strength.toLowerCase().includes(q);
+  const dosageForms = useMemo(() => {
+    const set = new Set(medicines.map((m) => m.dosageForm));
+    return ["ALL", ...Array.from(set).sort()];
+  }, [medicines]);
 
-      // Manufacturer filter
-      const matchesMfg =
-        selectedManufacturer === "ALL" || med.manufacturer === selectedManufacturer;
+  const stockByMedicineId = useMemo(() => {
+    const map = new Map<string, number>();
+    for (let i = 0; i < batches.length; i++) {
+      const b = batches[i];
+      map.set(b.medicineId, (map.get(b.medicineId) || 0) + b.availableLooseUnits);
+    }
+    return map;
+  }, [batches]);
 
-      // Dosage form filter
-      const matchesDosage =
-        selectedDosage === "ALL" || med.dosageForm === selectedDosage;
+  const filteredMedicines = useMemo(() => {
+    return medicines
+      .filter((med) => {
+        // Search Query (matches brand, generic, manufacturer, strength, DAR number)
+        const q = searchQuery.toLowerCase().trim();
+        const matchesSearch =
+          !q ||
+          med.brandName.toLowerCase().includes(q) ||
+          med.genericName.toLowerCase().includes(q) ||
+          med.manufacturer.toLowerCase().includes(q) ||
+          med.strength.toLowerCase().includes(q) ||
+          (med.darNo && med.darNo.toLowerCase().includes(q));
 
-      // Stock filter
-      const medBatches = batches.filter((b) => b.medicineId === med.id);
-      const totalStock = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
-      const matchesStock =
-        selectedStockStatus === "ALL"
-          ? true
-          : selectedStockStatus === "IN_STOCK"
-          ? totalStock > 200
-          : totalStock <= 200;
+        // Manufacturer filter
+        const matchesMfg =
+          selectedManufacturer === "ALL" || med.manufacturer === selectedManufacturer;
 
-      return matchesSearch && matchesMfg && matchesDosage && matchesStock;
-    })
-    .sort((a, b) => {
-      if (sortBy === "brand-asc") return a.brandName.localeCompare(b.brandName);
-      if (sortBy === "brand-desc") return b.brandName.localeCompare(a.brandName);
-      if (sortBy === "price-low") return a.tradePricePerPiece - b.tradePricePerPiece;
-      if (sortBy === "price-high") return b.tradePricePerPiece - a.tradePricePerPiece;
-      return 0;
-    });
+        // Dosage form filter
+        const matchesDosage =
+          selectedDosage === "ALL" || med.dosageForm === selectedDosage;
+
+        // Stock filter (O(1) fast lookup)
+        let matchesStock = true;
+        if (selectedStockStatus !== "ALL") {
+          const totalStock = stockByMedicineId.get(med.id) ?? (med as any).availableStockPieces ?? 5000;
+          matchesStock =
+            selectedStockStatus === "IN_STOCK"
+              ? totalStock > 200
+              : totalStock <= 200;
+        }
+
+        return matchesSearch && matchesMfg && matchesDosage && matchesStock;
+      })
+      .sort((a, b) => {
+        if (sortBy === "brand-asc") return a.brandName.localeCompare(b.brandName);
+        if (sortBy === "brand-desc") return b.brandName.localeCompare(a.brandName);
+        if (sortBy === "price-low") return a.tradePricePerPiece - b.tradePricePerPiece;
+        if (sortBy === "price-high") return b.tradePricePerPiece - a.tradePricePerPiece;
+        return 0;
+      });
+  }, [medicines, batches, searchQuery, selectedManufacturer, selectedDosage, selectedStockStatus, sortBy]);
+
+  // Pagination slicing
+  const totalPages = Math.max(1, Math.ceil(filteredMedicines.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedMedicines = useMemo(() => {
+    const start = (safePage - 1) * PAGE_SIZE;
+    return filteredMedicines.slice(start, start + PAGE_SIZE);
+  }, [filteredMedicines, safePage]);
+
+  const handleFilterChange = (setter: (val: string) => void) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setter(e.target.value);
+    setCurrentPage(1);
+  };
 
   const handleQuickAdd = (medicineId: string) => {
     addToCart({ medicineId, orderedUnit: PackagingUnit.BOX, orderedQty: 1 });
@@ -93,14 +131,14 @@ export default function ProductsPage() {
             <span>Pharmaceutical Product Catalog</span>
           </h1>
           <p className="text-xs text-emerald-100/80 mt-1">
-            Browse verified DGDA medicines, live batch quantities, trade schemes, and packaging conversions.
+            Browse verified DGDA medicines, live batch quantities, trade schemes, and packaging conversions from Bangladesh's premier pharma manufacturers.
           </p>
         </div>
 
         {/* View Mode & Stats */}
         <div className="flex items-center gap-3">
           <div className="text-xs text-emerald-200 font-semibold hidden sm:block">
-            Showing <strong>{filteredMedicines.length}</strong> of {medicines.length} items
+            Showing <strong>{filteredMedicines.length}</strong> of {medicines.length} verified items
           </div>
           <div className="flex items-center bg-white/10 p-1 rounded-xl border border-emerald-500/30">
             <button
@@ -108,6 +146,7 @@ export default function ProductsPage() {
               className={`p-1.5 rounded-lg transition-colors ${
                 viewMode === "grid" ? "bg-white text-[#01382a] shadow-sm" : "text-emerald-200 hover:text-white"
               }`}
+              title="Grid View"
             >
               <Grid className="w-4 h-4" />
             </button>
@@ -116,6 +155,7 @@ export default function ProductsPage() {
               className={`p-1.5 rounded-lg transition-colors ${
                 viewMode === "list" ? "bg-white text-[#01382a] shadow-sm" : "text-emerald-200 hover:text-white"
               }`}
+              title="List View"
             >
               <List className="w-4 h-4" />
             </button>
@@ -132,9 +172,9 @@ export default function ProductsPage() {
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
             <input
               type="text"
-              placeholder="Search by brand, generic, strength..."
+              placeholder="Search by brand, generic, manufacturer, DAR no..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleFilterChange(setSearchQuery)}
               className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 font-medium"
             />
           </div>
@@ -143,10 +183,10 @@ export default function ProductsPage() {
           <div>
             <select
               value={selectedManufacturer}
-              onChange={(e) => setSelectedManufacturer(e.target.value)}
-              className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium focus:outline-none focus:border-emerald-500"
+              onChange={handleFilterChange(setSelectedManufacturer)}
+              className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium focus:outline-none focus:border-emerald-500 truncate"
             >
-              <option value="ALL">All Manufacturers</option>
+              <option value="ALL">All Manufacturers ({manufacturers.length - 1})</option>
               {manufacturers.filter((m) => m !== "ALL").map((m) => (
                 <option key={m} value={m}>{m}</option>
               ))}
@@ -157,7 +197,7 @@ export default function ProductsPage() {
           <div>
             <select
               value={selectedDosage}
-              onChange={(e) => setSelectedDosage(e.target.value)}
+              onChange={handleFilterChange(setSelectedDosage)}
               className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium focus:outline-none focus:border-emerald-500"
             >
               <option value="ALL">All Dosage Forms</option>
@@ -187,19 +227,19 @@ export default function ProductsPage() {
       {/* PRODUCTS DISPLAY */}
       {viewMode === "grid" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredMedicines.map((med) => {
+          {paginatedMedicines.map((med) => {
             const medBatches = batches.filter((b) => b.medicineId === med.id);
             const totalStockPieces = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
             const activeOffer = offers.find((o) => o.medicineId === med.id && o.isActive);
             const boxPieces = med.piecesPerStrip * med.stripsPerBox;
-            const availableBoxes = (totalStockPieces / boxPieces).toFixed(1);
+            const availableBoxes = (totalStockPieces / Math.max(1, boxPieces)).toFixed(1);
             const boxTradePrice = (med.tradePricePerPiece * boxPieces).toFixed(2);
             const isAdded = !!addedMap[med.id];
 
             return (
               <div
                 key={med.id}
-                className="premium-card p-5 flex flex-col justify-between group"
+                className="premium-card p-5 flex flex-col justify-between group hover:border-emerald-400/60 transition-all duration-200"
               >
                 <div>
                   <div className="flex items-start justify-between gap-1">
@@ -224,15 +264,21 @@ export default function ProductsPage() {
                     >
                       {med.brandName}
                     </Link>
-                    <div className="text-xs font-semibold text-slate-600 mt-0.5">
+                    <div className="text-xs font-semibold text-slate-600 mt-0.5 truncate">
                       {med.strength}
                     </div>
-                    <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                    <div className="text-xs text-slate-500 line-clamp-1 mt-0.5" title={med.genericName}>
                       {med.genericName}
                     </div>
-                    <div className="text-[11px] text-slate-400 mt-1 truncate">
+                    <div className="text-[11px] text-slate-400 mt-1 truncate" title={med.manufacturer}>
                       {med.manufacturer}
                     </div>
+                    {med.darNo && (
+                      <div className="text-[10px] text-emerald-700 font-mono flex items-center gap-1 mt-1">
+                        <ShieldCheck className="w-3 h-3 text-emerald-600" />
+                        <span>DAR: {med.darNo}</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600 space-y-1">
@@ -316,6 +362,7 @@ export default function ProductsPage() {
                   <th className="py-3 px-4">Medicine & Generic</th>
                   <th className="py-3 px-4">Dosage / Pack</th>
                   <th className="py-3 px-4">Manufacturer</th>
+                  <th className="py-3 px-4">DGDA DAR</th>
                   <th className="py-3 px-4">Stock (FEFO)</th>
                   <th className="py-3 px-4">Trade Price</th>
                   <th className="py-3 px-4">Trade Scheme</th>
@@ -323,7 +370,7 @@ export default function ProductsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredMedicines.map((med) => {
+                {paginatedMedicines.map((med) => {
                   const medBatches = batches.filter((b) => b.medicineId === med.id);
                   const totalStockPieces = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
                   const activeOffer = offers.find((o) => o.medicineId === med.id && o.isActive);
@@ -344,9 +391,12 @@ export default function ProductsPage() {
                         <div className="text-[10px] text-slate-400">{boxPieces} pcs/box</div>
                       </td>
                       <td className="py-3 px-4 text-slate-600">{med.manufacturer}</td>
+                      <td className="py-3 px-4 font-mono text-[11px] text-emerald-800">
+                        {med.darNo || "Verified"}
+                      </td>
                       <td className="py-3 px-4">
                         <span className={`font-mono font-bold ${totalStockPieces > 200 ? "text-emerald-700" : "text-amber-700"}`}>
-                          {(totalStockPieces / boxPieces).toFixed(1)} Boxes ({totalStockPieces} pcs)
+                          {(totalStockPieces / Math.max(1, boxPieces)).toFixed(1)} Boxes ({totalStockPieces} pcs)
                         </span>
                       </td>
                       <td className="py-3 px-4 font-mono font-bold text-slate-900">
@@ -385,6 +435,59 @@ export default function ProductsPage() {
                 })}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* PAGINATION CONTROLS */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-emerald-500/20 text-white text-xs">
+          <div className="font-semibold text-emerald-100">
+            Page <strong>{safePage}</strong> of <strong>{totalPages}</strong> ({filteredMedicines.length} total medicines)
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={safePage === 1}
+              className="px-3 py-1.5 rounded-lg border border-emerald-400/30 hover:bg-emerald-700/50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-colors"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Previous</span>
+            </button>
+
+            {/* Quick Page Jump */}
+            <div className="flex items-center gap-1">
+              {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                let pNum = i + 1;
+                if (totalPages > 5 && safePage > 3) {
+                  pNum = safePage - 3 + i;
+                  if (pNum > totalPages) pNum = totalPages - (4 - i);
+                }
+                return (
+                  <button
+                    key={pNum}
+                    onClick={() => setCurrentPage(pNum)}
+                    className={`w-8 h-8 rounded-lg font-bold transition-colors ${
+                      safePage === pNum
+                        ? "bg-white text-[#025540]"
+                        : "bg-emerald-800/40 hover:bg-emerald-700/60 text-emerald-100"
+                    }`}
+                  >
+                    {pNum}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={safePage === totalPages}
+              className="px-3 py-1.5 rounded-lg border border-emerald-400/30 hover:bg-emerald-700/50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition-colors"
+            >
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}

@@ -84,6 +84,8 @@ export interface IMedicine {
   
   isActive: boolean;
   requiresColdChain?: boolean;
+  darNo?: string;
+  dgdaApproved?: boolean;
 }
 
 export interface IBatch {
@@ -340,3 +342,261 @@ export const DemandForecastResponseSchema = z.object({
 
 export type IDemandForecastItem = z.infer<typeof DemandForecastItemSchema>;
 export type IDemandForecastResponse = z.infer<typeof DemandForecastResponseSchema>;
+
+// ============================================================================
+// 1. DAILY SALES (POS) DOMAIN TYPES
+// ============================================================================
+
+export type PaymentMethod = "CASH" | "BKASH" | "NAGAD" | "DUE" | "SPLIT";
+
+export interface IPosSaleItem {
+  medicineId: string;
+  brandName: string;
+  genericName: string;
+  dosageForm: DosageForm;
+  strength: string;
+  unit: PackagingUnit;
+  qty: number;
+  looseUnits: number;
+  unitPrice: number;
+  costPricePerPiece: number;
+  discountPercent: number;
+  total: number;
+  batchNumber?: string;
+}
+
+export interface IPosSale {
+  id: string;
+  invoiceNo: string;
+  date: string;
+  customerName: string;
+  customerPhone: string;
+  customerAddress?: string;
+  items: IPosSaleItem[];
+  subtotal: number;
+  discountAmount: number;
+  vatAmount: number;
+  netTotal: number;
+  paymentMethod: PaymentMethod;
+  cashPaid: number;
+  digitalPaid: number;
+  digitalTxnId?: string;
+  dueAmount: number;
+  changeGiven: number;
+  servedBy: string;
+}
+
+export interface IDailyClosing {
+  id: string;
+  date: string;
+  totalBills: number;
+  grossSales: number;
+  totalDiscount: number;
+  totalVat: number;
+  netRevenue: number;
+  cashSales: number;
+  bkashSales: number;
+  nagadSales: number;
+  dueSales: number;
+  totalCostOfGoods: number;
+  grossProfit: number;
+  openingCash: number;
+  expectedDrawerCash: number;
+  actualDrawerCash: number;
+  cashDifference: number;
+  notes?: string;
+  closedAt: string;
+}
+
+// ============================================================================
+// 2. CUSTOMER DUE LEDGER TYPES
+// ============================================================================
+
+export interface ICustomer {
+  id: string;
+  name: string;
+  phone: string;
+  address?: string;
+  totalCreditPurchases: number;
+  totalPaid: number;
+  currentDue: number;
+  lastPurchaseDate: string;
+  createdAt: string;
+}
+
+export interface ICustomerPayment {
+  id: string;
+  customerId: string;
+  customerName: string;
+  customerPhone: string;
+  amount: number;
+  paymentMethod: "CASH" | "BKASH" | "NAGAD" | "BANK";
+  referenceNo: string;
+  date: string;
+  notes?: string;
+}
+
+// ============================================================================
+// 3. COMPANY / DISTRIBUTOR ORDERS TYPES
+// ============================================================================
+
+export interface ICompany {
+  id: string;
+  name: string;
+  shortCode: string;
+  mrName: string;
+  mrPhone: string;
+  email?: string;
+  territory: string;
+  dueBalance: number;
+  logoColor?: string;
+}
+
+export interface IDistributorOrderItem {
+  medicineId: string;
+  brandName: string;
+  strength: string;
+  unit: PackagingUnit;
+  orderedQty: number;
+  bonusUnits?: number;
+  tradePricePerUnit: number;
+  total: number;
+}
+
+export interface IDistributorOrder {
+  id: string;
+  poNumber: string;
+  companyId: string;
+  companyName: string;
+  mrName: string;
+  mrPhone: string;
+  orderDate: string;
+  status: "PENDING" | "CONFIRMED" | "DELIVERED" | "CANCELLED";
+  paymentStatus: "UNPAID" | "PARTIALLY_PAID" | "PAID";
+  items: IDistributorOrderItem[];
+  totalAmount: number;
+  paidAmount: number;
+  notes?: string;
+  deliveredDate?: string;
+}
+
+export interface ICompanyPayment {
+  id: string;
+  companyId: string;
+  companyName: string;
+  amount: number;
+  paymentMethod: "CASH" | "CHEQUE" | "BANK_TRANSFER" | "BKASH";
+  referenceNo: string;
+  date: string;
+  notes?: string;
+}
+
+// ============================================================================
+// 4. EMPLOYEE MANAGEMENT TYPES
+// ============================================================================
+
+export type AttendanceStatus = "PRESENT" | "ABSENT" | "LEAVE" | "HALF_DAY";
+
+export interface IEmployee {
+  id: string;
+  name: string;
+  designation: string;
+  phone: string;
+  nid: string;
+  address: string;
+  joiningDate: string;
+  baseSalary: number;
+  photo: string;
+  status: "ACTIVE" | "INACTIVE";
+}
+
+export interface IAttendanceRecord {
+  id: string;
+  employeeId: string;
+  date: string; // YYYY-MM-DD
+  status: AttendanceStatus;
+  checkInTime?: string;
+  checkOutTime?: string;
+  notes?: string;
+}
+
+export interface ISalaryRecord {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  month: string; // YYYY-MM
+  baseSalary: number;
+  bonus: number;
+  advanceDeduction: number;
+  absenceDeduction: number;
+  absentDays: number;
+  otherDeduction: number;
+  netSalary: number;
+  status: "PAID" | "PENDING";
+  paymentDate?: string;
+}
+
+export interface ILeaveRequest {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  leaveType: "SICK" | "CASUAL" | "ANNUAL";
+  startDate: string;
+  endDate: string;
+  totalDays: number;
+  reason: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  requestedDate: string;
+  reviewedDate?: string;
+  reviewerNotes?: string;
+}
+
+// ============================================================================
+// 5. EXPENSE TRACKING TYPES
+// ============================================================================
+
+export type ExpenseCategory =
+  | "RENT"
+  | "ELECTRICITY"
+  | "SALARY"
+  | "TRANSPORT"
+  | "MAINTENANCE"
+  | "TEA_SNACKS"
+  | "OTHER";
+
+export interface IExpense {
+  id: string;
+  date: string;
+  category: ExpenseCategory;
+  title: string;
+  amount: number;
+  paymentMethod: "CASH" | "BKASH" | "NAGAD" | "BANK";
+  payee: string;
+  notes?: string;
+  voucherNo?: string;
+}
+
+// ============================================================================
+// 6. MR / MARKETING MANAGER PANEL (PRIVATE) TYPES
+// ============================================================================
+
+export interface IMrVisit {
+  id: string;
+  pharmacyName: string;
+  pharmacyAddress: string;
+  contactPerson: string;
+  contactPhone: string;
+  visitDate: string;
+  purpose: string;
+  notes: string;
+  ordersCollectedAmount: number;
+  status: "COMPLETED" | "SCHEDULED";
+}
+
+export interface IMrTarget {
+  month: string;
+  targetAmount: number;
+  achievedAmount: number;
+  incentiveRatePercent: number;
+}
+

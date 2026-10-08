@@ -24,6 +24,10 @@ import {
   Clock,
   DollarSign,
   AlertCircle,
+  Truck,
+  FileBarChart2,
+  Briefcase,
+  Users,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit } from "@/types/domain";
@@ -86,111 +90,281 @@ export default function HomePage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* =================================================================== */}
-      {/* 🟢 HERO SECTION: Emerald Gradient Background                       */}
+      {/* 🟢 HERO & CREDIT HEALTH SECTION (Enterprise SaaS Redesign)          */}
       {/* =================================================================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         
-        {/* Hero Card */}
-        <div className="lg:col-span-2 bg-gradient-to-r from-[#065F52] to-[#0F8F78] rounded-2xl p-6 border border-[#DDE8E3]/30 shadow-2xl flex flex-col justify-between relative overflow-hidden text-white">
-          <div className="absolute top-0 right-0 -mr-8 -mt-8 w-56 h-56 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
+        {/* =================================================================== */}
+        {/* 1. HERO OPERATIONAL OVERVIEW CARD (2 Cols)                          */}
+        {/* =================================================================== */}
+        <div className="lg:col-span-2 bg-gradient-to-br from-[#044a40] via-[#065F52] to-[#0a7a6a] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col justify-between relative overflow-hidden text-white">
           
-          <div>
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white border border-white/30">
-                Authorized Pharmacy Terminal
+          {/* Subtle Ambient Background Highlights */}
+          <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-teal-300/10 rounded-full blur-2xl pointer-events-none" />
+
+          {/* Top Info Badges */}
+          <div className="relative z-10 space-y-4">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/15 text-emerald-100 border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+                <span>Authorized Pharmacy Terminal</span>
               </span>
-              <span className="text-xs text-emerald-100/80 font-mono">
-                Lic: {currentPharmacy.drugLicenseNo}
+
+              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 backdrop-blur-md flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Live Ordering Active</span>
+              </span>
+
+              <span className="text-xs text-emerald-100/70 font-mono font-medium ml-auto hidden sm:inline-block">
+                Lic: <strong className="text-white font-semibold">{currentPharmacy.drugLicenseNo}</strong>
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
-              Welcome back, <span className="text-emerald-200">{currentPharmacy.tradeName}</span>
-            </h1>
-            <p className="text-xs sm:text-sm text-emerald-100/90 mt-1.5 max-w-xl leading-relaxed">
-              Real-time B2B pharmaceutical order cutting with Near-Expiry FEFO batch allocation, automated trade bonus calculations, and AI-assisted slip ordering.
-            </p>
+
+            {/* Main Welcome Heading */}
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+                Welcome back,{" "}
+                <span className="bg-gradient-to-r from-emerald-200 via-teal-100 to-white bg-clip-text text-transparent">
+                  {currentPharmacy.tradeName}
+                </span>
+              </h1>
+              <p className="text-xs sm:text-sm text-emerald-100/90 mt-2.5 max-w-2xl leading-relaxed font-normal">
+                Manage real-time medicine procurement, near-expiry FEFO allocation, trade bonus optimization, and AI-assisted order cutting from a single platform.
+              </p>
+            </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          {/* Quick Action Buttons */}
+          <div className="relative z-10 mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center gap-3">
+            <Link
+              href="/pos"
+              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white text-[#044a40] hover:bg-emerald-50 font-black text-xs shadow-lg transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group cursor-pointer"
+            >
+              <ShoppingCart className="w-4 h-4 text-emerald-700" />
+              <span>Daily Sales (POS) Counter</span>
+            </Link>
+
             <button
               onClick={() => setIsQuickOrderOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 hover:scale-105 active:scale-95"
+              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-lg shadow-emerald-950/20 border border-emerald-400/30 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group cursor-pointer"
             >
-              <Zap className="w-4 h-4 fill-current" />
-              <span>Fast Order Matrix</span>
+              <Zap className="w-4 h-4 fill-current text-white group-hover:animate-bounce" />
+              <span>Fast Order</span>
             </button>
 
             <Link
               href="/ai-order"
-              className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2"
+              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-lg shadow-purple-950/20 border border-purple-400/30 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group"
             >
-              <Sparkles className="w-4 h-4 text-purple-200 animate-pulse" />
-              <span>AI Prescription Parser</span>
+              <Sparkles className="w-4 h-4 text-purple-200 group-hover:rotate-12 transition-transform" />
+              <span>AI Slip Parser</span>
             </Link>
 
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 backdrop-blur-md transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 cursor-pointer"
             >
-              <Search className="w-3.5 h-3.5 text-emerald-300" />
+              <Search className="w-4 h-4 text-emerald-300" />
               <span>Search Medicines</span>
             </button>
           </div>
         </div>
 
-        {/* 💙 BLUE SECTION: Financial Credit Health Card (Pure White Card) */}
-        <div className="premium-card p-6 flex flex-col justify-between border-l-4 border-l-blue-600">
-          <div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
-                <CreditCard className="w-4 h-4 text-blue-600" />
-                <span>Credit Health</span>
-              </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
+        {/* =================================================================== */}
+        {/* 2. CREDIT HEALTH CARD (FINANCIAL ERP WIDGET - 1 Col)                */}
+        {/* =================================================================== */}
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md shadow-slate-200/50 flex flex-col justify-between relative overflow-hidden text-slate-900">
+          
+          <div className="space-y-4">
+            {/* Header Title & Status Badge */}
+            <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 font-bold shrink-0">
+                  <CreditCard className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-sm text-slate-900 leading-none">Credit Health</h3>
+                  <span className="text-[10px] text-slate-400 font-medium">B2B Financial Headroom</span>
+                </div>
+              </div>
+
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-50 text-blue-800 border border-blue-200/80 shrink-0">
                 Active 30-Day Terms
               </span>
             </div>
 
-            <div className="mt-3">
-              <div className="text-xs text-slate-500">Available Credit Headroom</div>
-              <div className="text-2xl font-black font-mono text-blue-700">
-                ৳{availableCredit.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {/* Main Available Credit Metric */}
+            <div>
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                Available Credit Headroom
+              </div>
+              <div className="text-2xl sm:text-3xl font-black font-mono text-blue-700 mt-0.5 tracking-tight">
+                ৳{availableCredit.toLocaleString('en-BD', { minimumFractionDigits: 2 })}
               </div>
             </div>
 
-            {/* Progress Bar */}
-            <div className="mt-3 space-y-1">
-              <div className="flex justify-between text-[11px] text-slate-600 font-medium">
-                <span>Used: ৳{currentPharmacy.currentBalance.toLocaleString()}</span>
-                <span>Limit: ৳{currentPharmacy.creditLimit.toLocaleString()}</span>
+            {/* Premium Usage Progress Bar */}
+            <div className="space-y-1.5 pt-1">
+              <div className="flex items-center justify-between text-xs font-semibold">
+                <span className="text-slate-600">
+                  Used: <strong className="text-slate-900 font-bold">৳{currentPharmacy.currentBalance.toLocaleString()}</strong>
+                </span>
+                <span className="text-slate-500">
+                  Limit: <strong className="text-slate-800">৳{currentPharmacy.creditLimit.toLocaleString()}</strong>
+                </span>
               </div>
-              <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+
+              <div className="w-full h-3 bg-slate-100 rounded-full p-0.5 overflow-hidden border border-slate-200/60 shadow-inner">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    creditUtilizationPercent > 80 ? "bg-amber-500" : "bg-blue-600"
+                    creditUtilizationPercent > 80
+                      ? "bg-gradient-to-r from-amber-500 to-rose-500"
+                      : "bg-gradient-to-r from-blue-500 to-blue-700"
                   }`}
                   style={{ width: `${creditUtilizationPercent}%` }}
                 />
               </div>
             </div>
+
+            {/* Micro Financial Metadata Grid */}
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-[11px]">
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
+                <div className="text-[10px] font-medium text-slate-400 uppercase">Utilization</div>
+                <div className="font-black text-slate-800 text-xs">{creditUtilizationPercent}%</div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
+                <div className="text-[10px] font-medium text-slate-400 uppercase">Next Due Date</div>
+                <div className="font-bold text-blue-800 text-xs">18 Sep 2026</div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
+                <div className="text-[10px] font-medium text-slate-400 uppercase">Overdue Amount</div>
+                <div className="font-bold text-emerald-700 text-xs">৳0.00</div>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
+                <div className="text-[10px] font-medium text-slate-400 uppercase">Last Payment</div>
+                <div className="font-bold text-slate-700 text-[11px] truncate">৳12,000 (05 Sep)</div>
+              </div>
+            </div>
+
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+          {/* Bottom Actions */}
+          <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <Link
               href="/credit"
-              className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1"
+              className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 transition-colors group"
             >
-              Credit Details <ArrowRight className="w-3.5 h-3.5" />
+              <span>Credit Details</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
+
             <Link
               href="/transactions"
-              className="text-slate-500 hover:text-slate-800 font-semibold"
+              className="text-slate-500 hover:text-slate-900 font-semibold transition-colors"
             >
               Ledger Statements
             </Link>
           </div>
         </div>
+      </div>
 
+      {/* =================================================================== */}
+      {/* 🚀 8-MODULE PHARMACY MANAGEMENT SUITE QUICK LAUNCHER               */}
+      {/* =================================================================== */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-xs px-1">
+          <span className="font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Integrated Pharmacy Management Systems</span>
+          </span>
+          <span className="text-slate-500 font-medium">8 Enterprise Modules Active</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+          {[
+            {
+              title: "Daily Sales POS",
+              desc: "Fast Billing & Thermal Receipt",
+              href: "/pos",
+              icon: ShoppingCart,
+              color: "text-emerald-700 bg-emerald-50 border-emerald-200",
+            },
+            {
+              title: "Medicine Stock",
+              desc: "FEFO Lots & Expiry Alerts",
+              href: "/inventory",
+              icon: Boxes,
+              color: "text-teal-700 bg-teal-50 border-teal-200",
+            },
+            {
+              title: "Company Orders",
+              desc: "Send to MR via WhatsApp",
+              href: "/distributor-orders",
+              icon: Truck,
+              color: "text-blue-700 bg-blue-50 border-blue-200",
+            },
+            {
+              title: "Customer Due",
+              desc: "Baki Khata & SMS Reminders",
+              href: "/customer-due",
+              icon: CreditCard,
+              color: "text-rose-700 bg-rose-50 border-rose-200",
+            },
+            {
+              title: "Staff & Payroll",
+              desc: "Attendance & Auto Deduction",
+              href: "/employees",
+              icon: Users,
+              color: "text-indigo-700 bg-indigo-50 border-indigo-200",
+            },
+            {
+              title: "Reports & BI",
+              desc: "Sales Trends & Net Profit",
+              href: "/reports",
+              icon: FileBarChart2,
+              color: "text-purple-700 bg-purple-50 border-purple-200",
+            },
+            {
+              title: "Expenses",
+              desc: "Rent, Electricity, OPEX",
+              href: "/expenses",
+              icon: DollarSign,
+              color: "text-amber-700 bg-amber-50 border-amber-200",
+            },
+            {
+              title: "MR Portal",
+              desc: "Private Territory Panel",
+              href: "/mr-portal",
+              icon: Briefcase,
+              color: "text-slate-800 bg-slate-100 border-slate-300",
+            },
+          ].map((mod) => {
+            const Icon = mod.icon;
+            return (
+              <Link
+                key={mod.href}
+                href={mod.href}
+                className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all flex flex-col justify-between group"
+              >
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border mb-2.5 ${mod.color} group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-4 h-4 stroke-[2.2]" />
+                </div>
+                <div>
+                  <h3 className="font-black text-xs text-slate-900 group-hover:text-emerald-700 transition-colors leading-tight">
+                    {mod.title}
+                  </h3>
+                  <p className="text-[10px] text-slate-400 mt-0.5 leading-tight line-clamp-1">
+                    {mod.desc}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       {/* =================================================================== */}

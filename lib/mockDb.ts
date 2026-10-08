@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import {
   DosageForm,
   IBatch,
@@ -12,357 +14,25 @@ import {
   UserRole,
 } from "@/types/domain";
 
-// Initial seed data representing real-world pharmaceutical catalog & batches
-export const initialMedicines: IMedicine[] = [
-  {
-    id: "med-01",
-    code: "MED-NAP-EXT",
-    brandName: "Napa Extra",
-    genericName: "Paracetamol + Caffeine",
-    dosageForm: DosageForm.TABLET,
-    strength: "500mg + 65mg",
-    manufacturer: "Beximco Pharmaceuticals Ltd.",
-    description: "Analgesic & Antipyretic for severe headache, migraine, toothache and fever.",
-    piecesPerStrip: 10,
-    stripsPerBox: 20, // 1 Box = 200 Pieces
-    mrpPerPiece: 3.00,
-    tradePricePerPiece: 2.45,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-02",
-    code: "MED-ACE-PLS",
-    brandName: "Ace Plus",
-    genericName: "Paracetamol + Caffeine",
-    dosageForm: DosageForm.TABLET,
-    strength: "500mg + 65mg",
-    manufacturer: "Square Pharmaceuticals PLC",
-    description: "Rapid relief from pain, fever, neuralgic pain, and headache.",
-    piecesPerStrip: 10,
-    stripsPerBox: 20, // 1 Box = 200 Pieces
-    mrpPerPiece: 3.00,
-    tradePricePerPiece: 2.45,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-03",
-    code: "MED-SEC-020",
-    brandName: "Seclo 20",
-    genericName: "Omeprazole",
-    dosageForm: DosageForm.CAPSULE,
-    strength: "20mg",
-    manufacturer: "Square Pharmaceuticals PLC",
-    description: "Proton Pump Inhibitor (PPI) for gastric ulcer, GERD, and hyperacidity.",
-    piecesPerStrip: 10,
-    stripsPerBox: 10, // 1 Box = 100 Pieces
-    mrpPerPiece: 6.00,
-    tradePricePerPiece: 4.90,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-04",
-    code: "MED-SER-020",
-    brandName: "Sergel 20",
-    genericName: "Esomeprazole",
-    dosageForm: DosageForm.CAPSULE,
-    strength: "20mg",
-    manufacturer: "Incepta Pharmaceuticals Ltd.",
-    description: "Next-gen PPI for erosive esophagitis, acid reflux, and peptic ulcer.",
-    piecesPerStrip: 14,
-    stripsPerBox: 8, // 1 Box = 112 Pieces
-    mrpPerPiece: 8.00,
-    tradePricePerPiece: 6.50,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-05",
-    code: "MED-MON-010",
-    brandName: "Monas 10",
-    genericName: "Montelukast Sodium",
-    dosageForm: DosageForm.TABLET,
-    strength: "10mg",
-    manufacturer: "Acme Laboratories Ltd.",
-    description: "Leukotriene receptor antagonist for chronic asthma and allergic rhinitis.",
-    piecesPerStrip: 10,
-    stripsPerBox: 5, // 1 Box = 50 Pieces
-    mrpPerPiece: 17.50,
-    tradePricePerPiece: 14.20,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-06",
-    code: "MED-AZI-500",
-    brandName: "Zimax 500",
-    genericName: "Azithromycin",
-    dosageForm: DosageForm.TABLET,
-    strength: "500mg",
-    manufacturer: "Square Pharmaceuticals PLC",
-    description: "Macrolide antibiotic for upper and lower respiratory tract infections.",
-    piecesPerStrip: 3,
-    stripsPerBox: 6, // 1 Box = 18 Pieces
-    mrpPerPiece: 40.00,
-    tradePricePerPiece: 33.00,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-07",
-    code: "MED-FEX-120",
-    brandName: "Fexo 120",
-    genericName: "Fexofenadine HCl",
-    dosageForm: DosageForm.TABLET,
-    strength: "120mg",
-    manufacturer: "Square Pharmaceuticals PLC",
-    description: "Non-sedating antihistamine for seasonal allergic rhinitis and urticaria.",
-    piecesPerStrip: 10,
-    stripsPerBox: 5, // 1 Box = 50 Pieces
-    mrpPerPiece: 10.00,
-    tradePricePerPiece: 8.15,
-    vatPercentage: 2.40,
-    isActive: true,
-  },
-  {
-    id: "med-08",
-    code: "MED-CIP-500",
-    brandName: "Ciprocin 500",
-    genericName: "Ciprofloxacin",
-    dosageForm: DosageForm.TABLET,
-    strength: "500mg",
-    manufacturer: "Square Pharmaceuticals PLC",
-    description: "Broad-spectrum fluoroquinolone antibiotic for bacterial infections.",
-    piecesPerStrip: 10,
-    stripsPerBox: 5, // 1 Box = 50 Pieces
-    mrpPerPiece: 15.00,
-    tradePricePerPiece: 12.30,
-    vatPercentage: 2.40,
-    isActive: true,
+// Runtime lazy loader: Loads dataset from disk without forcing Webpack to parse 22MB as AST in memory
+function loadCatalogData(): { medicines: IMedicine[]; batches: IBatch[]; tradeOffers: ITradeOffer[] } {
+  try {
+    const jsonPath = path.join(process.cwd(), "lib", "data", "medicineDataset.json");
+    if (fs.existsSync(jsonPath)) {
+      const raw = fs.readFileSync(jsonPath, "utf-8");
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error("Failed to load medicineDataset.json, using fallback:", err);
   }
-];
+  return { medicines: [], batches: [], tradeOffers: [] };
+}
 
-// Multiple batches per medicine with varying manufacturing/expiry dates for FIFO simulation
-export const initialBatches: IBatch[] = [
-  // Napa Extra Batches
-  {
-    id: "batch-napa-01",
-    batchNumber: "BN-2024-NAPA-01",
-    medicineId: "med-01",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2024-03-10",
-    expiryDate: "2026-11-30", // Expiring soon (Near expiry FIFO priority)
-    initialLooseUnits: 2000,
-    availableLooseUnits: 450,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 1.90,
-    mrpPerPiece: 3.00,
-  },
-  {
-    id: "batch-napa-02",
-    batchNumber: "BN-2025-NAPA-02",
-    medicineId: "med-01",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-01-15",
-    expiryDate: "2027-06-30", // Later expiry
-    initialLooseUnits: 5000,
-    availableLooseUnits: 3800,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 1.95,
-    mrpPerPiece: 3.00,
-  },
-  {
-    id: "batch-napa-03",
-    batchNumber: "BN-2025-NAPA-03",
-    medicineId: "med-01",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-08-01",
-    expiryDate: "2028-01-31", // Freshest batch
-    initialLooseUnits: 10000,
-    availableLooseUnits: 9800,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 2.00,
-    mrpPerPiece: 3.00,
-  },
+const catalogData = loadCatalogData();
 
-  // Ace Plus Batches
-  {
-    id: "batch-ace-01",
-    batchNumber: "BN-2024-ACE-08",
-    medicineId: "med-02",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2024-06-10",
-    expiryDate: "2026-12-15",
-    initialLooseUnits: 3000,
-    availableLooseUnits: 1200,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 1.90,
-    mrpPerPiece: 3.00,
-  },
-  {
-    id: "batch-ace-02",
-    batchNumber: "BN-2025-ACE-11",
-    medicineId: "med-02",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-03-20",
-    expiryDate: "2027-09-30",
-    initialLooseUnits: 6000,
-    availableLooseUnits: 5400,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 1.95,
-    mrpPerPiece: 3.00,
-  },
-
-  // Seclo 20 Batches
-  {
-    id: "batch-sec-01",
-    batchNumber: "BN-2024-SEC-03",
-    medicineId: "med-03",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2024-05-15",
-    expiryDate: "2026-10-31", // Very near expiry!
-    initialLooseUnits: 1500,
-    availableLooseUnits: 300,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 3.80,
-    mrpPerPiece: 6.00,
-  },
-  {
-    id: "batch-sec-02",
-    batchNumber: "BN-2025-SEC-09",
-    medicineId: "med-03",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-02-10",
-    expiryDate: "2027-05-31",
-    initialLooseUnits: 4000,
-    availableLooseUnits: 3200,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 3.90,
-    mrpPerPiece: 6.00,
-  },
-
-  // Sergel 20 Batches
-  {
-    id: "batch-ser-01",
-    batchNumber: "BN-2025-SER-01",
-    medicineId: "med-04",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-01-10",
-    expiryDate: "2027-04-30",
-    initialLooseUnits: 2500,
-    availableLooseUnits: 2100,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 5.10,
-    mrpPerPiece: 8.00,
-  },
-
-  // Monas 10 Batches
-  {
-    id: "batch-mon-01",
-    batchNumber: "BN-2025-MON-04",
-    medicineId: "med-05",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-04-10",
-    expiryDate: "2027-08-31",
-    initialLooseUnits: 1800,
-    availableLooseUnits: 1500,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 11.20,
-    mrpPerPiece: 17.50,
-  },
-
-  // Zimax 500 Batches (Low stock scenario for AI alternative test)
-  {
-    id: "batch-zim-01",
-    batchNumber: "BN-2024-ZIM-02",
-    medicineId: "med-06",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2024-08-15",
-    expiryDate: "2026-11-20",
-    initialLooseUnits: 200,
-    availableLooseUnits: 18, // Barely 1 box left!
-    reservedLooseUnits: 0,
-    costPricePerPiece: 26.50,
-    mrpPerPiece: 40.00,
-  },
-
-  // Fexo 120 Batches
-  {
-    id: "batch-fex-01",
-    batchNumber: "BN-2025-FEX-01",
-    medicineId: "med-07",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-02-20",
-    expiryDate: "2027-07-31",
-    initialLooseUnits: 2000,
-    availableLooseUnits: 1800,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 6.40,
-    mrpPerPiece: 10.00,
-  },
-
-  // Ciprocin 500 Batches
-  {
-    id: "batch-cip-01",
-    batchNumber: "BN-2025-CIP-02",
-    medicineId: "med-08",
-    depotId: "depot-dhk-01",
-    manufacturingDate: "2025-03-01",
-    expiryDate: "2027-09-30",
-    initialLooseUnits: 3000,
-    availableLooseUnits: 2600,
-    reservedLooseUnits: 0,
-    costPricePerPiece: 9.60,
-    mrpPerPiece: 15.00,
-  }
-];
-
-// Active promotional trade schemes
-export const initialTradeOffers: ITradeOffer[] = [
-  {
-    id: "offer-01",
-    title: "Monsoon Health Surge: Buy 10 Boxes Napa Extra, Get 1 Box Free",
-    medicineId: "med-01",
-    schemeType: TradeSchemeType.BUY_X_GET_Y_FREE,
-    qualifyingUnit: PackagingUnit.BOX,
-    minQualifyingQty: 10,
-    bonusQty: 1,
-    bonusUnit: PackagingUnit.BOX,
-    startDate: "2026-08-01",
-    endDate: "2026-10-31",
-    isActive: true,
-  },
-  {
-    id: "offer-02",
-    title: "Gastric Care Volume Offer: 5.0% Instant Trade Discount on >= 20 Strips Seclo 20",
-    medicineId: "med-03",
-    schemeType: TradeSchemeType.SLAB_DISCOUNT,
-    qualifyingUnit: PackagingUnit.STRIP,
-    minQualifyingQty: 20,
-    bonusQty: 0,
-    bonusUnit: PackagingUnit.STRIP,
-    discountPercent: 5.0,
-    startDate: "2026-08-15",
-    endDate: "2026-11-15",
-    isActive: true,
-  },
-  {
-    id: "offer-03",
-    title: "Allergy Season Bonus: 5% Bonus Loose Pieces on Monas 10",
-    medicineId: "med-05",
-    schemeType: TradeSchemeType.BONUS_RATIO,
-    qualifyingUnit: PackagingUnit.BOX,
-    minQualifyingQty: 2,
-    bonusQty: 5,
-    bonusUnit: PackagingUnit.PIECE,
-    discountPercent: 5.0, // 5% bonus ratio
-    startDate: "2026-09-01",
-    endDate: "2026-10-31",
-    isActive: true,
-  }
-];
+export const initialMedicines: IMedicine[] = (catalogData.medicines as unknown as IMedicine[]) || [];
+export const initialBatches: IBatch[] = (catalogData.batches as unknown as IBatch[]) || [];
+export const initialTradeOffers: ITradeOffer[] = (catalogData.tradeOffers as unknown as ITradeOffer[]) || [];
 
 // Pharmacies with varying credit profiles to test risk gating
 export const initialPharmacies: IPharmacy[] = [
@@ -379,7 +49,7 @@ export const initialPharmacies: IPharmacy[] = [
     thana: "Dhanmondi",
     district: "Dhaka",
     creditLimit: 120000.00,
-    currentBalance: 34500.00, // Healthy credit headroom
+    currentBalance: 34500.00,
     creditDaysLimit: 30,
     isCreditBlocked: false,
     depotId: "depot-dhk-01",
@@ -398,7 +68,7 @@ export const initialPharmacies: IPharmacy[] = [
     thana: "Mohammadpur",
     district: "Dhaka",
     creditLimit: 50000.00,
-    currentBalance: 48500.00, // Near Credit Ceiling (৳1,500 headroom)
+    currentBalance: 48500.00,
     creditDaysLimit: 30,
     isCreditBlocked: false,
     depotId: "depot-dhk-01",
@@ -415,9 +85,9 @@ export const initialPharmacies: IPharmacy[] = [
     thana: "Uttara",
     district: "Dhaka",
     creditLimit: 75000.00,
-    currentBalance: 82000.00, // Overdue / Limit Exceeded
+    currentBalance: 82000.00,
     creditDaysLimit: 30,
-    isCreditBlocked: true, // Blocked by admin
+    isCreditBlocked: true,
     depotId: "depot-dhk-01",
     salesRepId: "user-sr-01",
   }
@@ -472,7 +142,7 @@ export const initialLedgerEntries: LedgerEntry[] = [
   }
 ];
 
-// In-Memory Database Singleton to support local API routes and real-time state mutations
+// In-Memory Database Singleton with O(1) Map indexing for high performance
 class MemoryDatabase {
   public medicines: IMedicine[] = [...initialMedicines];
   public batches: IBatch[] = [...initialBatches];
@@ -481,12 +151,100 @@ class MemoryDatabase {
   public ledgerEntries: LedgerEntry[] = [...initialLedgerEntries];
   public orders: any[] = [];
 
+  private medicineMap: Map<string, IMedicine> = new Map();
+  private batchMap: Map<string, IBatch[]> = new Map();
+  private singleBatchMap: Map<string, IBatch> = new Map();
+  private offerMap: Map<string, ITradeOffer> = new Map();
+  private cachedEnrichedCatalog: any[] | null = null;
+
+  constructor() {
+    this.initMaps();
+  }
+
+  private initMaps() {
+    for (let i = 0; i < this.medicines.length; i++) {
+      const m = this.medicines[i];
+      this.medicineMap.set(m.id, m);
+    }
+    for (let i = 0; i < this.batches.length; i++) {
+      const b = this.batches[i];
+      this.singleBatchMap.set(b.id, b);
+      const list = this.batchMap.get(b.medicineId) || [];
+      list.push(b);
+      this.batchMap.set(b.medicineId, list);
+    }
+    for (let i = 0; i < this.tradeOffers.length; i++) {
+      const o = this.tradeOffers[i];
+      if (o.isActive) {
+        this.offerMap.set(o.medicineId, o);
+      }
+    }
+  }
+
   public getMedicine(id: string): IMedicine | undefined {
-    return this.medicines.find((m) => m.id === id);
+    return this.medicineMap.get(id);
   }
 
   public getBatchesForMedicine(medicineId: string): IBatch[] {
-    return this.batches.filter((b) => b.medicineId === medicineId);
+    const existing = this.batchMap.get(medicineId);
+    if (existing && existing.length > 0) return existing;
+
+    // Dynamically synthesize 2 realistic batches for any SKU without pre-generated batches
+    const med = this.medicineMap.get(medicineId);
+    const slug = (med?.brandName || "MED").replace(/[^A-Za-z0-9]/g, "").slice(0, 4).toUpperCase();
+    const tradePrice = med ? med.tradePricePerPiece : 5.0;
+    const mrp = med ? med.mrpPerPiece : 6.0;
+
+    const b1: IBatch = {
+      id: `batch-${medicineId}-01`,
+      batchNumber: `BN-2024-${slug}-01`,
+      medicineId,
+      depotId: "depot-dhk-01",
+      manufacturingDate: "2024-07-15",
+      expiryDate: "2027-01-31",
+      initialLooseUnits: 2500,
+      availableLooseUnits: 1200,
+      reservedLooseUnits: 0,
+      costPricePerPiece: Number((tradePrice * 0.78).toFixed(2)),
+      mrpPerPiece: mrp,
+    };
+
+    const b2: IBatch = {
+      id: `batch-${medicineId}-02`,
+      batchNumber: `BN-2025-${slug}-02`,
+      medicineId,
+      depotId: "depot-dhk-01",
+      manufacturingDate: "2025-04-10",
+      expiryDate: "2028-04-30",
+      initialLooseUnits: 5000,
+      availableLooseUnits: 3800,
+      reservedLooseUnits: 0,
+      costPricePerPiece: Number((tradePrice * 0.78).toFixed(2)),
+      mrpPerPiece: mrp,
+    };
+
+    const list = [b1, b2];
+    this.singleBatchMap.set(b1.id, b1);
+    this.singleBatchMap.set(b2.id, b2);
+    this.batchMap.set(medicineId, list);
+    return list;
+  }
+
+  public getEnrichedCatalog(): any[] {
+    if (this.cachedEnrichedCatalog) {
+      return this.cachedEnrichedCatalog;
+    }
+    this.cachedEnrichedCatalog = this.medicines.map((med) => {
+      const batches = this.getBatchesForMedicine(med.id);
+      const activeOffer = this.getOfferForMedicine(med.id);
+      return {
+        ...med,
+        availableStockPieces: batches.reduce((acc, b) => acc + b.availableLooseUnits, 0),
+        batches,
+        activeOffer,
+      };
+    });
+    return this.cachedEnrichedCatalog;
   }
 
   public getPharmacy(id: string): IPharmacy | undefined {
@@ -494,11 +252,11 @@ class MemoryDatabase {
   }
 
   public getOfferForMedicine(medicineId: string): ITradeOffer | undefined {
-    return this.tradeOffers.find((o) => o.medicineId === medicineId && o.isActive);
+    return this.offerMap.get(medicineId);
   }
 
   public updateBatchStock(batchId: string, loosePiecesDeducted: number): void {
-    const batch = this.batches.find((b) => b.id === batchId);
+    const batch = this.singleBatchMap.get(batchId) || this.batches.find((b) => b.id === batchId);
     if (batch) {
       batch.availableLooseUnits = Math.max(0, batch.availableLooseUnits - loosePiecesDeducted);
     }
@@ -519,6 +277,18 @@ class MemoryDatabase {
 
   public addOrder(order: any): void {
     this.orders.unshift(order);
+  }
+
+  public searchMedicines(query: string, limit: number = 50): IMedicine[] {
+    const q = query.toLowerCase().trim();
+    if (!q) return this.medicines.slice(0, limit);
+    return this.medicines.filter((m) =>
+      m.brandName.toLowerCase().includes(q) ||
+      m.genericName.toLowerCase().includes(q) ||
+      m.manufacturer.toLowerCase().includes(q) ||
+      m.strength.toLowerCase().includes(q) ||
+      (m.darNo && m.darNo.toLowerCase().includes(q))
+    ).slice(0, limit);
   }
 }
 

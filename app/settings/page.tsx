@@ -44,7 +44,19 @@ import {
 import { useApp } from "@/lib/context/AppContext";
 
 export default function SettingsPage() {
-  const { currentUser, currentPharmacy, updateUserProfile, updateUserAvatar } = useApp();
+  const {
+    currentUser,
+    currentPharmacy,
+    updateUserProfile,
+    updateUserAvatar,
+    backupDatabase,
+    restoreDatabase,
+    resetDatabaseToDemo,
+    offlineQueueCount,
+    syncOfflineQueue,
+    isOnline,
+    setIsOnline,
+  } = useApp();
   const [activeTab, setActiveTab] = useState<string>("account");
   const [activeSubSection, setActiveSubSection] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -141,6 +153,13 @@ export default function SettingsPage() {
       icon: FileText,
       description: "System Activity Logs & Data Export",
       subItems: ["Account Activity", "System Logs", "Data Export"],
+    },
+    {
+      id: "backup",
+      label: "Backup, Restore & Sync",
+      icon: Database,
+      description: "Full Database JSON Export, Import, Offline Sync & Demo Reset",
+      subItems: ["Download Backup JSON", "Restore from File", "Offline Sync Queue", "Reset to Demo Data"],
     },
   ];
 
@@ -860,6 +879,162 @@ export default function SettingsPage() {
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Audit Log Preferences</span>
               </button>
+            </div>
+          )}
+
+          {/* =================================================================== */}
+          {/* TAB 11: BACKUP, RESTORE & OFFLINE SYNC                              */}
+          {/* =================================================================== */}
+          {activeTab === "backup" && (
+            <div className="space-y-6 animate-in fade-in">
+              <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+                    <Database className="w-5 h-5 text-emerald-700" />
+                    <span>Database Backup, Restore & Offline Data Synchronization</span>
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Export full platform snapshots, restore state from JSON dumps, and manage offline caching.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                {/* 1. Download Backup */}
+                <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
+                      <Download className="w-4 h-4 text-emerald-600" />
+                      <span>Export Full Database Backup</span>
+                    </div>
+                    <p className="text-slate-500 mt-1">
+                      Generates a JSON snapshot containing all medicines, batches, POS sales, distributor orders, expenses, employees, and customer due ledgers.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      const jsonStr = backupDatabase();
+                      const blob = new Blob([jsonStr], { type: "application/json" });
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = `MedSupply_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+                      a.click();
+                      URL.revokeObjectURL(url);
+                      handleSave("Database backup JSON downloaded successfully!");
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download JSON Backup</span>
+                  </button>
+                </div>
+
+                {/* 2. Restore from Backup */}
+                <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
+                      <RefreshCw className="w-4 h-4 text-blue-600" />
+                      <span>Restore from JSON Backup File</span>
+                    </div>
+                    <p className="text-slate-500 mt-1">
+                      Upload a previously exported <code>.json</code> file to restore medicines, batches, sales, and employee rosters.
+                    </p>
+                  </div>
+
+                  <label className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+                    <Database className="w-4 h-4" />
+                    <span>Select JSON Backup File</span>
+                    <input
+                      type="file"
+                      accept=".json"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          const content = event.target?.result as string;
+                          if (content) {
+                            const success = restoreDatabase(content);
+                            if (success) {
+                              handleSave("Database restored successfully from backup!");
+                            } else {
+                              alert("Invalid backup file format.");
+                            }
+                          }
+                        };
+                        reader.readAsText(file);
+                      }}
+                    />
+                  </label>
+                </div>
+
+                {/* 3. Offline Mode & Sync */}
+                <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
+                        <Smartphone className="w-4 h-4 text-amber-600" />
+                        <span>Offline Mode & Cache Sync</span>
+                      </div>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          isOnline ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
+                        }`}
+                      >
+                        {isOnline ? "ONLINE" : "OFFLINE MODE"}
+                      </span>
+                    </div>
+                    <p className="text-slate-500 mt-1">
+                      Transactions executed while offline are stored in local storage queue. Currently <strong>{offlineQueueCount}</strong> records queued.
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsOnline(!isOnline)}
+                      className="flex-1 px-3 py-2 rounded-xl border border-slate-300 bg-white font-bold text-slate-700 hover:bg-slate-100"
+                    >
+                      {isOnline ? "Simulate Offline" : "Go Online"}
+                    </button>
+                    <button
+                      onClick={syncOfflineQueue}
+                      className="flex-1 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold"
+                    >
+                      Sync Now
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4. Reset to Demo Data */}
+                <div className="p-5 rounded-2xl border border-rose-200 bg-rose-50/40 flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="flex items-center gap-2 font-black text-rose-900 text-sm">
+                      <Trash2 className="w-4 h-4 text-rose-600" />
+                      <span>Reset to Clean Demo State</span>
+                    </div>
+                    <p className="text-rose-700 mt-1">
+                      Re-populates fresh initial seed data for Bangladesh pharmacies (Square, Beximco, staff, attendance, POS sales).
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      if (confirm("Reset all local records to initial Bangladesh demo dataset?")) {
+                        resetDatabaseToDemo();
+                        handleSave("Reset complete: Demo database restored!");
+                      }
+                    }}
+                    className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold flex items-center justify-center gap-2 shadow-sm"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    <span>Reset to Demo Data</span>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 

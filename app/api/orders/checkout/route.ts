@@ -113,10 +113,11 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Credit & Ledger Risk Assessment Phase
+    const simulatedOldestInvoice = new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString();
     const creditAudit = CreditLedgerEngine.auditPharmacyCredit(
       pharmacy,
       totalNetPayable,
-      "2026-08-20" // simulated oldest unpaid invoice timestamp
+      simulatedOldestInvoice
     );
 
     if (!creditAudit.isApproved) {

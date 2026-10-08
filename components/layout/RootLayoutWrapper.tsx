@@ -7,7 +7,8 @@ import { HamburgerDrawer } from "@/components/layout/HamburgerDrawer";
 import { SearchCommand } from "@/components/layout/SearchCommand";
 import { QuickOrderModal } from "@/components/layout/QuickOrderModal";
 import Link from "next/link";
-import { Package, ShieldCheck, Headphones } from "lucide-react";
+import { ShieldCheck, Headphones } from "lucide-react";
+import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
@@ -37,10 +38,8 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
               
               {/* Col 1 */}
               <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-400 text-[#01382a] flex items-center justify-center font-bold">
-                    <Package className="w-5 h-5" />
-                  </div>
+                <div className="flex items-center gap-[2px]">
+                  <MedSupportLogo className="w-10 h-10 sm:w-12 sm:h-12 object-contain shrink-0" />
                   <span className="font-black text-lg tracking-tight text-white">
                     MedSupply<span className="text-emerald-400">BD</span>
                   </span>
@@ -55,25 +54,25 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
 
               {/* Col 2 */}
               <div className="space-y-2">
-                <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Ordering & Tools</div>
+                <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Pharmacy Operations</div>
                 <ul className="space-y-1.5 text-emerald-200/80">
-                  <li><Link href="/products" className="hover:text-white transition-colors">All Medicine Catalog</Link></li>
-                  <li><Link href="/cart" className="hover:text-white transition-colors">Shopping Cart</Link></li>
-                  <li><Link href="/my-orders" className="hover:text-white transition-colors">Order Tracking</Link></li>
-                  <li><Link href="/ai-order" className="hover:text-white transition-colors">AI Slip Parser</Link></li>
-                  <li><Link href="/ai-insights" className="hover:text-white transition-colors">AI Demand Forecaster</Link></li>
+                  <li><Link href="/pos" className="hover:text-white font-bold text-emerald-300 transition-colors">Daily Sales (POS)</Link></li>
+                  <li><Link href="/inventory" className="hover:text-white transition-colors">Medicine Database & Stock</Link></li>
+                  <li><Link href="/distributor-orders" className="hover:text-white transition-colors">Company / Distributor Orders</Link></li>
+                  <li><Link href="/customer-due" className="hover:text-white transition-colors">Customer Due Ledger</Link></li>
+                  <li><Link href="/expenses" className="hover:text-white transition-colors">Expense Tracking</Link></li>
                 </ul>
               </div>
 
               {/* Col 3 */}
               <div className="space-y-2">
-                <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Finance & Compliance</div>
+                <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Staff & Analytics</div>
                 <ul className="space-y-1.5 text-emerald-200/80">
-                  <li><Link href="/transactions" className="hover:text-white transition-colors">Financial Ledger</Link></li>
-                  <li><Link href="/credit" className="hover:text-white transition-colors">Credit Dashboard</Link></li>
-                  <li><Link href="/trade-offers" className="hover:text-white transition-colors">Running Trade Schemes</Link></li>
-                  <li><Link href="/inventory/batches" className="hover:text-white transition-colors">FEFO Batch Traceability</Link></li>
-                  <li><Link href="/reports" className="hover:text-white transition-colors">Business Reports</Link></li>
+                  <li><Link href="/employees" className="hover:text-white transition-colors">Employee Management</Link></li>
+                  <li><Link href="/reports" className="hover:text-white transition-colors">Reports & Analytics Charts</Link></li>
+                  <li><Link href="/mr-portal" className="hover:text-white transition-colors">MR Field Manager Panel</Link></li>
+                  <li><Link href="/settings" className="hover:text-white transition-colors">Settings & Backup</Link></li>
+                  <li><Link href="/ai-order" className="hover:text-white transition-colors">AI Slip Parser</Link></li>
                 </ul>
               </div>
 
@@ -92,13 +91,8 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
 
             </div>
 
-            <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-emerald-200/70">
-              <div>© 2026 MedSupply BD Ltd. All rights reserved. Registered under DGDA Pharmaceutical Distribution Act.</div>
-              <div className="flex items-center gap-4 text-[11px]">
-                <Link href="/support" className="hover:text-white">Privacy Policy</Link>
-                <Link href="/support" className="hover:text-white">Terms of Supply</Link>
-                <Link href="/support" className="hover:text-white">Drug Licensing</Link>
-              </div>
+            <div className="pt-6 text-center text-xs text-emerald-200/70">
+              Copyright © {new Date().getFullYear()} medSupportBD . All rights reserved.
             </div>
           </div>
         </footer>
