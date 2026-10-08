@@ -76,6 +76,34 @@ export default function HomePage() {
   const [catalogSearch, setCatalogSearch] = useState("");
   const [debouncedCatalogSearch, setDebouncedCatalogSearch] = useState("");
 
+  // Hero Banner Carousel State (from assets/hero banner)
+  const heroBanners = [
+    {
+      id: 1,
+      src: "/images/hero-banner/banner-1.png",
+      alt: "Green Care Pharmacy - Capsule, Syrup, Tablet Medicine Stock",
+    },
+    {
+      id: 2,
+      src: "/images/hero-banner/banner-2.png",
+      alt: "Smart Healthcare Supply Network - Certified Pharmaceuticals",
+    },
+    {
+      id: 3,
+      src: "/images/hero-banner/banner-3.png",
+      alt: "Real-time Medicine Inventory & Procurement",
+    },
+  ];
+
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
+
+  useEffect(() => {
+    const slideTimer = setInterval(() => {
+      setCurrentHeroSlide((prev) => (prev + 1) % heroBanners.length);
+    }, 5000);
+    return () => clearInterval(slideTimer);
+  }, [heroBanners.length]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedCatalogSearch(catalogSearch);
@@ -174,50 +202,78 @@ export default function HomePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-stretch">
         
         {/* =================================================================== */}
-        {/* 1. HERO OPERATIONAL OVERVIEW CARD (2 Cols)                          */}
+        {/* 1. HERO BANNER CAROUSEL (3 Banners from assets/hero banner)         */}
         {/* =================================================================== */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#014232] via-[#02523e] to-[#04624b] rounded-[28px] p-6 sm:p-7 border border-emerald-500/20 shadow-xl flex flex-col justify-between relative overflow-hidden text-white">
-          
-          {/* Subtle Ambient Background Highlights */}
-          <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-teal-300/10 rounded-full blur-2xl pointer-events-none" />
-
-          {/* Hero Content */}
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-4 max-w-lg">
-              {/* Main Welcome Heading */}
-              <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                  Welcome back,<br />
-                  <span className="text-[#34d399] font-black">
-                    {currentPharmacy.tradeName || "Green Care Pharmacy"}!
-                  </span>
-                </h1>
-                <p className="text-xs text-emerald-100/90 mt-2 max-w-md leading-relaxed font-normal">
-                  Manage your pharmacy business smarter with real-time stock, near-expiry alerts, seamless procurement, trade bonuses and AI-assisted ordering — all in one powerful platform.
-                </p>
+        <div className="lg:col-span-2 rounded-[28px] overflow-hidden border border-emerald-500/20 shadow-xl relative group bg-gradient-to-br from-[#014232] to-[#04624b] min-h-[350px] sm:min-h-[380px] lg:min-h-[400px] flex items-center select-none">
+          {/* Banner Slides (Crossfade Transition) */}
+          <Link
+            href="/inventory"
+            className="absolute inset-0 block w-full h-full cursor-pointer z-10"
+            title="Explore 41,000+ Medicine Catalog & Stock"
+          >
+            {heroBanners.map((banner, index) => (
+              <div
+                key={banner.id}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                  index === currentHeroSlide ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+                }`}
+              >
+                <img
+                  src={banner.src}
+                  alt={banner.alt}
+                  className="w-full h-full object-cover object-center select-none"
+                />
               </div>
+            ))}
+          </Link>
 
-              {/* Explore All Features button */}
-              <div className="pt-1">
-                <Link
-                  href="/inventory"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-slate-900 hover:bg-emerald-50 text-xs font-black shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
-                >
-                  <span>Explore All Features</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+          {/* Interactive Navigation Controls matching the baked buttons */}
+          {/* Previous Arrow Hitbox (<) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setCurrentHeroSlide((prev) => (prev - 1 + heroBanners.length) % heroBanners.length);
+            }}
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+            title="Previous Banner"
+            aria-label="Previous Slide"
+          >
+            <span className="sr-only">Previous Slide</span>
+          </button>
 
-            {/* Right Side: 3D Medicine Bottle Illustration */}
-            <div className="relative shrink-0 flex items-center justify-center md:justify-end">
-              <img
-                src="/images/hero-medicine.png"
-                alt="3D Medicine Protection"
-                className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.25)] transform hover:scale-105 transition-transform duration-500 pointer-events-none select-none"
+          {/* Next Arrow Hitbox (>) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setCurrentHeroSlide((prev) => (prev + 1) % heroBanners.length);
+            }}
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
+            title="Next Banner"
+            aria-label="Next Slide"
+          >
+            <span className="sr-only">Next Slide</span>
+          </button>
+
+          {/* Bottom Pagination Dots Hitboxes */}
+          <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20">
+            {heroBanners.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCurrentHeroSlide(idx);
+                }}
+                className="w-7 sm:w-8 h-4 rounded-full cursor-pointer focus:outline-none"
+                title={`Slide ${idx + 1}`}
+                aria-label={`Slide ${idx + 1}`}
               />
-            </div>
+            ))}
           </div>
         </div>
 
