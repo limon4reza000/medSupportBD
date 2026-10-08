@@ -14,6 +14,8 @@ import {
   Settings,
   Headphones,
   ChevronRight,
+  LogOut,
+  Globe,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 
@@ -55,7 +57,11 @@ const MRPortalIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 
 export const AppSidebar: React.FC = () => {
   const pathname = usePathname();
-  const { currentPharmacy } = useApp();
+  const { currentPharmacy, language, setLanguage } = useApp();
+
+  const toggleLanguage = () => {
+    setLanguage(language === "en" ? "bn" : "en");
+  };
 
   const navItems = [
     { label: "Dashboard", href: "/", icon: LayoutGrid },
@@ -217,18 +223,35 @@ export const AppSidebar: React.FC = () => {
         })}
       </div>
 
-      {/* Bottom Promo Card: "Smarter Pharmacy Today" */}
-      <div className="p-3 pt-2 relative z-10">
-        <Link
-          href="/ai-insights"
-          className="block relative rounded-[22px] overflow-hidden border border-emerald-500/25 shadow-xl shadow-emerald-950/50 group hover:border-emerald-400/50 transition-all duration-300"
-          title="Smarter Pharmacy Today - Grow with Us"
+      {/* Bottom Footer: Language Toggle + Logout Button */}
+      <div className="p-3 border-t border-emerald-800/30 bg-[#00241b]/90 space-y-2 relative z-10">
+        {/* Language Toggle (Bangla / English) - directly above Logout */}
+        <button
+          onClick={toggleLanguage}
+          className="flex items-center justify-between w-full px-3 py-2.5 rounded-2xl bg-[#00382b]/90 hover:bg-[#014837] text-emerald-100/90 hover:text-white text-xs font-bold transition-all border border-emerald-600/30 shadow-sm group"
+          title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
         >
-          <img
-            src="/images/sidebar-promo-card-full.png"
-            alt="Smarter Pharmacy Today - Grow with Us"
-            className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-300 block"
-          />
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-emerald-500/15 text-[#34d399] border border-emerald-400/20">
+              <Globe className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+            </div>
+            <span>Language / ভাষা</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-500/20 text-[#34d399] text-[11px] font-black border border-emerald-400/30">
+            <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
+          </div>
+        </button>
+
+        {/* Logout Button */}
+        <Link
+          href="/login"
+          className="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 text-xs font-bold transition-all border border-rose-500/25 shadow-sm group"
+          title="Sign out of pharmacy session"
+        >
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-rose-500/15 text-rose-300 border border-rose-400/20 group-hover:scale-105 transition-transform">
+            <LogOut className="w-3.5 h-3.5" />
+          </div>
+          <span>Logout / সাইন আউট</span>
         </Link>
       </div>
     </aside>
