@@ -182,25 +182,9 @@ export default function HomePage() {
           <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-teal-300/10 rounded-full blur-2xl pointer-events-none" />
 
-          {/* Top Info Badges & Hero Content */}
+          {/* Hero Content */}
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-3 max-w-lg">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#023326] text-emerald-200 border border-emerald-600/40 flex items-center gap-1.5 shadow-xs">
-                  <Check className="w-3 h-3 stroke-[3] text-emerald-400" />
-                  <span>Authorized Pharmacy Terminal</span>
-                </span>
-
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#023326] text-emerald-200 border border-emerald-600/40 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Live Ordering Active</span>
-                </span>
-
-                <span className="text-xs text-emerald-200/70 font-mono font-medium ml-auto hidden sm:inline-block">
-                  Lic: <strong className="text-white font-semibold">{currentPharmacy.drugLicenseNo || "DL-DHK-2022-88219"}</strong>
-                </span>
-              </div>
-
+            <div className="space-y-4 max-w-lg">
               {/* Main Welcome Heading */}
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
