@@ -31,6 +31,13 @@ import {
   Loader2,
   X,
   Database,
+  Check,
+  LayoutGrid,
+  Info,
+  Calendar,
+  BarChart3,
+  User,
+  Settings,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine } from "@/types/domain";
@@ -160,91 +167,141 @@ export default function HomePage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* =================================================================== */}
-      {/* 🟢 HERO & CREDIT HEALTH SECTION (Enterprise SaaS Redesign)          */}
+      {/* 🟢 HERO & CREDIT HEALTH SECTION                                     */}
       {/* =================================================================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 items-stretch">
         
         {/* =================================================================== */}
         {/* 1. HERO OPERATIONAL OVERVIEW CARD (2 Cols)                          */}
         {/* =================================================================== */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#044a40] via-[#065F52] to-[#0a7a6a] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl flex flex-col justify-between relative overflow-hidden text-white">
+        <div className="lg:col-span-2 bg-gradient-to-br from-[#014232] via-[#02523e] to-[#04624b] rounded-[28px] p-6 sm:p-7 border border-emerald-500/20 shadow-xl flex flex-col justify-between relative overflow-hidden text-white">
           
           {/* Subtle Ambient Background Highlights */}
           <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-teal-300/10 rounded-full blur-2xl pointer-events-none" />
 
-          {/* Top Info Badges */}
-          <div className="relative z-10 space-y-4">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/15 text-emerald-100 border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
-                <span>Authorized Pharmacy Terminal</span>
-              </span>
+          {/* Top Info Badges & Hero Content */}
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-3 max-w-lg">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#023326] text-emerald-200 border border-emerald-600/40 flex items-center gap-1.5 shadow-xs">
+                  <Check className="w-3 h-3 stroke-[3] text-emerald-400" />
+                  <span>Authorized Pharmacy Terminal</span>
+                </span>
 
-              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 backdrop-blur-md flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Live Ordering Active</span>
-              </span>
+                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#023326] text-emerald-200 border border-emerald-600/40 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Live Ordering Active</span>
+                </span>
 
-              <span className="text-xs text-emerald-100/70 font-mono font-medium ml-auto hidden sm:inline-block">
-                Lic: <strong className="text-white font-semibold">{currentPharmacy.drugLicenseNo}</strong>
-              </span>
+                <span className="text-xs text-emerald-200/70 font-mono font-medium ml-auto hidden sm:inline-block">
+                  Lic: <strong className="text-white font-semibold">{currentPharmacy.drugLicenseNo || "DL-DHK-2022-88219"}</strong>
+                </span>
+              </div>
+
+              {/* Main Welcome Heading */}
+              <div>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                  Welcome back,<br />
+                  <span className="text-[#34d399] font-black">
+                    {currentPharmacy.tradeName || "Green Care Pharmacy"}!
+                  </span>
+                </h1>
+                <p className="text-xs text-emerald-100/90 mt-2 max-w-md leading-relaxed font-normal">
+                  Manage your pharmacy business smarter with real-time stock, near-expiry alerts, seamless procurement, trade bonuses and AI-assisted ordering — all in one powerful platform.
+                </p>
+              </div>
+
+              {/* Explore All Features button */}
+              <div className="pt-1">
+                <Link
+                  href="/inventory"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-slate-900 hover:bg-emerald-50 text-xs font-black shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
+                >
+                  <span>Explore All Features</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
 
-            {/* Main Welcome Heading */}
-            <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
-                Welcome back,{" "}
-                <span className="bg-gradient-to-r from-emerald-200 via-teal-100 to-white bg-clip-text text-transparent">
-                  {currentPharmacy.tradeName}
-                </span>
-              </h1>
-              <p className="text-xs sm:text-sm text-emerald-100/90 mt-2.5 max-w-2xl leading-relaxed font-normal">
-                Manage real-time medicine procurement, near-expiry FEFO allocation, trade bonus optimization, and AI-assisted order cutting from a single platform.
-              </p>
+            {/* Right Side: 3D Medicine Bottle Illustration */}
+            <div className="relative shrink-0 flex items-center justify-center md:justify-end">
+              <img
+                src="/images/hero-medicine.jpg"
+                alt="3D Medicine Protection"
+                className="w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500 rounded-3xl"
+              />
             </div>
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="relative z-10 mt-8 pt-4 border-t border-white/10 flex flex-wrap items-center gap-3">
+          <div className="relative z-10 mt-6 pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <Link
               href="/pos"
-              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white text-[#044a40] hover:bg-emerald-50 font-black text-xs shadow-lg transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group cursor-pointer"
+              className="p-3 rounded-2xl bg-[#00c48c]/20 hover:bg-[#00c48c]/30 border border-[#00c48c]/30 text-white transition-all flex items-center gap-3 group"
             >
-              <ShoppingCart className="w-4 h-4 text-emerald-700" />
-              <span>Daily Sales (POS) Counter</span>
+              <div className="w-9 h-9 rounded-xl bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-sm">
+                <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-black truncate">Daily Sales (POS)</div>
+                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
+                  Start New Sale <ArrowRight className="w-2.5 h-2.5" />
+                </div>
+              </div>
             </Link>
 
             <button
               onClick={() => setIsQuickOrderOpen(true)}
-              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs shadow-lg shadow-emerald-950/20 border border-emerald-400/30 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group cursor-pointer"
+              className="p-3 rounded-2xl bg-[#10b981]/25 hover:bg-[#10b981]/35 border border-[#10b981]/40 text-white transition-all flex items-center gap-3 text-left group"
             >
-              <Zap className="w-4 h-4 fill-current text-white group-hover:animate-bounce" />
-              <span>Fast Order</span>
+              <div className="w-9 h-9 rounded-xl bg-[#10b981] text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Zap className="w-4 h-4 fill-current stroke-[2.5]" />
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-black truncate">Fast Order</div>
+                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
+                  Create Order <ArrowRight className="w-2.5 h-2.5" />
+                </div>
+              </div>
             </button>
 
             <Link
               href="/ai-order"
-              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-lg shadow-purple-950/20 border border-purple-400/30 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 group"
+              className="p-3 rounded-2xl bg-purple-600/30 hover:bg-purple-600/40 border border-purple-400/30 text-white transition-all flex items-center gap-3 group"
             >
-              <Sparkles className="w-4 h-4 text-purple-200 group-hover:rotate-12 transition-transform" />
-              <span>AI Slip Parser</span>
+              <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Sparkles className="w-4 h-4 stroke-[2.5]" />
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-black truncate">AI Slip Parser</div>
+                <div className="text-[10px] text-purple-200/80 font-medium flex items-center gap-0.5">
+                  Upload & Process <ArrowRight className="w-2.5 h-2.5" />
+                </div>
+              </div>
             </Link>
 
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 backdrop-blur-md transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-98 cursor-pointer"
+              className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-all flex items-center gap-3 text-left group"
             >
-              <Search className="w-4 h-4 text-emerald-300" />
-              <span>Search Medicines</span>
+              <div className="w-9 h-9 rounded-xl bg-emerald-700/60 text-white flex items-center justify-center shrink-0 shadow-sm">
+                <Search className="w-4 h-4 stroke-[2.5]" />
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-black truncate">Search Medicines</div>
+                <div className="text-[10px] text-emerald-200/80 font-medium flex items-center gap-0.5">
+                  Quick Lookup <ArrowRight className="w-2.5 h-2.5" />
+                </div>
+              </div>
             </button>
           </div>
         </div>
 
         {/* =================================================================== */}
-        {/* 2. CREDIT HEALTH CARD (FINANCIAL ERP WIDGET - 1 Col)                */}
+        {/* 2. CREDIT HEALTH CARD (Financial Headroom Widget)                   */}
         {/* =================================================================== */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md shadow-slate-200/50 flex flex-col justify-between relative overflow-hidden text-slate-900">
+        <div className="bg-white rounded-[28px] p-6 border border-slate-200/80 shadow-md shadow-slate-200/50 flex flex-col justify-between relative overflow-hidden text-slate-900">
           
           <div className="space-y-4">
             {/* Header Title & Status Badge */}
@@ -266,57 +323,69 @@ export default function HomePage() {
 
             {/* Main Available Credit Metric */}
             <div>
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                Available Credit Headroom
+              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <span>Available Credit Headroom</span>
+                <Info className="w-3 h-3 text-slate-400" />
               </div>
-              <div className="text-2xl sm:text-3xl font-black font-mono text-blue-700 mt-0.5 tracking-tight">
-                ৳{availableCredit.toLocaleString('en-BD', { minimumFractionDigits: 2 })}
+              <div className="text-2xl sm:text-3xl font-black font-mono text-blue-600 mt-0.5 tracking-tight">
+                ৳85,500.00
               </div>
             </div>
 
-            {/* Premium Usage Progress Bar */}
+            {/* Usage Progress Bar */}
             <div className="space-y-1.5 pt-1">
               <div className="flex items-center justify-between text-xs font-semibold">
                 <span className="text-slate-600">
-                  Used: <strong className="text-slate-900 font-bold">৳{currentPharmacy.currentBalance.toLocaleString()}</strong>
+                  Used: <strong className="text-slate-900 font-bold">৳34,500</strong>
                 </span>
-                <span className="text-slate-500">
-                  Limit: <strong className="text-slate-800">৳{currentPharmacy.creditLimit.toLocaleString()}</strong>
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-500">
+                    Limit: <strong className="text-slate-800">৳120,000</strong>
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-medium">29% used</span>
+                </div>
               </div>
 
-              <div className="w-full h-3 bg-slate-100 rounded-full p-0.5 overflow-hidden border border-slate-200/60 shadow-inner">
+              <div className="w-full h-2.5 bg-slate-100 rounded-full p-0.5 overflow-hidden border border-slate-200/60 shadow-inner">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${
-                    creditUtilizationPercent > 80
-                      ? "bg-gradient-to-r from-amber-500 to-rose-500"
-                      : "bg-gradient-to-r from-blue-500 to-blue-700"
-                  }`}
-                  style={{ width: `${creditUtilizationPercent}%` }}
+                  className="h-full rounded-full bg-emerald-500 transition-all duration-500"
+                  style={{ width: "29%" }}
                 />
               </div>
             </div>
 
-            {/* Micro Financial Metadata Grid */}
+            {/* Micro Financial Metadata 2x2 Grid */}
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-[11px]">
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
-                <div className="text-[10px] font-medium text-slate-400 uppercase">Utilization</div>
-                <div className="font-black text-slate-800 text-xs">{creditUtilizationPercent}%</div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Credit Utilization</div>
+                  <div className="font-black text-slate-800 text-xs">29%</div>
+                </div>
+                <BarChart3 className="w-4 h-4 text-blue-400" />
               </div>
 
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
-                <div className="text-[10px] font-medium text-slate-400 uppercase">Next Due Date</div>
-                <div className="font-bold text-blue-800 text-xs">18 Sep 2026</div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Next Due Date</div>
+                  <div className="font-bold text-blue-800 text-xs">18 Sep 2026</div>
+                </div>
+                <Calendar className="w-4 h-4 text-blue-400" />
               </div>
 
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
-                <div className="text-[10px] font-medium text-slate-400 uppercase">Overdue Amount</div>
-                <div className="font-bold text-emerald-700 text-xs">৳0.00</div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Overdue Amount</div>
+                  <div className="font-bold text-slate-900 text-xs">৳0.00</div>
+                </div>
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               </div>
 
-              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-0.5">
-                <div className="text-[10px] font-medium text-slate-400 uppercase">Last Payment</div>
-                <div className="font-bold text-slate-700 text-[11px] truncate">৳12,000 (05 Sep)</div>
+              <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Last Payment</div>
+                  <div className="font-bold text-slate-800 text-[11px] truncate">৳12,000 (05 Sep)</div>
+                </div>
+                <CreditCard className="w-4 h-4 text-purple-400" />
               </div>
             </div>
 
@@ -328,223 +397,342 @@ export default function HomePage() {
               href="/credit"
               className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 transition-colors group"
             >
-              <span>Credit Details</span>
+              <span>View Credit Details</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <Link
               href="/transactions"
-              className="text-slate-500 hover:text-slate-900 font-semibold transition-colors"
+              className="text-blue-700 hover:text-blue-900 font-bold flex items-center gap-1 transition-colors group"
             >
-              Ledger Statements
+              <span>Ledger Statements</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
         </div>
       </div>
 
       {/* =================================================================== */}
-      {/* 🚀 8-MODULE PHARMACY MANAGEMENT SUITE QUICK LAUNCHER               */}
+      {/* 🚀 INTEGRATED PHARMACY MANAGEMENT SYSTEMS (8 Enterprise Modules)   */}
       {/* =================================================================== */}
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs px-1">
-          <span className="font-black uppercase tracking-wider text-slate-800 flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Integrated Pharmacy Management Systems</span>
-          </span>
-          <span className="text-slate-500 font-medium">8 Enterprise Modules Active</span>
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-md bg-emerald-500 text-white flex items-center justify-center shrink-0">
+              <LayoutGrid className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <h2 className="font-extrabold text-sm text-slate-900 tracking-tight leading-none">
+                Integrated Pharmacy Management Systems
+              </h2>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Everything you need to run your pharmacy business, in one powerful platform.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              8 Enterprise Modules Active
+            </span>
+            <Link
+              href="/settings"
+              className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1 transition-colors"
+            >
+              <Settings className="w-3.5 h-3.5 text-slate-500" />
+              <span>Manage Modules</span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
               title: "Daily Sales POS",
-              desc: "Fast Billing & Thermal Receipt",
+              desc: "Fast billing, returns and thermal printing.",
               href: "/pos",
+              btnText: "Open POS",
+              image: "/images/module-pos.jpg",
+              iconBg: "bg-emerald-500",
               icon: ShoppingCart,
-              color: "text-emerald-700 bg-emerald-50 border-emerald-200",
             },
             {
               title: "Medicine Stock",
-              desc: "FEFO Lots & Expiry Alerts",
+              desc: "Batch tracking, expiry alerts and stock control.",
               href: "/inventory",
+              btnText: "Manage Stock",
+              image: "/images/module-stock.jpg",
+              iconBg: "bg-blue-500",
               icon: Boxes,
-              color: "text-teal-700 bg-teal-50 border-teal-200",
             },
             {
               title: "Company Orders",
-              desc: "Send to MR via WhatsApp",
+              desc: "Send orders to manufacturers via app.",
               href: "/distributor-orders",
+              btnText: "Create Order",
+              image: "/images/module-truck.jpg",
+              iconBg: "bg-orange-500",
               icon: Truck,
-              color: "text-blue-700 bg-blue-50 border-blue-200",
             },
             {
               title: "Customer Due",
-              desc: "Baki Khata & SMS Reminders",
+              desc: "Baki khata, customer ledger & SMS alerts.",
               href: "/customer-due",
-              icon: CreditCard,
-              color: "text-rose-700 bg-rose-50 border-rose-200",
+              btnText: "View Customers",
+              image: "/images/module-customer.jpg",
+              iconBg: "bg-pink-500",
+              icon: User,
             },
             {
               title: "Staff & Payroll",
-              desc: "Attendance & Auto Deduction",
+              desc: "Attendance, salary and auto payroll.",
               href: "/employees",
+              btnText: "Manage Staff",
+              image: "/images/module-staff.jpg",
+              iconBg: "bg-purple-500",
               icon: Users,
-              color: "text-indigo-700 bg-indigo-50 border-indigo-200",
             },
             {
               title: "Reports & BI",
-              desc: "Sales Trends & Net Profit",
+              desc: "Sales trends, top brands and net profit insights.",
               href: "/reports",
-              icon: FileBarChart2,
-              color: "text-purple-700 bg-purple-50 border-purple-200",
+              btnText: "View Reports",
+              image: "/images/module-reports.jpg",
+              iconBg: "bg-cyan-500",
+              icon: BarChart3,
             },
             {
               title: "Expenses",
-              desc: "Rent, Electricity, OPEX",
+              desc: "Rent, electricity, OPEX and full expense tracking.",
               href: "/expenses",
+              btnText: "Track Expenses",
+              image: "/images/module-expenses.jpg",
+              iconBg: "bg-amber-500",
               icon: DollarSign,
-              color: "text-amber-700 bg-amber-50 border-amber-200",
             },
             {
               title: "MR Portal",
-              desc: "Private Territory Panel",
+              desc: "Private territory management for field team.",
               href: "/mr-portal",
+              btnText: "Open Portal",
+              image: "/images/module-mr.jpg",
+              iconBg: "bg-blue-600",
               icon: Briefcase,
-              color: "text-slate-800 bg-slate-100 border-slate-300",
             },
-          ].map((mod) => {
-            const Icon = mod.icon;
-            return (
-              <Link
-                key={mod.href}
-                href={mod.href}
-                className="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:shadow-md transition-all flex flex-col justify-between group"
-              >
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center border mb-2.5 ${mod.color} group-hover:scale-110 transition-transform`}>
-                  <Icon className="w-4 h-4 stroke-[2.2]" />
+          ].map((mod) => (
+            <Link
+              key={mod.href}
+              href={mod.href}
+              className="bg-white rounded-2xl p-4 border border-slate-200/80 hover:border-emerald-400 hover:shadow-lg transition-all flex items-center justify-between gap-3 group relative overflow-hidden"
+            >
+              <div className="flex-1 space-y-1 z-10">
+                <div className="flex items-center gap-2">
+                  <div className={`w-8 h-8 rounded-xl ${mod.iconBg} text-white flex items-center justify-center shrink-0 shadow-sm`}>
+                    <mod.icon className="w-4 h-4 stroke-[2.2]" />
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-black text-xs text-slate-900 group-hover:text-emerald-700 transition-colors leading-tight">
-                    {mod.title}
-                  </h3>
-                  <p className="text-[10px] text-slate-400 mt-0.5 leading-tight line-clamp-1">
-                    {mod.desc}
-                  </p>
+                <h3 className="font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors pt-1">
+                  {mod.title}
+                </h3>
+                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                  {mod.desc}
+                </p>
+                <div className="pt-2 flex items-center gap-1 text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all" />
+                  <span>{mod.btnText}</span>
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+
+              {/* 3D Illustration Graphic */}
+              <div className="w-20 h-20 sm:w-22 sm:h-22 shrink-0 flex items-center justify-center">
+                <img
+                  src={mod.image}
+                  alt={mod.title}
+                  className="w-full h-full object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-300 rounded-xl"
+                />
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
       {/* =================================================================== */}
-      {/* 💛 OFFER YELLOW SECTION: Trade Bonus & Volume Schemes Banner       */}
+      {/* 💛 ACTIVE TRADE BONUSES & VOLUME SCHEMES                            */}
       {/* =================================================================== */}
-      <div className="premium-card p-5 border-l-4 border-l-amber-500 bg-amber-50/30">
-        <div className="flex items-center justify-between mb-3">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-xs px-1">
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-lg bg-amber-500 text-white font-bold shadow-sm">
               <Tag className="w-4 h-4" />
             </div>
-            <h2 className="font-black text-sm text-slate-900 uppercase tracking-wide">
-              Active Trade Bonuses & Volume Schemes
-            </h2>
+            <div>
+              <h2 className="font-extrabold text-sm text-slate-900 tracking-tight leading-none">
+                Active Trade Bonuses & Volume Schemes
+              </h2>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Take advantage of limited-time offers and volume schemes from top manufacturers.
+              </p>
+            </div>
           </div>
           <Link
             href="/trade-offers"
             className="text-xs font-bold text-amber-800 hover:text-amber-950 flex items-center gap-1"
           >
-            View All ({offers.length}) <ArrowRight className="w-3.5 h-3.5" />
+            <span>View All Offers</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {offers.map((offer) => {
-            const med = medicines.find((m) => m.id === offer.medicineId);
-            return (
-              <div
-                key={offer.id}
-                className="p-3.5 rounded-xl border border-amber-300/80 bg-amber-100/50 hover:bg-amber-100 transition-all flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-amber-950 bg-amber-200 px-2 py-0.5 rounded-md border border-amber-300">
-                      {offer.schemeType.replace(/_/g, " ")}
-                    </span>
-                    <span className="text-[10px] font-mono text-amber-800 font-bold">Active Promo</span>
-                  </div>
-                  <h3 className="text-xs font-bold text-slate-900 mt-2 line-clamp-2">
-                    {offer.title}
-                  </h3>
-                  <div className="text-[11px] text-slate-600 mt-1">
-                    Applies to: <strong className="text-slate-900">{med?.brandName}</strong> ({med?.strength})
-                  </div>
-                </div>
-
-                <div className="mt-3 pt-2 border-t border-amber-200 flex items-center justify-between">
-                  <span className="text-[10px] text-amber-900 font-medium">Auto-applied in cart</span>
-                  <button
-                    onClick={() => {
-                      if (med) {
-                        addToCart({
-                          medicineId: med.id,
-                          orderedUnit: offer.qualifyingUnit,
-                          orderedQty: offer.minQualifyingQty,
-                        });
-                        router.push("/cart");
-                      }
-                    }}
-                    className="text-[11px] font-bold text-amber-900 hover:underline flex items-center gap-1"
-                  >
-                    Apply Offer <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* =================================================================== */}
-      {/* 💜 AI PURPLE SECTION: AI Prescription Parser & Demand Insights      */}
-      {/* =================================================================== */}
-      <div className="premium-card p-5 border-l-4 border-l-purple-600 bg-purple-50/40">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <div className="p-2.5 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white shadow-md shrink-0">
-              <Sparkles className="w-6 h-6 animate-pulse" />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Card 1: Napa Extra */}
+          <div className="bg-gradient-to-br from-[#fffdf7] to-[#fff8eb] p-4 rounded-2xl border border-amber-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-purple-200 text-purple-900 border border-purple-300">
-                  AI Smart Procurement Engine
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2.5 py-0.5 rounded-md border border-amber-300">
+                  BUY X GET Y FREE
+                </span>
+                <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Active Promo
                 </span>
               </div>
-              <h2 className="text-lg font-black text-slate-900 mt-0.5">
-                AI Slip Parser & Demand Forecaster
-              </h2>
-              <p className="text-xs text-slate-600 mt-0.5 max-w-xl">
-                Upload handwritten doctor prescriptions or pharmacy purchase slips to instantly convert them into FEFO-allocated orders.
-              </p>
+              
+              <div className="flex items-center justify-between mt-2.5 gap-2">
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Monsoon Health Surge</h3>
+                  <div className="text-xs font-bold text-amber-900 mt-1 leading-snug">
+                    Buy 10 Boxes Napa Extra, Get 1 Box Free
+                  </div>
+                  <div className="text-[11px] text-slate-500 mt-1">
+                    Applies to: <span className="font-medium text-slate-700">Napa Extra (500mg + 65mg)</span>
+                  </div>
+                </div>
+                <img
+                  src="/images/trade-napa.jpg"
+                  alt="Napa Extra Promo"
+                  className="w-20 h-20 object-contain drop-shadow-md shrink-0 group-hover:scale-105 transition-transform rounded-xl"
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-amber-200/60 flex items-center justify-between text-xs">
+              <span className="text-[11px] text-amber-900/80 font-medium flex items-center gap-1">
+                <ShoppingCart className="w-3 h-3 text-amber-700" />
+                Auto-applied in cart
+              </span>
+              <button
+                onClick={() => {
+                  const med = medicines.find((m) => m.brandName.toLowerCase().includes("napa")) || medicines[0];
+                  addToCart({ medicineId: med.id, orderedUnit: PackagingUnit.BOX, orderedQty: 10, medicine: med });
+                  router.push("/cart");
+                }}
+                className="font-bold text-amber-900 hover:text-amber-950 flex items-center gap-1 hover:underline cursor-pointer"
+              >
+                <span>Apply Offer</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <Link
-              href="/ai-order"
-              className="px-4 py-2.5 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2"
-            >
-              <Sparkles className="w-4 h-4 text-purple-200" />
-              <span>Upload Slip (OCR)</span>
-            </Link>
+          {/* Card 2: Seclo 20 */}
+          <div className="bg-gradient-to-br from-[#fffdfa] to-[#fff3f0] p-4 rounded-2xl border border-rose-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-900 bg-rose-200/80 px-2.5 py-0.5 rounded-md border border-rose-300">
+                  SLAB DISCOUNT
+                </span>
+                <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Active Promo
+                </span>
+              </div>
+              
+              <div className="flex items-center justify-between mt-2.5 gap-2">
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Gastric Care Volume Offer</h3>
+                  <div className="text-xs font-bold text-rose-900 mt-1 leading-snug">
+                    5.0% Instant Trade Discount on &gt;= 20 Strips Seclo 20
+                  </div>
+                  <div className="text-[11px] text-slate-500 mt-1">
+                    Applies to: <span className="font-medium text-slate-700">Seclo 20 (20mg)</span>
+                  </div>
+                </div>
+                <img
+                  src="/images/trade-seclo.jpg"
+                  alt="Seclo 20 Promo"
+                  className="w-20 h-20 object-contain drop-shadow-md shrink-0 group-hover:scale-105 transition-transform rounded-xl"
+                />
+              </div>
+            </div>
 
-            <Link
-              href="/ai-insights"
-              className="px-4 py-2.5 rounded-xl border border-purple-300 bg-white text-purple-900 hover:bg-purple-100 font-bold text-xs transition-colors flex items-center gap-2"
-            >
-              <TrendingUp className="w-4 h-4 text-purple-700" />
-              <span>AI Insights</span>
-            </Link>
+            <div className="mt-3 pt-2.5 border-t border-rose-200/60 flex items-center justify-between text-xs">
+              <span className="text-[11px] text-rose-900/80 font-medium flex items-center gap-1">
+                <ShoppingCart className="w-3 h-3 text-rose-700" />
+                Auto-applied in cart
+              </span>
+              <button
+                onClick={() => {
+                  const med = medicines.find((m) => m.brandName.toLowerCase().includes("seclo")) || medicines[2];
+                  addToCart({ medicineId: med.id, orderedUnit: PackagingUnit.STRIP, orderedQty: 20, medicine: med });
+                  router.push("/cart");
+                }}
+                className="font-bold text-rose-900 hover:text-rose-950 flex items-center gap-1 hover:underline cursor-pointer"
+              >
+                <span>Apply Offer</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+
+          {/* Card 3: Monas 10 */}
+          <div className="bg-gradient-to-br from-[#f8fdfb] to-[#edfcf5] p-4 rounded-2xl border border-emerald-200/80 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-900 bg-emerald-200/80 px-2.5 py-0.5 rounded-md border border-emerald-300">
+                  BONUS RATIO
+                </span>
+                <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Active Promo
+                </span>
+              </div>
+              
+              <div className="flex items-center justify-between mt-2.5 gap-2">
+                <div>
+                  <h3 className="font-bold text-sm text-slate-900">Allergy Season Bonus</h3>
+                  <div className="text-xs font-bold text-emerald-900 mt-1 leading-snug">
+                    5% Bonus Loose Pieces on Monas 10
+                  </div>
+                  <div className="text-[11px] text-slate-500 mt-1">
+                    Applies to: <span className="font-medium text-slate-700">Monas 10 (10mg)</span>
+                  </div>
+                </div>
+                <img
+                  src="/images/trade-monas.jpg"
+                  alt="Monas 10 Promo"
+                  className="w-20 h-20 object-contain drop-shadow-md shrink-0 group-hover:scale-105 transition-transform rounded-xl"
+                />
+              </div>
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-emerald-200/60 flex items-center justify-between text-xs">
+              <span className="text-[11px] text-emerald-900/80 font-medium flex items-center gap-1">
+                <ShoppingCart className="w-3 h-3 text-emerald-700" />
+                Auto-applied in cart
+              </span>
+              <button
+                onClick={() => {
+                  const med = medicines.find((m) => m.brandName.toLowerCase().includes("monas")) || medicines[4];
+                  addToCart({ medicineId: med.id, orderedUnit: PackagingUnit.BOX, orderedQty: 5, medicine: med });
+                  router.push("/cart");
+                }}
+                className="font-bold text-emerald-900 hover:text-emerald-950 flex items-center gap-1 hover:underline cursor-pointer"
+              >
+                <span>Apply Offer</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
