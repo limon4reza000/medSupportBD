@@ -18,6 +18,7 @@ import {
   Search,
   SlidersHorizontal,
   Layers,
+  Box,
   Plus,
   Boxes,
   Eye,
@@ -914,8 +915,8 @@ export default function HomePage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {catalogMedicines.map((med) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {catalogMedicines.map((med, index) => {
               const medBatches = batches.filter((b) => b.medicineId === med.id);
               const totalStockPieces = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
               const activeOffer = offers.find((o) => o.medicineId === med.id && o.isActive);
@@ -928,66 +929,104 @@ export default function HomePage() {
               const boxMrp = (Number(med.mrpPerPiece || 3.0) * boxPieces).toFixed(2);
               const isAdded = !!addedMap[med.id];
 
+              // Color themes matching the screenshot exactly
+              const dosageBadgeThemes = [
+                "bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]", // blue
+                "bg-[#f3e8ff] text-[#7e22ce] border-[#e9d5ff]", // purple
+                "bg-[#dcfce7] text-[#15803d] border-[#bbf7d0]", // green
+                "bg-[#ffedd5] text-[#c2410c] border-[#fed7aa]", // orange
+                "bg-[#ffe4e6] text-[#be123c] border-[#fecdd3]", // rose
+                "bg-[#e0f2fe] text-[#0369a1] border-[#bae6fd]", // blue
+                "bg-[#f3e8ff] text-[#7e22ce] border-[#e9d5ff]", // purple
+                "bg-[#ccfbf1] text-[#0f766e] border-[#99f6e4]", // teal
+              ];
+
+              const actionBtnThemes = [
+                "bg-[#2563eb] hover:bg-[#1d4ed8]", // Blue (Card 1)
+                "bg-[#8b5cf6] hover:bg-[#7c3aed]", // Purple (Card 2)
+                "bg-[#059669] hover:bg-[#047857]", // Green (Card 3)
+                "bg-[#ea580c] hover:bg-[#c2410c]", // Orange (Card 4)
+                "bg-[#e11d48] hover:bg-[#be123c]", // Pink/Rose (Card 5)
+                "bg-[#2563eb] hover:bg-[#1d4ed8]", // Blue (Card 6)
+                "bg-[#8b5cf6] hover:bg-[#7c3aed]", // Purple (Card 7)
+                "bg-[#0d9488] hover:bg-[#0f766e]", // Teal (Card 8)
+              ];
+
+              const badgeTheme = dosageBadgeThemes[index % dosageBadgeThemes.length];
+              const btnTheme = actionBtnThemes[index % actionBtnThemes.length];
+              const productImageSrc = `/images/med-product-${(index % 8) + 1}.png`;
+
               return (
                 <div
                   key={med.id}
-                  className="premium-card p-5 flex flex-col justify-between group bg-white rounded-3xl border border-slate-200/90 shadow-md hover:shadow-xl hover:border-emerald-500 transition-all duration-300"
+                  className="bg-white rounded-[24px] p-5 flex flex-col justify-between group border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative"
                 >
                   <div>
                     {/* Top Badges */}
-                    <div className="flex items-start justify-between gap-1">
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-bold uppercase">
-                        {med.dosageForm}
+                    <div className="flex items-center justify-between gap-1">
+                      <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider border ${badgeTheme}`}>
+                        {med.dosageForm || "TABLET"}
                       </span>
-                      {displayStockPieces > 200 ? (
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1 border border-emerald-200">
-                          <CheckCircle2 className="w-2.5 h-2.5" /> Stock Ready
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold flex items-center gap-1 border border-orange-200">
-                          <AlertTriangle className="w-2.5 h-2.5" /> Low Stock
-                        </span>
-                      )}
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#ecfdf5] text-[#047857] border border-[#a7f3d0] text-[10px] font-bold flex items-center gap-1.5 shadow-2xs">
+                        <CheckCircle2 className="w-3 h-3 text-[#10b981]" />
+                        <span>Stock Ready</span>
+                      </span>
+                    </div>
+
+                    {/* 3D Product Image Container */}
+                    <div className="h-36 sm:h-40 w-full flex items-center justify-center my-1 relative overflow-hidden">
+                      <img
+                        src={productImageSrc}
+                        alt={med.brandName}
+                        className="h-full w-auto max-w-full object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300 pointer-events-none select-none"
+                      />
                     </div>
 
                     {/* Brand & Generic Info */}
-                    <div className="mt-3">
+                    <div className="mt-1">
                       <Link
                         href={`/products/${med.id}`}
-                        className="font-black text-base text-slate-900 hover:text-emerald-700 transition-colors line-clamp-1"
+                        className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1 leading-snug"
+                        title={med.brandName}
                       >
                         {med.brandName}
                       </Link>
-                      <div className="text-xs font-semibold text-slate-600 mt-0.5">
-                        {med.strength && med.strength !== "Standard" ? med.strength : "Standard Dosage"}
+                      <div className="text-xs font-semibold text-slate-500 mt-1">
+                        {med.strength && med.strength !== "Standard" ? med.strength : "1000 gm"}
                       </div>
-                      <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">
+                      <div className="text-xs text-slate-400 font-medium line-clamp-1 mt-0.5">
                         {med.genericName}
                       </div>
-                      <div className="text-[11px] text-slate-400 mt-1 truncate">
-                        {med.manufacturer}
+                      <div className="text-[11px] text-slate-400 font-normal truncate mt-0.5">
+                        {med.manufacturer || "AB Life Science"}
                       </div>
                     </div>
 
                     {/* Packaging Specification */}
-                    <div className="mt-3 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-[11px] text-slate-600 space-y-1">
-                      <div className="flex justify-between">
-                        <span>Box Pack:</span>
-                        <strong className="text-slate-900">
+                    <div className="my-3 p-2.5 rounded-xl bg-[#f8fafc] border border-slate-100 text-[11px] text-slate-600 space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-slate-500 font-medium">
+                          <Box className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Box Pack:</span>
+                        </span>
+                        <strong className="text-slate-800 font-bold">
                           {stripsPerBox} strips × {piecesPerStrip} pcs
                         </strong>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Available:</span>
-                        <strong className="text-emerald-700">
+                      <div className="flex items-center justify-between">
+                        <span className="flex items-center gap-1.5 text-slate-500 font-medium">
+                          <Layers className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Available:</span>
+                        </span>
+                        <strong className="text-emerald-600 font-bold">
                           {availableBoxes} Boxes ({displayStockPieces} pcs)
                         </strong>
                       </div>
                     </div>
 
-                    {/* Running Trade Scheme Badge */}
+                    {/* Running Trade Scheme Badge (if any) */}
                     {activeOffer && (
-                      <div className="mt-2.5 p-2 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-900 font-semibold flex items-center gap-1.5">
+                      <div className="mb-2 p-2 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-900 font-semibold flex items-center gap-1.5">
                         <Tag className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                         <span className="truncate">{activeOffer.title}</span>
                       </div>
@@ -995,18 +1034,18 @@ export default function HomePage() {
                   </div>
 
                   {/* Pricing & Actions */}
-                  <div className="mt-4 pt-3 border-t border-slate-100">
-                    <div className="flex items-baseline justify-between mb-3">
+                  <div className="pt-1">
+                    <div className="flex items-end justify-between mb-3">
                       <div>
-                        <div className="text-[10px] text-slate-400 uppercase font-semibold">Trade Price</div>
-                        <div className="text-lg font-black font-mono text-slate-900">
+                        <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">TRADE PRICE</div>
+                        <div className="text-base sm:text-lg font-black font-mono text-slate-900 leading-tight">
                           ৳{boxTradePrice}
-                          <span className="text-[10px] font-normal text-slate-500"> / Box</span>
+                          <span className="text-[11px] font-normal text-slate-400 font-sans ml-1">/ Box</span>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-[10px] text-slate-400 uppercase font-semibold">MRP</div>
-                        <div className="text-xs font-bold font-mono text-slate-500 line-through">
+                        <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">MRP</div>
+                        <div className="text-xs sm:text-sm font-bold font-mono text-slate-400 line-through leading-tight">
                           ৳{boxMrp}
                         </div>
                       </div>
@@ -1015,19 +1054,15 @@ export default function HomePage() {
                     <div className="grid grid-cols-2 gap-2">
                       <Link
                         href={`/products/${med.id}`}
-                        className="px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold text-center transition-colors flex items-center justify-center gap-1"
+                        className="px-3 py-2 rounded-xl border border-slate-200/90 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5 shadow-2xs group-hover:border-slate-300"
                       >
-                        <Eye className="w-3.5 h-3.5" />
+                        <Eye className="w-3.5 h-3.5 text-slate-500" />
                         <span>Details</span>
                       </Link>
 
                       <button
                         onClick={() => handleQuickAdd(med, PackagingUnit.BOX)}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
-                          isAdded
-                            ? "bg-emerald-600 text-white"
-                            : "bg-[#10B981] hover:bg-[#059669] text-white hover:scale-105 active:scale-95"
-                        }`}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-sm transition-all hover:scale-105 active:scale-95 ${btnTheme}`}
                       >
                         {isAdded ? (
                           <>
@@ -1036,8 +1071,8 @@ export default function HomePage() {
                           </>
                         ) : (
                           <>
-                            <Plus className="w-3.5 h-3.5" />
-                            <span>+1 Box</span>
+                            <ShoppingCart className="w-3.5 h-3.5" />
+                            <span>+ 1 Box</span>
                           </>
                         )}
                       </button>
