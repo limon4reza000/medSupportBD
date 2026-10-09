@@ -39,8 +39,6 @@ import {
   BarChart3,
   User,
   Settings,
-  ChevronLeft,
-  ChevronRight,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine } from "@/types/domain";
@@ -78,7 +76,7 @@ export default function HomePage() {
   const [catalogSearch, setCatalogSearch] = useState("");
   const [debouncedCatalogSearch, setDebouncedCatalogSearch] = useState("");
 
-  // Hero Banner Carousel State (5 Banners from assets/hero banner)
+  // Hero Banner Carousel State (3 Banners from assets/hero banner)
   const heroBanners = [
     {
       id: 1,
@@ -94,16 +92,6 @@ export default function HomePage() {
       id: 3,
       src: "/images/hero-banner/banner-3.png",
       alt: "Real-time Medicine Inventory & Procurement",
-    },
-    {
-      id: 4,
-      src: "/images/hero-banner/banner-4.png",
-      alt: "Herbal & Clinical Health Products - Bottles, Blister Packs & Syrups",
-    },
-    {
-      id: 5,
-      src: "/images/hero-banner/banner-5.png",
-      alt: "Complete Pharmacy Formulation Supplies & Direct B2B Distribution",
     },
   ];
 
@@ -239,8 +227,8 @@ export default function HomePage() {
             ))}
           </Link>
 
-          {/* Interactive Navigation Controls */}
-          {/* Previous Arrow (<) */}
+          {/* Interactive Navigation Controls matching the baked buttons */}
+          {/* Previous Arrow Hitbox (<) */}
           <button
             type="button"
             onClick={(e) => {
@@ -248,22 +236,14 @@ export default function HomePage() {
               e.stopPropagation();
               setCurrentHeroSlide((prev) => (prev - 1 + heroBanners.length) % heroBanners.length);
             }}
-            className={`absolute left-1.5 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-11 sm:h-11 rounded-full z-20 flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-95 ${
-              currentHeroSlide >= 3
-                ? "bg-white/95 text-emerald-800 shadow-lg hover:scale-110 hover:bg-white"
-                : "hover:bg-white/20 hover:scale-110"
-            }`}
+            className="absolute left-1.5 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
             title="Previous Banner"
             aria-label="Previous Slide"
           >
-            {currentHeroSlide >= 3 ? (
-              <ChevronLeft className="w-5 h-5 text-emerald-800 stroke-[2.5]" />
-            ) : (
-              <span className="sr-only">Previous Slide</span>
-            )}
+            <span className="sr-only">Previous Slide</span>
           </button>
 
-          {/* Next Arrow (>) */}
+          {/* Next Arrow Hitbox (>) */}
           <button
             type="button"
             onClick={(e) => {
@@ -271,23 +251,15 @@ export default function HomePage() {
               e.stopPropagation();
               setCurrentHeroSlide((prev) => (prev + 1) % heroBanners.length);
             }}
-            className={`absolute right-1.5 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-11 sm:h-11 rounded-full z-20 flex items-center justify-center cursor-pointer transition-all duration-200 active:scale-95 ${
-              currentHeroSlide >= 3
-                ? "bg-white/95 text-emerald-800 shadow-lg hover:scale-110 hover:bg-white"
-                : "hover:bg-white/20 hover:scale-110"
-            }`}
+            className="absolute right-1.5 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 rounded-full z-20 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform"
             title="Next Banner"
             aria-label="Next Slide"
           >
-            {currentHeroSlide >= 3 ? (
-              <ChevronRight className="w-5 h-5 text-emerald-800 stroke-[2.5]" />
-            ) : (
-              <span className="sr-only">Next Slide</span>
-            )}
+            <span className="sr-only">Next Slide</span>
           </button>
 
-          {/* Bottom Pagination Dots Pill */}
-          <div className="absolute bottom-1.5 sm:bottom-3.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 z-20 px-2.5 py-1 rounded-full bg-black/30 backdrop-blur-md border border-white/20 shadow-md">
+          {/* Bottom Pagination Dots Hitboxes */}
+          <div className="absolute bottom-1 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 sm:gap-2 z-20">
             {heroBanners.map((_, idx) => (
               <button
                 key={idx}
@@ -297,11 +269,7 @@ export default function HomePage() {
                   e.stopPropagation();
                   setCurrentHeroSlide(idx);
                 }}
-                className={`transition-all duration-300 rounded-full cursor-pointer focus:outline-none ${
-                  idx === currentHeroSlide
-                    ? "w-6 sm:w-7 h-2 sm:h-2.5 bg-white shadow-sm"
-                    : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/50 hover:bg-white/80"
-                }`}
+                className="w-5 sm:w-8 h-3 sm:h-4 rounded-full cursor-pointer focus:outline-none"
                 title={`Slide ${idx + 1}`}
                 aria-label={`Slide ${idx + 1}`}
               />
