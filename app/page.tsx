@@ -392,24 +392,26 @@ export default function HomePage() {
       </div>
 
       {/* =================================================================== */}
-      {/* ⚡ STANDALONE QUICK ACTIONS (4 Core Operations)                     */}
+      {/* ⚡ STANDALONE QUICK ACTIONS (4 Core Operations in 1 Horizontal Line) */}
       {/* =================================================================== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-4 gap-2 sm:gap-4">
         {/* 1. Daily Sales (POS) */}
         <Link
           href="/pos"
-          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 group"
+          className="p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md active:scale-95 transition-all flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1.5 sm:gap-3.5 group"
         >
-          <div className="w-11 h-11 rounded-2xl bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
-            <ShoppingCart className="w-5 h-5 stroke-[2.5]" />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-sm sm:shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
+            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </div>
-          <div className="truncate">
-            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
-              Daily Sales (POS)
+          <div className="w-full min-w-0 truncate">
+            <div className="text-[11px] sm:text-sm font-bold sm:font-black text-slate-900 group-hover:text-emerald-950 transition-colors leading-tight truncate">
+              <span className="sm:hidden">Daily Sales</span>
+              <span className="hidden sm:inline">Daily Sales (POS)</span>
             </div>
-            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
-              <span>Start New Sale</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            <div className="text-[10px] sm:text-xs text-emerald-700 font-semibold flex items-center justify-center sm:justify-start gap-1 mt-0.5 truncate">
+              <span className="sm:hidden">POS</span>
+              <span className="hidden sm:inline">Start New Sale</span>
+              <ArrowRight className="w-3 h-3 hidden sm:inline group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </Link>
@@ -417,18 +419,19 @@ export default function HomePage() {
         {/* 2. Fast Order */}
         <button
           onClick={() => setIsQuickOrderOpen(true)}
-          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 text-left group"
+          className="p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md active:scale-95 transition-all flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1.5 sm:gap-3.5 group"
         >
-          <div className="w-11 h-11 rounded-2xl bg-[#10b981] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
-            <Zap className="w-5 h-5 fill-current stroke-[2.5]" />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#10b981] text-white flex items-center justify-center shrink-0 shadow-sm sm:shadow-md shadow-emerald-900/10 group-hover:scale-105 transition-transform">
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5 fill-current stroke-[2.5]" />
           </div>
-          <div className="truncate">
-            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
+          <div className="w-full min-w-0 truncate">
+            <div className="text-[11px] sm:text-sm font-bold sm:font-black text-slate-900 group-hover:text-emerald-950 transition-colors leading-tight truncate">
               Fast Order
             </div>
-            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
-              <span>Create Order</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            <div className="text-[10px] sm:text-xs text-emerald-700 font-semibold flex items-center justify-center sm:justify-start gap-1 mt-0.5 truncate">
+              <span className="sm:hidden">Quick</span>
+              <span className="hidden sm:inline">Create Order</span>
+              <ArrowRight className="w-3 h-3 hidden sm:inline group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </button>
@@ -436,18 +439,20 @@ export default function HomePage() {
         {/* 3. AI Slip Parser */}
         <Link
           href="/ai-order"
-          className="p-4 rounded-2xl bg-white hover:bg-purple-50/50 border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 group"
+          className="p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white hover:bg-purple-50/50 border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-md active:scale-95 transition-all flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1.5 sm:gap-3.5 group"
         >
-          <div className="w-11 h-11 rounded-2xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-900/15 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-5 h-5 stroke-[2.5]" />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm sm:shadow-md shadow-purple-900/15 group-hover:scale-105 transition-transform">
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </div>
-          <div className="truncate">
-            <div className="text-sm font-black text-slate-900 group-hover:text-purple-950 transition-colors truncate">
-              AI Slip Parser
+          <div className="w-full min-w-0 truncate">
+            <div className="text-[11px] sm:text-sm font-bold sm:font-black text-slate-900 group-hover:text-purple-950 transition-colors leading-tight truncate">
+              <span className="sm:hidden">AI Slip</span>
+              <span className="hidden sm:inline">AI Slip Parser</span>
             </div>
-            <div className="text-xs text-purple-700 font-semibold flex items-center gap-1 mt-0.5">
-              <span>Upload & Process</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            <div className="text-[10px] sm:text-xs text-purple-700 font-semibold flex items-center justify-center sm:justify-start gap-1 mt-0.5 truncate">
+              <span className="sm:hidden">Parser</span>
+              <span className="hidden sm:inline">Upload & Process</span>
+              <ArrowRight className="w-3 h-3 hidden sm:inline group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </Link>
@@ -455,18 +460,20 @@ export default function HomePage() {
         {/* 4. Search Medicines */}
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="p-4 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all flex items-center gap-3.5 text-left group"
+          className="p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/90 hover:border-emerald-400 shadow-sm hover:shadow-md active:scale-95 transition-all flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-1.5 sm:gap-3.5 group"
         >
-          <div className="w-11 h-11 rounded-2xl bg-[#025540] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-950/20 group-hover:scale-105 transition-transform">
-            <Search className="w-5 h-5 stroke-[2.5]" />
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-[#025540] text-white flex items-center justify-center shrink-0 shadow-sm sm:shadow-md shadow-emerald-950/20 group-hover:scale-105 transition-transform">
+            <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
           </div>
-          <div className="truncate">
-            <div className="text-sm font-black text-slate-900 group-hover:text-emerald-950 transition-colors truncate">
-              Search Medicines
+          <div className="w-full min-w-0 truncate">
+            <div className="text-[11px] sm:text-sm font-bold sm:font-black text-slate-900 group-hover:text-emerald-950 transition-colors leading-tight truncate">
+              <span className="sm:hidden">Search</span>
+              <span className="hidden sm:inline">Search Medicines</span>
             </div>
-            <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
-              <span>Quick Lookup</span>
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            <div className="text-[10px] sm:text-xs text-emerald-700 font-semibold flex items-center justify-center sm:justify-start gap-1 mt-0.5 truncate">
+              <span className="sm:hidden">Lookup</span>
+              <span className="hidden sm:inline">Quick Lookup</span>
+              <ArrowRight className="w-3 h-3 hidden sm:inline group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         </button>
