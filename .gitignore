@@ -35,3 +35,6 @@ Thumbs.db
 
 # TypeScript build info
 *.tsbuildinfo
+
+# Local Build Tools & LaTeX binaries
+tools/
