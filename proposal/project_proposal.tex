@@ -1,6 +1,14 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[12pt,a4paper]{article}
 
-\usepackage[utf8]{inputenc}
+\usepackage{iftex}
+\ifXeTeX
+  \usepackage{fontspec}
+  \setmainfont{Times New Roman}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage{mathptmx}
+\fi
+
 \usepackage[margin=1in]{geometry}
 \usepackage{xcolor}
 \usepackage{booktabs}
@@ -27,7 +35,7 @@
     filecolor=MedTeal,      
     urlcolor=MedEmerald,
     citecolor=MedEmerald,
-    pdftitle={MedSupply BD - Project Proposal},
+    pdftitle={MedSupply BD},
     pdfauthor={MedSupply BD Team},
     pdfsubject={AI-Powered B2B Pharmaceutical Supply Chain and Distribution Platform}
 }
@@ -35,7 +43,7 @@
 % Header and Footer
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\textcolor{MedEmerald}{\textbf{MedSupply BD}} \textbar\ Project Proposal}
+\lhead{\textcolor{MedEmerald}{\textbf{MedSupply BD}}}
 \rhead{\textcolor{gray}{\small Academic Year 2026--2027}}
 \cfoot{\thepage}
 \renewcommand{\headrulewidth}{0.6pt}
@@ -46,11 +54,10 @@
 \begin{document}
 
 % ==============================================================================
-% TITLE BLOCK
+% TITLE BLOCK (Without top heading 'PROJECT PROPOSAL')
 % ==============================================================================
 \begin{center}
-    {\LARGE \textbf{\textcolor{MedEmerald}{PROJECT PROPOSAL}}}\\[0.8em]
-    {\huge \textbf{MedSupply BD: An AI-Powered B2B Pharmaceutical Order Cutting, Near-Expiry FIFO Batch Allocation, and Credit Risk Management Platform}}\\[1.2em]
+    {\LARGE \textbf{MedSupply BD: An AI-Powered B2B Pharmaceutical Order Cutting, Near-Expiry FIFO Batch Allocation, and Credit Risk Management Platform}}\\[1.2em]
     
     \textbf{Course Title:} Capstone Project / Senior Design Project \\
     \textbf{Department of Computer Science and Engineering} \\
