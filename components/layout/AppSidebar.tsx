@@ -155,35 +155,15 @@ export const AppSidebar: React.FC = () => {
 
   return (
     <aside className="hidden lg:flex flex-col w-[275px] shrink-0 h-screen sticky top-0 bg-white text-slate-800 border-r border-slate-200/80 select-none z-30 overflow-y-auto scrollbar-none relative">
-      {/* Brand Header with Larger Logo */}
-      <div className="p-4 sm:p-5 pt-5 pb-3.5">
+      {/* Brand Header with Large Prominent Logo */}
+      <div className="px-5 pt-6 pb-4 mb-1">
         <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
           <img
             src="/images/medsupplybd-logo.png"
             alt="MedSupplyBD"
-            className="h-12 sm:h-13 w-auto max-w-[225px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
+            className="h-14 sm:h-16 w-auto max-w-[245px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
           />
         </Link>
-      </div>
-
-      {/* Current Tenant / Store Profile Card */}
-      <div className="mx-3.5 mb-2.5 p-3 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50 transition-colors flex items-center justify-between cursor-pointer group shadow-2xs">
-        <div className="flex items-center gap-3 min-w-0">
-          <img
-            src="/images/sidebar-logo.png"
-            alt="Store Logo"
-            className="w-9 h-9 rounded-xl object-contain p-0.5 border border-slate-200 bg-white shrink-0 shadow-2xs"
-          />
-          <div className="flex flex-col min-w-0">
-            <span className="text-[13px] font-bold text-slate-900 truncate">
-              {currentUser.organizationName || currentPharmacy?.tradeName || "Green Care Pharmacy & Med S..."}
-            </span>
-            <span className="inline-flex items-center text-[10px] font-black uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded w-fit mt-0.5 tracking-wider">
-              {currentUser.badge || "RETAIL PHARMACY"}
-            </span>
-          </div>
-        </div>
-        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 shrink-0" />
       </div>
 
       {/* Primary Navigation List (Larger Icons & Text) */}
