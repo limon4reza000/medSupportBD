@@ -300,6 +300,38 @@ export const GetAppModal: React.FC = () => {
           ) : (
             /* Native Android APK Tab */
             <div className="space-y-4">
+              
+              {/* Direct APK Download Card */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#01382a] to-[#025540] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg border border-emerald-500/30">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-2xl bg-white text-[#025540] flex items-center justify-center font-bold shrink-0 shadow-md">
+                    <Smartphone className="w-6 h-6 text-[#025540]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-black text-sm text-white">
+                        Download Native Android APK
+                      </h4>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                        v1.0 (17.3 MB)
+                      </span>
+                    </div>
+                    <p className="text-xs text-emerald-200/90 mt-0.5">
+                      Compiled release for Android phones &amp; MPO sales tablets
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="/downloads/medsupplybd-v1.0.apk"
+                  download="medsupplybd-v1.0.apk"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download APK (17.3 MB)</span>
+                </a>
+              </div>
+
               <div className="p-4 rounded-2xl bg-slate-900 text-emerald-300 font-mono text-xs space-y-2 border border-slate-800">
                 <div className="flex items-center justify-between text-slate-400 text-[11px] pb-1 border-b border-slate-800">
                   <span className="flex items-center gap-1.5">

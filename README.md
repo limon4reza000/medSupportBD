@@ -159,18 +159,19 @@ MedSupplyBD comes with dual mobile architecture for seamless chemist and field s
 - **Offline Mode**: Serves cached 41,300+ SKU catalog and queues orders locally when connectivity drops in remote pharmacies.
 - **Install Flow**: Scan the QR Code from the header **"📱 Get App"** button or select *"Add to Home Screen"* in Chrome (Android) or Safari (iOS).
 
-### 2. Native Android Project (Capacitor)
-- Pre-configured native Android application located in `/android` (Package ID: `bd.medsupply.b2b`).
-- **Commands**:
+### 2. Native Android Application (Compiled APK)
+- **Pre-Compiled APK Ready**:
+  - Gradle Output: [`android/app/build/outputs/apk/debug/app-debug.apk`](file:///c:/Projects/New%20folder/new/MedSupplyBD/android/app/build/outputs/apk/debug/app-debug.apk) (17.3 MB)
+  - Public Web Download: [`public/downloads/medsupplybd-v1.0.apk`](file:///c:/Projects/New%20folder/new/MedSupplyBD/public/downloads/medsupplybd-v1.0.apk)
+- **Package ID**: `bd.medsupply.b2b`
+- **Target Platform**: Android 14+ / SDK 36 (minSdk: 24, Android 7.0+)
+- **Build / Recompile Commands**:
   ```bash
-  # Sync web assets into Android project
-  npm run mobile:sync
+  # 1. Sync web assets & compile native APK:
+  npm run mobile:build
 
-  # Open in Android Studio to build signed APK
-  npm run mobile:open:android
-
-  # Or build APK directly via Gradle
-  cd android && ./gradlew assembleDebug
+  # 2. Or compile APK directly via Gradle:
+  npm run mobile:apk
   ```
 
 ---

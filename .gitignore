@@ -38,3 +38,7 @@ Thumbs.db
 
 # Local Build Tools & LaTeX binaries
 tools/
+
+# Android build outputs & binaries
+*.apk
+android/local.properties

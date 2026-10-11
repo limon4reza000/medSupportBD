@@ -9,6 +9,8 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "mobile:sync": "cap sync",
+    "mobile:build": "cap sync && cd android && .\\gradlew.bat assembleDebug",
+    "mobile:apk": "cd android && .\\gradlew.bat assembleDebug",
     "mobile:add:android": "cap add android",
     "mobile:open:android": "cap open android"
   },
