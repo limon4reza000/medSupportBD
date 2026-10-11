@@ -360,83 +360,85 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               </div>
             </div>
 
-            {/* Dual Bar Chart Area (Taller & Roomier) */}
-            <div className="relative pt-14 sm:pt-16 pb-2 mt-1">
-              {/* Y-axis Ticks & Horizontal Grid Lines */}
-              <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-[11px] sm:text-xs text-slate-400 font-medium">
-                <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-7 text-right pr-2">400</span>
-                  <div className="flex-1" />
+            {/* Dual Bar Chart Area (Taller, Roomier & Wide Chunky Bars) */}
+            <div className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
+              <div className="relative min-w-[500px] sm:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
+                {/* Y-axis Ticks & Horizontal Grid Lines */}
+                <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-[11px] sm:text-xs text-slate-400 font-medium">
+                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
+                    <span className="w-7 text-right pr-2">400</span>
+                    <div className="flex-1" />
+                  </div>
+                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
+                    <span className="w-7 text-right pr-2">300</span>
+                    <div className="flex-1" />
+                  </div>
+                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
+                    <span className="w-7 text-right pr-2">200</span>
+                    <div className="flex-1" />
+                  </div>
+                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
+                    <span className="w-7 text-right pr-2">100</span>
+                    <div className="flex-1" />
+                  </div>
+                  <div className="border-b border-slate-200 flex items-center justify-between pb-0.5">
+                    <span className="w-7 text-right pr-2 text-slate-400">0</span>
+                    <div className="flex-1" />
+                  </div>
                 </div>
-                <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-7 text-right pr-2">300</span>
-                  <div className="flex-1" />
-                </div>
-                <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-7 text-right pr-2">200</span>
-                  <div className="flex-1" />
-                </div>
-                <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-7 text-right pr-2">100</span>
-                  <div className="flex-1" />
-                </div>
-                <div className="border-b border-slate-200 flex items-center justify-between pb-0.5">
-                  <span className="w-7 text-right pr-2 text-slate-400">0</span>
-                  <div className="flex-1" />
-                </div>
-              </div>
 
-              {/* 12 Bars Columns */}
-              <div className="relative pl-9 sm:pl-10 pr-2 h-64 sm:h-72 lg:h-80 flex items-end justify-between gap-1 sm:gap-2">
-                {monthlyOrderData.map((item) => {
-                  const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
-                  const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
-                  const isHovered = activeTooltipMonth === item.month;
+                {/* 12 Bars Columns */}
+                <div className="relative pl-9 sm:pl-10 pr-2 h-72 sm:h-80 lg:h-84 flex items-end justify-between gap-1 sm:gap-2">
+                  {monthlyOrderData.map((item) => {
+                    const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
+                    const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
+                    const isHovered = activeTooltipMonth === item.month;
 
-                  return (
-                    <div
-                      key={item.month}
-                      className="relative flex-1 flex flex-col items-center justify-end h-full group cursor-pointer"
-                      onMouseEnter={() => setActiveTooltipMonth(item.month)}
-                    >
-                      {/* Interactive Floating Tooltip (matching Jul 2026 screenshot) */}
-                      {isHovered && (
-                        <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[110px]">
-                          <div className="text-xs sm:text-[13px] font-black text-slate-900 leading-tight">
-                            {item.month} 2026
+                    return (
+                      <div
+                        key={item.month}
+                        className="relative flex-1 flex flex-col items-center justify-end h-full group cursor-pointer"
+                        onMouseEnter={() => setActiveTooltipMonth(item.month)}
+                      >
+                        {/* Interactive Floating Tooltip (matching Jul 2026 screenshot) */}
+                        {isHovered && (
+                          <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[110px]">
+                            <div className="text-xs sm:text-[13px] font-black text-slate-900 leading-tight">
+                              {item.month} 2026
+                            </div>
+                            <div className="text-[11px] sm:text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
+                              <span className="w-2 h-2 rounded-full bg-[#0080ff] shrink-0" />
+                              <span>Online: {item.online}</span>
+                            </div>
+                            <div className="text-[11px] sm:text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
+                              <span className="w-2 h-2 rounded-full bg-[#00d084] shrink-0" />
+                              <span>Wholesale: {item.wholesale}</span>
+                            </div>
                           </div>
-                          <div className="text-[11px] sm:text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
-                            <span className="w-2 h-2 rounded-full bg-[#0080ff] shrink-0" />
-                            <span>Online: {item.online}</span>
-                          </div>
-                          <div className="text-[11px] sm:text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
-                            <span className="w-2 h-2 rounded-full bg-[#00d084] shrink-0" />
-                            <span>Wholesale: {item.wholesale}</span>
-                          </div>
+                        )}
+
+                        {/* Side by side Bars (Wide, Chunky & Bold 'mota mota') */}
+                        <div className="w-full flex items-end justify-center gap-0.5 sm:gap-1.5 h-full pb-1 px-0.5">
+                          {/* Blue Online Bar */}
+                          <div
+                            className="flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#0080ff] transition-all duration-300 hover:brightness-110 shadow-xs"
+                            style={{ height: `${onlineHeight}%` }}
+                          />
+                          {/* Green Wholesale Bar */}
+                          <div
+                            className="flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#00d084] transition-all duration-300 hover:brightness-110 shadow-xs"
+                            style={{ height: `${wholesaleHeight}%` }}
+                          />
                         </div>
-                      )}
 
-                      {/* Side by side Bars */}
-                      <div className="w-full flex items-end justify-center gap-1 sm:gap-1.5 h-full pb-1">
-                        {/* Blue Online Bar */}
-                        <div
-                          className="w-2 sm:w-3 md:w-3.5 lg:w-4 rounded-t-sm sm:rounded-t-md bg-[#0080ff] transition-all duration-300 hover:brightness-110"
-                          style={{ height: `${onlineHeight}%` }}
-                        />
-                        {/* Green Wholesale Bar */}
-                        <div
-                          className="w-2 sm:w-3 md:w-3.5 lg:w-4 rounded-t-sm sm:rounded-t-md bg-[#00d084] transition-all duration-300 hover:brightness-110"
-                          style={{ height: `${wholesaleHeight}%` }}
-                        />
+                        {/* Month Label */}
+                        <span className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1.5 select-none transition-colors group-hover:text-slate-900">
+                          {item.month}
+                        </span>
                       </div>
-
-                      {/* Month Label */}
-                      <span className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1.5 select-none transition-colors group-hover:text-slate-900">
-                        {item.month}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
