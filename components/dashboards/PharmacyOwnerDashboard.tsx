@@ -9,6 +9,7 @@ import {
   Users,
   Truck,
   ChevronRight,
+  ChevronDown,
   ArrowRight,
   TrendingUp,
   Layers,
@@ -34,23 +35,24 @@ export const PharmacyOwnerDashboard: React.FC = () => {
   const { currentPharmacy, setIsQuickOrderOpen, setIsSearchOpen } = useApp();
 
   // State for interactive order chart timeframe
-  const [chartTimeframe, setChartTimeframe] = useState<string>("12m");
-  const [activeTooltipMonth, setActiveTooltipMonth] = useState<string>("Aug");
+  const [chartTimeframe, setChartTimeframe] = useState<string>("Last 12 Months");
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [activeTooltipMonth, setActiveTooltipMonth] = useState<string>("Jul");
 
   // 12-Month Order Overview Data matching user mockup
   const monthlyOrderData = [
-    { month: "Jan", online: 90, wholesale: 50 },
-    { month: "Feb", online: 120, wholesale: 65 },
-    { month: "Mar", online: 145, wholesale: 80 },
-    { month: "Apr", online: 130, wholesale: 85 },
-    { month: "May", online: 165, wholesale: 110 },
-    { month: "Jun", online: 185, wholesale: 125 },
-    { month: "Jul", online: 220, wholesale: 145 },
-    { month: "Aug", online: 260, wholesale: 180, isHighlighted: true },
-    { month: "Sep", online: 285, wholesale: 195 },
-    { month: "Oct", online: 310, wholesale: 210 },
-    { month: "Nov", online: 345, wholesale: 225 },
-    { month: "Dec", online: 375, wholesale: 240 },
+    { month: "Jan", online: 80, wholesale: 40 },
+    { month: "Feb", online: 115, wholesale: 50 },
+    { month: "Mar", online: 140, wholesale: 65 },
+    { month: "Apr", online: 125, wholesale: 72 },
+    { month: "May", online: 160, wholesale: 102 },
+    { month: "Jun", online: 182, wholesale: 116 },
+    { month: "Jul", online: 220, wholesale: 145, isHighlighted: true },
+    { month: "Aug", online: 265, wholesale: 178 },
+    { month: "Sep", online: 292, wholesale: 195 },
+    { month: "Oct", online: 322, wholesale: 212 },
+    { month: "Nov", online: 360, wholesale: 228 },
+    { month: "Dec", online: 395, wholesale: 246 },
   ];
 
   // Top Selling Products matching user mockup
@@ -288,81 +290,107 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         {/* ================================================================= */}
         {/* 2.1 ORDER OVERVIEW (12-Month Bar Chart)                           */}
         {/* ================================================================= */}
-        <div className="lg:col-span-6 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div>
             {/* Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100/90">
+              <h3 className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight">
                 Order Overview
               </h3>
 
-              <div className="flex items-center gap-3">
-                <select
-                  value={chartTimeframe}
-                  onChange={(e) => setChartTimeframe(e.target.value)}
-                  className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700 px-2.5 py-1 rounded-lg outline-none cursor-pointer transition-colors"
-                >
-                  <option value="12m">Last 12 Months</option>
-                  <option value="6m">Last 6 Months</option>
-                  <option value="30d">Last 30 Days</option>
-                </select>
+              <div className="flex items-center gap-3 sm:gap-4">
+                {/* Timeframe Dropdown Button */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsDropdownOpen((prev) => !prev)}
+                    className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-200/90 text-xs sm:text-sm font-semibold text-slate-700 px-3 sm:px-3.5 py-1.5 rounded-xl shadow-2xs transition-all cursor-pointer"
+                  >
+                    <span>{chartTimeframe}</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                  </button>
 
-                <div className="hidden sm:flex items-center gap-3 text-xs font-medium text-slate-600">
+                  {isDropdownOpen && (
+                    <div className="absolute right-0 top-full mt-1.5 z-40 bg-white rounded-xl shadow-xl border border-slate-100 py-1 min-w-[145px] text-xs font-semibold text-slate-700 animate-in fade-in zoom-in-95 duration-150">
+                      {["Last 12 Months", "Last 6 Months", "Last 30 Days"].map((tf) => (
+                        <button
+                          key={tf}
+                          type="button"
+                          onClick={() => {
+                            setChartTimeframe(tf);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-3.5 py-2 hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                            chartTimeframe === tf ? "text-blue-600 bg-blue-50/50" : ""
+                          }`}
+                        >
+                          <span>{tf}</span>
+                          {chartTimeframe === tf && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Legends */}
+                <div className="hidden sm:flex items-center gap-3.5 text-xs sm:text-sm font-medium text-slate-600">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#0088ff]" />
-                    <span>Online Orders</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
+                    <span className="text-slate-700 font-semibold">Online Orders</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#00d084]" />
-                    <span>Wholesale Orders</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
+                    <span className="text-slate-700 font-semibold">Wholesale Orders</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Mobile Legend row */}
-            <div className="flex sm:hidden items-center gap-3 text-[11px] font-medium text-slate-600 pt-2">
+            <div className="flex sm:hidden items-center gap-3 text-xs font-medium text-slate-600 pt-2.5">
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0088ff]" />
-                <span>Online Orders</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
+                <span className="text-slate-700">Online Orders</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#00d084]" />
-                <span>Wholesale Orders</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
+                <span className="text-slate-700">Wholesale Orders</span>
               </div>
             </div>
 
-            {/* SVG/CSS Dual Bar Chart Area */}
-            <div className="relative pt-6 pb-2">
-              {/* Y-axis Ticks Background Lines */}
-              <div className="absolute inset-x-0 top-6 bottom-7 flex flex-col justify-between pointer-events-none select-none text-[10px] text-slate-400">
+            {/* Dual Bar Chart Area (Taller & Roomier) */}
+            <div className="relative pt-14 sm:pt-16 pb-2 mt-1">
+              {/* Y-axis Ticks & Horizontal Grid Lines */}
+              <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-[11px] sm:text-xs text-slate-400 font-medium">
                 <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-6 text-right pr-1">400</span>
+                  <span className="w-7 text-right pr-2">400</span>
                   <div className="flex-1" />
                 </div>
                 <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-6 text-right pr-1">300</span>
+                  <span className="w-7 text-right pr-2">300</span>
                   <div className="flex-1" />
                 </div>
                 <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-6 text-right pr-1">200</span>
+                  <span className="w-7 text-right pr-2">200</span>
                   <div className="flex-1" />
                 </div>
                 <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                  <span className="w-6 text-right pr-1">100</span>
+                  <span className="w-7 text-right pr-2">100</span>
                   <div className="flex-1" />
                 </div>
                 <div className="border-b border-slate-200 flex items-center justify-between pb-0.5">
-                  <span className="w-6 text-right pr-1">0</span>
+                  <span className="w-7 text-right pr-2 text-slate-400">0</span>
                   <div className="flex-1" />
                 </div>
               </div>
 
               {/* 12 Bars Columns */}
-              <div className="relative pl-8 pr-2 h-48 flex items-end justify-between gap-1 sm:gap-2">
+              <div className="relative pl-9 sm:pl-10 pr-2 h-64 sm:h-72 lg:h-80 flex items-end justify-between gap-1 sm:gap-2">
                 {monthlyOrderData.map((item) => {
-                  const onlineHeight = Math.min(100, Math.round((item.online / 400) * 100));
-                  const wholesaleHeight = Math.min(100, Math.round((item.wholesale / 400) * 100));
+                  const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
+                  const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
                   const isHovered = activeTooltipMonth === item.month;
 
                   return (
@@ -371,39 +399,39 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       className="relative flex-1 flex flex-col items-center justify-end h-full group cursor-pointer"
                       onMouseEnter={() => setActiveTooltipMonth(item.month)}
                     >
-                      {/* Interactive Floating Tooltip (shown on August or hovered month) */}
+                      {/* Interactive Floating Tooltip (matching Jul 2026 screenshot) */}
                       {isHovered && (
-                        <div className="absolute -top-12 z-30 bg-white/95 backdrop-blur-md rounded-xl p-2 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150">
-                          <div className="text-[11px] font-black text-slate-900 leading-tight">
+                        <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[110px]">
+                          <div className="text-xs sm:text-[13px] font-black text-slate-900 leading-tight">
                             {item.month} 2026
                           </div>
-                          <div className="text-[10px] text-[#0088ff] font-bold flex items-center gap-1 mt-0.5 whitespace-nowrap">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#0088ff]" />
+                          <div className="text-[11px] sm:text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
+                            <span className="w-2 h-2 rounded-full bg-[#0080ff] shrink-0" />
                             <span>Online: {item.online}</span>
                           </div>
-                          <div className="text-[10px] text-[#00d084] font-bold flex items-center gap-1 whitespace-nowrap">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#00d084]" />
+                          <div className="text-[11px] sm:text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
+                            <span className="w-2 h-2 rounded-full bg-[#00d084] shrink-0" />
                             <span>Wholesale: {item.wholesale}</span>
                           </div>
                         </div>
                       )}
 
                       {/* Side by side Bars */}
-                      <div className="w-full flex items-end justify-center gap-0.5 sm:gap-1 h-full pb-1">
+                      <div className="w-full flex items-end justify-center gap-1 sm:gap-1.5 h-full pb-1">
                         {/* Blue Online Bar */}
                         <div
-                          className="w-1.5 sm:w-2.5 rounded-t-sm sm:rounded-t bg-[#0088ff] transition-all duration-300 hover:brightness-110"
+                          className="w-2 sm:w-3 md:w-3.5 lg:w-4 rounded-t-sm sm:rounded-t-md bg-[#0080ff] transition-all duration-300 hover:brightness-110"
                           style={{ height: `${onlineHeight}%` }}
                         />
                         {/* Green Wholesale Bar */}
                         <div
-                          className="w-1.5 sm:w-2.5 rounded-t-sm sm:rounded-t bg-[#00d084] transition-all duration-300 hover:brightness-110"
+                          className="w-2 sm:w-3 md:w-3.5 lg:w-4 rounded-t-sm sm:rounded-t-md bg-[#00d084] transition-all duration-300 hover:brightness-110"
                           style={{ height: `${wholesaleHeight}%` }}
                         />
                       </div>
 
                       {/* Month Label */}
-                      <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 mt-1 select-none">
+                      <span className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1.5 select-none transition-colors group-hover:text-slate-900">
                         {item.month}
                       </span>
                     </div>
