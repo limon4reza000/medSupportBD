@@ -154,48 +154,40 @@ export const AppSidebar: React.FC = () => {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-[270px] shrink-0 h-screen sticky top-0 bg-gradient-to-b from-[#00382b] via-[#002b21] to-[#00221a] text-white border-r border-[#01382b] select-none z-30 overflow-y-auto scrollbar-none relative">
-      {/* Top right ambient leaf silhouette illustration */}
-      <div className="absolute top-0 right-0 w-36 h-32 pointer-events-none overflow-hidden select-none">
-        <svg viewBox="0 0 140 120" fill="none" className="w-full h-full text-emerald-400/20">
-          <path d="M140 0 C105 20 85 55 95 105 C115 70 128 35 140 0 Z" fill="currentColor" />
-          <path d="M140 25 C115 50 100 85 110 120 C125 90 133 60 140 25 Z" fill="currentColor" opacity="0.6" />
-          <path d="M115 0 C88 20 72 50 82 85 C100 55 110 25 115 0 Z" fill="currentColor" opacity="0.4" />
-        </svg>
-      </div>
-
+    <aside className="hidden lg:flex flex-col w-[260px] shrink-0 h-screen sticky top-0 bg-white text-slate-800 border-r border-slate-200/80 select-none z-30 overflow-y-auto scrollbar-none relative">
       {/* Brand Header */}
-      <div className="p-4 pt-5 pb-3 flex flex-col gap-3 relative z-10 border-b border-emerald-900/30">
+      <div className="p-4 pt-5 pb-3">
         <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
           <img
             src="/images/medsupplybd-logo.png"
             alt="MedSupplyBD"
-            className="h-9 w-auto max-w-[215px] object-contain group-hover:scale-105 transition-transform"
+            className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
           />
         </Link>
+      </div>
 
-        {/* Current Tenant / Operational Role Card */}
-        <div className="flex items-center gap-2.5 pt-2 border-t border-emerald-900/40">
+      {/* Current Tenant / Store Profile Card */}
+      <div className="mx-3 mb-2 p-2.5 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50 transition-colors flex items-center justify-between cursor-pointer group shadow-2xs">
+        <div className="flex items-center gap-2.5 min-w-0">
           <img
             src="/images/sidebar-logo.png"
-            alt="Role Badge"
-            className="w-8 h-8 rounded-xl object-contain shrink-0 shadow-md bg-white/10 p-0.5 border border-emerald-400/20"
+            alt="Store Logo"
+            className="w-8 h-8 rounded-xl object-contain p-0.5 border border-slate-200 bg-white shrink-0 shadow-2xs"
           />
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-[13px] text-white tracking-tight leading-snug truncate">
-              {currentUser.organizationName || currentPharmacy?.tradeName || "MedSupplyBD Network"}
+            <span className="text-[12px] font-bold text-slate-900 truncate">
+              {currentUser.organizationName || currentPharmacy?.tradeName || "Green Care Pharmacy & Med S..."}
             </span>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-[10px] font-black uppercase px-2 py-0.2 rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 tracking-wider truncate">
-                {currentUser.badge || currentUser.role.replace("_", " ")}
-              </span>
-            </div>
+            <span className="inline-flex items-center text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded w-fit mt-0.5 tracking-wider">
+              {currentUser.badge || "RETAIL PHARMACY"}
+            </span>
           </div>
         </div>
+        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 shrink-0" />
       </div>
 
       {/* Primary Navigation List */}
-      <div className="flex-1 px-3 py-3 space-y-1.5 overflow-y-auto scrollbar-none relative z-10">
+      <div className="flex-1 px-3 py-2 space-y-1 overflow-y-auto scrollbar-none relative z-10">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = isItemActive(item.href);
@@ -204,41 +196,24 @@ export const AppSidebar: React.FC = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`group relative flex items-center justify-between px-3 py-2 rounded-2xl transition-all duration-200 ${
+              className={`group relative flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-gradient-to-r from-[#01543e] via-[#026c52] to-[#014837] text-white border border-emerald-400/30 shadow-[0_4px_16px_rgba(2,108,82,0.35)]"
-                  : "text-emerald-100/80 hover:text-white hover:bg-white/[0.05]"
+                  ? "bg-[#e6f7ef] text-[#025540] font-bold shadow-2xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
               }`}
             >
-              {/* Neon Mint glowing active capsule bar on the left */}
-              {isActive && (
-                <span className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-7 rounded-r-full bg-[#34d399] shadow-[0_0_12px_#34d399,0_0_20px_rgba(52,211,153,0.7)]" />
-              )}
-
-              <div className="flex items-center gap-3 min-w-0">
-                <div
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all ${
-                    isActive
-                      ? "bg-emerald-500/25 border border-emerald-400/30 text-[#34d399]"
-                      : "bg-[#00382b]/90 border border-emerald-500/15 text-[#34d399] group-hover:bg-[#014837] group-hover:border-emerald-400/30 group-hover:text-emerald-200"
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Icon
+                  className={`w-4 h-4 shrink-0 transition-colors ${
+                    isActive ? "text-[#025540] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
                   }`}
-                >
-                  <Icon className="w-4 h-4 stroke-[2]" />
-                </div>
-                <span
-                  className={`text-[13px] truncate ${
-                    isActive ? "font-bold text-white" : "font-medium"
-                  }`}
-                >
-                  {item.label}
-                </span>
+                />
+                <span className="text-[13px] truncate">{item.label}</span>
               </div>
 
               <ChevronRight
-                className={`w-4 h-4 shrink-0 transition-transform ${
-                  isActive
-                    ? "text-emerald-300"
-                    : "text-emerald-400/40 group-hover:text-emerald-300 group-hover:translate-x-0.5"
+                className={`w-4 h-4 shrink-0 transition-colors ${
+                  isActive ? "text-[#025540]" : "text-slate-300 group-hover:text-slate-500"
                 }`}
               />
             </Link>
@@ -246,7 +221,7 @@ export const AppSidebar: React.FC = () => {
         })}
 
         {/* Section Divider */}
-        <div className="my-2.5 mx-1 border-t border-emerald-800/25" />
+        <div className="my-2 mx-1 border-t border-slate-200/80" />
 
         {/* Secondary Nav Items */}
         {secondaryNavItems.map((item) => {
@@ -257,36 +232,24 @@ export const AppSidebar: React.FC = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`group relative flex items-center justify-between px-3 py-2 rounded-2xl transition-all duration-200 ${
+              className={`group relative flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-gradient-to-r from-[#01543e] via-[#026c52] to-[#014837] text-white border border-emerald-400/30 shadow-[0_4px_16px_rgba(2,108,82,0.35)]"
-                  : "text-emerald-100/80 hover:text-white hover:bg-white/[0.05]"
+                  ? "bg-[#e6f7ef] text-[#025540] font-bold shadow-2xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
               }`}
             >
-              <div className="flex items-center gap-3 min-w-0">
-                <div
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all ${
-                    isActive
-                      ? "bg-emerald-500/25 border border-emerald-400/30 text-[#34d399]"
-                      : "bg-[#00382b]/90 border border-emerald-500/15 text-[#34d399] group-hover:bg-[#014837] group-hover:border-emerald-400/30 group-hover:text-emerald-200"
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Icon
+                  className={`w-4 h-4 shrink-0 transition-colors ${
+                    isActive ? "text-[#025540] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
                   }`}
-                >
-                  <Icon className="w-4 h-4 stroke-[2]" />
-                </div>
-                <span
-                  className={`text-[13px] truncate ${
-                    isActive ? "font-bold text-white" : "font-medium"
-                  }`}
-                >
-                  {item.label}
-                </span>
+                />
+                <span className="text-[13px] truncate">{item.label}</span>
               </div>
 
               <ChevronRight
-                className={`w-4 h-4 shrink-0 transition-transform ${
-                  isActive
-                    ? "text-emerald-300"
-                    : "text-emerald-400/40 group-hover:text-emerald-300 group-hover:translate-x-0.5"
+                className={`w-4 h-4 shrink-0 transition-colors ${
+                  isActive ? "text-[#025540]" : "text-slate-300 group-hover:text-slate-500"
                 }`}
               />
             </Link>
@@ -295,20 +258,18 @@ export const AppSidebar: React.FC = () => {
       </div>
 
       {/* Bottom Footer: Mobile App + Language Toggle + Logout Button */}
-      <div className="p-3 border-t border-emerald-800/30 bg-[#00241b]/90 space-y-2 relative z-10">
+      <div className="p-3 border-t border-slate-200/80 bg-white space-y-2 relative z-10">
         {/* Get Mobile App Button */}
         <button
           onClick={() => setIsGetAppOpen(true)}
-          className="flex items-center justify-between w-full px-3 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-[#025540] hover:from-emerald-500 hover:to-[#01382a] text-white text-xs font-bold transition-all border border-emerald-400/30 shadow-md group active:scale-95"
+          className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white text-xs font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
           title="Install MedSupplyBD App (PWA / Android APK)"
         >
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/20 text-white border border-white/20">
-              <Smartphone className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-            </div>
+          <div className="flex items-center gap-2">
+            <Smartphone className="w-4 h-4 text-emerald-300" />
             <span>Get Mobile App</span>
           </div>
-          <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase tracking-wider">
+          <span className="px-1.5 py-0.5 rounded bg-[#10b981] text-[#025540] text-[9px] font-black uppercase tracking-wider">
             APK &bull; iOS
           </span>
         </button>
@@ -316,29 +277,25 @@ export const AppSidebar: React.FC = () => {
         {/* Language Toggle (Bangla / English) */}
         <button
           onClick={toggleLanguage}
-          className="flex items-center justify-between w-full px-3 py-2 rounded-2xl bg-[#00382b]/90 hover:bg-[#014837] text-emerald-100/90 hover:text-white text-xs font-bold transition-all border border-emerald-600/30 shadow-sm group"
+          className="flex items-center justify-between w-full px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-all border border-slate-200/80 shadow-2xs group cursor-pointer"
           title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
         >
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-emerald-500/15 text-[#34d399] border border-emerald-400/20">
-              <Globe className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
-            </div>
+          <div className="flex items-center gap-2">
+            <Globe className="w-4 h-4 text-slate-500" />
             <span>Language / ভাষা</span>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-500/20 text-[#34d399] text-[11px] font-black border border-emerald-400/30">
-            <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
+          <div className="flex items-center px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black">
+            <span>{language === "en" ? "BN" : "EN"}</span>
           </div>
         </button>
 
         {/* Logout Button */}
         <Link
           href="/login"
-          className="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 hover:text-rose-200 text-xs font-bold transition-all border border-rose-500/25 shadow-sm group"
+          className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-600 text-xs font-bold transition-all border border-rose-200/70 shadow-2xs group"
           title="Sign out of platform session"
         >
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-rose-500/15 text-rose-300 border border-rose-400/20 group-hover:scale-105 transition-transform">
-            <LogOut className="w-3.5 h-3.5" />
-          </div>
+          <LogOut className="w-3.5 h-3.5 text-rose-500" />
           <span>Logout / সাইন আউট</span>
         </Link>
       </div>

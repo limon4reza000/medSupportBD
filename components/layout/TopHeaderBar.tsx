@@ -111,7 +111,7 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#f1f5f3]/95 backdrop-blur-md border-b border-slate-200/70 px-4 sm:px-6 lg:px-8 py-3 transition-all">
+    <header className="sticky top-0 z-30 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 lg:px-8 py-3 transition-all">
       <div className="flex items-center justify-between gap-3 sm:gap-4 w-full">
         
         {/* Left: Global Search Input & Mobile Brand Icon */}
@@ -274,17 +274,23 @@ export const TopHeaderBar: React.FC = () => {
             )}
           </Link>
 
-          {/* User Profile Avatar */}
+          {/* User Profile Avatar with Name & Admin Badge */}
           <Link
             href="/profile"
-            className="hidden sm:flex items-center gap-1.5 p-1 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200/80 shadow-xs transition-all"
-            title="My Profile"
+            className="hidden sm:flex items-center gap-2 p-1 pl-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/80 shadow-2xs transition-all"
+            title="My Profile - Mahfuzul Islam"
           >
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="w-8 h-8 rounded-xl object-cover"
-            />
+            <div className="w-8 h-8 rounded-full bg-[#1e60d5] text-white font-black text-xs flex items-center justify-center shadow-xs shrink-0">
+              MI
+            </div>
+            <div className="flex flex-col text-left pr-1.5 min-w-0">
+              <span className="text-xs font-bold text-slate-900 leading-tight truncate">
+                {currentUser.name || "Mahfuzul Islam"}
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium leading-tight truncate">
+                Admin
+              </span>
+            </div>
           </Link>
 
           {/* Mobile Hamburger Button */}
