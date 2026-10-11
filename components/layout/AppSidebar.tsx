@@ -24,6 +24,7 @@ import {
   Factory,
   Store,
   Briefcase,
+  Smartphone,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -66,7 +67,7 @@ const MRPortalIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" 
 
 export const AppSidebar: React.FC = () => {
   const pathname = usePathname();
-  const { currentPharmacy, language, setLanguage, currentUser } = useApp();
+  const { currentPharmacy, language, setLanguage, currentUser, setIsGetAppOpen } = useApp();
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "bn" : "en");
@@ -281,8 +282,25 @@ export const AppSidebar: React.FC = () => {
         })}
       </div>
 
-      {/* Bottom Footer: Language Toggle + Logout Button */}
+      {/* Bottom Footer: Mobile App + Language Toggle + Logout Button */}
       <div className="p-3 border-t border-emerald-800/30 bg-[#00241b]/90 space-y-2 relative z-10">
+        {/* Get Mobile App Button */}
+        <button
+          onClick={() => setIsGetAppOpen(true)}
+          className="flex items-center justify-between w-full px-3 py-2 rounded-2xl bg-gradient-to-r from-emerald-600 to-[#025540] hover:from-emerald-500 hover:to-[#01382a] text-white text-xs font-bold transition-all border border-emerald-400/30 shadow-md group active:scale-95"
+          title="Install MedSupplyBD App (PWA / Android APK)"
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/20 text-white border border-white/20">
+              <Smartphone className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+            </div>
+            <span>Get Mobile App</span>
+          </div>
+          <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase tracking-wider">
+            PWA
+          </span>
+        </button>
+
         {/* Language Toggle (Bangla / English) */}
         <button
           onClick={toggleLanguage}

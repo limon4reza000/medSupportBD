@@ -32,6 +32,7 @@ import {
   User,
   BarChart3,
   Factory,
+  Smartphone,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -99,6 +100,7 @@ export const HamburgerDrawer: React.FC = () => {
     notifications,
     language,
     setLanguage,
+    setIsGetAppOpen,
   } = useApp();
 
   const toggleLanguage = () => {
@@ -380,9 +382,26 @@ export const HamburgerDrawer: React.FC = () => {
           ))}
         </div>
 
-        {/* Sign Out & Language Toggle Footer */}
-        {/* CRITICAL: Language button is directly above Sign Out button */}
+        {/* Sign Out, App Install & Language Toggle Footer */}
         <div className="p-3.5 border-t border-emerald-800/30 bg-[#00241b] space-y-2">
+          {/* Mobile App Install Button */}
+          <button
+            onClick={() => {
+              closeDrawer();
+              setIsGetAppOpen(true);
+            }}
+            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white text-xs font-bold transition-all shadow-md active:scale-95 group"
+            title="Install Mobile App"
+          >
+            <div className="flex items-center gap-2">
+              <Smartphone className="w-4 h-4 text-emerald-200 group-hover:scale-110 transition-transform" />
+              <span>Get Mobile App / অ্যাপ ডাউনলোড</span>
+            </div>
+            <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase">
+              PWA / APK
+            </span>
+          </button>
+
           {/* Language Toggle Button (English / বাংলা) */}
           <button
             onClick={toggleLanguage}

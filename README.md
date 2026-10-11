@@ -150,6 +150,32 @@ node scripts/test-platform.js
 
 ---
 
+## 📱 Mobile App (PWA & Android Native APK)
+
+MedSupplyBD comes with dual mobile architecture for seamless chemist and field sales representative (MPO) usage:
+
+### 1. Progressive Web App (PWA) — Recommended
+- **Zero App Store friction**: <3MB download size, instant updates.
+- **Offline Mode**: Serves cached 41,300+ SKU catalog and queues orders locally when connectivity drops in remote pharmacies.
+- **Install Flow**: Scan the QR Code from the header **"📱 Get App"** button or select *"Add to Home Screen"* in Chrome (Android) or Safari (iOS).
+
+### 2. Native Android Project (Capacitor)
+- Pre-configured native Android application located in `/android` (Package ID: `bd.medsupply.b2b`).
+- **Commands**:
+  ```bash
+  # Sync web assets into Android project
+  npm run mobile:sync
+
+  # Open in Android Studio to build signed APK
+  npm run mobile:open:android
+
+  # Or build APK directly via Gradle
+  cd android && ./gradlew assembleDebug
+  ```
+
+---
+
 ## 👥 Contributors
 - **Limon Reza** (ID: 232-35-004)
 - **Md Mehedi Hasan** (ID: 232-35-712)
+

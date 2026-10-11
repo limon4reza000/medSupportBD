@@ -241,6 +241,7 @@ interface AppContextType {
   isSearchOpen: boolean;
   isQuickOrderOpen: boolean;
   isMobileNavOpen: boolean;
+  isGetAppOpen: boolean;
 
   // Actions
   setSelectedPharmacyId: (id: string) => void;
@@ -252,6 +253,7 @@ interface AppContextType {
   setIsSearchOpen: (open: boolean) => void;
   setIsQuickOrderOpen: (open: boolean) => void;
   setIsMobileNavOpen: (open: boolean) => void;
+  setIsGetAppOpen: (open: boolean) => void;
   markNotificationRead: (id: string) => void;
   markAllNotificationsRead: () => void;
   refreshData: () => Promise<void>;
@@ -531,6 +533,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isQuickOrderOpen, setIsQuickOrderOpen] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isGetAppOpen, setIsGetAppOpen] = useState(false);
 
   // LocalStorage Hydration
   useEffect(() => {
@@ -1405,6 +1408,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         isSearchOpen,
         isQuickOrderOpen,
         isMobileNavOpen,
+        isGetAppOpen,
         setSelectedPharmacyId,
         addToCart,
         updateCartQty,
@@ -1434,6 +1438,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         setIsSearchOpen,
         setIsQuickOrderOpen,
         setIsMobileNavOpen,
+        setIsGetAppOpen,
         markNotificationRead,
         markAllNotificationsRead,
         refreshData,

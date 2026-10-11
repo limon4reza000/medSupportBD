@@ -2,8 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { Download, X, Smartphone, CheckCircle2 } from "lucide-react";
+import { useApp } from "@/lib/context/AppContext";
 
 export const PwaRegister: React.FC = () => {
+  const { setIsGetAppOpen } = useApp();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -49,7 +51,11 @@ export const PwaRegister: React.FC = () => {
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
+    if (!deferredPrompt) {
+      setIsGetAppOpen(true);
+      setShowInstallPrompt(false);
+      return;
+    }
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     console.log("[PWA] Install prompt outcome:", outcome);

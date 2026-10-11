@@ -329,7 +329,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                 </div>
                 <div className="text-[11px] text-slate-500 flex items-center justify-between pt-1">
                   <span>Validity:</span>
-                  <span className="font-medium text-slate-700">{offer.startDate} to {offer.endDate}</span>
+                  <span className="font-medium text-slate-700">{String(offer.startDate)} to {String(offer.endDate)}</span>
                 </div>
               </div>
             ))}

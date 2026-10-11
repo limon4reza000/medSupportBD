@@ -30,7 +30,10 @@ export default function AdminSettingsPage() {
   ];
 
   const rolePermissionMap: Record<UserRole, string[]> = {
+    [UserRole.SUPER_ADMIN]: permissionsList.map((p) => p.key),
     [UserRole.ADMIN]: permissionsList.map((p) => p.key),
+    [UserRole.PHARMA_COMPANY]: ["medicine.read", "medicine.create", "report.read"],
+    [UserRole.DISTRIBUTOR]: ["medicine.read", "inventory.adjust", "order.approve", "order.dispatch", "ledger.read", "report.read"],
     [UserRole.DEPOT_MANAGER]: ["medicine.read", "medicine.create", "inventory.adjust", "order.approve", "order.dispatch", "report.read"],
     [UserRole.SALES_REP]: ["medicine.read", "order.create", "payment.create", "ledger.read", "report.read"],
     [UserRole.PHARMACY_OWNER]: ["medicine.read", "order.create", "ledger.read"],

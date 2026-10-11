@@ -17,6 +17,7 @@ import {
   Settings,
   LogOut,
   Camera,
+  Smartphone,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -25,6 +26,7 @@ export const TopHeaderBar: React.FC = () => {
   const {
     setIsSearchOpen,
     setIsMobileNavOpen,
+    setIsGetAppOpen,
     currentPharmacy,
     notifications,
     currentUser,
@@ -131,8 +133,21 @@ export const TopHeaderBar: React.FC = () => {
           </div>
         </div>
 
-        {/* Right: Role Switcher | Notifications Bell | Mobile Hamburger */}
+        {/* Right: Get App | Role Switcher | Notifications Bell | Mobile Hamburger */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+
+          {/* Get Mobile App Button */}
+          <button
+            onClick={() => setIsGetAppOpen(true)}
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-[#01382a] hover:from-[#01382a] hover:to-[#025540] text-white font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-500/30"
+            title="Download or install MedSupplyBD Mobile App (PWA / Android)"
+          >
+            <Smartphone className="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" />
+            <span className="hidden sm:inline">Get App</span>
+            <span className="px-1.5 py-0.2 rounded-full bg-emerald-400 text-[#01382a] text-[9px] font-black uppercase tracking-wider hidden md:inline">
+              PWA
+            </span>
+          </button>
           
           {/* Interactive B2B Role Switcher Pill */}
           <div className="relative" ref={dropdownRef}>

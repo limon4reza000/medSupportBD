@@ -8,6 +8,8 @@ import { HamburgerDrawer } from "@/components/layout/HamburgerDrawer";
 import { SearchCommand } from "@/components/layout/SearchCommand";
 import { QuickOrderModal } from "@/components/layout/QuickOrderModal";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
+import { OfflineIndicator } from "@/components/pwa/OfflineIndicator";
+import { GetAppModal } from "@/components/pwa/GetAppModal";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import Link from "next/link";
 import { ShieldCheck, Headphones } from "lucide-react";
@@ -38,6 +40,12 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
 
           {/* PWA Install Banner & Service Worker Registrar */}
           <PwaRegister />
+
+          {/* Network Connection Monitor & Offline Mode Banner */}
+          <OfflineIndicator />
+
+          {/* QR Code & Mobile App Download Modal */}
+          <GetAppModal />
 
           {/* Native Mobile App Bottom Navigation Bar */}
           <MobileBottomNav />

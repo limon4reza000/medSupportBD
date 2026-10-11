@@ -367,7 +367,7 @@ export const SearchCommand: React.FC = () => {
                             e.preventDefault();
                             e.stopPropagation();
                             const mfg = med.manufacturer || "";
-                            const matched = pharmaCompanies.find(
+                            const matched = ALL_PHARMA_COMPANIES.find(
                               (c) => c.id !== "ALL" && mfg.toLowerCase().includes(c.id.toLowerCase())
                             );
                             setSelectedManufacturer(matched ? matched.id : mfg);

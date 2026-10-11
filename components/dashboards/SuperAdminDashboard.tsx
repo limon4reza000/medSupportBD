@@ -278,9 +278,13 @@ export const SuperAdminDashboard: React.FC = () => {
                       <div className="font-mono font-bold text-slate-800 text-xs flex items-center gap-1">
                         <span>{org.drugLicenseNo}</span>
                         {org.isVerified ? (
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" title="DGDA Verified" />
+                          <span title="DGDA Verified">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          </span>
                         ) : (
-                          <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" title="Pending Verification" />
+                          <span title="Pending Verification">
+                            <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          </span>
                         )}
                       </div>
                       {org.taxId && (
