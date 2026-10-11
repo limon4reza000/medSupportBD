@@ -1,106 +1,155 @@
-# MedSupply BD — B2B Pharmaceutical Order Cutting & Distribution Platform
+# MedSupplyBD — B2B Pharmaceutical Supply Chain, Order Cutting & Distribution Platform
 
-**MedSupply** is a production-grade B2B Pharmaceutical Order Cutting and Inventory Distribution Platform designed for pharmaceutical depots, medical promotion officers (MPO / SR), and retail pharmacies.
+**MedSupplyBD** is an enterprise-grade B2B Pharmaceutical Supply Chain, Wholesale Procurement, Order Cutting, and Near-Expiry Inventory Management System built specifically for the Bangladesh pharmaceutical ecosystem (`Pharma Company → Regional Depot → Field MPO/SR → Retail Pharmacy`).
 
----
-
-## 🌟 Key Features
-
-1. **Packaging Hierarchy & Dynamic Trade Bonus Engine**:
-   - Multi-tier unit conversion: `Box -> Strip -> Piece (Loose Units)`.
-   - Automated trade schemes (e.g., `10+1 Box Free`, `5% Slab Discounts`, `Bonus Ratio`).
-   - Standardized billable packaging breakdown.
-
-2. **Near-Expiry FIFO (First-In, First-Out) Batch Allocation**:
-   - Orders batches by `expiryDate ASC` to prevent warehouse expiry losses.
-   - Intelligent multi-batch splitting when a single batch has insufficient quantity.
-   - Near-expiry alert tags (< 90 days) and expired buffer filters (< 30 days).
-
-3. **Pharmacy Credit & Ledger Risk Engine**:
-   - Real-time credit limit enforcement (`currentBalance + orderNetTotal <= creditLimit`).
-   - Overdue invoice aging checks (blocks accounts with unpaid invoices exceeding credit cycle days).
-   - Immutable double-entry financial ledger (`INVOICE_DEBIT`, `PAYMENT_CREDIT`).
-
-4. **Optimistic Stock Locking (Redis-Compatible)**:
-   - Concurrency control with TTL to prevent overselling during peak order cutting windows.
-
-5. **AI Clinical & Demand Intelligence**:
-   - **AI Prescription & Memo Slip Parser**: Ingests handwritten/typed doctor slips with OCR confidence scoring and fuzzy catalog matching.
-   - **AI Demand Forecaster**: Synthesizes 30-day consumption velocity with monsoon disease surge indices (Dengue, Typhoid, Viral Fever).
-   - **Out-of-Stock Generic Alternatives**: Finds bioequivalent chemical generic substitutes with price variance metrics.
+The platform indexes **41,302 verified DGDA pharmaceutical SKUs** across **339 licensed manufacturers** with real-time trade schemes, FEFO batch allocation, credit risk auditing, and AI clinical demand intelligence.
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Comprehensive Feature Catalog
 
-- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS, Lucide Icons.
-- **Backend**: Next.js Server Handlers / REST APIs, TypeScript, Zod Schema Validation.
-- **Database & ORM**: MySQL / PostgreSQL with Prisma ORM.
-- **State & Concurrency**: Redis-compatible distributed locking with TTL.
-- **Theme**: Surgical Green (`#025540`) with high-contrast pure white text (`#FFFFFF`).
+### 1. 🏢 Master Catalog & Company-Based Medicine Findings
+- **41,302 Verified DGDA Medicines**: Complete national pharmaceutical price master with trade price (TP), retail MRP, DGDA Registration numbers (DAR), and dosage forms.
+- **Dedicated Company Findings & Quick Pills**: Instant filtering for Bangladesh's top pharmaceutical manufacturers:
+  - *Square Pharmaceuticals* (2,065 SKUs)
+  - *Incepta Pharmaceuticals* (1,775 SKUs)
+  - *Drug International* (1,530 SKUs)
+  - *Opsonin Pharma* (1,400 SKUs)
+  - *Eskayef (SK+F)* (1,370 SKUs)
+  - *Renata Limited* (1,216 SKUs)
+  - *The ACME Laboratories* (1,152 SKUs)
+  - *Beximco Pharmaceuticals* (1,084 SKUs)
+  - *Healthcare Pharmaceuticals* (1,046 SKUs)
+  - *Aristopharma, Popular, General, Beacon, Ibn Sina, Orion, ACI, and 30+ more*.
+- **All-Companies Selector Dropdown**: Select from all 46 leading manufacturers directly from the search bar.
+- **Active Company Filter Banner**: Highlights active company filter with exact product count and 1-click reset.
+- **Interactive Manufacturer Badges**: Click any company badge on any product card across the platform to immediately filter the view to that manufacturer.
+- **Sub-20ms Prefix-Ranked Live Search**: Multi-tiered prefix matching (`Brand Prefix → Generic Prefix → Manufacturer Prefix → Substring`).
+- **Virtualized High-Performance Directory**: Smooth 60fps infinite scroll rendering 50 items per batch without memory bloat.
+
+---
+
+### 2. 👥 Enterprise Multi-Role Persona Dashboards
+MedSupplyBD provides 5 dedicated workflow interfaces with a persistent top persona switcher:
+1. **Pharmacy Retailer / Chemist View**:
+   - Real-time credit ledger utilization & available credit balance.
+   - Live FEFO stock catalog with trade schemes.
+   - 1-click B2B wholesale order cart.
+   - AI Handwritten/Typed Doctor Slip upload.
+2. **Super Admin Executive Dashboard**:
+   - Platform GMV, total network transaction volume, and invoice totals.
+   - Regional depot operational health (Dhanmondi, Chittagong, Sylhet, Bogura, Rajshahi).
+   - System audit trail with live timestamps.
+   - High credit risk exposure radar.
+3. **Pharma Manufacturer View**:
+   - Production batch release status & QA approvals.
+   - National distributor quotas and depot fulfillment percentages.
+   - Brand velocity analytics across divisions.
+4. **Distributor / Regional Depot View**:
+   - Batch-level expiry aging radar (Critical <30d, Warning <90d).
+   - Delivery van dispatches, driver route tracking, and proof-of-delivery logs.
+   - Warehouse temperature/cold-chain compliance tags.
+5. **MPO / Field Sales Representative Terminal**:
+   - Assigned territory target progress & completion percentages.
+   - Daily pharmacy route itineraries.
+   - Order cutting terminal to cut bulk orders on behalf of retail pharmacies.
+
+---
+
+### 3. ⚙️ Core Pharmaceutical Domain Engines
+
+#### A. Packaging Hierarchy & Dynamic Trade Bonus Engine (`PackagingEngine`)
+- **Unit Hierarchy**: `Box → Strip → Piece (Loose Units)`.
+- **Trade Promotion Schemes**:
+  - `BOX_BONUS`: Auto-awards free boxes/strips (e.g., `10+1 Box Free`, `100+10 Free`).
+  - `SLAB_DISCOUNT`: Quantity-based percentage discounts (e.g., 5% off for 50+ boxes).
+  - `BONUS_PERCENTAGE`: Automatic bonus stock allocation.
+- **Financial Breakdown**: Calculates Gross Amount, Scheme Discounts, 2.4% BD Pharma VAT, and Net B2B Payable.
+
+#### B. Near-Expiry FIFO (FEFO) Batch Allocation Engine (`BatchFifoEngine`)
+- **Earliest Expiry First**: Sorts available depot stock strictly by `expiryDate ASC` to eliminate warehouse expiration losses.
+- **Multi-Batch Order Splitting**: Seamlessly fulfills high-volume orders across multiple chronological batches when a single batch has insufficient stock.
+- **Expiry Buffer Rules**:
+  - Excludes batches expiring within 30 days.
+  - Warns depot managers on batches expiring within 90 days.
+
+#### C. Pharmacy Credit Ledger & Risk Auditing Engine (`CreditLedgerEngine`)
+- **Real-Time Credit Ceiling**: Blocks order placement if `projectedBalance > creditLimit`.
+- **Aging & Invoice Overdue Auditing**: Automatically freezes checkout if an unpaid invoice exceeds credit cycle terms (e.g. >30 days).
+- **Immutable Double-Entry Ledger**: Full transaction log recording `INVOICE_DEBIT` and `PAYMENT_CREDIT` transactions with reference numbers.
+
+#### D. Optimistic Stock Locking Engine (`StockLockEngine`)
+- **Distributed Concurrency Lock**: In-memory / Redis-compatible mutex lock with TTL (Time-To-Live).
+- Prevents race conditions and overselling during peak morning order cutting windows.
+
+---
+
+### 4. 🤖 AI Clinical & Demand Intelligence Suite
+
+- **AI Prescription & Memo Slip Parser (`/api/ai/slip-parser`)**:
+  - Ingests typed or handwritten doctor memos/chemist slips.
+  - Generates entity confidence scores (98%+ confidence) for Brand, Generic, Strength, Dosage Form, Unit, and Quantity.
+  - 1-click **"Add Extracted Items to Order Cart"**.
+- **AI 30-Day Demand Forecaster (`/api/ai/forecast`)**:
+  - Calculates 30-day velocity run-rates per SKU.
+  - Applies regional monsoon & disease epidemic surge multipliers (Monsoon Dengue, Typhoid, Post-Eid influx: 1.45x multiplier).
+  - Outputs recommended replenishment quantities and capital allocations.
+- **Out-of-Stock Generic Substitutes Engine (`/api/ai/alternatives`)**:
+  - Identifies bioequivalent pharmaceutical substitutes sharing identical chemical generic composition and dosage form.
+  - Shows price variance metrics (e.g., Napa vs Ace vs Fast) to prevent lost sales.
+
+---
+
+### 5. 🔍 Omnichannel Command & Search Palette
+- **Global `Cmd + K` / `Ctrl + K` Modal (`SearchCommand.tsx`)**:
+  - High-contrast full-screen command center.
+  - Direct company pills + full 46-company selector dropdown.
+  - Instant trade price vs MRP display with 1-click Quick Add to Cart.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 14 (App Router) |
+| **Language** | TypeScript (Strict Mode) |
+| **Styling** | Vanilla Tailwind CSS (Custom `#025540` Surgical Green Palette) |
+| **Icons** | Lucide React |
+| **Database & ORM** | PostgreSQL / MySQL with Prisma ORM |
+| **Validation** | Zod Schemas |
+| **State Management** | React Context (`AppContext.tsx`) with localStorage persistence |
+| **Testing** | Automated Node.js integration & E2E test runner (`scripts/test-platform.js`) |
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Install Dependencies
+### 1. Installation
 ```bash
+git clone https://github.com/limon4reza000/medSupportBD.git
+cd medSupportBD
 npm install
 ```
 
-### 2. Generate Prisma Client
+### 2. Setup Prisma ORM
 ```bash
 npx prisma generate
 ```
 
-### 3. Run the Development Server
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
-
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Run Integration Tests
+### 4. Run Automated Test Suite
 ```bash
 node scripts/test-platform.js
 ```
 
 ---
 
-## 📁 Project Structure
-
-```
-├── app/
-│   ├── api/
-│   │   ├── ai/
-│   │   │   ├── alternatives/   # Generic substitute finder
-│   │   │   ├── forecast/       # 30-day demand forecaster
-│   │   │   └── slip-parser/    # AI prescription memo parser
-│   │   ├── ledger/             # Financial transaction ledger
-│   │   ├── medicines/          # Catalog & batch stock
-│   │   ├── orders/checkout/    # Atomic transactional checkout
-│   │   └── pharmacies/         # Pharmacy credit profiles
-│   ├── globals.css             # Theme #025540 styling
-│   ├── layout.tsx
-│   └── page.tsx                # Main dashboard & order cutting POS
-├── components/
-│   ├── AiDemandForecaster.tsx
-│   ├── AiSlipParserModal.tsx
-│   ├── FifoBatchInspector.tsx
-│   ├── GenericAlternativesFinder.tsx
-│   ├── LedgerManager.tsx
-│   ├── MetricsOverview.tsx
-│   ├── Navbar.tsx
-│   └── OrderCuttingTerminal.tsx
-├── prisma/
-│   └── schema.prisma           # Complete database schema
-├── services/
-│   ├── batchFifoEngine.ts      # Near-expiry FIFO algorithm
-│   ├── creditLedgerEngine.ts   # Credit ceiling & ledger audit
-│   ├── packagingEngine.ts      # Box/Strip/Piece + trade bonuses
-│   └── stockLockEngine.ts      # Optimistic concurrency lock
-├── types/
-│   └── domain.ts               # Domain types & Zod schemas
-└── scripts/
-    └── test-platform.js        # Automated end-to-end test suite
-```
+## 👥 Contributors
+- **Limon Reza** (ID: 232-35-004)
+- **Md Mehedi Hasan** (ID: 232-35-712)
