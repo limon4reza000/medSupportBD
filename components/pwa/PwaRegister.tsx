@@ -26,7 +26,9 @@ export const PwaRegister: React.FC = () => {
     // Capture beforeinstallprompt event
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
+      (window as any).__pwa_install_prompt = e;
       setDeferredPrompt(e);
+      window.dispatchEvent(new CustomEvent("pwa-prompt-available", { detail: e }));
       // If not dismissed previously in this session
       const dismissed = sessionStorage.getItem("pwa_install_dismissed");
       if (!dismissed) {

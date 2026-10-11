@@ -139,13 +139,14 @@ export const TopHeaderBar: React.FC = () => {
           {/* Get Mobile App Button */}
           <button
             onClick={() => setIsGetAppOpen(true)}
-            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-[#01382a] hover:from-[#01382a] hover:to-[#025540] text-white font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-500/30"
-            title="Download or install MedSupplyBD Mobile App (PWA / Android)"
+            id="get-app-header-btn"
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-emerald-700 hover:from-[#01382a] hover:to-emerald-800 text-white font-black text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-400/40"
+            title="Download or install MedSupplyBD Mobile App (Android APK / iPhone / Web)"
           >
             <Smartphone className="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Get App</span>
+            <span className="font-black">Get App</span>
             <span className="px-1.5 py-0.2 rounded-full bg-emerald-400 text-[#01382a] text-[9px] font-black uppercase tracking-wider hidden md:inline">
-              PWA
+              APK / PWA
             </span>
           </button>
           

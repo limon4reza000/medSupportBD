@@ -39,6 +39,8 @@ import {
   BarChart3,
   User,
   Settings,
+  Smartphone,
+  Download,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine, UserRole } from "@/types/domain";
@@ -63,6 +65,7 @@ export default function HomePage() {
     addToCart,
     setIsSearchOpen,
     setIsQuickOrderOpen,
+    setIsGetAppOpen,
     currentUser,
   } = useApp();
 
@@ -520,8 +523,50 @@ export default function HomePage() {
       </div>
 
       {/* =================================================================== */}
-      {/* 🚀 INTEGRATED PHARMACY MANAGEMENT SYSTEMS (8 Enterprise Modules)   */}
+      {/* 📱 MOBILE APP & NATIVE APK DOWNLOAD BANNER (Android & iPhone)       */}
       {/* =================================================================== */}
+      <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-900 text-white p-4 sm:p-5 shadow-lg border border-emerald-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 w-full md:w-auto">
+          <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-2xl">
+            📱
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="font-black text-sm sm:text-base text-white">
+                Get MedSupplyBD Mobile App
+              </h3>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                Android APK &bull; iPhone &bull; PWA
+              </span>
+            </div>
+            <p className="text-xs text-emerald-100/90 mt-0.5">
+              1-click offline order cutting, 41k medicine search &amp; sales rep POS
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 w-full md:w-auto flex-wrap">
+          <a
+            href="/downloads/medsupplybd-v1.0.apk"
+            download="medsupplybd-v1.0.apk"
+            className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs transition-all shadow-md flex items-center justify-center gap-1.5 active:scale-95"
+            title="Download direct Android APK"
+            id="home-download-apk-btn"
+          >
+            <Download className="w-4 h-4 text-[#01382a]" />
+            <span>Download APK (17.3 MB)</span>
+          </a>
+
+          <button
+            onClick={() => setIsGetAppOpen(true)}
+            id="home-get-app-modal-btn"
+            className="flex-1 md:flex-none px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all border border-white/20 flex items-center justify-center gap-1.5 active:scale-95"
+          >
+            <Smartphone className="w-4 h-4 text-emerald-300" />
+            <span>iPhone / Setup Guide</span>
+          </button>
+        </div>
+      </div>
       <div className="space-y-3">
         <div className="flex items-center justify-between text-xs px-1">
           <div className="flex items-center gap-2">
