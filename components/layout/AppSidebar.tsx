@@ -31,7 +31,7 @@ import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
 
 // Custom SVG matching the 3-connected-nodes icon for Medicine Stock
-const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -49,7 +49,7 @@ const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-4 
 );
 
 // Custom SVG matching the medical bag / briefcase with cross for MR Portal
-const MRPortalIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+const MRPortalIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -154,31 +154,31 @@ export const AppSidebar: React.FC = () => {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-[260px] shrink-0 h-screen sticky top-0 bg-white text-slate-800 border-r border-slate-200/80 select-none z-30 overflow-y-auto scrollbar-none relative">
-      {/* Brand Header */}
-      <div className="p-4 pt-5 pb-3">
+    <aside className="hidden lg:flex flex-col w-[275px] shrink-0 h-screen sticky top-0 bg-white text-slate-800 border-r border-slate-200/80 select-none z-30 overflow-y-auto scrollbar-none relative">
+      {/* Brand Header with Larger Logo */}
+      <div className="p-4 sm:p-5 pt-5 pb-3.5">
         <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
           <img
             src="/images/medsupplybd-logo.png"
             alt="MedSupplyBD"
-            className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+            className="h-12 sm:h-13 w-auto max-w-[225px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
           />
         </Link>
       </div>
 
       {/* Current Tenant / Store Profile Card */}
-      <div className="mx-3 mb-2 p-2.5 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50 transition-colors flex items-center justify-between cursor-pointer group shadow-2xs">
-        <div className="flex items-center gap-2.5 min-w-0">
+      <div className="mx-3.5 mb-2.5 p-3 rounded-2xl border border-slate-200/90 bg-white hover:bg-slate-50 transition-colors flex items-center justify-between cursor-pointer group shadow-2xs">
+        <div className="flex items-center gap-3 min-w-0">
           <img
             src="/images/sidebar-logo.png"
             alt="Store Logo"
-            className="w-8 h-8 rounded-xl object-contain p-0.5 border border-slate-200 bg-white shrink-0 shadow-2xs"
+            className="w-9 h-9 rounded-xl object-contain p-0.5 border border-slate-200 bg-white shrink-0 shadow-2xs"
           />
           <div className="flex flex-col min-w-0">
-            <span className="text-[12px] font-bold text-slate-900 truncate">
+            <span className="text-[13px] font-bold text-slate-900 truncate">
               {currentUser.organizationName || currentPharmacy?.tradeName || "Green Care Pharmacy & Med S..."}
             </span>
-            <span className="inline-flex items-center text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded w-fit mt-0.5 tracking-wider">
+            <span className="inline-flex items-center text-[10px] font-black uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded w-fit mt-0.5 tracking-wider">
               {currentUser.badge || "RETAIL PHARMACY"}
             </span>
           </div>
@@ -186,8 +186,8 @@ export const AppSidebar: React.FC = () => {
         <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-600 shrink-0" />
       </div>
 
-      {/* Primary Navigation List */}
-      <div className="flex-1 px-3 py-2 space-y-1 overflow-y-auto scrollbar-none relative z-10">
+      {/* Primary Navigation List (Larger Icons & Text) */}
+      <div className="flex-1 px-3.5 py-2 space-y-1.5 overflow-y-auto scrollbar-none relative z-10">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = isItemActive(item.href);
@@ -196,19 +196,19 @@ export const AppSidebar: React.FC = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`group relative flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-150 ${
+              className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
                   ? "bg-[#e6f7ef] text-[#025540] font-bold shadow-2xs"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
               }`}
             >
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
                 <Icon
-                  className={`w-4 h-4 shrink-0 transition-colors ${
+                  className={`w-5 h-5 shrink-0 transition-colors ${
                     isActive ? "text-[#025540] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
                   }`}
                 />
-                <span className="text-[13px] truncate">{item.label}</span>
+                <span className="text-[14px] sm:text-[14.5px] truncate tracking-tight">{item.label}</span>
               </div>
 
               <ChevronRight
@@ -221,7 +221,7 @@ export const AppSidebar: React.FC = () => {
         })}
 
         {/* Section Divider */}
-        <div className="my-2 mx-1 border-t border-slate-200/80" />
+        <div className="my-2.5 mx-1 border-t border-slate-200/80" />
 
         {/* Secondary Nav Items */}
         {secondaryNavItems.map((item) => {
@@ -232,19 +232,19 @@ export const AppSidebar: React.FC = () => {
             <Link
               key={item.href}
               href={item.href}
-              className={`group relative flex items-center justify-between px-3 py-2 rounded-xl transition-all duration-150 ${
+              className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
                   ? "bg-[#e6f7ef] text-[#025540] font-bold shadow-2xs"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
               }`}
             >
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-3 min-w-0">
                 <Icon
-                  className={`w-4 h-4 shrink-0 transition-colors ${
+                  className={`w-5 h-5 shrink-0 transition-colors ${
                     isActive ? "text-[#025540] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
                   }`}
                 />
-                <span className="text-[13px] truncate">{item.label}</span>
+                <span className="text-[14px] sm:text-[14.5px] truncate tracking-tight">{item.label}</span>
               </div>
 
               <ChevronRight
@@ -258,18 +258,18 @@ export const AppSidebar: React.FC = () => {
       </div>
 
       {/* Bottom Footer: Mobile App + Language Toggle + Logout Button */}
-      <div className="p-3 border-t border-slate-200/80 bg-white space-y-2 relative z-10">
+      <div className="p-3.5 border-t border-slate-200/80 bg-white space-y-2 relative z-10">
         {/* Get Mobile App Button */}
         <button
           onClick={() => setIsGetAppOpen(true)}
-          className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white text-xs font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
+          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white text-xs sm:text-[13px] font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
           title="Install MedSupplyBD App (PWA / Android APK)"
         >
-          <div className="flex items-center gap-2">
-            <Smartphone className="w-4 h-4 text-emerald-300" />
+          <div className="flex items-center gap-2.5">
+            <Smartphone className="w-4.5 h-4.5 text-emerald-300" />
             <span>Get Mobile App</span>
           </div>
-          <span className="px-1.5 py-0.5 rounded bg-[#10b981] text-[#025540] text-[9px] font-black uppercase tracking-wider">
+          <span className="px-1.5 py-0.5 rounded bg-[#10b981] text-[#025540] text-[9.5px] font-black uppercase tracking-wider">
             APK &bull; iOS
           </span>
         </button>
@@ -277,14 +277,14 @@ export const AppSidebar: React.FC = () => {
         {/* Language Toggle (Bangla / English) */}
         <button
           onClick={toggleLanguage}
-          className="flex items-center justify-between w-full px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-semibold transition-all border border-slate-200/80 shadow-2xs group cursor-pointer"
+          className="flex items-center justify-between w-full px-3.5 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs sm:text-[13px] font-semibold transition-all border border-slate-200/80 shadow-2xs group cursor-pointer"
           title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
         >
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-slate-500" />
+          <div className="flex items-center gap-2.5">
+            <Globe className="w-4.5 h-4.5 text-slate-500" />
             <span>Language / ভাষা</span>
           </div>
-          <div className="flex items-center px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-black">
+          <div className="flex items-center px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10.5px] font-black">
             <span>{language === "en" ? "BN" : "EN"}</span>
           </div>
         </button>
@@ -292,10 +292,10 @@ export const AppSidebar: React.FC = () => {
         {/* Logout Button */}
         <Link
           href="/login"
-          className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-600 text-xs font-bold transition-all border border-rose-200/70 shadow-2xs group"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-600 text-xs sm:text-[13px] font-bold transition-all border border-rose-200/70 shadow-2xs group"
           title="Sign out of platform session"
         >
-          <LogOut className="w-3.5 h-3.5 text-rose-500" />
+          <LogOut className="w-4 h-4 text-rose-500" />
           <span>Logout / সাইন আউট</span>
         </Link>
       </div>

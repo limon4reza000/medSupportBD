@@ -214,7 +214,7 @@ export const HamburgerDrawer: React.FC = () => {
               <img
                 src="/images/medsupplybd-logo.png"
                 alt="MedSupplyBD"
-                className="h-8 w-auto object-contain"
+                className="h-10 sm:h-11 w-auto max-w-[190px] object-contain drop-shadow-xs"
               />
             </Link>
             <button
