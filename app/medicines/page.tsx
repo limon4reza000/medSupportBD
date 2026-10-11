@@ -20,6 +20,10 @@ import {
 } from "lucide-react";
 import { VirtualizedMedicineList } from "@/components/medicines/VirtualizedMedicineList";
 import { IMedicine } from "@/types/domain";
+import {
+  ALL_PHARMA_COMPANIES,
+  TOP_QUICK_PHARMA_COMPANIES,
+} from "@/lib/data/pharmaCompanies";
 
 export default function MedicineListPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -126,21 +130,7 @@ export default function MedicineListPage() {
     "OINTMENT",
   ];
 
-  const topManufacturers = [
-    { id: "ALL", label: "All Companies", count: "41k+" },
-    { id: "Square", label: "Square Pharmaceuticals", count: "2,065" },
-    { id: "Incepta", label: "Incepta Pharma", count: "1,775" },
-    { id: "Beximco", label: "Beximco Pharma", count: "1,084" },
-    { id: "Renata", label: "Renata Limited", count: "1,216" },
-    { id: "Healthcare", label: "Healthcare Pharma", count: "1,046" },
-    { id: "ACME", label: "The ACME Laboratories", count: "1,152" },
-    { id: "Opsonin", label: "Opsonin Pharma", count: "1,400" },
-    { id: "Eskayef", label: "Eskayef (SK+F)", count: "1,370" },
-    { id: "Drug International", label: "Drug International", count: "1,530" },
-    { id: "Aristopharma", label: "Aristopharma", count: "877" },
-    { id: "Popular", label: "Popular Pharma", count: "811" },
-    { id: "ACI", label: "ACI Limited", count: "427" },
-  ];
+  const topManufacturers = ALL_PHARMA_COMPANIES;
 
   return (
     <div className="space-y-5 animate-in fade-in duration-300">
@@ -288,7 +278,7 @@ export default function MedicineListPage() {
           </div>
 
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none">
-            {topManufacturers.map((comp) => {
+            {TOP_QUICK_PHARMA_COMPANIES.map((comp) => {
               const isSelected = selectedManufacturer === comp.id;
               return (
                 <button

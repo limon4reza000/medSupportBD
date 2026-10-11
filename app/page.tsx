@@ -43,6 +43,11 @@ import {
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine, UserRole } from "@/types/domain";
 import { getMedicineTypeBadge } from "@/lib/medicineUtils";
+import {
+  ALL_PHARMA_COMPANIES,
+  TOP_QUICK_PHARMA_COMPANIES,
+  matchPharmaCompany,
+} from "@/lib/data/pharmaCompanies";
 import { SuperAdminDashboard } from "@/components/dashboards/SuperAdminDashboard";
 import { PharmaCompanyDashboard } from "@/components/dashboards/PharmaCompanyDashboard";
 import { DistributorDashboard } from "@/components/dashboards/DistributorDashboard";
@@ -82,22 +87,8 @@ export default function HomePage() {
   const [catalogSearch, setCatalogSearch] = useState("");
   const [debouncedCatalogSearch, setDebouncedCatalogSearch] = useState("");
 
-  // Top Pharmaceutical Companies in Bangladesh
-  const pharmaCompanies = [
-    { id: "ALL", label: "All Companies", count: "41k+" },
-    { id: "Square", label: "Square Pharmaceuticals", count: "2,065" },
-    { id: "Incepta", label: "Incepta Pharma", count: "1,775" },
-    { id: "Beximco", label: "Beximco Pharma", count: "1,084" },
-    { id: "Renata", label: "Renata Limited", count: "1,216" },
-    { id: "Healthcare", label: "Healthcare Pharma", count: "1,046" },
-    { id: "ACME", label: "The ACME Laboratories", count: "1,152" },
-    { id: "Opsonin", label: "Opsonin Pharma", count: "1,400" },
-    { id: "Eskayef", label: "Eskayef (SK+F)", count: "1,370" },
-    { id: "Drug International", label: "Drug International", count: "1,530" },
-    { id: "Aristopharma", label: "Aristopharma", count: "877" },
-    { id: "Popular", label: "Popular Pharma", count: "811" },
-    { id: "ACI", label: "ACI Limited", count: "427" },
-  ];
+  // Top Pharmaceutical Companies in Bangladesh (All 46+ manufacturers)
+  const pharmaCompanies = ALL_PHARMA_COMPANIES;
 
   // Hero Banner Carousel State (3 Banners from assets/hero banner)
   const heroBanners = [
@@ -967,26 +958,46 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Company Pills Filter (Requirement: Square and Top BD Pharma Companies) */}
+          {/* Company Pills & All-Companies Dropdown Filter */}
           <div className="pt-2 border-t border-white/10 space-y-2">
-            <div className="flex items-center justify-between text-xs text-emerald-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-emerald-200">
               <span className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-[11px]">
                 <Building2 className="w-3.5 h-3.5 text-emerald-300" />
-                <span>Filter by Pharma Company:</span>
+                <span>Filter by Pharmaceutical Manufacturer:</span>
               </span>
-              {selectedManufacturer !== "ALL" && (
-                <button
-                  onClick={() => setSelectedManufacturer("ALL")}
-                  className="text-[11px] font-bold text-emerald-200 hover:text-white transition-colors flex items-center gap-1 bg-white/15 px-2.5 py-0.5 rounded-lg border border-white/20"
+
+              <div className="flex items-center gap-2">
+                <select
+                  value={selectedManufacturer}
+                  onChange={(e) => setSelectedManufacturer(e.target.value)}
+                  className="px-3 py-1.5 rounded-xl bg-[#01382a] hover:bg-[#014232] border border-emerald-400/40 text-white font-bold text-xs focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all cursor-pointer shadow-inner"
+                  title="Choose from 46+ pharmaceutical companies"
                 >
-                  <X className="w-3 h-3" />
-                  <span>Show All Companies</span>
-                </button>
-              )}
+                  <option value="ALL">All Companies (41k+ products)</option>
+                  <optgroup label="Top Pharmaceutical Manufacturers">
+                    {ALL_PHARMA_COMPANIES.filter((c) => c.id !== "ALL").map((comp) => (
+                      <option key={comp.id} value={comp.id}>
+                        {comp.fullName} ({comp.count})
+                      </option>
+                    ))}
+                  </optgroup>
+                </select>
+
+                {selectedManufacturer !== "ALL" && (
+                  <button
+                    onClick={() => setSelectedManufacturer("ALL")}
+                    className="text-[11px] font-bold text-emerald-200 hover:text-white transition-colors flex items-center gap-1 bg-white/15 px-2.5 py-1.5 rounded-xl border border-white/20 shrink-0"
+                  >
+                    <X className="w-3 h-3" />
+                    <span>Clear</span>
+                  </button>
+                )}
+              </div>
             </div>
 
+            {/* Quick Pills Bar */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              {pharmaCompanies.map((comp) => {
+              {TOP_QUICK_PHARMA_COMPANIES.map((comp) => {
                 const isSelected = selectedManufacturer === comp.id;
                 return (
                   <button

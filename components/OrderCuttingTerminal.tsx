@@ -27,6 +27,11 @@ import {
   Building2,
   X,
 } from "lucide-react";
+import {
+  ALL_PHARMA_COMPANIES,
+  TOP_QUICK_PHARMA_COMPANIES,
+  matchPharmaCompany,
+} from "@/lib/data/pharmaCompanies";
 
 export interface CartItem {
   medicine: IMedicine;
@@ -63,21 +68,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
   const [orderReceipt, setOrderReceipt] = useState<any | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const pharmaCompanies = [
-    { id: "ALL", label: "All Companies" },
-    { id: "Square", label: "Square Pharma" },
-    { id: "Incepta", label: "Incepta" },
-    { id: "Beximco", label: "Beximco" },
-    { id: "Renata", label: "Renata" },
-    { id: "Healthcare", label: "Healthcare" },
-    { id: "ACME", label: "The ACME" },
-    { id: "Opsonin", label: "Opsonin" },
-    { id: "Eskayef", label: "Eskayef" },
-    { id: "Drug International", label: "Drug Int." },
-    { id: "Aristopharma", label: "Aristopharma" },
-    { id: "Popular", label: "Popular" },
-    { id: "ACI", label: "ACI" },
-  ];
+  const pharmaCompanies = ALL_PHARMA_COMPANIES;
 
   // Sync external items (e.g. from AI Slip Parser or Demand Forecast)
   React.useEffect(() => {
@@ -96,9 +87,14 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
     const matchesCategory =
       selectedCategory === "ALL" || m.dosageForm === selectedCategory;
 
+    const medMfg = m.manufacturer.toLowerCase();
     const matchesCompany =
       selectedCompany === "ALL" ||
-      m.manufacturer.toLowerCase().includes(selectedCompany.toLowerCase());
+      (selectedCompany === "ACI"
+        ? medMfg.includes("aci") || medMfg.includes("advanced chemical")
+        : selectedCompany === "Eskayef"
+        ? medMfg.includes("eskayef") || medMfg.includes("sk+f") || medMfg.includes("skf")
+        : medMfg.includes(selectedCompany.toLowerCase()));
 
     return matchesSearch && matchesCategory && matchesCompany;
   });
@@ -273,15 +269,15 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
           </div>
         </div>
 
-        {/* Company Pills Filter (Requirement: Square and BD Pharma Companies) */}
-        <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 overflow-hidden">
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none">
+        {/* Company Pills & All-Companies Dropdown Filter */}
+        <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 overflow-hidden">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none flex-1">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
               <Building2 className="w-3 h-3 text-[#025540]" />
               <span>Company:</span>
             </span>
 
-            {pharmaCompanies.map((comp) => {
+            {TOP_QUICK_PHARMA_COMPANIES.map((comp) => {
               const isSelected = selectedCompany === comp.id;
               return (
                 <button
@@ -299,15 +295,32 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
             })}
           </div>
 
-          {selectedCompany !== "ALL" && (
-            <button
-              onClick={() => setSelectedCompany("ALL")}
-              className="text-[11px] font-bold text-[#025540] hover:underline flex items-center gap-1 shrink-0 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+            <select
+              value={selectedCompany}
+              onChange={(e) => setSelectedCompany(e.target.value)}
+              className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-[#025540]/20 transition-all cursor-pointer shadow-2xs"
             >
-              <X className="w-3 h-3" />
-              <span>Reset Company</span>
-            </button>
-          )}
+              <option value="ALL">All Companies (46+ manufacturers)</option>
+              <optgroup label="Top Pharmaceutical Manufacturers">
+                {ALL_PHARMA_COMPANIES.filter((c) => c.id !== "ALL").map((comp) => (
+                  <option key={comp.id} value={comp.id}>
+                    {comp.fullName} ({comp.count})
+                  </option>
+                ))}
+              </optgroup>
+            </select>
+
+            {selectedCompany !== "ALL" && (
+              <button
+                onClick={() => setSelectedCompany("ALL")}
+                className="text-[11px] font-bold text-[#025540] hover:underline flex items-center gap-1 shrink-0 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+              >
+                <X className="w-3 h-3" />
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

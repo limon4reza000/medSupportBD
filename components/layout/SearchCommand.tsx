@@ -18,6 +18,10 @@ import {
 import { useApp } from "@/lib/context/AppContext";
 import { IMedicine, PackagingUnit } from "@/types/domain";
 import { getMedicineTypeBadge } from "@/lib/medicineUtils";
+import {
+  ALL_PHARMA_COMPANIES,
+  TOP_QUICK_PHARMA_COMPANIES,
+} from "@/lib/data/pharmaCompanies";
 
 export const SearchCommand: React.FC = () => {
   const router = useRouter();
@@ -42,22 +46,6 @@ export const SearchCommand: React.FC = () => {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [addedItemMap, setAddedItemMap] = useState<Record<string, boolean>>({});
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const pharmaCompanies = [
-    { id: "ALL", label: "All Companies" },
-    { id: "Square", label: "Square" },
-    { id: "Incepta", label: "Incepta" },
-    { id: "Beximco", label: "Beximco" },
-    { id: "Renata", label: "Renata" },
-    { id: "Healthcare", label: "Healthcare" },
-    { id: "ACME", label: "ACME" },
-    { id: "Opsonin", label: "Opsonin" },
-    { id: "Eskayef", label: "Eskayef" },
-    { id: "Drug International", label: "Drug Int." },
-    { id: "Aristopharma", label: "Aristopharma" },
-    { id: "Popular", label: "Popular" },
-    { id: "ACI", label: "ACI" },
-  ];
 
   // Keyboard shortcut listener (Cmd+K / Ctrl+K / Escape)
   useEffect(() => {
@@ -231,45 +219,67 @@ export const SearchCommand: React.FC = () => {
           </button>
         </div>
 
-        {/* Company Quick-Filter Tabs (Requirement: Square and Top BD Pharma Companies) */}
-        <div className="px-4 sm:px-6 py-2.5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 max-w-full text-xs scrollbar-none">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
+        {/* Company Quick-Filter Tabs & All-Companies Dropdown */}
+        <div className="px-4 sm:px-6 py-2.5 border-b border-slate-100 bg-slate-50/70 flex flex-col md:flex-row md:items-center justify-between gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 max-w-full text-xs scrollbar-none flex-1">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
               <Building2 className="w-3.5 h-3.5 text-[#025540]" />
               <span>Company:</span>
             </span>
 
-            {pharmaCompanies.map((comp) => {
+            {/* Quick Pills for Top Companies */}
+            {TOP_QUICK_PHARMA_COMPANIES.map((comp) => {
               const isSelected = selectedManufacturer === comp.id;
               return (
                 <button
                   key={comp.id}
                   onClick={() => setSelectedManufacturer(comp.id)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-2.5 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1 shrink-0 ${
                     isSelected
                       ? "bg-[#025540] text-white shadow-xs scale-102"
                       : "bg-white hover:bg-slate-200/70 text-slate-600 border border-slate-200/80"
                   }`}
                 >
-                  {comp.label}
+                  <span>{comp.label}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="text-xs font-semibold text-slate-500 shrink-0 hidden sm:flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0 self-end md:self-auto">
+            {/* Select Dropdown with All 46 Manufacturers */}
+            <div className="relative">
+              <select
+                value={selectedManufacturer}
+                onChange={(e) => setSelectedManufacturer(e.target.value)}
+                className="pl-2.5 pr-8 py-1 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer shadow-2xs"
+                title="Select from all 46+ manufacturers"
+              >
+                <option value="ALL">All Companies (41k+ products)</option>
+                <optgroup label="Top Pharmaceutical Manufacturers">
+                  {ALL_PHARMA_COMPANIES.filter((c) => c.id !== "ALL").map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.fullName} ({c.count})
+                    </option>
+                  ))}
+                </optgroup>
+              </select>
+            </div>
+
             {selectedManufacturer !== "ALL" && (
               <button
                 onClick={() => setSelectedManufacturer("ALL")}
-                className="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+                className="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 bg-emerald-100 hover:bg-emerald-200 px-2 py-1 rounded-lg border border-emerald-300 transition-colors"
+                title="Clear company filter"
               >
                 <X className="w-3 h-3" />
-                <span>Show All</span>
+                <span>Clear</span>
               </button>
             )}
-            <span>
-              <strong>{totalFiltered.toLocaleString()}</strong> medicines
-            </span>
+
+            <div className="text-xs font-semibold text-slate-500 hidden lg:block ml-1">
+              <strong>{totalFiltered.toLocaleString()}</strong> SKUs
+            </div>
           </div>
         </div>
 

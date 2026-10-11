@@ -343,6 +343,18 @@ class MemoryDatabase {
     const mfg = filters?.manufacturer && filters.manufacturer !== "ALL" ? filters.manufacturer.toLowerCase() : null;
     const form = filters?.dosageForm && filters.dosageForm !== "ALL" ? filters.dosageForm.toLowerCase() : null;
 
+    const matchesMfg = (mfgTarget: string, actual: string) => {
+      const target = mfgTarget.toLowerCase();
+      const act = actual.toLowerCase();
+      if (target === "aci") {
+        return act.includes("aci") || act.includes("advanced chemical");
+      }
+      if (target === "eskayef" || target === "sk+f" || target === "skf") {
+        return act.includes("eskayef") || act.includes("sk+f") || act.includes("skf");
+      }
+      return act.includes(target);
+    };
+
     let filtered: IMedicine[] = [];
 
     if (!q) {
@@ -350,7 +362,7 @@ class MemoryDatabase {
         filtered = this.medicines;
       } else {
         filtered = this.medicines.filter((m) => {
-          if (mfg && !m.manufacturer.toLowerCase().includes(mfg)) return false;
+          if (mfg && !matchesMfg(mfg, m.manufacturer)) return false;
           if (form && m.dosageForm.toLowerCase() !== form) return false;
           return true;
         });
@@ -365,7 +377,7 @@ class MemoryDatabase {
 
       for (let i = 0; i < this.medicines.length; i++) {
         const m = this.medicines[i];
-        if (mfg && !m.manufacturer.toLowerCase().includes(mfg)) continue;
+        if (mfg && !matchesMfg(mfg, m.manufacturer)) continue;
         if (form && m.dosageForm.toLowerCase() !== form) continue;
 
         const b = m.brandName.toLowerCase();
