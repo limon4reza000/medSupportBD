@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MedSupplyBD</string>
+    <string name="title_activity_main">MedSupplyBD</string>
+    <string name="package_name">bd.medsupply.b2b</string>
+    <string name="custom_url_scheme">bd.medsupply.b2b</string>
+</resources>

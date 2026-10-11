@@ -7,6 +7,8 @@ import { TopHeaderBar } from "@/components/layout/TopHeaderBar";
 import { HamburgerDrawer } from "@/components/layout/HamburgerDrawer";
 import { SearchCommand } from "@/components/layout/SearchCommand";
 import { QuickOrderModal } from "@/components/layout/QuickOrderModal";
+import { PwaRegister } from "@/components/pwa/PwaRegister";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import Link from "next/link";
 import { ShieldCheck, Headphones } from "lucide-react";
 import { MedSupportLogo } from "@/components/common/MedSupportLogo";
@@ -34,8 +36,14 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
           {/* Quick Matrix Order Modal */}
           <QuickOrderModal />
 
+          {/* PWA Install Banner & Service Worker Registrar */}
+          <PwaRegister />
+
+          {/* Native Mobile App Bottom Navigation Bar */}
+          <MobileBottomNav />
+
           {/* Main Application Body */}
-          <main className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <main className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-6">
             {children}
           </main>
 

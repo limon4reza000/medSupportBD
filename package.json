@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "mobile:sync": "cap sync",
+    "mobile:add:android": "cap add android",
+    "mobile:open:android": "cap open android"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
     "@prisma/client": "^5.21.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.453.0",
@@ -21,6 +26,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
     "@types/node": "^20.17.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",

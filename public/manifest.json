@@ -1,0 +1,55 @@
+{
+  "name": "MedSupplyBD — B2B Pharmaceutical Supply Chain",
+  "short_name": "MedSupplyBD",
+  "description": "B2B Pharmaceutical Supply Chain, Wholesale Procurement, Order Cutting, and Near-Expiry Inventory Management for Bangladesh",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#025540",
+  "theme_color": "#025540",
+  "lang": "en",
+  "categories": ["medical", "business", "productivity", "shopping"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Order Cutting POS",
+      "short_name": "Order POS",
+      "description": "Cut wholesale order for pharmacies",
+      "url": "/?shortcut=order",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Medicine Directory",
+      "short_name": "Directory",
+      "description": "Browse 41,000+ verified DGDA medicines",
+      "url": "/medicines",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
