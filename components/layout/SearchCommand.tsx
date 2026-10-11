@@ -13,6 +13,7 @@ import {
   Zap,
   ArrowRight,
   Loader2,
+  Building2,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { IMedicine, PackagingUnit } from "@/types/domain";
@@ -31,6 +32,7 @@ export const SearchCommand: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string>("ALL");
   const [catalogMedicines, setCatalogMedicines] = useState<IMedicine[]>([]);
   const [totalFiltered, setTotalFiltered] = useState<number>(41302);
   const [totalCatalog, setTotalCatalog] = useState<number>(41302);
@@ -40,6 +42,22 @@ export const SearchCommand: React.FC = () => {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const [addedItemMap, setAddedItemMap] = useState<Record<string, boolean>>({});
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const pharmaCompanies = [
+    { id: "ALL", label: "All Companies" },
+    { id: "Square", label: "Square" },
+    { id: "Incepta", label: "Incepta" },
+    { id: "Beximco", label: "Beximco" },
+    { id: "Renata", label: "Renata" },
+    { id: "Healthcare", label: "Healthcare" },
+    { id: "ACME", label: "ACME" },
+    { id: "Opsonin", label: "Opsonin" },
+    { id: "Eskayef", label: "Eskayef" },
+    { id: "Drug International", label: "Drug Int." },
+    { id: "Aristopharma", label: "Aristopharma" },
+    { id: "Popular", label: "Popular" },
+    { id: "ACI", label: "ACI" },
+  ];
 
   // Keyboard shortcut listener (Cmd+K / Ctrl+K / Escape)
   useEffect(() => {
@@ -63,6 +81,7 @@ export const SearchCommand: React.FC = () => {
     } else {
       setSearchQuery("");
       setDebouncedQuery("");
+      setSelectedManufacturer("ALL");
     }
   }, [isSearchOpen]);
 
@@ -76,7 +95,7 @@ export const SearchCommand: React.FC = () => {
 
   // Fetch medicines from full 41,302 dataset
   const fetchMedicines = useCallback(
-    async (query: string, pageNum: number, isNew: boolean) => {
+    async (query: string, mfg: string, pageNum: number, isNew: boolean) => {
       try {
         if (isNew) {
           setIsLoading(true);
@@ -92,6 +111,10 @@ export const SearchCommand: React.FC = () => {
 
         if (query.trim()) {
           params.set("q", query.trim());
+        }
+
+        if (mfg && mfg !== "ALL") {
+          params.set("manufacturer", mfg);
         }
 
         const res = await fetch(`/api/medicines?${params.toString()}`);
@@ -118,26 +141,26 @@ export const SearchCommand: React.FC = () => {
     []
   );
 
-  // Trigger search on open or debouncedQuery change
+  // Trigger search on open, debouncedQuery change, or selectedManufacturer change
   useEffect(() => {
     if (isSearchOpen) {
-      fetchMedicines(debouncedQuery, 1, true);
+      fetchMedicines(debouncedQuery, selectedManufacturer, 1, true);
     }
-  }, [isSearchOpen, debouncedQuery, fetchMedicines]);
+  }, [isSearchOpen, debouncedQuery, selectedManufacturer, fetchMedicines]);
 
   // Infinite scroll listener for results list
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
     if (target.scrollHeight - target.scrollTop <= target.clientHeight + 80) {
       if (hasMore && !isLoading && !isLoadingMore) {
-        fetchMedicines(debouncedQuery, page + 1, false);
+        fetchMedicines(debouncedQuery, selectedManufacturer, page + 1, false);
       }
     }
   };
 
   const handleLoadMore = () => {
     if (hasMore && !isLoading && !isLoadingMore) {
-      fetchMedicines(debouncedQuery, page + 1, false);
+      fetchMedicines(debouncedQuery, selectedManufacturer, page + 1, false);
     }
   };
 
@@ -206,6 +229,48 @@ export const SearchCommand: React.FC = () => {
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Company Quick-Filter Tabs (Requirement: Square and Top BD Pharma Companies) */}
+        <div className="px-4 sm:px-6 py-2.5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 max-w-full text-xs scrollbar-none">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
+              <Building2 className="w-3.5 h-3.5 text-[#025540]" />
+              <span>Company:</span>
+            </span>
+
+            {pharmaCompanies.map((comp) => {
+              const isSelected = selectedManufacturer === comp.id;
+              return (
+                <button
+                  key={comp.id}
+                  onClick={() => setSelectedManufacturer(comp.id)}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                    isSelected
+                      ? "bg-[#025540] text-white shadow-xs scale-102"
+                      : "bg-white hover:bg-slate-200/70 text-slate-600 border border-slate-200/80"
+                  }`}
+                >
+                  {comp.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="text-xs font-semibold text-slate-500 shrink-0 hidden sm:flex items-center gap-2">
+            {selectedManufacturer !== "ALL" && (
+              <button
+                onClick={() => setSelectedManufacturer("ALL")}
+                className="text-[11px] font-bold text-emerald-700 hover:underline flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
+              >
+                <X className="w-3 h-3" />
+                <span>Show All</span>
+              </button>
+            )}
+            <span>
+              <strong>{totalFiltered.toLocaleString()}</strong> medicines
+            </span>
+          </div>
         </div>
 
         {/* Results List */}
@@ -283,9 +348,26 @@ export const SearchCommand: React.FC = () => {
                         )}
                       </div>
 
-                      <div className="text-xs text-slate-500 mt-1">
-                        <span className="text-slate-700 font-medium">{med.genericName}</span> —{" "}
-                        {med.manufacturer}
+                      <div className="text-xs text-slate-500 mt-1 flex items-center gap-1.5 flex-wrap">
+                        <span className="text-slate-700 font-medium">{med.genericName}</span>
+                        <span className="text-slate-300">•</span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const mfg = med.manufacturer || "";
+                            const matched = pharmaCompanies.find(
+                              (c) => c.id !== "ALL" && mfg.toLowerCase().includes(c.id.toLowerCase())
+                            );
+                            setSelectedManufacturer(matched ? matched.id : mfg);
+                          }}
+                          className="text-emerald-700 hover:text-emerald-950 hover:underline font-semibold flex items-center gap-1 cursor-pointer text-left"
+                          title={`Filter by ${med.manufacturer}`}
+                        >
+                          <Building2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                          <span>{med.manufacturer}</span>
+                        </button>
                       </div>
 
                       <div className="flex items-center gap-3 text-xs mt-1.5 text-slate-600 flex-wrap">

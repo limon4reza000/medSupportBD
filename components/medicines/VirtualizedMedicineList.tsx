@@ -24,6 +24,7 @@ interface VirtualizedMedicineListProps {
   isLoadingMore: boolean;
   onLoadMore: () => void;
   onSelectMedicine?: (medicine: IMedicine) => void;
+  onSelectManufacturer?: (manufacturer: string) => void;
 }
 
 const ITEM_HEIGHT = 104; // Height per card in px
@@ -37,6 +38,7 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
   isLoadingMore,
   onLoadMore,
   onSelectMedicine,
+  onSelectManufacturer,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
@@ -183,10 +185,52 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
                     </div>
 
                     {/* Manufacturer */}
-                    <div className="text-[11px] text-slate-600 flex items-center gap-1 truncate">
-                      <Building2 className="w-3 h-3 text-slate-500 shrink-0" />
-                      <span className="truncate">{item.manufacturer}</span>
-                    </div>
+                    {onSelectManufacturer ? (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const mfg = item.manufacturer || "";
+                          const normalized = mfg.toLowerCase().includes("square")
+                            ? "Square"
+                            : mfg.toLowerCase().includes("beximco")
+                            ? "Beximco"
+                            : mfg.toLowerCase().includes("incepta")
+                            ? "Incepta"
+                            : mfg.toLowerCase().includes("renata")
+                            ? "Renata"
+                            : mfg.toLowerCase().includes("healthcare")
+                            ? "Healthcare"
+                            : mfg.toLowerCase().includes("acme")
+                            ? "ACME"
+                            : mfg.toLowerCase().includes("opsonin")
+                            ? "Opsonin"
+                            : mfg.toLowerCase().includes("eskayef")
+                            ? "Eskayef"
+                            : mfg.toLowerCase().includes("drug international")
+                            ? "Drug International"
+                            : mfg.toLowerCase().includes("aristopharma")
+                            ? "Aristopharma"
+                            : mfg.toLowerCase().includes("popular")
+                            ? "Popular"
+                            : mfg.toLowerCase().includes("aci")
+                            ? "ACI"
+                            : mfg;
+                          onSelectManufacturer(normalized);
+                        }}
+                        className="text-[11px] text-emerald-700 hover:text-emerald-900 font-semibold hover:underline flex items-center gap-1 truncate cursor-pointer text-left group/mfg"
+                        title={`Filter all medicines by ${item.manufacturer}`}
+                      >
+                        <Building2 className="w-3 h-3 text-emerald-600 shrink-0 group-hover/mfg:scale-110 transition-transform" />
+                        <span className="truncate">{item.manufacturer}</span>
+                      </button>
+                    ) : (
+                      <div className="text-[11px] text-slate-600 flex items-center gap-1 truncate">
+                        <Building2 className="w-3 h-3 text-slate-500 shrink-0" />
+                        <span className="truncate">{item.manufacturer}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 

@@ -24,6 +24,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Zap,
+  Building2,
+  X,
 } from "lucide-react";
 
 export interface CartItem {
@@ -53,12 +55,29 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+  const [selectedCompany, setSelectedCompany] = useState<string>("ALL");
   const [cart, setCart] = useState<CartItem[]>(externalCartItems);
   const [selectedUnits, setSelectedUnits] = useState<Record<string, PackagingUnit>>({});
   const [inputQuantities, setInputQuantities] = useState<Record<string, number>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderReceipt, setOrderReceipt] = useState<any | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const pharmaCompanies = [
+    { id: "ALL", label: "All Companies" },
+    { id: "Square", label: "Square Pharma" },
+    { id: "Incepta", label: "Incepta" },
+    { id: "Beximco", label: "Beximco" },
+    { id: "Renata", label: "Renata" },
+    { id: "Healthcare", label: "Healthcare" },
+    { id: "ACME", label: "The ACME" },
+    { id: "Opsonin", label: "Opsonin" },
+    { id: "Eskayef", label: "Eskayef" },
+    { id: "Drug International", label: "Drug Int." },
+    { id: "Aristopharma", label: "Aristopharma" },
+    { id: "Popular", label: "Popular" },
+    { id: "ACI", label: "ACI" },
+  ];
 
   // Sync external items (e.g. from AI Slip Parser or Demand Forecast)
   React.useEffect(() => {
@@ -74,8 +93,14 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
       m.genericName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.manufacturer.toLowerCase().includes(searchTerm.toLowerCase());
 
-    if (selectedCategory === "ALL") return matchesSearch;
-    return matchesSearch && m.dosageForm === selectedCategory;
+    const matchesCategory =
+      selectedCategory === "ALL" || m.dosageForm === selectedCategory;
+
+    const matchesCompany =
+      selectedCompany === "ALL" ||
+      m.manufacturer.toLowerCase().includes(selectedCompany.toLowerCase());
+
+    return matchesSearch && matchesCategory && matchesCompany;
   });
 
   const getUnit = (medId: string): PackagingUnit => {
@@ -216,36 +241,105 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Search and Category Filter Bar */}
-      <div className="premium-panel p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search Brand (Napa, Seclo), Generic, or Manufacturer..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200/80 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#025540] focus:ring-2 focus:ring-[#025540]/10 font-medium transition-all"
-          />
+      {/* Search, Category & Company Filter Bar */}
+      <div className="premium-panel p-4 space-y-3">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="relative w-full md:w-96">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search Brand (Napa, Seclo), Generic, or Manufacturer..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200/80 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#025540] focus:ring-2 focus:ring-[#025540]/10 font-medium transition-all"
+            />
+          </div>
+
+          {/* Categories */}
+          <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
+            {["ALL", "TABLET", "CAPSULE", "SYRUP", "INJECTION"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-200 ${
+                  selectedCategory === cat
+                    ? "bg-[#025540] text-white shadow-sm font-bold"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Categories */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto w-full md:w-auto bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
-          {["ALL", "TABLET", "CAPSULE", "SYRUP", "INJECTION"].map((cat) => (
+        {/* Company Pills Filter (Requirement: Square and BD Pharma Companies) */}
+        <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 overflow-hidden">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
+              <Building2 className="w-3 h-3 text-[#025540]" />
+              <span>Company:</span>
+            </span>
+
+            {pharmaCompanies.map((comp) => {
+              const isSelected = selectedCompany === comp.id;
+              return (
+                <button
+                  key={comp.id}
+                  onClick={() => setSelectedCompany(comp.id)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-150 ${
+                    isSelected
+                      ? "bg-[#025540] text-white shadow-xs font-bold ring-2 ring-[#025540]/20"
+                      : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+                  }`}
+                >
+                  {comp.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedCompany !== "ALL" && (
             <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-200 ${
-                selectedCategory === cat
-                  ? "bg-[#025540] text-white shadow-sm font-bold"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
-              }`}
+              onClick={() => setSelectedCompany("ALL")}
+              className="text-[11px] font-bold text-[#025540] hover:underline flex items-center gap-1 shrink-0 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200"
             >
-              {cat}
+              <X className="w-3 h-3" />
+              <span>Reset Company</span>
             </button>
-          ))}
+          )}
         </div>
       </div>
+
+      {/* Active Company Banner */}
+      {selectedCompany !== "ALL" && (
+        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3 text-emerald-950 animate-in fade-in shadow-xs">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-lg bg-[#025540] text-white flex items-center justify-center shrink-0">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-black truncate">
+                Showing {filteredMedicines.length} verified products for{" "}
+                <span className="text-[#025540] underline underline-offset-2">
+                  {pharmaCompanies.find((c) => c.id === selectedCompany)?.label || selectedCompany}
+                </span>
+              </div>
+              <div className="text-[10px] text-emerald-700">
+                Bulk ordering & trade offer allocations filtered to this pharmaceutical depot
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setSelectedCompany("ALL")}
+            className="px-3 py-1 rounded-xl bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold transition-all shrink-0 flex items-center gap-1"
+          >
+            <X className="w-3 h-3 text-emerald-600" />
+            <span>Show All</span>
+          </button>
+        </div>
+      )}
 
       {/* Main Grid: Catalog Left (60%) vs Live Cart Right (40%) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -285,10 +379,21 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                             {med.strength}
                           </span>
                         </h3>
-                        <p className="text-xs text-slate-500 font-medium mt-0.5">{med.genericName}</p>
-                        <p className="text-[10px] text-slate-400 uppercase font-bold mt-0.5 tracking-wider">
-                          {med.manufacturer}
-                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const mfg = med.manufacturer || "";
+                            const matched = pharmaCompanies.find(
+                              (c) => c.id !== "ALL" && mfg.toLowerCase().includes(c.id.toLowerCase())
+                            );
+                            setSelectedCompany(matched ? matched.id : mfg);
+                          }}
+                          className="text-[10px] text-emerald-700 hover:text-emerald-950 hover:underline uppercase font-bold mt-0.5 tracking-wider flex items-center gap-1 cursor-pointer text-left"
+                          title={`Filter by ${med.manufacturer}`}
+                        >
+                          <Building2 className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
+                          <span className="truncate">{med.manufacturer}</span>
+                        </button>
                       </div>
 
                       {/* Stock Badge */}

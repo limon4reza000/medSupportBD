@@ -127,18 +127,19 @@ export default function MedicineListPage() {
   ];
 
   const topManufacturers = [
-    "ALL",
-    "Square",
-    "Incepta",
-    "Beximco",
-    "Renata",
-    "Opsonin",
-    "ACI",
-    "ACME",
-    "Aristopharma",
-    "Healthcare",
-    "Popular",
-    "Eskayef",
+    { id: "ALL", label: "All Companies", count: "41k+" },
+    { id: "Square", label: "Square Pharmaceuticals", count: "2,065" },
+    { id: "Incepta", label: "Incepta Pharma", count: "1,775" },
+    { id: "Beximco", label: "Beximco Pharma", count: "1,084" },
+    { id: "Renata", label: "Renata Limited", count: "1,216" },
+    { id: "Healthcare", label: "Healthcare Pharma", count: "1,046" },
+    { id: "ACME", label: "The ACME Laboratories", count: "1,152" },
+    { id: "Opsonin", label: "Opsonin Pharma", count: "1,400" },
+    { id: "Eskayef", label: "Eskayef (SK+F)", count: "1,370" },
+    { id: "Drug International", label: "Drug International", count: "1,530" },
+    { id: "Aristopharma", label: "Aristopharma", count: "877" },
+    { id: "Popular", label: "Popular Pharma", count: "811" },
+    { id: "ACI", label: "ACI Limited", count: "427" },
   ];
 
   return (
@@ -259,11 +260,57 @@ export default function MedicineListPage() {
               className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer"
             >
               {topManufacturers.map((mfg) => (
-                <option key={mfg} value={mfg}>
-                  {mfg === "ALL" ? "All Companies (340+)" : mfg}
+                <option key={mfg.id} value={mfg.id}>
+                  {mfg.id === "ALL" ? "All Companies (340+)" : `${mfg.label} (${mfg.count})`}
                 </option>
               ))}
             </select>
+          </div>
+        </div>
+
+        {/* Quick Pharmaceutical Company Filter Tabs (Requirement: Square and Top BD Pharma Companies) */}
+        <div className="pt-2 border-t border-slate-100 space-y-2">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Pharmaceutical Manufacturer:</span>
+            </span>
+
+            {selectedManufacturer !== "ALL" && (
+              <button
+                onClick={() => setSelectedManufacturer("ALL")}
+                className="text-[11px] font-bold text-emerald-600 hover:text-emerald-800 transition-colors flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200"
+              >
+                <X className="w-3 h-3" />
+                <span>Show All Companies</span>
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full text-xs scrollbar-none">
+            {topManufacturers.map((comp) => {
+              const isSelected = selectedManufacturer === comp.id;
+              return (
+                <button
+                  key={comp.id}
+                  onClick={() => setSelectedManufacturer(comp.id)}
+                  className={`px-3 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                    isSelected
+                      ? "bg-[#025540] text-white shadow-xs scale-102 ring-2 ring-[#025540]/20"
+                      : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
+                  }`}
+                >
+                  <span>{comp.label}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                      isSelected ? "bg-white/20 text-white font-black" : "bg-slate-200/70 text-slate-500"
+                    }`}
+                  >
+                    {comp.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -281,7 +328,11 @@ export default function MedicineListPage() {
               <span className="text-slate-600">
                 Displaying <strong>{totalFiltered.toLocaleString()}</strong> medicines in database
                 {selectedForm !== "ALL" && ` · Form: ${selectedForm}`}
-                {selectedManufacturer !== "ALL" && ` · Company: ${selectedManufacturer}`}
+                {selectedManufacturer !== "ALL" && (
+                  <span className="text-emerald-700 font-bold ml-1">
+                    · Company: {topManufacturers.find((c) => c.id === selectedManufacturer)?.label || selectedManufacturer}
+                  </span>
+                )}
               </span>
             )}
           </div>
@@ -294,6 +345,36 @@ export default function MedicineListPage() {
           )}
         </div>
       </div>
+
+      {/* Active Company Filter Alert Banner */}
+      {selectedManufacturer !== "ALL" && (
+        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3 text-emerald-950 animate-in fade-in slide-in-from-top-2 shadow-xs">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-xl bg-[#025540] text-white flex items-center justify-center shrink-0 shadow-xs font-black">
+              <Building2 className="w-5 h-5 text-white" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-sm font-black truncate">
+                Displaying all {totalFiltered.toLocaleString()} products manufactured by{" "}
+                <span className="text-[#025540] underline underline-offset-2">
+                  {topManufacturers.find((c) => c.id === selectedManufacturer)?.label || selectedManufacturer}
+                </span>
+              </div>
+              <div className="text-xs text-emerald-700">
+                Official DGDA registered master catalog list with wholesale trade price (TP) & retail MRP
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setSelectedManufacturer("ALL")}
+            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+          >
+            <X className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Clear Company</span>
+          </button>
+        </div>
+      )}
 
       {/* =================================================================== */}
       {/* 📋 VIRTUALIZED LIST / LOADING / NO MEDICINES FOUND                   */}
@@ -358,6 +439,7 @@ export default function MedicineListPage() {
           hasMore={hasMore}
           isLoadingMore={isLoadingMore}
           onLoadMore={handleLoadMore}
+          onSelectManufacturer={(mfg) => setSelectedManufacturer(mfg)}
         />
       )}
 

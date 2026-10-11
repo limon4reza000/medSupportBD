@@ -68,6 +68,7 @@ export default function HomePage() {
   );
 
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string>("ALL");
   const [addedMap, setAddedMap] = useState<Record<string, boolean>>({});
 
   // 41,000+ Medicine Catalog Dynamic State
@@ -80,6 +81,23 @@ export default function HomePage() {
   const [catalogLoadingMore, setCatalogLoadingMore] = useState(false);
   const [catalogSearch, setCatalogSearch] = useState("");
   const [debouncedCatalogSearch, setDebouncedCatalogSearch] = useState("");
+
+  // Top Pharmaceutical Companies in Bangladesh
+  const pharmaCompanies = [
+    { id: "ALL", label: "All Companies", count: "41k+" },
+    { id: "Square", label: "Square Pharmaceuticals", count: "2,065" },
+    { id: "Incepta", label: "Incepta Pharma", count: "1,775" },
+    { id: "Beximco", label: "Beximco Pharma", count: "1,084" },
+    { id: "Renata", label: "Renata Limited", count: "1,216" },
+    { id: "Healthcare", label: "Healthcare Pharma", count: "1,046" },
+    { id: "ACME", label: "The ACME Laboratories", count: "1,152" },
+    { id: "Opsonin", label: "Opsonin Pharma", count: "1,400" },
+    { id: "Eskayef", label: "Eskayef (SK+F)", count: "1,370" },
+    { id: "Drug International", label: "Drug International", count: "1,530" },
+    { id: "Aristopharma", label: "Aristopharma", count: "877" },
+    { id: "Popular", label: "Popular Pharma", count: "811" },
+    { id: "ACI", label: "ACI Limited", count: "427" },
+  ];
 
   // Hero Banner Carousel State (3 Banners from assets/hero banner)
   const heroBanners = [
@@ -117,7 +135,7 @@ export default function HomePage() {
   }, [catalogSearch]);
 
   const categories = [
-    { id: "ALL", label: "All Catalog Medicines (41k+)" },
+    { id: "ALL", label: "All Dosage Forms" },
     { id: "TABLET", label: "Tablets" },
     { id: "CAPSULE", label: "Capsules" },
     { id: "INJECTION", label: "Injections" },
@@ -129,7 +147,13 @@ export default function HomePage() {
   ];
 
   const fetchCatalog = useCallback(
-    async (pageNum: number, query: string, category: string, isNew: boolean = false) => {
+    async (
+      pageNum: number,
+      query: string,
+      category: string,
+      mfg: string = "ALL",
+      isNew: boolean = false
+    ) => {
       if (isNew) setCatalogLoading(true);
       else setCatalogLoadingMore(true);
 
@@ -142,6 +166,10 @@ export default function HomePage() {
 
         if (query.trim()) {
           params.set("q", query.trim());
+        }
+
+        if (mfg && mfg !== "ALL") {
+          params.set("manufacturer", mfg);
         }
 
         if (category === "TABLET" || category === "CAPSULE" || category === "INJECTION" || category === "SYRUP") {
@@ -181,12 +209,12 @@ export default function HomePage() {
   );
 
   useEffect(() => {
-    fetchCatalog(1, debouncedCatalogSearch, selectedCategory, true);
-  }, [debouncedCatalogSearch, selectedCategory, fetchCatalog]);
+    fetchCatalog(1, debouncedCatalogSearch, selectedCategory, selectedManufacturer, true);
+  }, [debouncedCatalogSearch, selectedCategory, selectedManufacturer, fetchCatalog]);
 
   const handleLoadMore = () => {
     if (catalogHasMore && !catalogLoading && !catalogLoadingMore) {
-      fetchCatalog(catalogPage + 1, debouncedCatalogSearch, selectedCategory, false);
+      fetchCatalog(catalogPage + 1, debouncedCatalogSearch, selectedCategory, selectedManufacturer, false);
     }
   };
 
@@ -939,6 +967,53 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Company Pills Filter (Requirement: Square and Top BD Pharma Companies) */}
+          <div className="pt-2 border-t border-white/10 space-y-2">
+            <div className="flex items-center justify-between text-xs text-emerald-200">
+              <span className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-[11px]">
+                <Building2 className="w-3.5 h-3.5 text-emerald-300" />
+                <span>Filter by Pharma Company:</span>
+              </span>
+              {selectedManufacturer !== "ALL" && (
+                <button
+                  onClick={() => setSelectedManufacturer("ALL")}
+                  className="text-[11px] font-bold text-emerald-200 hover:text-white transition-colors flex items-center gap-1 bg-white/15 px-2.5 py-0.5 rounded-lg border border-white/20"
+                >
+                  <X className="w-3 h-3" />
+                  <span>Show All Companies</span>
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              {pharmaCompanies.map((comp) => {
+                const isSelected = selectedManufacturer === comp.id;
+                return (
+                  <button
+                    key={comp.id}
+                    onClick={() => setSelectedManufacturer(comp.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                      isSelected
+                        ? "bg-white text-[#01382a] shadow-md scale-105 ring-2 ring-emerald-300"
+                        : "bg-[#014232]/80 text-emerald-100 hover:bg-[#036b51] hover:text-white border border-emerald-400/20"
+                    }`}
+                  >
+                    <span>{comp.label}</span>
+                    <span
+                      className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        isSelected
+                          ? "bg-emerald-100 text-[#01382a] font-black"
+                          : "bg-emerald-950/60 text-emerald-300"
+                      }`}
+                    >
+                      {comp.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Category Pills & Live Result Count */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 pt-2 border-t border-white/10">
             {/* Category Pills */}
@@ -960,7 +1035,13 @@ export default function HomePage() {
 
             {/* Dynamic Counter */}
             <div className="text-xs text-emerald-100/90 font-semibold shrink-0">
-              {debouncedCatalogSearch ? (
+              {selectedManufacturer !== "ALL" ? (
+                <span>
+                  Showing <strong>{catalogMedicines.length}</strong> of{" "}
+                  <strong>{catalogFilteredTotal.toLocaleString()}</strong> from{" "}
+                  <strong>{selectedManufacturer}</strong>
+                </span>
+              ) : debouncedCatalogSearch ? (
                 <span>
                   Found <strong>{catalogFilteredTotal.toLocaleString()}</strong> results
                 </span>
@@ -973,6 +1054,36 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* Active Company Filter Banner */}
+        {selectedManufacturer !== "ALL" && (
+          <div className="p-3.5 rounded-2xl bg-white/15 border border-emerald-300/40 backdrop-blur-md flex items-center justify-between gap-3 text-white animate-in fade-in slide-in-from-top-2">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-white text-[#025540] flex items-center justify-center shrink-0 shadow-sm font-black">
+                <Building2 className="w-5 h-5 text-[#025540]" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs sm:text-sm font-black truncate">
+                  Showing all {catalogFilteredTotal.toLocaleString()} medicines manufactured by{" "}
+                  <span className="underline underline-offset-2">
+                    {pharmaCompanies.find((c) => c.id === selectedManufacturer)?.label || selectedManufacturer}
+                  </span>
+                </div>
+                <div className="text-[11px] text-emerald-200">
+                  Certified Bangladesh DGDA Pharmaceutical Manufacturer · Genuine B2B Depot Inventory
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setSelectedManufacturer("ALL")}
+              className="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white text-emerald-100 hover:text-[#01382a] text-xs font-bold transition-all shrink-0 flex items-center gap-1.5"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span>Clear Filter</span>
+            </button>
+          </div>
+        )}
 
         {/* Product Cards Grid (Pure White Cards Matching Screenshot) */}
         {catalogLoading && catalogMedicines.length === 0 ? (
@@ -995,6 +1106,7 @@ export default function HomePage() {
                 setCatalogSearch("");
                 setDebouncedCatalogSearch("");
                 setSelectedCategory("ALL");
+                setSelectedManufacturer("ALL");
               }}
               className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-xs"
             >
@@ -1060,9 +1172,23 @@ export default function HomePage() {
                       <div className="text-xs text-slate-400 font-medium line-clamp-1 mt-0.5">
                         {med.genericName}
                       </div>
-                      <div className="text-[11px] text-slate-400 font-normal truncate mt-0.5">
-                        {med.manufacturer || "AB Life Science"}
-                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const mfg = med.manufacturer || "";
+                          const matchedCompany = pharmaCompanies.find((c) =>
+                            c.id !== "ALL" && mfg.toLowerCase().includes(c.id.toLowerCase())
+                          );
+                          setSelectedManufacturer(matchedCompany ? matchedCompany.id : mfg);
+                        }}
+                        className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-950 hover:underline truncate mt-1 flex items-center gap-1.5 text-left group/mfg cursor-pointer max-w-full"
+                        title={`Click to show all medicines by ${med.manufacturer}`}
+                      >
+                        <Building2 className="w-3 h-3 text-emerald-600 shrink-0 group-hover/mfg:scale-110 transition-transform" />
+                        <span className="truncate">{med.manufacturer || "AB Life Science"}</span>
+                      </button>
                     </div>
 
                     {/* Packaging Specification */}
