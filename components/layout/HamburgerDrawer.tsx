@@ -267,12 +267,12 @@ export const HamburgerDrawer: React.FC = () => {
               </div>
             </div>
             <div className="truncate flex-1">
-              <div className="font-bold text-sm text-white truncate">{currentUser.name}</div>
-              <div className="text-[11px] text-emerald-200/80 truncate flex items-center gap-1">
-                <Building2 className="w-3 h-3 text-emerald-400" />
+              <div className="font-bold text-base text-white truncate">{currentUser.name}</div>
+              <div className="text-xs text-emerald-200/90 truncate flex items-center gap-1 mt-0.5">
+                <Building2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span className="truncate">{currentPharmacy.tradeName}</span>
               </div>
-              <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
+              <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
                 {currentUser.role.replace("_", " ")}
               </span>
             </div>
@@ -280,13 +280,13 @@ export const HamburgerDrawer: React.FC = () => {
 
           {/* Quick Role Switcher Buttons */}
           <div className="mt-3 pt-3 border-t border-emerald-500/20">
-            <div className="text-[10px] font-black uppercase tracking-wider text-emerald-200/70 mb-1.5">
+            <div className="text-xs font-black uppercase tracking-wider text-emerald-200/80 mb-2">
               Switch Persona
             </div>
-            <div className="grid grid-cols-2 gap-1 text-[10px]">
+            <div className="grid grid-cols-2 gap-1.5 text-xs">
               <button
                 onClick={() => setCurrentUserRole(UserRole.SUPER_ADMIN)}
-                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                className={`p-2 rounded-lg text-left font-bold truncate ${
                   currentUser.role === UserRole.SUPER_ADMIN ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
                 }`}
               >
@@ -294,7 +294,7 @@ export const HamburgerDrawer: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.PHARMA_COMPANY)}
-                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                className={`p-2 rounded-lg text-left font-bold truncate ${
                   currentUser.role === UserRole.PHARMA_COMPANY ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
                 }`}
               >
@@ -302,7 +302,7 @@ export const HamburgerDrawer: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.DISTRIBUTOR)}
-                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                className={`p-2 rounded-lg text-left font-bold truncate ${
                   currentUser.role === UserRole.DISTRIBUTOR ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
                 }`}
               >
@@ -310,7 +310,7 @@ export const HamburgerDrawer: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.SALES_REP)}
-                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                className={`p-2 rounded-lg text-left font-bold truncate ${
                   currentUser.role === UserRole.SALES_REP ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
                 }`}
               >
@@ -318,7 +318,7 @@ export const HamburgerDrawer: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
-                className={`col-span-2 p-1.5 rounded-lg text-left font-bold truncate ${
+                className={`col-span-2 p-2 rounded-lg text-left font-bold truncate ${
                   currentUser.role === UserRole.PHARMACY_OWNER ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
                 }`}
               >
@@ -331,8 +331,8 @@ export const HamburgerDrawer: React.FC = () => {
         {/* Scrollable Navigation Groups */}
         <div className="flex-1 overflow-y-auto p-3 space-y-4 scrollbar-none">
           {menuGroups.map((group, gIdx) => (
-            <div key={gIdx} className="space-y-1">
-              <div className="px-2 text-[10px] font-bold uppercase tracking-wider text-emerald-300/50">
+            <div key={gIdx} className="space-y-1.5">
+              <div className="px-2 text-xs font-extrabold uppercase tracking-wider text-emerald-300/70">
                 {group.title}
               </div>
               <div className="space-y-1">
@@ -344,7 +344,7 @@ export const HamburgerDrawer: React.FC = () => {
                       key={iIdx}
                       href={item.href}
                       onClick={closeDrawer}
-                      className={`group relative flex items-center justify-between px-3 py-2 rounded-2xl text-[13px] transition-all ${
+                      className={`group relative flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm transition-all ${
                         isActive
                           ? "bg-gradient-to-r from-[#01543e] via-[#026c52] to-[#014837] text-white border border-emerald-400/30 shadow-[0_4px_16px_rgba(2,108,82,0.35)]"
                           : item.highlight
@@ -364,7 +364,7 @@ export const HamburgerDrawer: React.FC = () => {
                               : "bg-[#00382b]/90 border border-emerald-500/15 text-[#34d399] group-hover:bg-[#014837] group-hover:border-emerald-400/30"
                           }`}
                         >
-                          <Icon className="w-4 h-4 stroke-[2]" />
+                          <Icon className="w-4.5 h-4.5 stroke-[2]" />
                         </div>
                         <span className={`truncate ${isActive ? "font-bold text-white" : "font-medium"}`}>
                           {item.label}
@@ -373,7 +373,7 @@ export const HamburgerDrawer: React.FC = () => {
 
                       <div className="flex items-center gap-1.5 shrink-0">
                         {item.badge && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#10b981] text-emerald-950">
+                          <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[#10b981] text-emerald-950">
                             {item.badge}
                           </span>
                         )}
@@ -401,14 +401,14 @@ export const HamburgerDrawer: React.FC = () => {
               closeDrawer();
               setIsGetAppOpen(true);
             }}
-            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white text-xs font-bold transition-all shadow-md active:scale-95 group"
+            className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white text-sm font-bold transition-all shadow-md active:scale-95 group"
             title="Install Mobile App"
           >
             <div className="flex items-center gap-2">
-              <Smartphone className="w-4 h-4 text-emerald-200 group-hover:scale-110 transition-transform" />
+              <Smartphone className="w-4.5 h-4.5 text-emerald-200 group-hover:scale-110 transition-transform" />
               <span>Get Mobile App / অ্যাপ ডাউনলোড</span>
             </div>
-            <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase">
+            <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-xs font-black uppercase">
               APK &bull; iOS
             </span>
           </button>
@@ -416,14 +416,14 @@ export const HamburgerDrawer: React.FC = () => {
           {/* Language Toggle Button (English / বাংলা) */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-[#00382b] hover:bg-[#014837] text-emerald-100 hover:text-white text-xs font-bold transition-all border border-emerald-600/30 shadow-sm group"
+            className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#00382b] hover:bg-[#014837] text-emerald-100 hover:text-white text-sm font-bold transition-all border border-emerald-600/30 shadow-sm group"
             title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
           >
             <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-[#34d399] group-hover:rotate-12 transition-transform" />
+              <Globe className="w-4.5 h-4.5 text-[#34d399] group-hover:rotate-12 transition-transform" />
               <span>Language / ভাষা</span>
             </div>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-[#34d399] text-[11px] font-black border border-emerald-400/30">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-[#34d399] text-xs font-black border border-emerald-400/30">
               <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
             </div>
           </button>
@@ -432,9 +432,9 @@ export const HamburgerDrawer: React.FC = () => {
           <Link
             href="/login"
             onClick={closeDrawer}
-            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-bold transition-colors border border-rose-500/30 shadow-sm"
+            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-sm font-bold transition-colors border border-rose-500/30 shadow-sm"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-4.5 h-4.5" />
             <span>Sign Out</span>
           </Link>
         </div>

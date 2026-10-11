@@ -130,14 +130,14 @@ export const TopHeaderBar: React.FC = () => {
             className="relative flex-1 w-full flex items-center bg-white hover:bg-slate-50/90 cursor-pointer border border-slate-200/90 hover:border-emerald-500 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs hover:shadow-md transition-all group"
             title="Search medicine (Brand or Generic)"
           >
-            <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-slate-400 group-hover:text-emerald-600 transition-colors mr-2.5 sm:mr-3 shrink-0" />
+            <Search className="w-4.5 h-4.5 text-slate-400 group-hover:text-emerald-600 transition-colors mr-2.5 sm:mr-3 shrink-0" />
             <input
               type="text"
               readOnly
               placeholder="Search 41,300+ medicines, manufacturers, generics..."
-              className="w-full bg-transparent text-xs sm:text-sm text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium truncate"
+              className="w-full bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium truncate"
             />
-            <kbd className="hidden md:inline-block px-1.5 py-0.5 rounded bg-slate-100 text-[10px] font-mono text-slate-500 border border-slate-200">
+            <kbd className="hidden md:inline-block px-2 py-0.5 rounded bg-slate-100 text-xs font-mono font-bold text-slate-500 border border-slate-200">
               ⌘K
             </kbd>
           </div>
@@ -150,10 +150,10 @@ export const TopHeaderBar: React.FC = () => {
           <Link
             href="/distributors"
             id="nearby-distributors-header-btn"
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-2xl bg-white hover:bg-emerald-50 text-[#01382a] border border-slate-200/90 font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-[#01382a] border border-slate-200/90 font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group"
             title="Discover nearby authorized pharmaceutical depots & medicine stock on map"
           >
-            <MapPin className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
+            <MapPin className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
             <span className="font-extrabold">Nearby Depots</span>
           </Link>
 
@@ -161,12 +161,12 @@ export const TopHeaderBar: React.FC = () => {
           <button
             onClick={() => setIsGetAppOpen(true)}
             id="get-app-header-btn"
-            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-emerald-700 hover:from-[#01382a] hover:to-emerald-800 text-white font-black text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-400/40"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-emerald-700 hover:from-[#01382a] hover:to-emerald-800 text-white font-black text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-400/40"
             title="Download or install MedSupplyBD Mobile App (Android APK / iPhone / Web)"
           >
-            <Smartphone className="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" />
+            <Smartphone className="w-4.5 h-4.5 text-emerald-300 group-hover:scale-110 transition-transform" />
             <span className="font-black">Get App</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-emerald-400 text-[#01382a] text-[9px] font-black uppercase tracking-wider hidden md:inline">
+            <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[11px] font-black uppercase tracking-wider hidden md:inline">
               APK &bull; iOS
             </span>
           </button>
@@ -183,28 +183,28 @@ export const TopHeaderBar: React.FC = () => {
               </div>
               <div className="hidden sm:flex flex-col text-left min-w-0 max-w-[170px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-slate-900 group-hover:text-emerald-900 transition-colors leading-tight truncate">
+                  <span className="text-sm font-bold text-slate-900 group-hover:text-emerald-900 transition-colors leading-tight truncate">
                     {currentRoleConfig.label}
                   </span>
-                  <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800">
+                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
                     Switch
                   </span>
                 </div>
-                <span className="text-[10px] text-slate-500 font-medium leading-tight truncate">
+                <span className="text-xs text-slate-500 font-medium leading-tight truncate">
                   {currentUser.organizationName || currentRoleConfig.org}
                 </span>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 transition-colors ml-0.5" />
+              <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-700 transition-colors ml-0.5" />
             </button>
 
             {/* Role Switcher Floating Menu */}
             {isRoleDropdownOpen && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                 <div className="px-3 py-2 border-b border-slate-100">
-                  <div className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                  <div className="text-xs font-black uppercase tracking-wider text-slate-500">
                     Switch Operational Persona
                   </div>
-                  <div className="text-xs text-slate-600 mt-0.5 font-medium">
+                  <div className="text-sm text-slate-600 mt-0.5 font-medium">
                     Test the complete multi-tenant B2B pharmaceutical workflow:
                   </div>
                 </div>
@@ -235,13 +235,13 @@ export const TopHeaderBar: React.FC = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <span className="font-bold text-xs">{item.label}</span>
-                            {isSelected && <Check className="w-3.5 h-3.5 text-emerald-300" />}
+                            <span className="font-bold text-sm">{item.label}</span>
+                            {isSelected && <Check className="w-4 h-4 text-emerald-300" />}
                           </div>
-                          <div className={`text-[11px] truncate ${isSelected ? "text-emerald-100" : "text-slate-500 font-medium"}`}>
+                          <div className={`text-xs truncate ${isSelected ? "text-emerald-100 font-semibold" : "text-slate-600 font-medium"}`}>
                             {item.org}
                           </div>
-                          <div className={`text-[10px] mt-0.5 ${isSelected ? "text-emerald-200/80" : "text-slate-400"}`}>
+                          <div className={`text-xs mt-0.5 ${isSelected ? "text-emerald-200/80" : "text-slate-500"}`}>
                             {item.description}
                           </div>
                         </div>
@@ -250,7 +250,7 @@ export const TopHeaderBar: React.FC = () => {
                   })}
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 px-3 py-1 text-[11px] text-slate-500 flex items-center justify-between">
+                <div className="pt-2 border-t border-slate-100 px-3 py-1 text-xs sm:text-[13px] text-slate-600 flex items-center justify-between font-medium">
                   <span>Current: <strong>{currentUser.name}</strong></span>
                   <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-emerald-700 font-bold hover:underline">
                     Edit Profile
@@ -277,17 +277,17 @@ export const TopHeaderBar: React.FC = () => {
           {/* User Profile Avatar with Name & Admin Badge */}
           <Link
             href="/profile"
-            className="hidden sm:flex items-center gap-2 p-1 pl-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/80 shadow-2xs transition-all"
+            className="hidden sm:flex items-center gap-2 p-1.5 pl-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/80 shadow-2xs transition-all"
             title="My Profile - Mahfuzul Islam"
           >
             <div className="w-8 h-8 rounded-full bg-[#1e60d5] text-white font-black text-xs flex items-center justify-center shadow-xs shrink-0">
               MI
             </div>
             <div className="flex flex-col text-left pr-1.5 min-w-0">
-              <span className="text-xs font-bold text-slate-900 leading-tight truncate">
+              <span className="text-sm font-bold text-slate-900 leading-tight truncate">
                 {currentUser.name || "Mahfuzul Islam"}
               </span>
-              <span className="text-[10px] text-slate-400 font-medium leading-tight truncate">
+              <span className="text-xs text-slate-500 font-semibold leading-tight truncate">
                 Admin
               </span>
             </div>

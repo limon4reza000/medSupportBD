@@ -211,13 +211,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               <Box className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-500">Total Products</div>
-              <div className="text-2xl sm:text-[26px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-sm font-bold text-slate-500">Total Products</div>
+              <div className="text-2xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 25,430
               </div>
-              <div className="flex items-center gap-1 text-xs mt-1">
+              <div className="flex items-center gap-1.5 text-xs sm:text-[13px] mt-1 font-semibold">
                 <span className="text-emerald-600 font-bold flex items-center">↗ +12%</span>
-                <span className="text-slate-400">vs last month</span>
+                <span className="text-slate-500">vs last month</span>
               </div>
             </div>
           </div>
@@ -230,13 +230,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               <Users className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-500">Total Suppliers</div>
-              <div className="text-2xl sm:text-[26px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-sm font-bold text-slate-500">Total Suppliers</div>
+              <div className="text-2xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 350+
               </div>
-              <div className="flex items-center gap-1 text-xs mt-1">
+              <div className="flex items-center gap-1.5 text-xs sm:text-[13px] mt-1 font-semibold">
                 <span className="text-emerald-600 font-bold flex items-center">↗ +8%</span>
-                <span className="text-slate-400">Active suppliers</span>
+                <span className="text-slate-500">Active suppliers</span>
               </div>
             </div>
           </div>
@@ -249,13 +249,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               <ShoppingCart className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-500">Total Orders</div>
-              <div className="text-2xl sm:text-[26px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-sm font-bold text-slate-500">Total Orders</div>
+              <div className="text-2xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 1,200+
               </div>
-              <div className="flex items-center gap-1 text-xs mt-1">
+              <div className="flex items-center gap-1.5 text-xs sm:text-[13px] mt-1 font-semibold">
                 <span className="text-emerald-600 font-bold flex items-center">↗ +18%</span>
-                <span className="text-slate-400">This month</span>
+                <span className="text-slate-500">This month</span>
               </div>
             </div>
           </div>
@@ -268,13 +268,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               <Truck className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-500">On-Time Delivery</div>
-              <div className="text-2xl sm:text-[26px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-sm font-bold text-slate-500">On-Time Delivery</div>
+              <div className="text-2xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 99%
               </div>
-              <div className="flex items-center gap-1 text-xs mt-1">
+              <div className="flex items-center gap-1.5 text-xs sm:text-[13px] mt-1 font-semibold">
                 <span className="text-emerald-600 font-bold flex items-center">↗ +2%</span>
-                <span className="text-slate-400">Delivery success rate</span>
+                <span className="text-slate-500">Delivery success rate</span>
               </div>
             </div>
           </div>
@@ -304,14 +304,14 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
-                    className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-200/90 text-xs sm:text-sm font-semibold text-slate-700 px-3 sm:px-3.5 py-1.5 rounded-xl shadow-2xs transition-all cursor-pointer"
+                    className="flex items-center gap-2 bg-white hover:bg-slate-50 border border-slate-200/90 text-sm font-bold text-slate-700 px-3.5 py-1.5 rounded-xl shadow-2xs transition-all cursor-pointer"
                   >
                     <span>{chartTimeframe}</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                    <ChevronDown className="w-4 h-4 text-slate-500" />
                   </button>
 
                   {isDropdownOpen && (
-                    <div className="absolute right-0 top-full mt-1.5 z-40 bg-white rounded-xl shadow-xl border border-slate-100 py-1 min-w-[145px] text-xs font-semibold text-slate-700 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="absolute right-0 top-full mt-1.5 z-40 bg-white rounded-xl shadow-xl border border-slate-100 py-1 min-w-[150px] text-sm font-semibold text-slate-700 animate-in fade-in zoom-in-95 duration-150">
                       {["Last 12 Months", "Last 6 Months", "Last 30 Days"].map((tf) => (
                         <button
                           key={tf}
@@ -320,7 +320,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                             setChartTimeframe(tf);
                             setIsDropdownOpen(false);
                           }}
-                          className={`w-full text-left px-3.5 py-2 hover:bg-slate-50 transition-colors flex items-center justify-between ${
+                          className={`w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors flex items-center justify-between ${
                             chartTimeframe === tf ? "text-blue-600 bg-blue-50/50" : ""
                           }`}
                         >
@@ -335,21 +335,21 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 </div>
 
                 {/* Legends */}
-                <div className="hidden sm:flex items-center gap-3.5 text-xs sm:text-sm font-medium text-slate-600">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
-                    <span className="text-slate-700 font-semibold">Online Orders</span>
+                <div className="hidden sm:flex items-center gap-4 text-sm font-bold text-slate-600">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#0080ff] shrink-0" />
+                    <span className="text-slate-700 font-bold">Online Orders</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
-                    <span className="text-slate-700 font-semibold">Wholesale Orders</span>
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#00d084] shrink-0" />
+                    <span className="text-slate-700 font-bold">Wholesale Orders</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Mobile Legend row */}
-            <div className="flex sm:hidden items-center gap-3 text-xs font-medium text-slate-600 pt-2.5">
+            <div className="flex sm:hidden items-center gap-3.5 text-sm font-semibold text-slate-600 pt-2.5">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
                 <span className="text-slate-700">Online Orders</span>
@@ -364,7 +364,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             <div className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
               <div className="relative min-w-[500px] sm:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
                 {/* Y-axis Ticks & Horizontal Grid Lines */}
-                <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-[11px] sm:text-xs text-slate-400 font-medium">
+                <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-xs sm:text-sm text-slate-500 font-bold">
                   <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
                     <span className="w-7 text-right pr-2">400</span>
                     <div className="flex-1" />
@@ -382,7 +382,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     <div className="flex-1" />
                   </div>
                   <div className="border-b border-slate-200 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2 text-slate-400">0</span>
+                    <span className="w-7 text-right pr-2 text-slate-500 font-bold">0</span>
                     <div className="flex-1" />
                   </div>
                 </div>
@@ -402,15 +402,15 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       >
                         {/* Interactive Floating Tooltip (matching Jul 2026 screenshot) */}
                         {isHovered && (
-                          <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[110px]">
-                            <div className="text-xs sm:text-[13px] font-black text-slate-900 leading-tight">
+                          <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[120px]">
+                            <div className="text-sm font-black text-slate-900 leading-tight">
                               {item.month} 2026
                             </div>
-                            <div className="text-[11px] sm:text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
+                            <div className="text-xs sm:text-sm text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
                               <span className="w-2 h-2 rounded-full bg-[#0080ff] shrink-0" />
                               <span>Online: {item.online}</span>
                             </div>
-                            <div className="text-[11px] sm:text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
+                            <div className="text-xs sm:text-sm text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
                               <span className="w-2 h-2 rounded-full bg-[#00d084] shrink-0" />
                               <span>Wholesale: {item.wholesale}</span>
                             </div>
@@ -432,7 +432,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         </div>
 
                         {/* Month Label */}
-                        <span className="text-[11px] sm:text-xs font-semibold text-slate-500 mt-1.5 select-none transition-colors group-hover:text-slate-900">
+                        <span className="text-xs sm:text-sm font-bold text-slate-600 mt-2 select-none transition-colors group-hover:text-slate-950">
                           {item.month}
                         </span>
                       </div>
@@ -606,29 +606,29 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
 
             {/* Status Breakdown Legend Matching 70% / 20% / 10% */}
-            <div className="space-y-2 text-xs font-semibold pt-1">
+            <div className="space-y-2.5 text-sm font-semibold pt-1.5">
               <div className="flex items-center justify-between p-2 rounded-xl bg-teal-50/60 border border-teal-100/70">
                 <div className="flex items-center gap-2 text-slate-700">
-                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#2ba4b5] to-[#38c9c0] shrink-0 shadow-2xs" />
-                  <span className="font-bold text-teal-900">In Stock (70%)</span>
+                  <span className="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-[#2ba4b5] to-[#38c9c0] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-teal-900 text-sm">In Stock (70%)</span>
                 </div>
-                <span className="font-extrabold text-slate-900">8,250</span>
+                <span className="font-black text-slate-900 text-sm">8,250</span>
               </div>
 
               <div className="flex items-center justify-between p-2 rounded-xl bg-amber-50/60 border border-amber-100/70">
                 <div className="flex items-center gap-2 text-slate-700">
-                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#ffb03a] to-[#f37324] shrink-0 shadow-2xs" />
-                  <span className="font-bold text-amber-900">Low Stock (20%)</span>
+                  <span className="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-[#ffb03a] to-[#f37324] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-amber-900 text-sm">Low Stock (20%)</span>
                 </div>
-                <span className="font-extrabold text-slate-900">1,650</span>
+                <span className="font-black text-slate-900 text-sm">1,650</span>
               </div>
 
               <div className="flex items-center justify-between p-2 rounded-xl bg-rose-50/60 border border-rose-100/70">
                 <div className="flex items-center gap-2 text-slate-700">
-                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#ff4d4d] to-[#d63031] shrink-0 shadow-2xs" />
-                  <span className="font-bold text-rose-900">Out of Stock (10%)</span>
+                  <span className="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-[#ff4d4d] to-[#d63031] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-rose-900 text-sm">Out of Stock (10%)</span>
                 </div>
-                <span className="font-extrabold text-slate-900">850</span>
+                <span className="font-black text-slate-900 text-sm">850</span>
               </div>
             </div>
           </div>
@@ -636,7 +636,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
           {/* View Inventory Action Button */}
           <Link
             href="/inventory"
-            className="w-full mt-4 py-2.5 px-3 rounded-xl border border-teal-200/90 bg-teal-50/50 hover:bg-teal-100/70 text-teal-800 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-2xs group"
+            className="w-full mt-4 py-2.5 px-3 rounded-xl border border-teal-200/90 bg-teal-50/50 hover:bg-teal-100/70 text-teal-800 font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-2xs group"
           >
             <Box className="w-4 h-4 text-teal-700 group-hover:scale-110 transition-transform" />
             <span>View Full Inventory</span>
@@ -655,7 +655,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               </h3>
               <Link
                 href="/distributor-orders"
-                className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
               >
                 View All
               </Link>
@@ -676,10 +676,10 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         <IconComponent className="w-4 h-4" />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                        <div className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
                           {ord.id}
                         </div>
-                        <div className="text-[11px] text-slate-400 font-medium truncate">
+                        <div className="text-xs sm:text-[13px] text-slate-500 font-medium truncate">
                           {ord.pharmacy}
                         </div>
                       </div>
@@ -687,10 +687,10 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                     <div className="flex items-center gap-2 shrink-0">
                       <div className="text-right">
-                        <div className="text-xs font-bold text-slate-800">
+                        <div className="text-sm font-bold text-slate-900">
                           {ord.amount}
                         </div>
-                        <span className={`inline-block text-[9px] font-black uppercase px-1.5 py-0.2 rounded-full border ${ord.statusColor}`}>
+                        <span className={`inline-block text-[10.5px] sm:text-xs font-black uppercase px-2 py-0.5 rounded-full border ${ord.statusColor}`}>
                           {ord.status}
                         </span>
                       </div>
@@ -716,12 +716,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         <div className="lg:col-span-6 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+              <h3 className="font-extrabold text-base text-slate-900 tracking-tight">
                 Top Selling Products
               </h3>
               <Link
                 href="/inventory"
-                className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
               >
                 View All
               </Link>
@@ -729,9 +729,9 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
             {/* Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-100 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                  <tr className="border-b border-slate-100 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
                     <th className="py-2.5 pr-2 w-6">#</th>
                     <th className="py-2.5 px-2">Product Name</th>
                     <th className="py-2.5 px-2">Category</th>
@@ -747,30 +747,30 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       className="hover:bg-slate-50/70 transition-colors cursor-pointer group"
                       onClick={() => router.push("/inventory")}
                     >
-                      <td className="py-2.5 pr-2 font-bold text-slate-400 text-xs">{p.id}</td>
+                      <td className="py-2.5 pr-2 font-bold text-slate-400 text-sm">{p.id}</td>
                       <td className="py-2.5 px-2">
                         <div className="flex items-center gap-2">
                           <img
                             src={p.image}
                             alt={p.name}
-                            className="w-7 h-7 rounded-lg object-contain p-0.5 border border-slate-200/80 bg-white shrink-0 shadow-2xs"
+                            className="w-8 h-8 rounded-lg object-contain p-0.5 border border-slate-200/80 bg-white shrink-0 shadow-2xs"
                           />
                           <div className="min-w-0">
-                            <div className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                            <div className="font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
                               {p.name}
                             </div>
-                            <div className="text-[10px] text-slate-400 font-medium truncate">
+                            <div className="text-xs text-slate-500 font-medium truncate">
                               {p.generic}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="py-2.5 px-2 text-slate-500 font-medium">{p.category}</td>
-                      <td className="py-2.5 px-2 text-right font-medium text-slate-600">{p.stock}</td>
-                      <td className="py-2.5 px-2 text-right font-semibold text-slate-800">{p.sold}</td>
+                      <td className="py-2.5 px-2 text-slate-600 font-medium text-sm">{p.category}</td>
+                      <td className="py-2.5 px-2 text-right font-semibold text-slate-700 text-sm">{p.stock}</td>
+                      <td className="py-2.5 px-2 text-right font-bold text-slate-900 text-sm">{p.sold}</td>
                       <td className="py-2.5 pl-2 text-right">
-                        <div className="font-bold text-slate-900">{p.revenue}</div>
-                        <div className="w-16 h-1 bg-slate-100 rounded-full ml-auto mt-1 overflow-hidden">
+                        <div className="font-black text-slate-900 text-sm">{p.revenue}</div>
+                        <div className="w-16 h-1.5 bg-slate-100 rounded-full ml-auto mt-1 overflow-hidden">
                           <div
                             className="h-full bg-emerald-500 rounded-full"
                             style={{ width: `${p.progress}%` }}
@@ -791,21 +791,21 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         <div className="lg:col-span-3 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight">
+              <h3 className="font-extrabold text-base text-slate-900 tracking-tight">
                 Low Stock Products
               </h3>
               <Link
                 href="/inventory"
-                className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
               >
                 View All
               </Link>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-100 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                  <tr className="border-b border-slate-100 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
                     <th className="py-2.5 pr-2">Product</th>
                     <th className="py-2.5 px-2 text-center">Current Stock</th>
                     <th className="py-2.5 pl-2 text-right">Status</th>
@@ -823,16 +823,16 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           <img
                             src={p.image}
                             alt={p.name}
-                            className="w-6 h-6 rounded-md object-contain border border-slate-200/80 bg-white shrink-0"
+                            className="w-7 h-7 rounded-md object-contain border border-slate-200/80 bg-white shrink-0"
                           />
-                          <span className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                          <span className="font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors truncate">
                             {p.name}
                           </span>
                         </div>
                       </td>
-                      <td className="py-2.5 px-2 text-center font-bold text-slate-700">{p.stock}</td>
+                      <td className="py-2.5 px-2 text-center font-black text-slate-800 text-sm">{p.stock}</td>
                       <td className="py-2.5 pl-2 text-right">
-                        <span className={`inline-block text-[9px] font-black uppercase px-2 py-0.5 rounded-full border whitespace-nowrap ${p.statusColor}`}>
+                        <span className={`inline-block text-[10.5px] sm:text-xs font-black uppercase px-2.5 py-0.5 rounded-full border whitespace-nowrap ${p.statusColor}`}>
                           {p.status}
                         </span>
                       </td>
@@ -864,7 +864,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <Box className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-emerald-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-emerald-950 transition-colors leading-tight">
                   Add Product
                 </div>
               </button>
@@ -877,7 +877,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-blue-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-blue-950 transition-colors leading-tight">
                   Create Order
                 </div>
               </button>
@@ -890,7 +890,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <Users className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-purple-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-purple-950 transition-colors leading-tight">
                   Add Supplier
                 </div>
               </button>
@@ -903,7 +903,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-orange-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <Home className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-orange-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-orange-950 transition-colors leading-tight">
                   Manage Inventory
                 </div>
               </button>
@@ -916,7 +916,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <BarChart3 className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-rose-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-rose-950 transition-colors leading-tight">
                   View Reports
                 </div>
               </button>
@@ -929,7 +929,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-cyan-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <PieChart className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-xs font-bold text-slate-800 group-hover:text-cyan-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-cyan-950 transition-colors leading-tight">
                   Analytics
                 </div>
               </button>
@@ -945,31 +945,31 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       {/* =================================================================== */}
       <div className="space-y-3 pt-2">
         {/* Header */}
-        <div className="flex flex-wrap items-center justify-between gap-2 text-xs px-1">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm px-1">
           <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-lg bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="w-7 h-7 rounded-lg bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-2xs">
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-extrabold text-sm text-slate-900 tracking-tight leading-none">
+              <h2 className="font-extrabold text-base sm:text-lg text-slate-900 tracking-tight leading-none">
                 Integrated Pharmacy Management Systems
               </h2>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <p className="text-xs sm:text-[13px] text-slate-600 font-medium mt-1">
                 Everything you need to run your pharmacy business, in one powerful platform.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
               8 Enterprise Modules Active
             </span>
             <Link
               href="/settings"
-              className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-semibold flex items-center gap-1 transition-colors"
+              className="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors"
             >
-              <Settings className="w-3.5 h-3.5 text-slate-500" />
+              <Settings className="w-4 h-4 text-slate-500" />
               <span>Manage Modules</span>
             </Link>
           </div>
@@ -1070,15 +1070,15 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     <mod.icon className="w-4 h-4 stroke-[2.2]" />
                   </div>
                 </div>
-                <h3 className="font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors pt-1 truncate">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-emerald-700 transition-colors pt-1 truncate">
                   {mod.title}
                 </h3>
-                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-slate-600 line-clamp-2 leading-relaxed">
                   {mod.desc}
                 </p>
-                <div className="pt-2 flex items-center gap-1 text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">
+                <div className="pt-2 flex items-center gap-1 text-xs sm:text-sm font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">
                   <span>{mod.btnText}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all" />
                 </div>
               </div>
 

@@ -242,14 +242,14 @@ export const AppSidebar: React.FC = () => {
         {/* Get Mobile App Button */}
         <button
           onClick={() => setIsGetAppOpen(true)}
-          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white text-xs sm:text-[13px] font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
+          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white text-sm font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
           title="Install MedSupplyBD App (PWA / Android APK)"
         >
           <div className="flex items-center gap-2.5">
-            <Smartphone className="w-4.5 h-4.5 text-emerald-300" />
+            <Smartphone className="w-5 h-5 text-emerald-300" />
             <span>Get Mobile App</span>
           </div>
-          <span className="px-1.5 py-0.5 rounded bg-[#10b981] text-[#025540] text-[9.5px] font-black uppercase tracking-wider">
+          <span className="px-2 py-0.5 rounded bg-[#10b981] text-[#025540] text-[11px] font-black uppercase tracking-wider">
             APK &bull; iOS
           </span>
         </button>
@@ -257,14 +257,14 @@ export const AppSidebar: React.FC = () => {
         {/* Language Toggle (Bangla / English) */}
         <button
           onClick={toggleLanguage}
-          className="flex items-center justify-between w-full px-3.5 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs sm:text-[13px] font-semibold transition-all border border-slate-200/80 shadow-2xs group cursor-pointer"
+          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-sm font-bold transition-all border border-slate-200/80 shadow-2xs group cursor-pointer"
           title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
         >
           <div className="flex items-center gap-2.5">
-            <Globe className="w-4.5 h-4.5 text-slate-500" />
+            <Globe className="w-5 h-5 text-slate-500" />
             <span>Language / ভাষা</span>
           </div>
-          <div className="flex items-center px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10.5px] font-black">
+          <div className="flex items-center px-2.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-black">
             <span>{language === "en" ? "BN" : "EN"}</span>
           </div>
         </button>
@@ -272,10 +272,10 @@ export const AppSidebar: React.FC = () => {
         {/* Logout Button */}
         <Link
           href="/login"
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-600 text-xs sm:text-[13px] font-bold transition-all border border-rose-200/70 shadow-2xs group"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-600 text-sm font-bold transition-all border border-rose-200/70 shadow-2xs group"
           title="Sign out of platform session"
         >
-          <LogOut className="w-4 h-4 text-rose-500" />
+          <LogOut className="w-4.5 h-4.5 text-rose-500" />
           <span>Logout / সাইন আউট</span>
         </Link>
       </div>
