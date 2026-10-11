@@ -445,113 +445,201 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         </div>
 
         {/* ================================================================= */}
-        {/* 2.2 INVENTORY STATUS (Donut Chart & Metrics)                      */}
+        {/* 2.2 INVENTORY STATUS (Infographic 3D Segmented Donut Chart)       */}
         {/* ================================================================= */}
-        <div className="lg:col-span-3 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-3 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between">
           <div>
-            <h3 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-tight pb-3 border-b border-slate-100">
-              Inventory Status
-            </h3>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="font-extrabold text-base text-slate-900 tracking-tight">
+                Inventory Status
+              </h3>
+              <span className="text-[10px] font-black uppercase text-teal-700 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded-full tracking-wider">
+                10,750 SKUs
+              </span>
+            </div>
 
-            {/* Circular Donut & Legend Container */}
-            <div className="flex items-center justify-between gap-4 py-4 sm:py-5">
-              
-              {/* Donut Chart SVG */}
-              <div className="relative w-28 h-28 shrink-0 flex items-center justify-center">
-                <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                  {/* Background Track */}
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="transparent"
-                    stroke="#f1f5f9"
-                    strokeWidth="12"
-                  />
-                  {/* Out of Stock (Red) - 1.5% */}
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="transparent"
-                    stroke="#ef4444"
-                    strokeWidth="12"
-                    strokeDasharray="251.3"
-                    strokeDashoffset="0"
-                  />
-                  {/* Low Stock (Yellow) - 4% */}
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="transparent"
-                    stroke="#f59e0b"
-                    strokeWidth="12"
-                    strokeDasharray="251.3"
-                    strokeDashoffset="3.8"
-                  />
-                  {/* In Stock (Green) - 94.5% */}
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="transparent"
-                    stroke="#00c48c"
-                    strokeWidth="12"
-                    strokeDasharray="251.3"
-                    strokeDashoffset="14"
-                    strokeLinecap="round"
-                  />
-                </svg>
+            {/* Infographic 3D Segmented Donut Chart matching user mockup */}
+            <div className="relative w-48 h-48 sm:w-52 sm:h-52 shrink-0 flex items-center justify-center mx-auto my-3">
+              <svg className="w-full h-full drop-shadow-sm select-none" viewBox="0 0 300 300">
+                <defs>
+                  {/* Gradients */}
+                  <linearGradient id="tealSliceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#357a8a" />
+                    <stop offset="50%" stopColor="#2ba4b5" />
+                    <stop offset="100%" stopColor="#38c9c0" />
+                  </linearGradient>
 
-                {/* Center Label */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-xl sm:text-2xl font-black text-slate-900 leading-none">
-                    95%
-                  </span>
-                  <span className="text-[10px] font-semibold text-slate-400 mt-0.5">
-                    In Stock
-                  </span>
+                  <linearGradient id="orangeSliceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ffb03a" />
+                    <stop offset="100%" stopColor="#f37324" />
+                  </linearGradient>
+
+                  <linearGradient id="redSliceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ff4d4d" />
+                    <stop offset="100%" stopColor="#d63031" />
+                  </linearGradient>
+
+                  <linearGradient id="arrowCyanGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#00d2d3" stopOpacity="1" />
+                  </linearGradient>
+
+                  <radialGradient id="centerPuckGrad" cx="45%" cy="40%" r="60%">
+                    <stop offset="0%" stopColor="#ffffff" />
+                    <stop offset="70%" stopColor="#f1f5f9" />
+                    <stop offset="100%" stopColor="#cbd5e1" />
+                  </radialGradient>
+
+                  <filter id="puckShadow" x="-20%" y="-20%" width="150%" height="150%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#0f172a" floodOpacity="0.22" />
+                  </filter>
+
+                  <filter id="textGlow">
+                    <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#000000" floodOpacity="0.4" />
+                  </filter>
+                </defs>
+
+                {/* Outer Sweeping Cyan Arrow Track */}
+                {/* Dashed tail arc from bottom-left */}
+                <path
+                  d="M 42.6 213 A 124 124 0 0 0 150 274"
+                  fill="none"
+                  stroke="#06b6d4"
+                  strokeWidth="6"
+                  strokeDasharray="4 4"
+                  strokeLinecap="round"
+                  opacity="0.85"
+                />
+                {/* Solid sweeping arc from bottom to top right */}
+                <path
+                  d="M 150 274 A 124 124 0 0 0 251.6 87.4"
+                  fill="none"
+                  stroke="url(#arrowCyanGrad)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                />
+                {/* Arrow head pointing top-right */}
+                <polygon
+                  points="234,92 265,72 258,103"
+                  fill="#00d2d3"
+                  filter="drop-shadow(0 2px 4px rgba(0,210,211,0.4))"
+                />
+
+                {/* 1. Large 70% Teal Segment */}
+                <path
+                  d="M 260.6 122.4 A 114 114 0 1 1 89.6 53.3 L 120.3 102.5 A 56 56 0 1 0 204.3 136.5 Z"
+                  fill="url(#tealSliceGrad)"
+                  className="transition-all duration-300 hover:brightness-105 cursor-pointer"
+                />
+
+                {/* Ribbon Fold shadow under Red segment on the left */}
+                <polygon points="89.6,53.3 120.3,102.5 106,75" fill="#1b4d3e" opacity="0.45" />
+
+                {/* 2. Orange 20% Segment */}
+                <path
+                  d="M 158 36.3 A 114 114 0 0 1 260.6 122.4 L 204.3 136.5 A 56 56 0 0 0 153.9 94.1 Z"
+                  fill="url(#orangeSliceGrad)"
+                  className="transition-all duration-300 hover:brightness-105 cursor-pointer"
+                />
+
+                {/* Ribbon Fold shadow between Red and Orange */}
+                <polygon points="158,36.3 153.9,94.1 163,60" fill="#a1281e" opacity="0.38" />
+
+                {/* 3. Red 10% Segment */}
+                <path
+                  d="M 89.6 53.3 A 114 114 0 0 1 158 36.3 L 153.9 94.1 A 56 56 0 0 0 120.3 102.5 Z"
+                  fill="url(#redSliceGrad)"
+                  className="transition-all duration-300 hover:brightness-105 cursor-pointer"
+                />
+
+                {/* Ribbon Fold shadow flap on Red edge */}
+                <polygon points="89.6,53.3 102,48 94,62" fill="#5c1d18" opacity="0.5" />
+
+                {/* Bold Typography inside Segments */}
+                {/* 70% Text */}
+                <text
+                  x="122"
+                  y="235"
+                  textAnchor="middle"
+                  fill="#ffffff"
+                  filter="url(#textGlow)"
+                  className="select-none pointer-events-none font-black"
+                >
+                  <tspan fontSize="34" fontWeight="900">70</tspan>
+                  <tspan fontSize="18" fontWeight="700">%</tspan>
+                </text>
+
+                {/* 20% Text */}
+                <text
+                  x="204"
+                  y="93"
+                  textAnchor="middle"
+                  fill="#ffffff"
+                  filter="url(#textGlow)"
+                  className="select-none pointer-events-none font-black"
+                >
+                  <tspan fontSize="26" fontWeight="900">20</tspan>
+                  <tspan fontSize="14" fontWeight="700">%</tspan>
+                </text>
+
+                {/* 10% Text */}
+                <text
+                  x="129"
+                  y="72"
+                  textAnchor="middle"
+                  fill="#ffffff"
+                  filter="url(#textGlow)"
+                  className="select-none pointer-events-none font-black"
+                >
+                  <tspan fontSize="20" fontWeight="900">10</tspan>
+                  <tspan fontSize="12" fontWeight="700">%</tspan>
+                </text>
+
+                {/* Central 3D Embossed Ring & Concave Hole */}
+                <circle cx="150" cy="150" r="54" fill="url(#centerPuckGrad)" filter="url(#puckShadow)" />
+                <circle cx="150" cy="150" r="48" fill="#ffffff" stroke="#e2e8f0" strokeWidth="3" />
+                <circle cx="150" cy="150" r="46" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
+                <circle cx="150" cy="150" r="30" fill="#ffffff" stroke="#cbd5e1" strokeWidth="2.5" />
+                <circle cx="150" cy="150" r="28" fill="#ffffff" />
+              </svg>
+            </div>
+
+            {/* Status Breakdown Legend Matching 70% / 20% / 10% */}
+            <div className="space-y-2 text-xs font-semibold pt-1">
+              <div className="flex items-center justify-between p-2 rounded-xl bg-teal-50/60 border border-teal-100/70">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#2ba4b5] to-[#38c9c0] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-teal-900">In Stock (70%)</span>
                 </div>
+                <span className="font-extrabold text-slate-900">8,250</span>
               </div>
 
-              {/* Status Breakdown Legend */}
-              <div className="space-y-2 text-xs font-semibold flex-1">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-slate-600">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#00c48c]" />
-                    <span>In Stock</span>
-                  </div>
-                  <span className="font-bold text-slate-900">8,250</span>
+              <div className="flex items-center justify-between p-2 rounded-xl bg-amber-50/60 border border-amber-100/70">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#ffb03a] to-[#f37324] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-amber-900">Low Stock (20%)</span>
                 </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-slate-600">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]" />
-                    <span>Low Stock</span>
-                  </div>
-                  <span className="font-bold text-slate-900">620</span>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-slate-600">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]" />
-                    <span>Out of Stock</span>
-                  </div>
-                  <span className="font-bold text-slate-900">180</span>
-                </div>
+                <span className="font-extrabold text-slate-900">1,650</span>
               </div>
 
+              <div className="flex items-center justify-between p-2 rounded-xl bg-rose-50/60 border border-rose-100/70">
+                <div className="flex items-center gap-2 text-slate-700">
+                  <span className="w-3 h-3 rounded-full bg-gradient-to-r from-[#ff4d4d] to-[#d63031] shrink-0 shadow-2xs" />
+                  <span className="font-bold text-rose-900">Out of Stock (10%)</span>
+                </div>
+                <span className="font-extrabold text-slate-900">850</span>
+              </div>
             </div>
           </div>
 
           {/* View Inventory Action Button */}
           <Link
             href="/inventory"
-            className="w-full py-2.5 px-3 rounded-xl border border-blue-200/90 bg-blue-50/50 hover:bg-blue-100/70 text-blue-700 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-2xs group"
+            className="w-full mt-4 py-2.5 px-3 rounded-xl border border-teal-200/90 bg-teal-50/50 hover:bg-teal-100/70 text-teal-800 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-2xs group"
           >
-            <Box className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
-            <span>View Inventory</span>
+            <Box className="w-4 h-4 text-teal-700 group-hover:scale-110 transition-transform" />
+            <span>View Full Inventory</span>
             <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
