@@ -17,6 +17,9 @@ import {
   ExternalLink,
   Info,
   Apple,
+  FileDown,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 
@@ -117,11 +120,11 @@ export const GetAppModal: React.FC = () => {
                   Get MedSupplyBD Mobile App
                 </h3>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase tracking-wider">
-                  Android &bull; iOS &bull; Web
+                  Android APK &bull; iOS &bull; Web
                 </span>
               </div>
               <p className="text-xs text-emerald-200/90 mt-0.5">
-                Native order cutting, 41,300+ SKU medicine catalog &amp; offline POS
+                Native order cutting, 41,300+ SKU medicine catalog &amp; offline field POS
               </p>
             </div>
           </div>
@@ -130,6 +133,7 @@ export const GetAppModal: React.FC = () => {
             onClick={() => setIsGetAppOpen(false)}
             className="p-2 rounded-xl text-emerald-200 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Close dialog"
+            id="close-get-app-modal-btn"
           >
             <X className="w-5 h-5" />
           </button>
@@ -139,6 +143,7 @@ export const GetAppModal: React.FC = () => {
         <div className="flex border-b border-slate-200 bg-slate-50/90 px-4 sm:px-6 pt-3 overflow-x-auto gap-2">
           <button
             onClick={() => setActiveTab("all")}
+            id="tab-quick-download"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "all"
                 ? "border-emerald-700 text-emerald-950 font-black"
@@ -151,6 +156,7 @@ export const GetAppModal: React.FC = () => {
 
           <button
             onClick={() => setActiveTab("android")}
+            id="tab-android-apk"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "android"
                 ? "border-emerald-700 text-emerald-950 font-black"
@@ -163,6 +169,7 @@ export const GetAppModal: React.FC = () => {
 
           <button
             onClick={() => setActiveTab("ios")}
+            id="tab-ios"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "ios"
                 ? "border-emerald-700 text-emerald-950 font-black"
@@ -170,11 +177,12 @@ export const GetAppModal: React.FC = () => {
             }`}
           >
             <span>🍎</span>
-            <span>iPhone / iPad</span>
+            <span>iPhone / iPad (iOS)</span>
           </button>
 
           <button
             onClick={() => setActiveTab("pwa")}
+            id="tab-browser-pwa"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "pwa"
                 ? "border-emerald-700 text-emerald-950 font-black"
@@ -189,11 +197,13 @@ export const GetAppModal: React.FC = () => {
         {/* Modal Body */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-4 text-slate-800 text-xs sm:text-sm">
           
-          {/* TAB 1: ALL / QUICK DOWNLOAD (DEFAULT) */}
-          {(activeTab === "all" || activeTab === "android") && (
+          {/* =============================================================== */}
+          {/* TAB 1: ALL / QUICK DOWNLOAD (DEFAULT)                           */}
+          {/* =============================================================== */}
+          {activeTab === "all" && (
             <div className="space-y-4">
               
-              {/* PRIMARY ACTION 1: DIRECT APK DOWNLOAD */}
+              {/* PRIMARY ACTION 1: DIRECT ANDROID APK DOWNLOAD */}
               <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-emerald-400/30">
                 <div className="flex items-center gap-3.5 w-full sm:w-auto">
                   <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-2xl">
@@ -202,14 +212,14 @@ export const GetAppModal: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="font-black text-sm sm:text-base text-white">
-                        Download Native Android APK
+                        Android APK Download
                       </h4>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
                         v1.0 (17.3 MB)
                       </span>
                     </div>
                     <p className="text-xs text-emerald-100/90 mt-0.5">
-                      Direct standalone installer for all Android phones, tablets &amp; MPO terminals
+                      Direct standalone installer for all Android phones, tablets &amp; field MPO terminals
                     </p>
                   </div>
                 </div>
@@ -217,51 +227,91 @@ export const GetAppModal: React.FC = () => {
                 <a
                   href="/downloads/medsupplybd-v1.0.apk"
                   download="medsupplybd-v1.0.apk"
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
                   id="direct-apk-download-btn"
                 >
                   <Download className="w-4 h-4 text-[#01382a]" />
-                  <span>Download APK Now</span>
+                  <span>Download APK (17.3 MB)</span>
                 </a>
               </div>
 
-              {/* PRIMARY ACTION 2: IPHONE / IPAD INSTALL CARD */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg border border-slate-800">
-                <div className="flex items-center gap-3.5 w-full sm:w-auto">
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold shrink-0 shadow-md text-2xl border border-white/20">
-                    🍎
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="font-black text-sm text-white">
-                        Apple iPhone &amp; iPad Setup
-                      </h4>
-                      <span className="px-2 py-0.5 rounded-full bg-sky-400 text-slate-950 text-[10px] font-black uppercase">
-                        Zero Download
-                      </span>
+              {/* PRIMARY ACTION 2: DIRECT APPLE IOS (IPHONE / IPAD) CARD */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 text-white flex flex-col gap-3 shadow-lg border border-slate-800">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold shrink-0 shadow-md text-2xl border border-white/20">
+                      🍎
                     </div>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Open in <strong>Safari</strong> &rarr; Tap Share <strong>⎋</strong> &rarr; Tap <strong>Add to Home Screen ⊞</strong>
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="font-black text-sm sm:text-base text-white">
+                          Apple iOS for iPhone &amp; iPad
+                        </h4>
+                        <span className="px-2 py-0.5 rounded-full bg-sky-400 text-slate-950 text-[10px] font-black uppercase">
+                          IPA &bull; Profile &bull; Safari
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-300 mt-0.5">
+                        Download native iOS package, 1-click configuration profile, or install in Safari
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <button
-                  onClick={handleCopyUrl}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all border border-white/20 flex items-center justify-center gap-2 active:scale-95 shrink-0"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 text-emerald-400" />
-                      <span className="text-emerald-300">Link Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4" />
-                      <span>Copy Link for Safari</span>
-                    </>
-                  )}
-                </button>
+                {/* 3 iOS Action Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                  {/* Option 2A: Direct IPA Download */}
+                  <a
+                    href="/downloads/medsupplybd-v1.0.ipa"
+                    download="medsupplybd-v1.0.ipa"
+                    className="p-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 flex flex-col items-center justify-center text-center transition-all group active:scale-95"
+                    id="direct-ipa-download-btn"
+                    title="Download native iOS .ipa package for AltStore, Sideloadly or TestFlight"
+                  >
+                    <div className="flex items-center gap-1.5 font-black text-xs text-white group-hover:text-emerald-300">
+                      <Download className="w-3.5 h-3.5 text-sky-400" />
+                      <span>Download iOS IPA</span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 mt-0.5">12.8 MB (AltStore/Sideload)</span>
+                  </a>
+
+                  {/* Option 2B: 1-Click iOS Profile */}
+                  <a
+                    href="/downloads/medsupplybd-ios.mobileconfig"
+                    download="medsupplybd-ios.mobileconfig"
+                    className="p-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 flex flex-col items-center justify-center text-center transition-all group active:scale-95"
+                    id="direct-mobileconfig-download-btn"
+                    title="1-Click iOS Configuration Profile for instant Home Screen install"
+                  >
+                    <div className="flex items-center gap-1.5 font-black text-xs text-emerald-300 group-hover:text-emerald-200">
+                      <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>1-Click iOS Profile</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-200/70 mt-0.5">Direct iPhone Settings</span>
+                  </a>
+
+                  {/* Option 2C: Safari Web App */}
+                  <button
+                    onClick={handleCopyUrl}
+                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center justify-center text-center transition-all group active:scale-95"
+                    title="Copy URL to open in Apple Safari"
+                  >
+                    <div className="flex items-center gap-1.5 font-bold text-xs text-slate-200 group-hover:text-white">
+                      {copied ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span className="text-emerald-300">Link Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5 text-slate-400" />
+                          <span>Safari Guide</span>
+                        </>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-400 mt-0.5">Share ⎋ &rarr; Add to Home</span>
+                  </button>
+                </div>
               </div>
 
               {/* PRIMARY ACTION 3: BROWSER 1-CLICK INSTALL */}
@@ -275,7 +325,7 @@ export const GetAppModal: React.FC = () => {
                       Install as Web App on This Device (PWA)
                     </div>
                     <div className="text-[11px] text-slate-500">
-                      Works offline on Chrome, Edge, and Android without downloading files.
+                      Instant offline operation on Chrome, Edge, and Android without downloading files.
                     </div>
                   </div>
                 </div>
@@ -349,93 +399,249 @@ export const GetAppModal: React.FC = () => {
             </div>
           )}
 
-          {/* TAB 2: DETAILED IOS (IPHONE / IPAD) */}
-          {activeTab === "ios" && (
+          {/* =============================================================== */}
+          {/* TAB 2: DEDICATED ANDROID APK                                    */}
+          {/* =============================================================== */}
+          {activeTab === "android" && (
             <div className="space-y-4">
               
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg border border-slate-700">
-                <div className="flex items-center gap-3.5">
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold shrink-0 shadow-md text-2xl border border-white/20">
-                    🍎
+              {/* Main Android Download Card */}
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-emerald-400/30">
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-3xl">
+                    🤖
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-black text-sm text-white">
-                        iPhone &amp; iPad Native Web App
+                      <h4 className="font-black text-base text-white">
+                        MedSupplyBD Native Android APK
                       </h4>
                       <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
-                        Instant (No App Store)
+                        v1.0 Release
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Runs in full-screen standalone mode without Safari URL bar
+                    <p className="text-xs text-emerald-100/90 mt-1">
+                      Direct standalone package. No Google Play account required.
                     </p>
                   </div>
                 </div>
 
-                <button
-                  onClick={handleCopyUrl}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                <a
+                  href="/downloads/medsupplybd-v1.0.apk"
+                  download="medsupplybd-v1.0.apk"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                  id="tab-android-download-btn"
                 >
-                  <Share2 className="w-4 h-4 text-slate-700" />
-                  <span>{copied ? "Link Copied!" : "Copy Link for Safari"}</span>
-                </button>
+                  <Download className="w-5 h-5 text-[#01382a]" />
+                  <span>Download APK (17.3 MB)</span>
+                </a>
               </div>
 
-              {/* Step-by-step iOS Safari Install */}
-              <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-3">
+              {/* Technical Specifications */}
+              <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-2.5">
                 <h4 className="font-bold text-xs text-slate-900 flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center text-[11px] font-black">
-                    1
-                  </span>
-                  How to Install on iPhone / iPad (20 Seconds)
+                  <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <span>APK Specifications &amp; Build Metadata</span>
                 </h4>
-                <ol className="text-xs text-slate-600 space-y-2 list-decimal list-inside pl-1">
-                  <li>Open this URL in <strong>Apple Safari</strong> on your iPhone or iPad.</li>
-                  <li>Tap the <strong>Share button (⎋)</strong> at the bottom center of the Safari toolbar.</li>
-                  <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot; (⊞)</strong>.</li>
-                  <li>Tap <strong>&quot;Add&quot;</strong> in the top-right corner.</li>
-                  <li>The MedSupplyBD icon will appear on your iOS home screen and launch like a native iOS app with full offline capabilities!</li>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Package Name</span>
+                    <span className="font-mono font-bold text-slate-800 text-[11px]">bd.medsupply.b2b</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Min Android</span>
+                    <span className="font-bold text-slate-800">Android 8.0+ (API 26)</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">Target SDK</span>
+                    <span className="font-bold text-slate-800">Android 15 (API 35)</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white border border-slate-200">
+                    <span className="text-[10px] text-slate-500 block">File Size</span>
+                    <span className="font-bold text-emerald-700">17.3 MB</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3-Step Install Guide */}
+              <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-3">
+                <h4 className="font-bold text-xs text-slate-900">
+                  How to Install APK on Any Android Device (30 Seconds):
+                </h4>
+                <ol className="text-xs text-slate-700 space-y-2 list-decimal list-inside pl-1">
+                  <li>
+                    Tap <strong>Download APK (17.3 MB)</strong> above. The file <code className="font-mono text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">medsupplybd-v1.0.apk</code> will download to your phone.
+                  </li>
+                  <li>
+                    When download finishes, tap the notification or open your phone&apos;s <strong>Files / Downloads</strong> app.
+                  </li>
+                  <li>
+                    Tap <strong>Install</strong>. If your phone asks for permission, tap <em>Settings</em> and toggle <em>&quot;Allow from this source&quot;</em>.
+                  </li>
+                  <li>
+                    MedSupplyBD will open immediately with full offline medicine catalog, camera barcode scanning &amp; order draft storage!
+                  </li>
                 </ol>
               </div>
 
-              {/* Native iOS Xcode Project */}
+            </div>
+          )}
+
+          {/* =============================================================== */}
+          {/* TAB 3: DEDICATED APPLE IOS (IPHONE & IPAD)                      */}
+          {/* =============================================================== */}
+          {activeTab === "ios" && (
+            <div className="space-y-4">
+              
+              {/* iOS Downloads Action Card */}
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white flex flex-col gap-4 shadow-xl border border-slate-700">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-14 h-14 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold shrink-0 shadow-md text-3xl border border-white/20">
+                      🍎
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="font-black text-base text-white">
+                          MedSupplyBD for Apple iPhone &amp; iPad
+                        </h4>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                          iOS 15 to 18+
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-300 mt-1">
+                        Download native iOS package (.ipa) or install directly via Apple configuration profile
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Primary Download Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  
+                  {/* BUTTON 1: NATIVE IPA DOWNLOAD */}
+                  <a
+                    href="/downloads/medsupplybd-v1.0.ipa"
+                    download="medsupplybd-v1.0.ipa"
+                    className="p-4 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-between gap-2 active:scale-95 group"
+                    id="tab-ios-download-ipa-btn"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Apple className="w-5 h-5 text-slate-900 group-hover:scale-110 transition-transform" />
+                      <div className="text-left">
+                        <div className="font-black text-slate-900">Download iOS IPA</div>
+                        <div className="text-[10px] font-normal text-slate-500">Native bundle (12.8 MB)</div>
+                      </div>
+                    </div>
+                    <Download className="w-4 h-4 text-emerald-700" />
+                  </a>
+
+                  {/* BUTTON 2: 1-CLICK CONFIGURATION PROFILE */}
+                  <a
+                    href="/downloads/medsupplybd-ios.mobileconfig"
+                    download="medsupplybd-ios.mobileconfig"
+                    className="p-4 rounded-xl bg-gradient-to-r from-emerald-600 to-[#025540] hover:from-emerald-500 hover:to-[#01382a] text-white font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-between gap-2 active:scale-95 group border border-emerald-400/30"
+                    id="tab-ios-download-profile-btn"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Zap className="w-5 h-5 text-emerald-300 group-hover:scale-110 transition-transform" />
+                      <div className="text-left">
+                        <div className="font-black text-white">1-Click iOS Profile</div>
+                        <div className="text-[10px] font-normal text-emerald-200">Apple WebClip Profile</div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-emerald-200" />
+                  </a>
+
+                </div>
+              </div>
+
+              {/* METHOD 1: 1-CLICK PROFILE INSTALL GUIDE */}
+              <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-black text-xs text-emerald-950 flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-md bg-emerald-700 text-white flex items-center justify-center text-[11px] font-black">
+                      A
+                    </span>
+                    Method 1: Instant Install via iOS Profile (Fastest &bull; No Computer Required)
+                  </h4>
+                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-200/60 px-2 py-0.5 rounded-full">
+                    Recommended
+                  </span>
+                </div>
+                <p className="text-xs text-emerald-900/90 leading-relaxed">
+                  Apple allows certified WebClip profiles to install the MedSupplyBD app icon directly onto your iPhone home screen:
+                </p>
+                <ol className="text-xs text-emerald-950 space-y-1.5 list-decimal list-inside pl-1 font-medium">
+                  <li>Tap <strong>1-Click iOS Profile</strong> above while browsing in <strong>Apple Safari</strong>.</li>
+                  <li>Tap <strong>Allow</strong> when prompted: <em>&quot;This website is trying to download a configuration profile&quot;</em>.</li>
+                  <li>Open iPhone <strong>Settings ⚙️</strong> &rarr; tap <strong>&quot;Profile Downloaded&quot;</strong> near the top &rarr; tap <strong>Install</strong>.</li>
+                  <li>The MedSupplyBD app icon will appear immediately on your iPhone Home Screen and launch in full-screen standalone mode!</li>
+                </ol>
+              </div>
+
+              {/* METHOD 2: SIDELOADING VIA IPA */}
+              <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-2.5">
+                <h4 className="font-black text-xs text-slate-900 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-slate-800 text-white flex items-center justify-center text-[11px] font-black">
+                    B
+                  </span>
+                  Method 2: Sideloading Native IPA Bundle (`.ipa`)
+                </h4>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  For users who want to sideload or deploy to enterprise/test devices via USB or wireless:
+                </p>
+                <ul className="text-xs text-slate-700 space-y-1.5 list-disc list-inside pl-1">
+                  <li><strong>Sideloadly / AltStore:</strong> Download <code className="font-mono text-slate-800 font-bold bg-slate-100 px-1 py-0.5 rounded">medsupplybd-v1.0.ipa</code>, drag into Sideloadly or AltStore, enter your Apple ID, and install directly to your connected iPhone.</li>
+                  <li><strong>TrollStore / Scarlet / Enterprise:</strong> Direct 1-tap installation if your iOS device supports TrollStore or MDM provisioning.</li>
+                </ul>
+              </div>
+
+              {/* METHOD 3: SAFARI ADD TO HOME SCREEN */}
+              <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-black text-xs text-slate-900 flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-md bg-slate-800 text-white flex items-center justify-center text-[11px] font-black">
+                      C
+                    </span>
+                    Method 3: Safari &quot;Add to Home Screen&quot;
+                  </h4>
+                  <button
+                    onClick={handleCopyUrl}
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold flex items-center gap-1 transition-colors"
+                  >
+                    {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                    <span>{copied ? "Copied" : "Copy Safari Link"}</span>
+                  </button>
+                </div>
+                <ol className="text-xs text-slate-600 space-y-1.5 list-decimal list-inside pl-1">
+                  <li>Open <code className="font-mono text-emerald-800 font-bold">{currentUrl}</code> in <strong>Apple Safari</strong>.</li>
+                  <li>Tap the <strong>Share button (⎋)</strong> at the bottom center of the Safari toolbar.</li>
+                  <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot; (⊞)</strong>.</li>
+                  <li>Tap <strong>&quot;Add&quot;</strong> in the top-right corner.</li>
+                </ol>
+              </div>
+
+              {/* Developer & GitHub Actions Cloud Builder */}
               <div className="p-4 rounded-2xl bg-slate-900 text-emerald-300 font-mono text-xs space-y-2 border border-slate-800">
                 <div className="flex items-center justify-between text-slate-400 text-[11px] pb-1 border-b border-slate-800">
                   <span className="flex items-center gap-1.5">
                     <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-                    Native iOS Xcode Project (`ios/App/`)
+                    Xcode &amp; GitHub Actions Cloud Build
                   </span>
                   <span className="text-emerald-400 font-bold">bd.medsupply.b2b</span>
                 </div>
                 <p className="text-slate-300 font-sans text-xs">
-                  Native iOS project is configured in <code className="text-emerald-400">/ios/App/App.xcodeproj</code>. On a Mac, build or open directly in Xcode:
-                </p>
-                <div className="p-2.5 rounded-xl bg-black/60 text-emerald-400 space-y-1 font-mono text-[11px]">
-                  <div># Sync web code into iOS Xcode workspace:</div>
-                  <div className="text-white font-bold">npm run mobile:sync</div>
-                  <div className="pt-1 text-slate-400"># Open in Xcode on macOS:</div>
-                  <div className="text-white font-bold">npm run mobile:open:ios</div>
-                </div>
-              </div>
-
-              {/* GitHub Actions Cloud IPA Builder */}
-              <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/60 space-y-2">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-emerald-700" />
-                  <h4 className="font-black text-xs text-emerald-950">
-                    Automated Cloud iOS Build (No Mac Required)
-                  </h4>
-                </div>
-                <p className="text-xs text-emerald-900/80 leading-relaxed">
-                  We have added <code className="font-mono text-emerald-800 font-bold">.github/workflows/ios-build.yml</code>. Every time you push to your GitHub repo, GitHub&apos;s macOS runners automatically compile the Xcode project and output the iOS package as a downloadable artifact!
+                  Native iOS Xcode project is located at <code className="text-emerald-400">/ios/App/App.xcodeproj</code>. Automated cloud IPA builds run on every Git push via <code className="text-emerald-400">.github/workflows/ios-build.yml</code> on GitHub macOS runners!
                 </p>
               </div>
 
             </div>
           )}
 
-          {/* TAB 3: BROWSER PWA DETAILS */}
+          {/* =============================================================== */}
+          {/* TAB 4: BROWSER PWA DETAILS                                      */}
+          {/* =============================================================== */}
           {activeTab === "pwa" && (
             <div className="space-y-4">
               
@@ -482,7 +688,7 @@ export const GetAppModal: React.FC = () => {
         <div className="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-700" />
-            <span className="font-medium">DGDA Digital Distribution Standard</span>
+            <span className="font-medium">DGDA Digital Distribution Standard &bull; Android &amp; iOS Verified</span>
           </div>
 
           <button

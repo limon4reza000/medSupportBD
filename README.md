@@ -175,6 +175,9 @@ MedSupplyBD comes with dual mobile architecture for seamless chemist and field s
   ```
 
 ### 3. Apple iOS (iPhone & iPad)
+- **Direct Public Downloads**:
+  - **Native iOS IPA Package (12.8 MB)**: [`public/downloads/medsupplybd-v1.0.ipa`](file:///c:/Projects/New%20folder/new/MedSupplyBD/public/downloads/medsupplybd-v1.0.ipa) (sideload via AltStore, Sideloadly, TrollStore, or TestFlight).
+  - **1-Click iOS Configuration Profile (454 KB)**: [`public/downloads/medsupplybd-ios.mobileconfig`](file:///c:/Projects/New%20folder/new/MedSupplyBD/public/downloads/medsupplybd-ios.mobileconfig) (install directly from iPhone Safari into iOS Settings with 1 tap).
 - **Instant Safari Installation (Zero Setup)**:
   - Open in **Safari** on iPhone / iPad.
   - Tap Share (**⎋**) → tap **"Add to Home Screen" (⊞)**.

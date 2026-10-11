@@ -146,7 +146,7 @@ export const TopHeaderBar: React.FC = () => {
             <Smartphone className="w-4 h-4 text-emerald-300 group-hover:scale-110 transition-transform" />
             <span className="font-black">Get App</span>
             <span className="px-1.5 py-0.2 rounded-full bg-emerald-400 text-[#01382a] text-[9px] font-black uppercase tracking-wider hidden md:inline">
-              APK / PWA
+              APK &bull; iOS
             </span>
           </button>
           

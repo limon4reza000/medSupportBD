@@ -297,7 +297,7 @@ export const AppSidebar: React.FC = () => {
             <span>Get Mobile App</span>
           </div>
           <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase tracking-wider">
-            PWA
+            APK &bull; iOS
           </span>
         </button>
 

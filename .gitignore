@@ -41,4 +41,5 @@ tools/
 
 # Android build outputs & binaries
 *.apk
+!public/downloads/*.apk
 android/local.properties

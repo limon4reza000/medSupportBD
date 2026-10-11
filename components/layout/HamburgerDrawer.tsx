@@ -398,7 +398,7 @@ export const HamburgerDrawer: React.FC = () => {
               <span>Get Mobile App / অ্যাপ ডাউনলোড</span>
             </div>
             <span className="px-2 py-0.5 rounded-full bg-white text-[#01382a] text-[10px] font-black uppercase">
-              PWA / APK
+              APK &bull; iOS
             </span>
           </button>
 
