@@ -147,6 +147,9 @@ export interface IPharmacy {
   isCreditBlocked: boolean;
   depotId: string;
   salesRepId?: string;
+  latitude?: number;
+  longitude?: number;
+  isLocationVerified?: boolean;
 }
 
 // ============================================================================
@@ -723,5 +726,106 @@ export interface IProductReturn {
   status: "PENDING_INSPECTION" | "APPROVED" | "REJECTED";
   creditNoteId?: string;
   requestedAt: string;
+}
+
+// ============================================================================
+// 10. GEOSPATIAL DISTRIBUTOR DISCOVERY & INVENTORY TYPES
+// ============================================================================
+
+export interface IDistributorLocation {
+  id: string;
+  code: string;
+  name: string;
+  companyName: string; // e.g. "Square Pharmaceuticals PLC", "Beximco Pharma"
+  region: string;
+  address: string;
+  thana: string;
+  district: string;
+  contactNo: string;
+  email?: string;
+  managerName?: string;
+  
+  // Coordinates & Verification
+  latitude: number;
+  longitude: number;
+  coverageRadiusKm: number;
+  serviceDistricts: string[];
+  isVerified: boolean;
+  verificationBadge: string;
+  verificationDate?: string;
+  
+  // Logistics & Policies
+  minOrderAmount: number;
+  operatingHours: string;
+  sameDayCutoffTime: string;
+  coldChainAvailable: boolean;
+  expressDeliveryAvailable: boolean;
+  rating: number; // e.g. 4.9
+  onTimeDeliveryRate: number; // e.g. 98.5%
+}
+
+export interface IDistributorMedicineInventory {
+  medicineId: string;
+  code: string;
+  brandName: string;
+  genericName: string;
+  manufacturer: string;
+  dosageForm: DosageForm;
+  strength: string;
+  packagingDesc: string;
+  piecesPerStrip: number;
+  stripsPerBox: number;
+  
+  // Pricing & Stock
+  tradePricePerPiece: number;
+  tradePricePerBox: number;
+  mrpPerPiece: number;
+  mrpPerBox: number;
+  availableStockPieces: number;
+  availableStockBoxes: number;
+  availableStockStrips: number;
+  minOrderQtyBoxes: number;
+  
+  // Scheme & Batch info
+  activeOffer?: ITradeOffer;
+  isColdChain: boolean;
+  nextBatchExpiry: string;
+  inStockStatus: "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK";
+}
+
+export interface ILiveDeliveryVehicle {
+  id: string;
+  vehicleNumber: string;
+  driverName: string;
+  driverPhone: string;
+  depotId: string;
+  depotName: string;
+  currentLatitude: number;
+  currentLongitude: number;
+  isLiveSharing: boolean;
+  headingDegrees: number;
+  speedKmh: number;
+  activeOrderId?: string;
+  destinationAddress?: string;
+  estimatedArrivalMinutes?: number;
+  lastUpdated: string;
+}
+
+export interface IDistributorSearchResult {
+  distributor: IDistributorLocation;
+  distanceStraightKm: number;
+  distanceRoadKm: number;
+  estimatedDriveTimeMinutes: number;
+  isWithinDeliveryZone: boolean;
+  targetMedicineStock?: IDistributorMedicineInventory;
+  totalCatalogSkusCount: number;
+  activeLiveVehicle?: ILiveDeliveryVehicle;
+}
+
+export interface IRouteDirectionResult {
+  coordinates: [number, number][]; // [lat, lng][] array for polyline
+  distanceKm: number;
+  durationMinutes: number;
+  source: "OSRM_REALTIME" | "ESTIMATED_ROAD_MODEL";
 }
 

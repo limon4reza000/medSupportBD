@@ -39,6 +39,7 @@ import {
   BarChart3,
   User,
   Settings,
+  MapPin,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { PackagingUnit, IMedicine, UserRole } from "@/types/domain";
@@ -517,6 +518,41 @@ export default function HomePage() {
             </div>
           </div>
         </button>
+      </div>
+
+      {/* =================================================================== */}
+      {/* 🗺️ INTERACTIVE MAP-BASED DISTRIBUTOR & INVENTORY DISCOVERY BANNER    */}
+      {/* =================================================================== */}
+      <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-950 text-white p-4 sm:p-5 shadow-lg border border-emerald-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 w-full md:w-auto">
+          <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-2xl">
+            🗺️
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="font-black text-sm sm:text-base text-white">
+                Nearby Distributor &amp; Medicine Inventory Finder
+              </h3>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase tracking-wider">
+                Live Interactive Map
+              </span>
+            </div>
+            <p className="text-xs text-emerald-100/90 mt-0.5">
+              Discover verified pharmaceutical depots within 1–50 km, compare trade prices &amp; available stock, view road routes, and order directly.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 w-full md:w-auto shrink-0">
+          <Link
+            href="/distributors"
+            id="home-distributor-map-btn"
+            className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+          >
+            <MapPin className="w-4 h-4 text-[#01382a]" />
+            <span>Open Map Finder</span>
+          </Link>
+        </div>
       </div>
 
       <div className="space-y-3">

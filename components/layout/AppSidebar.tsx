@@ -25,6 +25,7 @@ import {
   Store,
   Briefcase,
   Smartphone,
+  MapPin,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -122,6 +123,7 @@ export const AppSidebar: React.FC = () => {
       default:
         return [
           { label: "Dashboard", href: "/", icon: LayoutGrid },
+          { label: "Nearby Depots (Map)", href: "/distributors", icon: MapPin },
           { label: "Sales POS", href: "/pos", icon: ShoppingCart },
           { label: "Medicine Stock", href: "/inventory", icon: MedicineStockIcon },
           { label: "Company Orders", href: "/distributor-orders", icon: Truck },

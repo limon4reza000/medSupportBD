@@ -18,6 +18,7 @@ import {
   LogOut,
   Camera,
   Smartphone,
+  MapPin,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -133,8 +134,19 @@ export const TopHeaderBar: React.FC = () => {
           </div>
         </div>
 
-        {/* Right: Get App | Role Switcher | Notifications Bell | Mobile Hamburger */}
+        {/* Right: Nearby Depots | Get App | Role Switcher | Notifications Bell | Mobile Hamburger */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+
+          {/* Nearby Depots & Map Finder Link */}
+          <Link
+            href="/distributors"
+            id="nearby-distributors-header-btn"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-2xl bg-white hover:bg-emerald-50 text-[#01382a] border border-slate-200/90 font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-95 group"
+            title="Discover nearby authorized pharmaceutical depots & medicine stock on map"
+          >
+            <MapPin className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
+            <span className="font-extrabold">Nearby Depots</span>
+          </Link>
 
           {/* Get Mobile App Button */}
           <button

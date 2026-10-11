@@ -33,6 +33,7 @@ import {
   BarChart3,
   Factory,
   Smartphone,
+  MapPin,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -160,6 +161,7 @@ export const HamburgerDrawer: React.FC = () => {
     {
       title: "B2B Depot Procurement",
       items: [
+        { label: "Nearby Depots (Map)", href: "/distributors", icon: MapPin, highlight: true },
         { label: "41,000+ Medicine List", href: "/medicines", icon: Pill, highlight: true },
         { label: "Products Catalog", href: "/products", icon: Layers },
         { label: "My Orders", href: "/my-orders", icon: Clock, badge: activeOrdersCount > 0 ? `${activeOrdersCount}` : undefined },

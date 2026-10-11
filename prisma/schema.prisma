@@ -119,10 +119,24 @@ model Depot {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
+  // Geographical & Delivery Coverage
+  latitude        Decimal?  @db.Decimal(10, 7) // Verified GPS Latitude
+  longitude       Decimal?  @db.Decimal(10, 7) // Verified GPS Longitude
+  coverageRadiusKm Decimal  @default(25.0) @db.Decimal(5, 2)
+  serviceDistricts String?   // Covered thanas/zones: e.g. "Tejgaon,Mohakhali,Dhanmondi,Gulshan"
+  isVerified      Boolean   @default(true) // DGDA GxP location verification status
+  verificationDate DateTime?
+  minOrderAmount  Decimal   @default(5000.00) @db.Decimal(10, 2)
+  operatingHours  String?   @default("8:00 AM - 9:00 PM")
+  sameDayCutoffTime String? @default("15:00")
+  coldChainAvailable Boolean @default(true)
+  expressDeliveryAvailable Boolean @default(true)
+
   // Relationships
-  batches     Batch[]
-  orders      Order[]
-  pharmacies  Pharmacy[]
+  batches          Batch[]
+  orders           Order[]
+  pharmacies       Pharmacy[]
+  deliveryVehicles DeliveryVehicle[]
 
   @@index([region])
 }
@@ -143,6 +157,11 @@ model Pharmacy {
   address         String
   thana           String
   district        String
+  
+  // Geographic Coordinates & Location Verification
+  latitude        Decimal?  @db.Decimal(10, 7)
+  longitude       Decimal?  @db.Decimal(10, 7)
+  isLocationVerified Boolean @default(false)
   
   // Financial & Credit Controls
   creditLimit     Decimal   @default(50000.00) @db.Decimal(12, 2)
@@ -166,6 +185,33 @@ model Pharmacy {
   @@index([depotId])
   @@index([salesRepId])
   @@index([isCreditBlocked])
+}
+
+// -----------------------------------------------------------------------------
+// LIVE DELIVERY VEHICLE & COURIER TRACKING
+// -----------------------------------------------------------------------------
+
+model DeliveryVehicle {
+  id                String    @id @default(cuid())
+  vehicleNumber     String    @unique // e.g. "DHK-METRO-CHA-11-2094"
+  driverName        String
+  driverPhone       String
+  depotId           String
+  depot             Depot     @relation(fields: [depotId], references: [id])
+  currentLatitude   Decimal   @db.Decimal(10, 7)
+  currentLongitude  Decimal   @db.Decimal(10, 7)
+  isLiveSharing     Boolean   @default(false)
+  headingDegrees    Int       @default(0)
+  speedKmh          Decimal   @default(0.0) @db.Decimal(5, 2)
+  activeOrderId     String?
+  destinationAddress String?
+  lastUpdated       DateTime  @default(now())
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([depotId])
+  @@index([isLiveSharing])
 }
 
 // -----------------------------------------------------------------------------
