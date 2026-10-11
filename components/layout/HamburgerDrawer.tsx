@@ -31,8 +31,10 @@ import {
   Headphones,
   User,
   BarChart3,
+  Factory,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
+import { UserRole } from "@/types/domain";
 
 // Custom SVG matching the 3-connected-nodes icon for Medicine Stock
 const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
@@ -90,6 +92,7 @@ export const HamburgerDrawer: React.FC = () => {
     setIsMobileNavOpen,
     currentPharmacy,
     currentUser,
+    setCurrentUserRole,
     updateUserAvatar,
     cartItemCount,
     orders,
@@ -259,6 +262,55 @@ export const HamburgerDrawer: React.FC = () => {
               <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
                 {currentUser.role.replace("_", " ")}
               </span>
+            </div>
+          </div>
+
+          {/* Quick Role Switcher Buttons */}
+          <div className="mt-3 pt-3 border-t border-emerald-500/20">
+            <div className="text-[10px] font-black uppercase tracking-wider text-emerald-200/70 mb-1.5">
+              Switch Persona
+            </div>
+            <div className="grid grid-cols-2 gap-1 text-[10px]">
+              <button
+                onClick={() => setCurrentUserRole(UserRole.SUPER_ADMIN)}
+                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                  currentUser.role === UserRole.SUPER_ADMIN ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
+                }`}
+              >
+                Super Admin
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.PHARMA_COMPANY)}
+                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                  currentUser.role === UserRole.PHARMA_COMPANY ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
+                }`}
+              >
+                Pharma HQ
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.DISTRIBUTOR)}
+                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                  currentUser.role === UserRole.DISTRIBUTOR ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
+                }`}
+              >
+                Depot In-Charge
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.SALES_REP)}
+                className={`p-1.5 rounded-lg text-left font-bold truncate ${
+                  currentUser.role === UserRole.SALES_REP ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
+                }`}
+              >
+                MPO Terminal
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
+                className={`col-span-2 p-1.5 rounded-lg text-left font-bold truncate ${
+                  currentUser.role === UserRole.PHARMACY_OWNER ? "bg-emerald-400 text-slate-950" : "bg-white/10 text-emerald-100 hover:bg-white/20"
+                }`}
+              >
+                Pharmacy Owner (Retail)
+              </button>
             </div>
           </div>
         </div>

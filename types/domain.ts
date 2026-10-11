@@ -5,9 +5,12 @@ import { z } from "zod";
 // ============================================================================
 
 export enum UserRole {
-  ADMIN = "ADMIN",
-  DEPOT_MANAGER = "DEPOT_MANAGER",
-  SALES_REP = "SALES_REP", // MPO
+  SUPER_ADMIN = "SUPER_ADMIN",
+  ADMIN = "ADMIN", // Backwards-compatible alias to SUPER_ADMIN
+  PHARMA_COMPANY = "PHARMA_COMPANY",
+  DISTRIBUTOR = "DISTRIBUTOR",
+  DEPOT_MANAGER = "DEPOT_MANAGER", // Backwards-compatible alias to DISTRIBUTOR
+  SALES_REP = "SALES_REP", // Medical Promotion Officer (MPO / SR)
   PHARMACY_OWNER = "PHARMACY_OWNER",
 }
 
@@ -19,12 +22,19 @@ export enum PackagingUnit {
 
 export enum OrderStatus {
   DRAFT = "DRAFT",
+  SUBMITTED = "SUBMITTED",
   PENDING_CREDIT_APPROVAL = "PENDING_CREDIT_APPROVAL",
+  APPROVED = "APPROVED",
   PROCESSING = "PROCESSING",
   ALLOCATED = "ALLOCATED",
+  PACKED = "PACKED",
   DISPATCHED = "DISPATCHED",
   DELIVERED = "DELIVERED",
+  COMPLETED = "COMPLETED",
+  REJECTED = "REJECTED",
   CANCELLED = "CANCELLED",
+  PARTIALLY_FULFILLED = "PARTIALLY_FULFILLED",
+  RETURNED = "RETURNED",
 }
 
 export enum PaymentStatus {
@@ -598,5 +608,120 @@ export interface IMrTarget {
   targetAmount: number;
   achievedAmount: number;
   incentiveRatePercent: number;
+}
+
+// ============================================================================
+// 7. B2B MULTI-ORGANIZATION & ENTERPRISE ARCHITECTURE
+// ============================================================================
+
+export type OrganizationType = "PHARMA_COMPANY" | "DISTRIBUTOR" | "PHARMACY_GROUP";
+
+export interface IOrganization {
+  id: string;
+  code: string;
+  name: string;
+  tradeName: string;
+  type: OrganizationType;
+  drugLicenseNo: string;
+  taxId?: string;
+  contactEmail: string;
+  contactPhone: string;
+  address: string;
+  division: string;
+  district: string;
+  isVerified: boolean; // DGDA verified
+  status: "ACTIVE" | "PENDING_VERIFICATION" | "SUSPENDED";
+  logoUrl?: string;
+  createdAt: string;
+}
+
+export interface IPharmaCompanyProfile {
+  id: string;
+  orgId: string;
+  name: string;
+  shortCode: string; // e.g. SQUARE, BEXIMCO, INCEPTA
+  authorizedDistributorCount: number;
+  activeSkusCount: number;
+  activeTradeSchemesCount: number;
+  activeRecallsCount: number;
+  monthlyProductionVolumePieces: number;
+}
+
+export interface IDistributorProfile {
+  id: string;
+  orgId: string;
+  name: string;
+  code: string;
+  depotName: string;
+  territory: string;
+  totalWarehouses: number;
+  assignedMpoCount: number;
+  registeredPharmacyCount: number;
+  creditLimitCeiling: number;
+  outstandingReceivables: number;
+}
+
+export interface IMpoProfile {
+  id: string;
+  name: string;
+  employeeCode: string;
+  phone: string;
+  assignedCompany: string;
+  assignedDistributor: string;
+  territoryName: string;
+  assignedPharmaciesCount: number;
+  todayTargetAmount: number;
+  todayAchievedAmount: number;
+}
+
+export interface IBatchRecall {
+  id: string;
+  recallNoticeNumber: string;
+  medicineId: string;
+  brandName: string;
+  batchNumber: string;
+  manufacturer: string;
+  issueDate: string;
+  severityLevel: "CRITICAL" | "MODERATE" | "PRECAUTIONARY";
+  reason: string;
+  quarantinedPieces: number;
+  isQuarantined: boolean;
+  dgdaNoticeReference: string;
+  status: "ACTIVE_RECALL" | "INVESTIGATING" | "RESOLVED";
+}
+
+export interface IDeliveryRecord {
+  id: string;
+  orderId: string;
+  orderNumber: string;
+  distributorName: string;
+  pharmacyName: string;
+  deliveryAddress: string;
+  driverName: string;
+  driverPhone: string;
+  vehicleNo: string;
+  dispatchedAt: string;
+  estimatedArrival: string;
+  deliveredAt?: string;
+  status: "DISPATCHED" | "OUT_FOR_DELIVERY" | "DELIVERED" | "ATTEMPTED_FAILED";
+  podReceiverSignature?: string;
+  notes?: string;
+}
+
+export interface IProductReturn {
+  id: string;
+  returnTrackingNo: string;
+  orderId: string;
+  pharmacyId: string;
+  pharmacyName: string;
+  medicineId: string;
+  brandName: string;
+  batchNumber: string;
+  returnedLooseUnits: number;
+  reason: "DAMAGED_GOODS" | "NEAR_EXPIRY" | "WRONG_PRODUCT" | "BATCH_RECALLED";
+  refundAmount: number;
+  status: "PENDING_INSPECTION" | "APPROVED" | "REJECTED";
+  creditNoteId?: string;
+  requestedAt: string;
 }
 

@@ -41,8 +41,12 @@ import {
   Settings,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
-import { PackagingUnit, IMedicine } from "@/types/domain";
+import { PackagingUnit, IMedicine, UserRole } from "@/types/domain";
 import { getMedicineTypeBadge } from "@/lib/medicineUtils";
+import { SuperAdminDashboard } from "@/components/dashboards/SuperAdminDashboard";
+import { PharmaCompanyDashboard } from "@/components/dashboards/PharmaCompanyDashboard";
+import { DistributorDashboard } from "@/components/dashboards/DistributorDashboard";
+import { MpoTerminalDashboard } from "@/components/dashboards/MpoTerminalDashboard";
 
 export default function HomePage() {
   const router = useRouter();
@@ -54,6 +58,7 @@ export default function HomePage() {
     addToCart,
     setIsSearchOpen,
     setIsQuickOrderOpen,
+    currentUser,
   } = useApp();
 
   const availableCredit = Math.max(0, currentPharmacy.creditLimit - currentPharmacy.currentBalance);
@@ -192,6 +197,22 @@ export default function HomePage() {
       setAddedMap((prev) => ({ ...prev, [med.id]: false }));
     }, 1200);
   };
+
+  // ---------------------------------------------------------------------------
+  // 5 B2B PERSONA DASHBOARD ROUTING
+  // ---------------------------------------------------------------------------
+  if (currentUser?.role === UserRole.SUPER_ADMIN || currentUser?.role === UserRole.ADMIN) {
+    return <SuperAdminDashboard />;
+  }
+  if (currentUser?.role === UserRole.PHARMA_COMPANY) {
+    return <PharmaCompanyDashboard />;
+  }
+  if (currentUser?.role === UserRole.DISTRIBUTOR || currentUser?.role === UserRole.DEPOT_MANAGER) {
+    return <DistributorDashboard />;
+  }
+  if (currentUser?.role === UserRole.SALES_REP) {
+    return <MpoTerminalDashboard />;
+  }
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">

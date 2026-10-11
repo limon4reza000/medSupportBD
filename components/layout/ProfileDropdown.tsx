@@ -190,48 +190,58 @@ export const ProfileDropdown: React.FC = () => {
           {/* Role Switcher for Demo */}
           <div className="pt-2 border-t border-slate-100 my-1">
             <div className="px-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">
-              Switch Role
+              Switch Operational Role
             </div>
-            <div className="grid grid-cols-2 gap-1 text-[10px]">
+            <div className="grid grid-cols-2 gap-1.5 text-[10px]">
               <button
-                onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
-                className={`p-1.5 rounded-lg text-left transition-colors ${
-                  currentUser.role === UserRole.PHARMACY_OWNER
-                    ? "bg-[#025540] text-white font-bold"
+                onClick={() => setCurrentUserRole(UserRole.SUPER_ADMIN)}
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
+                  currentUser.role === UserRole.SUPER_ADMIN || currentUser.role === UserRole.ADMIN
+                    ? "bg-[#025540] text-white"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
-                Pharmacy Owner
+                Super Admin (DGDA)
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.PHARMA_COMPANY)}
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
+                  currentUser.role === UserRole.PHARMA_COMPANY
+                    ? "bg-[#025540] text-white"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                }`}
+              >
+                Pharma HQ (Square)
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.DISTRIBUTOR)}
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
+                  currentUser.role === UserRole.DISTRIBUTOR || currentUser.role === UserRole.DEPOT_MANAGER
+                    ? "bg-[#025540] text-white"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                }`}
+              >
+                Distributor / Depot
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.SALES_REP)}
-                className={`p-1.5 rounded-lg text-left transition-colors ${
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
                   currentUser.role === UserRole.SALES_REP
-                    ? "bg-[#025540] text-white font-bold"
+                    ? "bg-[#025540] text-white"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
-                SR / MPO
+                MPO / SR Terminal
               </button>
               <button
-                onClick={() => setCurrentUserRole(UserRole.DEPOT_MANAGER)}
-                className={`p-1.5 rounded-lg text-left transition-colors ${
-                  currentUser.role === UserRole.DEPOT_MANAGER
-                    ? "bg-[#025540] text-white font-bold"
+                onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
+                className={`col-span-2 p-1.5 rounded-lg text-left transition-colors font-bold ${
+                  currentUser.role === UserRole.PHARMACY_OWNER
+                    ? "bg-[#025540] text-white"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
-                Depot Manager
-              </button>
-              <button
-                onClick={() => setCurrentUserRole(UserRole.ADMIN)}
-                className={`p-1.5 rounded-lg text-left transition-colors ${
-                  currentUser.role === UserRole.ADMIN
-                    ? "bg-[#025540] text-white font-bold"
-                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
-                }`}
-              >
-                Admin
+                Pharmacy Owner (Green Care)
               </button>
             </div>
           </div>

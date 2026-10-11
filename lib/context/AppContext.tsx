@@ -26,6 +26,11 @@ import {
   IExpense,
   IMrVisit,
   IMrTarget,
+  IOrganization,
+  IBatchRecall,
+  IDeliveryRecord,
+  IProductReturn,
+  OrganizationType,
 } from "@/types/domain";
 import {
   initialMedicines,
@@ -45,6 +50,10 @@ import {
   initialExpenses,
   initialMrVisits,
   initialMrTarget,
+  initialOrganizations,
+  initialBatchRecalls,
+  initialDeliveryRecords,
+  initialProductReturns,
   LedgerEntry,
 } from "@/lib/data/clientSeed";
 import { PackagingEngine } from "@/services/packagingEngine";
@@ -131,6 +140,12 @@ interface AppContextType {
     role: UserRole;
     email: string;
     avatar: string;
+    organizationName?: string;
+    organizationType?: OrganizationType;
+    organizationCode?: string;
+    title?: string;
+    territory?: string;
+    badge?: string;
   };
 
   // 1. POS & Retail
@@ -185,7 +200,24 @@ interface AppContextType {
   addMrVisit: (visit: Omit<IMrVisit, "id">) => void;
   updateMrTarget: (data: Partial<IMrTarget>) => void;
 
-  // 8. B2B Cart State & Calculations
+  // 8. B2B Multi-Organization & Ecosystem
+  organizations: IOrganization[];
+  batchRecalls: IBatchRecall[];
+  deliveryRecords: IDeliveryRecord[];
+  productReturns: IProductReturn[];
+  approveOrganization: (orgId: string) => void;
+  verifyOrganizationLicense: (orgId: string) => void;
+  addBatchRecall: (recall: Omit<IBatchRecall, "id">) => void;
+  updateDeliveryStatus: (
+    deliveryId: string,
+    status: IDeliveryRecord["status"],
+    signature?: string
+  ) => void;
+  submitProductReturn: (
+    returnData: Omit<IProductReturn, "id" | "returnTrackingNo" | "requestedAt" | "status">
+  ) => void;
+
+  // 9. B2B Cart State & Calculations
   cart: CartItem[];
   calculatedCart: CalculatedCartItem[];
   cartItemCount: number;
@@ -348,6 +380,106 @@ const initialNotificationsSeed: AppNotification[] = [
   },
 ];
 
+export interface DemoPersona {
+  name: string;
+  role: UserRole;
+  email: string;
+  avatar: string;
+  organizationName: string;
+  organizationType: OrganizationType;
+  organizationCode: string;
+  title: string;
+  territory: string;
+  badge: string;
+}
+
+export const DEMO_PERSONAS: Record<UserRole, DemoPersona> = {
+  [UserRole.SUPER_ADMIN]: {
+    name: "Dr. Anisur Rahman, PhD",
+    role: UserRole.SUPER_ADMIN,
+    email: "superadmin.dgda@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    organizationName: "DGDA Regulatory Authority",
+    organizationType: "PHARMA_COMPANY",
+    organizationCode: "DGDA-BD-HQ",
+    title: "Chief Regulatory Officer & Platform Super Admin",
+    territory: "National (Bangladesh)",
+    badge: "DGDA Oversight",
+  },
+  [UserRole.ADMIN]: {
+    name: "Dr. Anisur Rahman, PhD",
+    role: UserRole.SUPER_ADMIN,
+    email: "superadmin.dgda@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    organizationName: "DGDA Regulatory Authority",
+    organizationType: "PHARMA_COMPANY",
+    organizationCode: "DGDA-BD-HQ",
+    title: "Chief Regulatory Officer & Platform Super Admin",
+    territory: "National (Bangladesh)",
+    badge: "DGDA Oversight",
+  },
+  [UserRole.PHARMA_COMPANY]: {
+    name: "Square Pharmaceuticals PLC",
+    role: UserRole.PHARMA_COMPANY,
+    email: "commercial@squarepharma.com.bd",
+    avatar: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=100&auto=format&fit=crop&q=80",
+    organizationName: "Square Pharmaceuticals PLC",
+    organizationType: "PHARMA_COMPANY",
+    organizationCode: "SQUARE-PLC",
+    title: "Head of Institutional Sales & Supply Chain",
+    territory: "Corporate HQ, Dhaka",
+    badge: "Manufacturer HQ",
+  },
+  [UserRole.DISTRIBUTOR]: {
+    name: "Tariqul Islam (Depot In-Charge)",
+    role: UserRole.DISTRIBUTOR,
+    email: "tariqul.depot@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    organizationName: "Dhaka Central Distribution Depot",
+    organizationType: "DISTRIBUTOR",
+    organizationCode: "DEPOT-DHK-01",
+    title: "Central Depot Manager & Logistics In-Charge",
+    territory: "Dhaka Central Division",
+    badge: "Authorized Depot",
+  },
+  [UserRole.DEPOT_MANAGER]: {
+    name: "Tariqul Islam (Depot In-Charge)",
+    role: UserRole.DISTRIBUTOR,
+    email: "tariqul.depot@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    organizationName: "Dhaka Central Distribution Depot",
+    organizationType: "DISTRIBUTOR",
+    organizationCode: "DEPOT-DHK-01",
+    title: "Central Depot Manager & Logistics In-Charge",
+    territory: "Dhaka Central Division",
+    badge: "Authorized Depot",
+  },
+  [UserRole.SALES_REP]: {
+    name: "Kazi Nazmul Hossain",
+    role: UserRole.SALES_REP,
+    email: "nazmul.sr104@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    organizationName: "Square Pharma / Dhaka Central Depot",
+    organizationType: "DISTRIBUTOR",
+    organizationCode: "SR-104",
+    title: "Senior Medical Promotion Officer (MPO)",
+    territory: "Dhanmondi - Kalabagan Route",
+    badge: "Field Order Cutting",
+  },
+  [UserRole.PHARMACY_OWNER]: {
+    name: "Dr. Rafiqul Islam",
+    role: UserRole.PHARMACY_OWNER,
+    email: "rafiqul.pharma@gmail.com",
+    avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&auto=format&fit=crop&q=80",
+    organizationName: "Green Care Pharmacy & Med Store",
+    organizationType: "PHARMACY_GROUP",
+    organizationCode: "PHARM-DHK-001",
+    title: "Licensed Pharmacist & Managing Director",
+    territory: "Dhanmondi, Dhaka",
+    badge: "Retail Pharmacy",
+  },
+};
+
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -376,18 +508,19 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [mrVisits, setMrVisits] = useState<IMrVisit[]>(initialMrVisits);
   const [mrTarget, setMrTarget] = useState<IMrTarget>(initialMrTarget);
 
+  // B2B Multi-Organization Master State
+  const [organizations, setOrganizations] = useState<IOrganization[]>(initialOrganizations);
+  const [batchRecalls, setBatchRecalls] = useState<IBatchRecall[]>(initialBatchRecalls);
+  const [deliveryRecords, setDeliveryRecords] = useState<IDeliveryRecord[]>(initialDeliveryRecords);
+  const [productReturns, setProductReturns] = useState<IProductReturn[]>(initialProductReturns);
+
   // System & Extra State
   const [language, setLanguage] = useState<Language>("en");
   const [isOnline, setIsOnline] = useState<boolean>(true);
   const [offlineQueue, setOfflineQueue] = useState<any[]>([]);
 
-  // Current User Profile
-  const [currentUser, setCurrentUser] = useState({
-    name: "Dr. Rafiqul Islam",
-    role: UserRole.PHARMACY_OWNER,
-    email: "rafiqul.pharma@gmail.com",
-    avatar: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=150&auto=format&fit=crop&q=80",
-  });
+  // Current User Profile (Multi-Role Persona)
+  const [currentUser, setCurrentUser] = useState(DEMO_PERSONAS[UserRole.PHARMACY_OWNER]);
 
   // Cart State (B2B Procurement)
   const [cart, setCart] = useState<CartItem[]>([
@@ -403,6 +536,11 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   useEffect(() => {
     try {
       if (typeof window !== "undefined") {
+        const savedRole = localStorage.getItem("medsupply_active_role") as UserRole;
+        if (savedRole && DEMO_PERSONAS[savedRole]) {
+          setCurrentUser(DEMO_PERSONAS[savedRole]);
+        }
+
         const savedLang = localStorage.getItem("medsupply_lang") as Language;
         if (savedLang) setLanguage(savedLang);
 
@@ -1146,7 +1284,63 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const refreshData = async () => {};
 
   const setCurrentUserRole = (role: UserRole) => {
-    setCurrentUser((prev) => ({ ...prev, role }));
+    const persona = DEMO_PERSONAS[role] || DEMO_PERSONAS[UserRole.PHARMACY_OWNER];
+    setCurrentUser(persona);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("medsupply_active_role", role);
+    }
+  };
+
+  const approveOrganization = (orgId: string) => {
+    setOrganizations((prev) =>
+      prev.map((org) => (org.id === orgId ? { ...org, status: "ACTIVE" } : org))
+    );
+  };
+
+  const verifyOrganizationLicense = (orgId: string) => {
+    setOrganizations((prev) =>
+      prev.map((org) => (org.id === orgId ? { ...org, isVerified: true } : org))
+    );
+  };
+
+  const addBatchRecall = (recall: Omit<IBatchRecall, "id">) => {
+    const newRecall: IBatchRecall = {
+      ...recall,
+      id: `recall-${Date.now()}`,
+    };
+    setBatchRecalls((prev) => [newRecall, ...prev]);
+  };
+
+  const updateDeliveryStatus = (
+    deliveryId: string,
+    status: IDeliveryRecord["status"],
+    signature?: string
+  ) => {
+    setDeliveryRecords((prev) =>
+      prev.map((d) =>
+        d.id === deliveryId
+          ? {
+              ...d,
+              status,
+              podReceiverSignature: signature || d.podReceiverSignature,
+              deliveredAt: status === "DELIVERED" ? new Date().toISOString() : d.deliveredAt,
+            }
+          : d
+      )
+    );
+  };
+
+  const submitProductReturn = (
+    returnData: Omit<IProductReturn, "id" | "returnTrackingNo" | "requestedAt" | "status">
+  ) => {
+    const newReturn: IProductReturn = {
+      ...returnData,
+      id: `ret-${Date.now()}`,
+      returnTrackingNo: `RET-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+      requestedAt: new Date().toISOString(),
+      status: "PENDING_INSPECTION",
+    };
+    setProductReturns((prev) => [newReturn, ...prev]);
   };
 
   const updateUserAvatar = (avatarUrl: string) => {
@@ -1183,6 +1377,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         expenses,
         mrVisits,
         mrTarget,
+        organizations,
+        batchRecalls,
+        deliveryRecords,
+        productReturns,
+        approveOrganization,
+        verifyOrganizationLicense,
+        addBatchRecall,
+        updateDeliveryStatus,
+        submitProductReturn,
         cart,
         calculatedCart,
         cartItemCount,
