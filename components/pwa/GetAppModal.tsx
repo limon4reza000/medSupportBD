@@ -20,7 +20,7 @@ import { useApp } from "@/lib/context/AppContext";
 
 export const GetAppModal: React.FC = () => {
   const { isGetAppOpen, setIsGetAppOpen } = useApp();
-  const [activeTab, setActiveTab] = useState<"pwa" | "apk">("pwa");
+  const [activeTab, setActiveTab] = useState<"pwa" | "apk" | "ios">("pwa");
   const [copied, setCopied] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [canDirectInstall, setCanDirectInstall] = useState(false);
@@ -109,29 +109,41 @@ export const GetAppModal: React.FC = () => {
         </div>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-slate-200 bg-slate-50/80 px-5 pt-3">
+        <div className="flex border-b border-slate-200 bg-slate-50/80 px-5 pt-3 overflow-x-auto">
           <button
             onClick={() => setActiveTab("pwa")}
-            className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "pwa"
                 ? "border-emerald-700 text-emerald-900 font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Zap className="w-4 h-4 text-emerald-600" />
-            <span>PWA Mobile Web (Recommended)</span>
+            <span>PWA Mobile Web</span>
           </button>
 
           <button
             onClick={() => setActiveTab("apk")}
-            className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all ${
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "apk"
                 ? "border-emerald-700 text-emerald-900 font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
             <Layers className="w-4 h-4 text-slate-600" />
-            <span>Native Android APK (Capacitor)</span>
+            <span>Android APK</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("ios")}
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all whitespace-nowrap ${
+              activeTab === "ios"
+                ? "border-emerald-700 text-emerald-900 font-black"
+                : "border-transparent text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            <span className="text-base">🍎</span>
+            <span>iOS (iPhone / iPad)</span>
           </button>
         </div>
 
@@ -297,7 +309,7 @@ export const GetAppModal: React.FC = () => {
               </div>
 
             </div>
-          ) : (
+          ) : activeTab === "apk" ? (
             /* Native Android APK Tab */
             <div className="space-y-4">
               
@@ -363,6 +375,91 @@ export const GetAppModal: React.FC = () => {
                   <li><strong>Enterprise MDM Provisioning:</strong> Ready to deploy to sales reps via Mobile Device Management or direct APK download.</li>
                 </ul>
               </div>
+            </div>
+          ) : (
+            /* Apple iOS Tab */
+            <div className="space-y-4">
+              
+              {/* iOS Instant Safari Card */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg border border-slate-700">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-bold shrink-0 shadow-md text-2xl border border-white/20">
+                    🍎
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-black text-sm text-white">
+                        iPhone &amp; iPad Native Web App
+                      </h4>
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                        Instant (No App Store)
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 mt-0.5">
+                      Runs in full-screen standalone mode without Safari URL bar
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleCopyUrl}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white text-slate-900 font-bold text-xs transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                >
+                  <Share2 className="w-4 h-4 text-slate-700" />
+                  <span>{copied ? "Link Copied!" : "Copy Link for Safari"}</span>
+                </button>
+              </div>
+
+              {/* Step-by-step iOS Safari Install */}
+              <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-3">
+                <h4 className="font-bold text-xs text-slate-900 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-emerald-100 text-emerald-800 flex items-center justify-center text-[11px] font-black">
+                    1
+                  </span>
+                  How to Install on iPhone / iPad (20 Seconds)
+                </h4>
+                <ol className="text-xs text-slate-600 space-y-2 list-decimal list-inside pl-1">
+                  <li>Open this URL in <strong>Apple Safari</strong> on your iPhone or iPad.</li>
+                  <li>Tap the <strong>Share button (⎋)</strong> at the bottom center of the Safari toolbar.</li>
+                  <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot; (⊞)</strong>.</li>
+                  <li>Tap <strong>&quot;Add&quot;</strong> in the top-right corner.</li>
+                  <li>The MedSupplyBD icon will appear on your iOS home screen and launch like a native iOS app with full offline capabilities!</li>
+                </ol>
+              </div>
+
+              {/* Native iOS Xcode Project */}
+              <div className="p-4 rounded-2xl bg-slate-900 text-emerald-300 font-mono text-xs space-y-2 border border-slate-800">
+                <div className="flex items-center justify-between text-slate-400 text-[11px] pb-1 border-b border-slate-800">
+                  <span className="flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                    Native iOS Xcode Project (`ios/App/`)
+                  </span>
+                  <span className="text-emerald-400 font-bold">bd.medsupply.b2b</span>
+                </div>
+                <p className="text-slate-300 font-sans text-xs">
+                  Native iOS project is configured in <code className="text-emerald-400">/ios/App/App.xcodeproj</code>. On a Mac, build or open directly in Xcode:
+                </p>
+                <div className="p-2.5 rounded-xl bg-black/60 text-emerald-400 space-y-1 font-mono text-[11px]">
+                  <div># Sync web code into iOS Xcode workspace:</div>
+                  <div className="text-white font-bold">npm run mobile:sync</div>
+                  <div className="pt-1 text-slate-400"># Open in Xcode on macOS:</div>
+                  <div className="text-white font-bold">npm run mobile:open:ios</div>
+                </div>
+              </div>
+
+              {/* GitHub Actions Cloud IPA Builder */}
+              <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/60 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-emerald-700" />
+                  <h4 className="font-black text-xs text-emerald-950">
+                    Automated Cloud iOS Build (No Mac Required)
+                  </h4>
+                </div>
+                <p className="text-xs text-emerald-900/80 leading-relaxed">
+                  We have added <code className="font-mono text-emerald-800 font-bold">.github/workflows/ios-build.yml</code>. Every time you push to your GitHub repo, GitHub&apos;s macOS runners automatically compile the Xcode project and output the iOS package as a downloadable artifact!
+                </p>
+              </div>
+
             </div>
           )}
 

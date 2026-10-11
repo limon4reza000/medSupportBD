@@ -174,6 +174,20 @@ MedSupplyBD comes with dual mobile architecture for seamless chemist and field s
   npm run mobile:apk
   ```
 
+### 3. Apple iOS (iPhone & iPad)
+- **Instant Safari Installation (Zero Setup)**:
+  - Open in **Safari** on iPhone / iPad.
+  - Tap Share (**⎋**) → tap **"Add to Home Screen" (⊞)**.
+  - Operates as a full-screen native iOS app with offline catalog support.
+- **Native iOS Xcode Project**:
+  - Located in [`ios/App/App.xcodeproj`](file:///c:/Projects/New%20folder/new/MedSupplyBD/ios/App/App.xcodeproj).
+  - Pre-configured Bundle Identifier: `bd.medsupply.b2b`.
+  - Camera & photo library permissions configured in `Info.plist`.
+  - Open in Xcode on Mac: `npm run mobile:open:ios`.
+- **Automated Cloud CI/CD IPA Builder**:
+  - Workflow: `.github/workflows/ios-build.yml`.
+  - Automatically compiles Xcode project on GitHub macOS cloud runners on push, providing a downloadable `.ipa` artifact!
+
 ---
 
 ## 👥 Contributors

@@ -1,0 +1,61 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Generate Static Web Build
+        run: |
+          mkdir -p out
+          cp -r public/* out/ || true
+
+      - name: Sync Capacitor iOS
+        run: npx cap sync ios
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+
+      - name: Build iOS Archive (Xcodebuild)
+        run: |
+          cd ios/App
+          xcodebuild clean archive \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -archivePath build/App.xcarchive \
+            -destination "generic/platform=iOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Package App into Payload / IPA
+        run: |
+          mkdir -p ios/App/build/Payload
+          cp -r ios/App/build/App.xcarchive/Products/Applications/App.app ios/App/build/Payload/
+          cd ios/App/build
+          zip -r MedSupplyBD-iOS-Debug.ipa Payload
+
+      - name: Upload iOS App Artifact (.ipa)
+        uses: actions/upload-artifact@v4
+        with:
+          name: MedSupplyBD-iOS-Debug
+          path: ios/App/build/MedSupplyBD-iOS-Debug.ipa
+          retention-days: 14

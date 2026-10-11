@@ -12,11 +12,14 @@
     "mobile:build": "cap sync && cd android && .\\gradlew.bat assembleDebug",
     "mobile:apk": "cd android && .\\gradlew.bat assembleDebug",
     "mobile:add:android": "cap add android",
-    "mobile:open:android": "cap open android"
+    "mobile:open:android": "cap open android",
+    "mobile:add:ios": "cap add ios",
+    "mobile:open:ios": "cap open ios"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
     "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3",
     "@prisma/client": "^5.21.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.453.0",
