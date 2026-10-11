@@ -210,27 +210,36 @@ export const HamburgerDrawer: React.FC = () => {
         {/* Header with User Profile Section */}
         <div className="p-4 bg-gradient-to-b from-[#014838] to-[#00382b] text-white border-b border-emerald-600/20 relative">
           <div className="flex items-center justify-between pb-3 border-b border-emerald-500/20">
-            <div className="flex items-center gap-2.5">
+            <Link href="/" onClick={closeDrawer} className="flex items-center" title="MedSupplyBD Home">
               <img
-                src="/images/sidebar-logo.png"
-                alt="Green Care"
-                className="w-9 h-9 rounded-xl object-contain shrink-0 shadow-md"
+                src="/images/medsupplybd-logo.png"
+                alt="MedSupplyBD"
+                className="h-8 w-auto object-contain"
               />
-              <div className="flex flex-col">
-                <span className="font-bold text-sm tracking-tight text-white">
-                  {currentPharmacy?.tradeName || "Green Care Pharmacy"}
-                </span>
-                <span className="text-[10px] font-semibold text-emerald-300/80">
-                  Pharmacy & Med Store
-                </span>
-              </div>
-            </div>
+            </Link>
             <button
               onClick={closeDrawer}
               className="p-1.5 rounded-lg text-emerald-200 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close menu"
             >
               <X className="w-5 h-5" />
             </button>
+          </div>
+
+          <div className="flex items-center gap-2.5 pt-3">
+            <img
+              src="/images/sidebar-logo.png"
+              alt="Pharmacy Store"
+              className="w-9 h-9 rounded-xl object-contain shrink-0 shadow-md bg-white/10 p-0.5 border border-emerald-400/20"
+            />
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold text-sm tracking-tight text-white truncate">
+                {currentPharmacy?.tradeName || "Green Care Pharmacy"}
+              </span>
+              <span className="text-[10px] font-semibold text-emerald-300/80 truncate">
+                Pharmacy & Med Store
+              </span>
+            </div>
           </div>
 
           {/* Hidden file input */}

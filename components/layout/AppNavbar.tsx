@@ -30,7 +30,7 @@ export const AppNavbar: React.FC = () => {
           
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-[2px] group">
-              <MedSupportLogo className="w-10 h-10 sm:w-12 sm:h-12 object-contain group-hover:scale-105 transition-transform shrink-0" />
+              <MedSupportLogo iconOnly className="w-10 h-10 sm:w-12 sm:h-12 object-contain group-hover:scale-105 transition-transform shrink-0" />
               <div className="flex flex-col justify-center">
                 <div className="flex items-center gap-1">
                   <span className="font-black text-base sm:text-xl tracking-tight text-white group-hover:text-emerald-300 transition-colors">

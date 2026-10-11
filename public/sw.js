@@ -7,6 +7,8 @@ const STATIC_ASSETS = [
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/logo.png',
+  '/images/sidebar-logo.png',
+  '/images/medsupplybd-logo.png',
 ];
 
 // Install: Cache initial static shell

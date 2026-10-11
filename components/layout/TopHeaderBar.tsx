@@ -114,8 +114,17 @@ export const TopHeaderBar: React.FC = () => {
     <header className="sticky top-0 z-30 w-full bg-[#f1f5f3]/95 backdrop-blur-md border-b border-slate-200/70 px-4 sm:px-6 lg:px-8 py-3 transition-all">
       <div className="flex items-center justify-between gap-3 sm:gap-4 w-full">
         
-        {/* Left: Global Search Input */}
-        <div className="flex items-center flex-1 w-full min-w-0">
+        {/* Left: Global Search Input & Mobile Brand Icon */}
+        <div className="flex items-center flex-1 w-full min-w-0 gap-2">
+          {/* Mobile Brand Logo Icon */}
+          <Link href="/" className="lg:hidden flex items-center shrink-0" title="MedSupplyBD Home">
+            <img
+              src="/images/sidebar-logo.png"
+              alt="MedSupplyBD"
+              className="w-8 h-8 rounded-xl object-contain drop-shadow-xs"
+            />
+          </Link>
+
           <div
             onClick={() => setIsSearchOpen(true)}
             className="relative flex-1 w-full flex items-center bg-white hover:bg-slate-50/90 cursor-pointer border border-slate-200/90 hover:border-emerald-500 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs hover:shadow-md transition-all group"

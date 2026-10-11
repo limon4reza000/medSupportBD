@@ -2,14 +2,26 @@
 
 import React from "react";
 
-export const MedSupportLogo: React.FC<{ className?: string; iconOnly?: boolean }> = ({
-  className = "w-9 h-9",
-}) => {
+export const MedSupportLogo: React.FC<{
+  className?: string;
+  iconOnly?: boolean;
+}> = ({ className = "h-9 w-auto", iconOnly = false }) => {
+  if (iconOnly) {
+    return (
+      <img
+        src="/images/sidebar-logo.png"
+        alt="MedSupplyBD Icon"
+        className={`object-contain max-h-full max-w-full ${className}`}
+      />
+    );
+  }
+
   return (
     <img
-      src="/logo.png"
-      alt="MedSupport BD Logo"
-      className={`object-contain brightness-0 invert max-h-full max-w-full ${className}`}
+      src="/images/medsupplybd-logo.png"
+      alt="MedSupplyBD Logo"
+      className={`object-contain max-h-full max-w-full ${className}`}
     />
   );
 };
+

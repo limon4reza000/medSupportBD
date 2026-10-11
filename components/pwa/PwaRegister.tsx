@@ -79,8 +79,12 @@ export const PwaRegister: React.FC = () => {
     <div className="fixed bottom-18 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 animate-in slide-in-from-bottom-4 duration-300">
       <div className="bg-[#01382a] border border-emerald-400/40 text-white p-4 rounded-2xl shadow-2xl backdrop-blur-xl flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-white text-[#025540] flex items-center justify-center shrink-0 shadow-md">
-            <Smartphone className="w-5 h-5 text-[#025540]" />
+          <div className="w-10 h-10 rounded-xl bg-white text-[#025540] flex items-center justify-center shrink-0 shadow-md p-1">
+            <img
+              src="/images/sidebar-logo.png"
+              alt="MedSupplyBD"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="min-w-0">
             <h4 className="text-xs font-black tracking-wide text-white flex items-center gap-1.5">

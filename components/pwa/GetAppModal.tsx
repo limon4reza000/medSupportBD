@@ -111,8 +111,12 @@ export const GetAppModal: React.FC = () => {
         {/* Header */}
         <div className="relative bg-[#01382a] text-white p-4 sm:p-6 flex items-start justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center shadow-lg font-black text-xl shrink-0">
-              <Smartphone className="w-6 h-6 text-[#025540]" />
+            <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center shadow-lg shrink-0 p-1">
+              <img
+                src="/images/sidebar-logo.png"
+                alt="MedSupplyBD App"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">

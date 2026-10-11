@@ -60,14 +60,14 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
             <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#10b981]/20">
                 
-                {/* Col 1 */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-[2px]">
-                    <MedSupportLogo className="w-10 h-10 sm:w-12 sm:h-12 object-contain shrink-0" />
-                    <span className="font-black text-lg tracking-tight text-white">
-                      MedSupply<span className="text-emerald-400">BD</span>
-                    </span>
-                  </div>
+                  <Link href="/" className="inline-block group" title="MedSupplyBD Home">
+                    <img
+                      src="/images/medsupplybd-logo.png"
+                      alt="MedSupplyBD"
+                      className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+                    />
+                  </Link>
                   <p className="text-xs text-emerald-200/70 leading-relaxed">
                     Smart Pharmaceutical Supply Network — Order Cutting, FEFO Inventory Distribution & Credit Management.
                   </p>

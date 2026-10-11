@@ -165,21 +165,31 @@ export const AppSidebar: React.FC = () => {
       </div>
 
       {/* Brand Header */}
-      <div className="p-4 pt-5 pb-3 flex items-center gap-3 relative z-10 border-b border-emerald-900/30">
-        <img
-          src="/images/sidebar-logo.png"
-          alt="MedSupplyBD"
-          className="w-11 h-11 rounded-2xl object-contain shrink-0 shadow-lg shadow-emerald-950/60"
-        />
+      <div className="p-4 pt-5 pb-3 flex flex-col gap-3 relative z-10 border-b border-emerald-900/30">
+        <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
+          <img
+            src="/images/medsupplybd-logo.png"
+            alt="MedSupplyBD"
+            className="h-9 w-auto max-w-[215px] object-contain group-hover:scale-105 transition-transform"
+          />
+        </Link>
 
-        <div className="flex flex-col min-w-0">
-          <span className="font-bold text-[14px] text-white tracking-tight leading-snug truncate">
-            {currentUser.organizationName || currentPharmacy?.tradeName || "MedSupplyBD Network"}
-          </span>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 tracking-wider truncate">
-              {currentUser.badge || currentUser.role.replace("_", " ")}
+        {/* Current Tenant / Operational Role Card */}
+        <div className="flex items-center gap-2.5 pt-2 border-t border-emerald-900/40">
+          <img
+            src="/images/sidebar-logo.png"
+            alt="Role Badge"
+            className="w-8 h-8 rounded-xl object-contain shrink-0 shadow-md bg-white/10 p-0.5 border border-emerald-400/20"
+          />
+          <div className="flex flex-col min-w-0">
+            <span className="font-bold text-[13px] text-white tracking-tight leading-snug truncate">
+              {currentUser.organizationName || currentPharmacy?.tradeName || "MedSupplyBD Network"}
             </span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-[10px] font-black uppercase px-2 py-0.2 rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 tracking-wider truncate">
+                {currentUser.badge || currentUser.role.replace("_", " ")}
+              </span>
+            </div>
           </div>
         </div>
       </div>

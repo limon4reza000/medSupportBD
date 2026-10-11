@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { IPharmacy } from "@/types/domain";
 import {
   Pill,
@@ -45,17 +46,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           
           {/* 1. Left: Brand Logo & Title */}
           <div className="flex items-center space-x-3 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center shadow-md">
-              <Pill className="w-5 h-5 text-[#025540]" />
-            </div>
-            <div>
-              <span className="text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
-                MedSupply
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white border border-white/30">
-                  B2B
-                </span>
-              </span>
-            </div>
+            <Link href="/" className="flex items-center">
+              <img
+                src="/images/medsupplybd-logo.png"
+                alt="MedSupplyBD"
+                className="h-9 w-auto object-contain"
+              />
+            </Link>
           </div>
 
           {/* 2. Center: Sleek Horizontal Navigation Tabs */}
