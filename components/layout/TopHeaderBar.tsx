@@ -118,11 +118,11 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full transition-all px-2.5 sm:px-4 lg:px-8 py-2 lg:py-3 shadow-none">
+    <header className="sticky top-0 z-30 w-full transition-all px-0 lg:px-8 py-0 lg:py-3 shadow-none">
       {/* =================================================================== */}
-      {/* 1. MOBILE TOP NAVBAR (Exact Pixel Match to Mockup Screenshot)       */}
+      {/* 1. MOBILE TOP NAVBAR (Full-width, No Outer Radius, Edge-to-Edge)    */}
       {/* =================================================================== */}
-      <div className="lg:hidden relative w-full bg-white rounded-[26px] sm:rounded-[30px] border border-slate-200/90 shadow-none overflow-hidden px-3.5 py-2.5 sm:px-4 sm:py-3 flex flex-col gap-2">
+      <div className="lg:hidden relative w-full bg-white rounded-none border-b border-slate-200/90 shadow-none overflow-hidden px-3.5 sm:px-5 py-2.5 flex flex-col gap-2">
         {/* Decorative Fluid Mint Wave Background (Exact Match to Mockup) */}
         <svg
           className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
