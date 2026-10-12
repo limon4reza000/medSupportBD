@@ -55,68 +55,90 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
             {children}
           </main>
 
-          {/* Enterprise SaaS Footer */}
-          <footer className="border-t border-[#DDE8E3] bg-[#065F52] py-8 text-xs text-emerald-100/90 mt-12">
-            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#10b981]/20">
+          {/* Enterprise SaaS Footer (Matching Navbar Theme with White BG & Mint Waves) */}
+          <footer className="relative border-t border-slate-200/90 bg-white py-10 text-xs text-slate-600 mt-12 overflow-hidden shadow-2xs">
+            {/* Background Layer with Exact Matching Mint Waves from Navbar */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+              <svg
+                className="absolute left-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
+                viewBox="0 0 120 90"
+                preserveAspectRatio="none"
+              >
+                <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#6ee7b7" />
+                <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#bef4df" opacity="0.85" />
+                <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
+              </svg>
+              <svg
+                className="absolute right-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
+                viewBox="0 0 120 90"
+                preserveAspectRatio="none"
+              >
+                <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#6ee7b7" />
+                <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#bef4df" opacity="0.85" />
+                <path d="M120,95 C105,85 95,90 85,95 Z" fill="#cdf7e5" />
+              </svg>
+            </div>
+
+            <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200/80">
                 
                 <div className="space-y-3">
                   <Link href="/" className="inline-block group" title="MedSupplyBD Home">
                     <img
                       src="/images/medsupplybd-logo.png"
                       alt="MedSupplyBD"
-                      className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+                      className="h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
                     />
                   </Link>
-                  <p className="text-xs text-emerald-200/70 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
                     Smart Pharmaceutical Supply Network — Order Cutting, FEFO Inventory Distribution & Credit Management.
                   </p>
-                  <div className="flex items-center gap-2 text-[11px] text-emerald-300 font-semibold">
-                    <ShieldCheck className="w-4 h-4" /> DGDA Verified Digital Distribution
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebfbf3] border border-[#a7f3d0] text-slate-800 text-[11px] font-bold">
+                    <ShieldCheck className="w-4 h-4 text-[#00c48c]" /> DGDA Verified Digital Distribution
                   </div>
                 </div>
 
                 {/* Col 2 */}
                 <div className="space-y-2">
-                  <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Pharmacy Operations</div>
-                  <ul className="space-y-1.5 text-emerald-200/80">
-                    <li><Link href="/pos" className="hover:text-white font-bold text-emerald-300 transition-colors">Daily Sales (POS)</Link></li>
-                    <li><Link href="/inventory" className="hover:text-white transition-colors">Medicine Database & Stock</Link></li>
-                    <li><Link href="/distributor-orders" className="hover:text-white transition-colors">Company / Distributor Orders</Link></li>
-                    <li><Link href="/customer-due" className="hover:text-white transition-colors">Customer Due Ledger</Link></li>
-                    <li><Link href="/expenses" className="hover:text-white transition-colors">Expense Tracking</Link></li>
+                  <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">Pharmacy Operations</div>
+                  <ul className="space-y-1.5 text-slate-600 font-medium">
+                    <li><Link href="/pos" className="hover:text-[#0080ff] transition-colors font-semibold text-slate-800">Daily Sales (POS)</Link></li>
+                    <li><Link href="/inventory" className="hover:text-[#0080ff] transition-colors">Medicine Database & Stock</Link></li>
+                    <li><Link href="/distributor-orders" className="hover:text-[#0080ff] transition-colors">Company / Distributor Orders</Link></li>
+                    <li><Link href="/customer-due" className="hover:text-[#0080ff] transition-colors">Customer Due Ledger</Link></li>
+                    <li><Link href="/expenses" className="hover:text-[#0080ff] transition-colors">Expense Tracking</Link></li>
                   </ul>
                 </div>
 
                 {/* Col 3 */}
                 <div className="space-y-2">
-                  <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">Staff & Analytics</div>
-                  <ul className="space-y-1.5 text-emerald-200/80">
-                    <li><Link href="/employees" className="hover:text-white transition-colors">Employee Management</Link></li>
-                    <li><Link href="/reports" className="hover:text-white transition-colors">Reports & Analytics Charts</Link></li>
-                    <li><Link href="/mr-portal" className="hover:text-white transition-colors">MR Field Manager Panel</Link></li>
-                    <li><Link href="/settings" className="hover:text-white transition-colors">Settings & Backup</Link></li>
-                    <li><Link href="/ai-order" className="hover:text-white transition-colors">AI Slip Parser</Link></li>
+                  <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">Staff & Analytics</div>
+                  <ul className="space-y-1.5 text-slate-600 font-medium">
+                    <li><Link href="/employees" className="hover:text-[#0080ff] transition-colors">Employee Management</Link></li>
+                    <li><Link href="/reports" className="hover:text-[#0080ff] transition-colors">Reports & Analytics Charts</Link></li>
+                    <li><Link href="/mr-portal" className="hover:text-[#0080ff] transition-colors">MR Field Manager Panel</Link></li>
+                    <li><Link href="/settings" className="hover:text-[#0080ff] transition-colors">Settings & Backup</Link></li>
+                    <li><Link href="/ai-order" className="hover:text-[#0080ff] transition-colors">AI Slip Parser</Link></li>
                   </ul>
                 </div>
 
                 {/* Col 4 */}
                 <div className="space-y-3">
-                  <div className="font-bold text-sm text-white uppercase tracking-wider text-[11px]">24/7 Pharma Helpline</div>
-                  <div className="p-3.5 rounded-xl bg-[#025540] border border-emerald-500/30 space-y-1.5">
-                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <Headphones className="w-4 h-4 text-emerald-300" />
+                  <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">24/7 Pharma Helpline</div>
+                  <div className="p-3.5 rounded-2xl bg-[#ebfbf3] border border-[#a7f3d0] shadow-2xs space-y-1.5">
+                    <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <Headphones className="w-4 h-4 text-[#00c48c]" />
                       <span>Emergency Depot Dispatch</span>
                     </div>
-                    <div className="text-xs text-emerald-200 font-mono">+880 1711-000222</div>
-                    <div className="text-[10px] text-emerald-300/70">depot-dispatch@medsupplybd.com</div>
+                    <div className="text-xs text-slate-800 font-mono font-bold">+880 1711-000222</div>
+                    <div className="text-[10px] text-slate-500 font-medium">depot-dispatch@medsupplybd.com</div>
                   </div>
                 </div>
 
               </div>
 
-              <div className="pt-6 text-center text-xs text-emerald-200/70">
-                Copyright © {new Date().getFullYear()} medSupportBD . All rights reserved.
+              <div className="pt-6 text-center text-xs text-slate-500 font-medium">
+                Copyright © {new Date().getFullYear()} medSupportBD. All rights reserved.
               </div>
             </div>
           </footer>
