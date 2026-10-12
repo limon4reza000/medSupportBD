@@ -55,12 +55,12 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
             {children}
           </main>
 
-          {/* Enterprise SaaS Footer (Matching Navbar Theme with White BG & Mint Waves) */}
-          <footer className="relative border-t border-slate-200/90 bg-white py-10 text-xs text-slate-600 mt-12 overflow-hidden shadow-2xs">
-            {/* Background Layer with Exact Matching Mint Waves from Navbar */}
+          {/* Enterprise SaaS Footer (Full-Color Mint Theme Matching Navbar Waves) */}
+          <footer className="relative border-t border-[#a7f3d0] bg-[#daf5ea] py-10 text-xs text-slate-700 mt-12 overflow-hidden shadow-2xs">
+            {/* Background Layer with Subtle Wave Accents on the corners */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
               <svg
-                className="absolute left-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
+                className="absolute left-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
                 viewBox="0 0 120 90"
                 preserveAspectRatio="none"
               >
@@ -69,7 +69,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                 <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
               </svg>
               <svg
-                className="absolute right-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
+                className="absolute right-0 bottom-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
                 viewBox="0 0 120 90"
                 preserveAspectRatio="none"
               >
@@ -80,7 +80,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
             </div>
 
             <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-200/80">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-[#a7f3d0]/80">
                 
                 <div className="space-y-3">
                   <Link href="/" className="inline-block group" title="MedSupplyBD Home">
@@ -90,19 +90,19 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                       className="h-10 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
                     />
                   </Link>
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                  <p className="text-xs text-slate-700 leading-relaxed font-medium">
                     Smart Pharmaceutical Supply Network — Order Cutting, FEFO Inventory Distribution & Credit Management.
                   </p>
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebfbf3] border border-[#a7f3d0] text-slate-800 text-[11px] font-bold">
-                    <ShieldCheck className="w-4 h-4 text-[#00c48c]" /> DGDA Verified Digital Distribution
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-[#a7f3d0] text-slate-800 text-[11px] font-bold shadow-2xs">
+                    <ShieldCheck className="w-4 h-4 text-[#00a876]" /> DGDA Verified Digital Distribution
                   </div>
                 </div>
 
                 {/* Col 2 */}
                 <div className="space-y-2">
                   <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">Pharmacy Operations</div>
-                  <ul className="space-y-1.5 text-slate-600 font-medium">
-                    <li><Link href="/pos" className="hover:text-[#0080ff] transition-colors font-semibold text-slate-800">Daily Sales (POS)</Link></li>
+                  <ul className="space-y-1.5 text-slate-700 font-medium">
+                    <li><Link href="/pos" className="hover:text-[#0080ff] transition-colors font-bold text-slate-900">Daily Sales (POS)</Link></li>
                     <li><Link href="/inventory" className="hover:text-[#0080ff] transition-colors">Medicine Database & Stock</Link></li>
                     <li><Link href="/distributor-orders" className="hover:text-[#0080ff] transition-colors">Company / Distributor Orders</Link></li>
                     <li><Link href="/customer-due" className="hover:text-[#0080ff] transition-colors">Customer Due Ledger</Link></li>
@@ -113,7 +113,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                 {/* Col 3 */}
                 <div className="space-y-2">
                   <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">Staff & Analytics</div>
-                  <ul className="space-y-1.5 text-slate-600 font-medium">
+                  <ul className="space-y-1.5 text-slate-700 font-medium">
                     <li><Link href="/employees" className="hover:text-[#0080ff] transition-colors">Employee Management</Link></li>
                     <li><Link href="/reports" className="hover:text-[#0080ff] transition-colors">Reports & Analytics Charts</Link></li>
                     <li><Link href="/mr-portal" className="hover:text-[#0080ff] transition-colors">MR Field Manager Panel</Link></li>
@@ -125,19 +125,19 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                 {/* Col 4 */}
                 <div className="space-y-3">
                   <div className="font-bold text-sm text-slate-900 uppercase tracking-wider text-[11px]">24/7 Pharma Helpline</div>
-                  <div className="p-3.5 rounded-2xl bg-[#ebfbf3] border border-[#a7f3d0] shadow-2xs space-y-1.5">
+                  <div className="p-3.5 rounded-2xl bg-white/80 border border-[#a7f3d0] shadow-2xs space-y-1.5 backdrop-blur-xs">
                     <div className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                      <Headphones className="w-4 h-4 text-[#00c48c]" />
+                      <Headphones className="w-4 h-4 text-[#00a876]" />
                       <span>Emergency Depot Dispatch</span>
                     </div>
                     <div className="text-xs text-slate-800 font-mono font-bold">+880 1711-000222</div>
-                    <div className="text-[10px] text-slate-500 font-medium">depot-dispatch@medsupplybd.com</div>
+                    <div className="text-[10px] text-slate-600 font-medium">depot-dispatch@medsupplybd.com</div>
                   </div>
                 </div>
 
               </div>
 
-              <div className="pt-6 text-center text-xs text-slate-500 font-medium">
+              <div className="pt-6 text-center text-xs text-slate-600 font-medium">
                 Copyright © {new Date().getFullYear()} medSupportBD. All rights reserved.
               </div>
             </div>
