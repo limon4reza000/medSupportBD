@@ -466,17 +466,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   );
                 })}
 
-                {/* 12 Months 3D Clustered Columns (75% Column Width: bw=36px, cluster=75px per 100px column) */}
+                {/* 12 Months 3D Clustered Columns (70% Column Width: bw=34px, cluster=70px per 100px column) */}
                 {monthlyOrderData.map((item, index) => {
                   const colX = 114 + index * 100;
-                  const bw = 36; // 36px wide chunky bar front width
+                  const bw = 34; // 34px wide chunky bar front width
                   const dx = 15; // Deep 3D perspective X
                   const dy = -11; // Deep 3D perspective Y
                   const maxH = 370; // Grand tall bars reaching all the way to top red line
                   const isSelected = activeTooltipMonth === item.month;
 
-                  // Series 2 (Wholesale Orders) - Sits in the back row (39px offset + 36px bar = 75px cluster width = 75% of 100px column)
-                  const staggerX = 39;
+                  // Series 2 (Wholesale Orders) - Sits in the back row (36px offset + 34px bar = 70px cluster width = 70% of 100px column)
+                  const staggerX = 36;
                   const staggerY = -14;
                   const barX2 = colX + staggerX;
                   const baseY2 = 455 + staggerY;
@@ -516,7 +516,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       <rect
                         x={colX - 4}
                         y={15}
-                        width={85}
+                        width={80}
                         height={485}
                         fill="transparent"
                         className="hover:fill-blue-500/5 transition-colors"
@@ -600,7 +600,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                       {/* Month Label */}
                       <text
-                        x={colX + 37.5}
+                        x={colX + 35}
                         y={490}
                         textAnchor="middle"
                         className={`text-sm select-none transition-colors ${
@@ -623,7 +623,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
                   if (!selItem || selIndex === -1) return null;
                   const colX = 114 + selIndex * 100;
-                  const percentX = Math.min(95, Math.max(5, ((colX + 37) / 1380) * 100));
+                  const percentX = Math.min(95, Math.max(5, ((colX + 35) / 1380) * 100));
 
                   return (
                     <div
