@@ -195,5 +195,4 @@ MedSupplyBD comes with dual mobile architecture for seamless chemist and field s
 
 ## 👥 Contributors
 - **Limon Reza** (ID: 232-35-004)
-- **Md Mehedi Hasan** (ID: 232-35-712)
 
