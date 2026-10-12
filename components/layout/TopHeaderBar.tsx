@@ -118,75 +118,77 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full transition-all shadow-none">
+    <header className="sticky top-0 z-30 w-full transition-all px-2.5 sm:px-4 lg:px-8 py-2 lg:py-3 shadow-none">
       {/* =================================================================== */}
-      {/* 1. MOBILE TOP NAVBAR (Full-width on 2 sides, No Shadow, Rounded-b)  */}
+      {/* 1. MOBILE TOP NAVBAR (Exact Pixel Match to Mockup Screenshot)       */}
       {/* =================================================================== */}
-      <div className="lg:hidden relative w-full bg-white rounded-b-[22px] sm:rounded-b-[26px] border-b border-slate-200/90 shadow-none overflow-hidden px-3.5 pt-2.5 pb-3 flex flex-col gap-2">
-        {/* Decorative Fluid Mint Wave Background (Matches Mockup) */}
+      <div className="lg:hidden relative w-full bg-white rounded-[26px] sm:rounded-[30px] border border-slate-200/90 shadow-none overflow-hidden px-3.5 py-2.5 sm:px-4 sm:py-3 flex flex-col gap-2">
+        {/* Decorative Fluid Mint Wave Background (Exact Match to Mockup) */}
         <svg
-          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
+          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
-          <path d="M0,0 C50,0 75,30 40,60 C15,80 5,90 0,90 Z" fill="#6ee7b7" />
-          <path d="M0,15 C40,10 60,45 25,75 C10,90 0,90 0,90 Z" fill="#a7f3d0" opacity="0.6" />
+          <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#6ee7b7" />
+          <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#bef4df" opacity="0.85" />
+          <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
         </svg>
         <svg
-          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
+          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
-          <path d="M120,0 C70,0 45,30 80,60 C105,80 115,90 120,90 Z" fill="#6ee7b7" />
-          <path d="M120,15 C80,10 60,45 95,75 C110,90 120,90 120,90 Z" fill="#a7f3d0" opacity="0.6" />
+          <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#6ee7b7" />
+          <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#bef4df" opacity="0.85" />
+          <path d="M120,95 C105,85 95,90 85,95 Z" fill="#cdf7e5" />
         </svg>
 
-        {/* Row 1: Left (Menu + Logo) | Right (Role Pill + Bell + Avatar + 9-Dot) */}
-        <div className="flex items-center justify-between w-full relative z-10 gap-1">
+        {/* Row 1: Left (Menu + Logo) | Right (Role Pill + Bell + Avatar) */}
+        <div className="flex items-center justify-between w-full relative z-10 gap-1.5">
           
           {/* Left: Hamburger Button + Logo with Pill Icon and MedSupplyBD Text */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={() => setIsMobileNavOpen(true)}
               className="p-1 -ml-1 text-slate-800 hover:text-slate-950 transition-colors active:scale-90 cursor-pointer"
               aria-label="Open Navigation Drawer"
               title="Open Navigation Menu"
             >
-              <Menu className="w-5 h-5 stroke-[2.4]" />
+              <Menu className="w-5.5 h-5.5 stroke-[2.4]" />
             </button>
 
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 group" title="MedSupplyBD Home">
+            <Link href="/" className="flex items-center gap-1.5 group" title="MedSupplyBD Home">
               <img
                 src="/images/sidebar-logo.png"
                 alt="MedSupplyBD"
-                className="h-6.5 sm:h-8 w-auto object-contain"
+                className="h-7 sm:h-8 w-auto object-contain"
               />
-              <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">
+              <span className="text-[17px] sm:text-xl font-black tracking-tight text-slate-900 leading-none">
                 MedSupplyBD
               </span>
             </Link>
           </div>
 
-          {/* Right: Role Pill | Notification Bell | User Avatar | 9-Dot Grip Launcher */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* Right: Role Pill | Notification Bell | User Avatar */}
+          <div className="flex items-center gap-2 shrink-0">
             
-            {/* Role Indicator Pill (🟢 Pharmacy Owner ⌵) */}
+            {/* Role Indicator Pill (🟢 Pharmacy Ow... ⌵) */}
             <div className="relative" ref={mobileDropdownRef}>
               <button
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebfbf3] hover:bg-[#d8f6e8] border border-[#a7f3d0] text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#ebfbf3] hover:bg-[#d8f6e8] border border-[#a7f3d0] text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer shadow-none"
                 title="Switch Operational Persona"
               >
                 <span className="w-2 h-2 rounded-full bg-[#00c48c] shrink-0" />
-                <span className="text-slate-800 font-bold truncate max-w-[70px] xs:max-w-none text-[11px] sm:text-xs">
-                  {currentRoleConfig.label}
+                <span className="text-slate-800 font-bold truncate max-w-[85px] xs:max-w-none text-[11px] sm:text-xs">
+                  Pharmacy Ow...
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-600 shrink-0" />
               </button>
 
               {/* Mobile Role Switcher Floating Menu */}
               {isRoleDropdownOpen && (
-                <div className="fixed left-3 right-3 top-16 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="fixed left-3 right-3 top-20 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                   <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
                     <div>
                       <div className="text-xs font-black uppercase tracking-wider text-slate-500">
@@ -245,54 +247,31 @@ export const TopHeaderBar: React.FC = () => {
               )}
             </div>
 
-            {/* Notification Bell (Circular button with red badge count) */}
+            {/* Notification Bell (Circular button with red badge count 4) */}
             <Link
               href="/notifications"
-              className="relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-700 flex items-center justify-center transition-all active:scale-95"
+              className="relative w-8 h-8 rounded-full bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-700 flex items-center justify-center transition-all active:scale-95 shadow-none"
               title="Notifications"
             >
-              <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
-              <span className="absolute -top-1 -right-1 min-w-[15px] h-3.5 sm:h-4 px-1 rounded-full bg-[#ef4444] text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white">
+              <Bell className="w-4 h-4 stroke-[2]" />
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#ef4444] text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white shadow-none">
                 {unreadCount > 0 ? (unreadCount > 9 ? "9+" : unreadCount) : 4}
               </span>
             </Link>
 
-            {/* User Profile Avatar with Green Dot & Down Chevron */}
+            {/* User Profile Doctor Avatar with Green Online Dot */}
             <Link
               href="/profile"
-              className="flex items-center gap-0.5 p-0.5 rounded-full hover:bg-slate-100 transition-all cursor-pointer group"
+              className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 ring-1.5 ring-emerald-300 transition-all cursor-pointer group shadow-none"
               title={`Profile: ${currentUser.name}`}
             >
-              <div className="relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1.5 ring-emerald-300 shrink-0">
-                <img
-                  src={currentUser.avatar || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"}
-                  alt={currentUser.name}
-                  className="w-full h-full object-cover"
-                />
-                <span className="absolute top-0 right-0 w-2 h-2 rounded-full bg-[#00c48c] ring-1.5 ring-white" />
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-700 transition-colors" />
+              <img
+                src="/images/mockup-doctor-avatar.png"
+                alt={currentUser.name}
+                className="w-full h-full object-cover"
+              />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-[#00c48c] ring-1.5 ring-white" />
             </Link>
-
-            {/* 9-Dot Grip / App Launcher Icon Button */}
-            <button
-              onClick={() => setIsMobileNavOpen(true)}
-              className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-2xl bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-800 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
-              title="All Modules & Features"
-              aria-label="Open App Launcher"
-            >
-              <div className="grid grid-cols-3 gap-[2px] p-1">
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-                <span className="w-1 h-1 rounded-full bg-slate-800" />
-              </div>
-            </button>
           </div>
         </div>
 
@@ -308,13 +287,13 @@ export const TopHeaderBar: React.FC = () => {
               type="text"
               readOnly
               placeholder="Search medicine, brand, manufacturer..."
-              className="w-full bg-transparent text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 outline-none cursor-pointer font-medium truncate"
+              className="w-full bg-transparent text-xs sm:text-sm text-slate-500 placeholder:text-slate-400 outline-none cursor-pointer font-medium truncate"
             />
           </div>
 
           {/* Barcode/QR Scanner Icon inside soft green rounded box */}
           <div
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#ebfbf3] border border-[#a7f3d0]/60 flex items-center justify-center text-[#00c48c] shrink-0 group-hover:bg-[#d8f6e8] transition-colors"
+            className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-xl bg-[#ebfbf3] border border-[#a7f3d0]/60 flex items-center justify-center text-[#00c48c] shrink-0 group-hover:bg-[#d8f6e8] transition-colors shadow-none"
             title="Scan Medicine Barcode or Prescription"
           >
             <ScanLine className="w-4.5 h-4.5 stroke-[2.2]" />
