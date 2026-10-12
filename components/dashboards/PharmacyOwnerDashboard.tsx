@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -37,7 +37,19 @@ export const PharmacyOwnerDashboard: React.FC = () => {
   // State for interactive order chart timeframe
   const [chartTimeframe, setChartTimeframe] = useState<string>("Last 12 Months");
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [activeTooltipMonth, setActiveTooltipMonth] = useState<string>("Jul");
+  const [activeTooltipMonth, setActiveTooltipMonth] = useState<string | null>(null);
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  // Close tooltip when clicking outside the chart
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (chartRef.current && !chartRef.current.contains(e.target as Node)) {
+        setActiveTooltipMonth(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // 12-Month Order Overview Data matching user mockup
   const monthlyOrderData = [
@@ -361,7 +373,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
 
             {/* Dual Bar Chart Area (Taller, Roomier & Wide Chunky Bars) */}
-            <div className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
+            <div ref={chartRef} className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
               <div className="relative min-w-[500px] sm:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
                 {/* Y-axis Ticks & Horizontal Grid Lines */}
                 <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-xs sm:text-sm text-slate-500 font-bold">
@@ -389,29 +401,45 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                 {/* 12 Bars Columns */}
                 <div className="relative pl-9 sm:pl-10 pr-2 h-72 sm:h-80 lg:h-84 flex items-end justify-between gap-1 sm:gap-2">
-                  {monthlyOrderData.map((item) => {
+                  {monthlyOrderData.map((item, index) => {
                     const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
                     const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
-                    const isHovered = activeTooltipMonth === item.month;
+                    const maxBarHeight = Math.max(onlineHeight, wholesaleHeight);
+                    const isSelected = activeTooltipMonth === item.month;
+
+                    // Align tooltip column-wise: edge-safe for leftmost/rightmost columns
+                    const tooltipAlignClass =
+                      index <= 1
+                        ? "left-0 sm:left-1/2 sm:-translate-x-1/2"
+                        : index >= monthlyOrderData.length - 2
+                        ? "right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2"
+                        : "left-1/2 -translate-x-1/2";
 
                     return (
                       <div
                         key={item.month}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveTooltipMonth(isSelected ? null : item.month);
+                        }}
                         className="relative flex-1 flex flex-col items-center justify-end h-full group cursor-pointer"
-                        onMouseEnter={() => setActiveTooltipMonth(item.month)}
+                        title={`Click to view ${item.month} 2026 breakdown`}
                       >
-                        {/* Interactive Floating Tooltip (matching Jul 2026 screenshot) */}
-                        {isHovered && (
-                          <div className="absolute -top-14 sm:-top-16 z-30 bg-white/95 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[120px]">
+                        {/* Interactive Floating Tooltip showing column-wise with that column on click */}
+                        {isSelected && (
+                          <div
+                            className={`absolute z-30 bg-white rounded-2xl p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[130px] ${tooltipAlignClass}`}
+                            style={{ bottom: `calc(${Math.min(maxBarHeight + 3, 80)}% + 14px)` }}
+                          >
                             <div className="text-sm font-black text-slate-900 leading-tight">
                               {item.month} 2026
                             </div>
-                            <div className="text-xs sm:text-sm text-[#0080ff] font-bold flex items-center gap-1.5 mt-1 whitespace-nowrap">
-                              <span className="w-2 h-2 rounded-full bg-[#0080ff] shrink-0" />
+                            <div className="text-xs sm:text-sm text-[#0080ff] font-bold flex items-center gap-2 mt-1.5 whitespace-nowrap">
+                              <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
                               <span>Online: {item.online}</span>
                             </div>
-                            <div className="text-xs sm:text-sm text-[#00d084] font-bold flex items-center gap-1.5 mt-0.5 whitespace-nowrap">
-                              <span className="w-2 h-2 rounded-full bg-[#00d084] shrink-0" />
+                            <div className="text-xs sm:text-sm text-[#00d084] font-bold flex items-center gap-2 mt-1 whitespace-nowrap">
+                              <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
                               <span>Wholesale: {item.wholesale}</span>
                             </div>
                           </div>
@@ -421,18 +449,32 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         <div className="w-full flex items-end justify-center gap-0.5 sm:gap-1.5 h-full pb-1 px-0.5">
                           {/* Blue Online Bar */}
                           <div
-                            className="flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#0080ff] transition-all duration-300 hover:brightness-110 shadow-xs"
+                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#0080ff] transition-all duration-300 ${
+                              isSelected
+                                ? "brightness-110 ring-2 ring-blue-400/80 shadow-md scale-y-[1.02]"
+                                : "hover:brightness-105 shadow-xs"
+                            }`}
                             style={{ height: `${onlineHeight}%` }}
                           />
                           {/* Green Wholesale Bar */}
                           <div
-                            className="flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#00d084] transition-all duration-300 hover:brightness-110 shadow-xs"
+                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#00d084] transition-all duration-300 ${
+                              isSelected
+                                ? "brightness-110 ring-2 ring-emerald-400/80 shadow-md scale-y-[1.02]"
+                                : "hover:brightness-105 shadow-xs"
+                            }`}
                             style={{ height: `${wholesaleHeight}%` }}
                           />
                         </div>
 
                         {/* Month Label */}
-                        <span className="text-xs sm:text-sm font-bold text-slate-600 mt-2 select-none transition-colors group-hover:text-slate-950">
+                        <span
+                          className={`text-xs sm:text-sm font-bold mt-2 select-none transition-colors ${
+                            isSelected
+                              ? "text-slate-950 font-black scale-105"
+                              : "text-slate-600 group-hover:text-slate-950"
+                          }`}
+                        >
                           {item.month}
                         </span>
                       </div>
