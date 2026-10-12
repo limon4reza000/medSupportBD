@@ -359,29 +359,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            {/* Mobile Legend row */}
-            <div className="flex sm:hidden items-center gap-3.5 text-sm font-semibold text-slate-600 pt-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-2xs bg-[#729df2]" />
-                <span className="text-slate-700">Online Orders</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-2xs bg-[#b2dc87]" />
-                <span className="text-slate-700">Wholesale Orders</span>
-              </div>
-            </div>
           </div>
 
-          {/* Modern 2D Clustered Column Chart (Optimized for Mobile: Jan-Apr all visible at once) */}
-          <div className="flex-1 w-full flex flex-col pt-2 pb-1 mt-1 bg-white">
+          {/* Modern 2D Clustered Column Chart (Compact Mobile Height: 310px) */}
+          <div className="flex-1 w-full flex flex-col pt-1 pb-1 mt-1 bg-white">
             <div className="flex-1 w-full flex items-stretch">
               {/* Left Y-Axis: Clean Numbers with Subtle Tick Marks */}
               <div className="w-8 sm:w-10 shrink-0 select-none bg-white z-10 flex flex-col justify-between">
-                <svg viewBox="0 0 32 460" className="w-full h-[460px]">
+                <svg viewBox="0 0 32 310" className="w-full h-[310px]">
                   {[400, 300, 200, 100, 0].map((val) => {
                     const ratio = val / 400;
-                    const y = 400 - ratio * 340;
+                    const y = 265 - ratio * 230;
                     return (
                       <g key={val}>
                         {/* Clean Tick Value */}
@@ -411,18 +399,18 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               {/* Scrollable Column Chart Area with Visible Custom Scrollbar */}
               <div
                 ref={chartRef}
-                className="flex-1 min-w-0 overflow-x-auto pt-0 pb-3 chart-scrollbar bg-white"
+                className="flex-1 min-w-0 overflow-x-auto pt-0 pb-2 chart-scrollbar bg-white"
               >
-                <div className="relative w-[840px] h-[460px] shrink-0">
+                <div className="relative w-[840px] h-[310px] shrink-0">
                   <svg
-                    viewBox="0 0 840 460"
-                    className="w-[840px] h-[460px] overflow-visible select-none"
+                    viewBox="0 0 840 310"
+                    className="w-[840px] h-[310px] overflow-visible select-none"
                     preserveAspectRatio="xMidYMid meet"
                   >
                     {/* Clean Horizontal Grid Lines Across Full Width */}
                     {[400, 300, 200, 100, 0].map((val) => {
                       const ratio = val / 400;
-                      const y = 400 - ratio * 340;
+                      const y = 265 - ratio * 230;
                       return (
                         <line
                           key={val}
@@ -438,7 +426,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                     {/* 12 Months 2D Clustered Columns (Tighter gap: Jan to Apr fit together on mobile screen) */}
                     {monthlyOrderData.map((item, index) => {
-                      const colSpacing = 68; // Compact column spacing so Jan-Apr fit simultaneously
+                      const colSpacing = 68;
                       const colStartX = 4 + index * colSpacing;
                       const bw = 22; // 22px bar width
                       const gap = 2; // 2px gap between paired bars
@@ -447,13 +435,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                       // Bar 1: Online Orders (Blue, Left)
                       const bar1X = colStartX + offset;
-                      const h1 = Math.max(6, Math.round((item.online / 400) * 340));
-                      const bar1Y = 400 - h1;
+                      const h1 = Math.max(5, Math.round((item.online / 400) * 230));
+                      const bar1Y = 265 - h1;
 
                       // Bar 2: Wholesale Orders (Green, Right)
                       const bar2X = bar1X + bw + gap;
-                      const h2 = Math.max(6, Math.round((item.wholesale / 400) * 340));
-                      const bar2Y = 400 - h2;
+                      const h2 = Math.max(5, Math.round((item.wholesale / 400) * 230));
+                      const bar2Y = 265 - h2;
 
                       // Category Center X (for month label and tooltip)
                       const centerX = colStartX + colSpacing / 2;
@@ -474,9 +462,9 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Clickable transparent hitbox for the entire column pair */}
                           <rect
                             x={colStartX}
-                            y={15}
+                            y={10}
                             width={colSpacing}
-                            height={425}
+                            height={285}
                             fill="transparent"
                             className="hover:fill-slate-500/5 transition-colors"
                           />
@@ -494,7 +482,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Value label directly above Online Bar */}
                           <text
                             x={bar1X + bw / 2}
-                            y={bar1Y - 5}
+                            y={bar1Y - 4}
                             textAnchor="middle"
                             className="text-[10px] sm:text-xs font-semibold fill-slate-700"
                           >
@@ -514,7 +502,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Value label directly above Wholesale Bar */}
                           <text
                             x={bar2X + bw / 2}
-                            y={bar2Y - 5}
+                            y={bar2Y - 4}
                             textAnchor="middle"
                             className="text-[10px] sm:text-xs font-semibold fill-slate-700"
                           >
@@ -524,7 +512,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Category Month Label centered beneath the pair */}
                           <text
                             x={centerX}
-                            y={430}
+                            y={292}
                             textAnchor="middle"
                             className={`text-xs sm:text-sm select-none transition-colors ${
                               isSelected
@@ -553,19 +541,19 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       const offset = (colSpacing - (2 * bw + gap)) / 2;
 
                       const bar1X = colStartX + offset;
-                      const h1 = Math.max(6, Math.round((selItem.online / 400) * 340));
-                      const bar1Y = 400 - h1;
+                      const h1 = Math.max(5, Math.round((selItem.online / 400) * 230));
+                      const bar1Y = 265 - h1;
 
                       const bar2X = bar1X + bw + gap;
-                      const h2 = Math.max(6, Math.round((selItem.wholesale / 400) * 340));
-                      const bar2Y = 400 - h2;
+                      const h2 = Math.max(5, Math.round((selItem.wholesale / 400) * 230));
+                      const bar2Y = 265 - h2;
 
                       const centerX = colStartX + colSpacing / 2;
-                      const topPeak = Math.min(bar1Y, bar2Y) - 16;
+                      const topPeak = Math.min(bar1Y, bar2Y) - 14;
 
                       // Tooltip sits directly on top of the selected column pair
                       const tooltipHeight = 106;
-                      const tooltipY = Math.max(8, topPeak - tooltipHeight - 8);
+                      const tooltipY = Math.max(4, topPeak - tooltipHeight - 4);
                       const tooltipLeft = Math.max(75, Math.min(765, centerX));
 
                       return (
@@ -599,13 +587,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
 
             {/* Bottom Legend Matching Reference Image */}
-            <div className="flex items-center justify-center gap-8 pt-3 pb-1 select-none border-t border-slate-100/80 mt-1">
+            <div className="flex items-center justify-center gap-8 pt-2.5 pb-0.5 select-none border-t border-slate-100/80 mt-1">
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 rounded-2xs bg-[#729df2]" />
+                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#729df2]" />
                 <span className="text-xs text-slate-600 font-semibold">Online Orders</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3.5 h-3.5 rounded-2xs bg-[#b2dc87]" />
+                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#b2dc87]" />
                 <span className="text-xs text-slate-600 font-semibold">Wholesale Orders</span>
               </div>
             </div>
