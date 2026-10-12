@@ -202,20 +202,20 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       {/* =================================================================== */}
       {/* 1. TOP ROW: 4 METRIC KPI CARDS                                      */}
       {/* =================================================================== */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         
         {/* Card 1: Total Products */}
-        <div className="bg-white rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 border border-blue-100/80 flex items-center justify-center text-[#1e60d5] shrink-0 shadow-2xs">
-              <Box className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
+        <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
+          <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-blue-50 border border-blue-100/80 flex items-center justify-center text-[#1e60d5] shrink-0 shadow-2xs">
+              <Box className="w-4.5 h-4.5 sm:w-6 sm:h-6 stroke-[2.2]" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Products</div>
-              <div className="text-xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 25,430
               </div>
-              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[11px] sm:text-[13px] mt-1 font-semibold leading-tight">
+              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
                 <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +12%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">vs last month</span>
               </div>
@@ -224,17 +224,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         </div>
 
         {/* Card 2: Total Suppliers */}
-        <div className="bg-white rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-50 border border-emerald-100/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
-              <Users className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
+        <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
+          <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-emerald-50 border border-emerald-100/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+              <Users className="w-4.5 h-4.5 sm:w-6 sm:h-6 stroke-[2.2]" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Suppliers</div>
-              <div className="text-xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 350+
               </div>
-              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[11px] sm:text-[13px] mt-1 font-semibold leading-tight">
+              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
                 <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +8%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">Active suppliers</span>
               </div>
@@ -243,17 +243,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         </div>
 
         {/* Card 3: Total Orders */}
-        <div className="bg-white rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-50 border border-orange-100/80 flex items-center justify-center text-orange-500 shrink-0 shadow-2xs">
-              <ShoppingCart className="w-6 h-6 stroke-[2.2]" />
+        <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
+          <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-orange-50 border border-orange-100/80 flex items-center justify-center text-orange-500 shrink-0 shadow-2xs">
+              <ShoppingCart className="w-4.5 h-4.5 sm:w-6 sm:h-6 stroke-[2.2]" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Orders</div>
-              <div className="text-xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 1,200+
               </div>
-              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[11px] sm:text-[13px] mt-1 font-semibold leading-tight">
+              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
                 <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +18%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">This month</span>
               </div>
@@ -262,17 +262,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         </div>
 
         {/* Card 4: On-Time Delivery */}
-        <div className="bg-white rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
-          <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-purple-50 border border-purple-100/80 flex items-center justify-center text-purple-600 shrink-0 shadow-2xs">
-              <Truck className="w-6 h-6 stroke-[2.2]" />
+        <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
+          <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-purple-50 border border-purple-100/80 flex items-center justify-center text-purple-600 shrink-0 shadow-2xs">
+              <Truck className="w-4.5 h-4.5 sm:w-6 sm:h-6 stroke-[2.2]" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">On-Time Delivery</div>
-              <div className="text-xl sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
                 99%
               </div>
-              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[11px] sm:text-[13px] mt-1 font-semibold leading-tight">
+              <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
                 <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +2%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">Delivery success</span>
               </div>
