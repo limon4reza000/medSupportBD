@@ -447,21 +447,21 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                         {/* Side by side Bars (Wide, Chunky & Bold 'mota mota') */}
                         <div className="w-full flex items-end justify-center gap-0.5 sm:gap-1.5 h-full pb-1 px-0.5">
-                          {/* Blue Online Bar */}
+                          {/* Online Bar (Default Blue #0080ff, changes to Red #e53c3d when selected) */}
                           <div
-                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#0080ff] transition-all duration-300 ${
+                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md transition-all duration-300 ${
                               isSelected
-                                ? "brightness-110 ring-2 ring-blue-400/80 shadow-md scale-y-[1.02]"
-                                : "hover:brightness-105 shadow-xs"
+                                ? "bg-[#e53c3d] brightness-105 ring-2 ring-red-400/80 shadow-md scale-y-[1.02]"
+                                : "bg-[#0080ff] hover:brightness-105 shadow-xs"
                             }`}
                             style={{ height: `${onlineHeight}%` }}
                           />
-                          {/* Green Wholesale Bar */}
+                          {/* Wholesale Bar (Default Green #00d084, changes to Orange #f89831 when selected) */}
                           <div
-                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md bg-[#00d084] transition-all duration-300 ${
+                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md transition-all duration-300 ${
                               isSelected
-                                ? "brightness-110 ring-2 ring-emerald-400/80 shadow-md scale-y-[1.02]"
-                                : "hover:brightness-105 shadow-xs"
+                                ? "bg-[#f89831] brightness-105 ring-2 ring-orange-400/80 shadow-md scale-y-[1.02]"
+                                : "bg-[#00d084] hover:brightness-105 shadow-xs"
                             }`}
                             style={{ height: `${wholesaleHeight}%` }}
                           />
