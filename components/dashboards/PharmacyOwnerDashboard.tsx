@@ -389,265 +389,261 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* 3D Clustered Column Chart Area (Full Height to Red Marked Line, 75% Width Bars & Visible Bottom Scrollbar) */}
-          <div
-            ref={chartRef}
-            className="flex-1 w-full overflow-x-auto pt-2 pb-3 mt-1 chart-scrollbar"
-          >
-            <div className="relative w-[1380px] h-[540px] shrink-0">
-              <svg
-                viewBox="0 0 1380 540"
-                className="w-[1380px] h-[540px] overflow-visible select-none drop-shadow-2xs"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                {/* 3D Back Room: Left Wall */}
-                <polygon
-                  points="60,35 102,7 102,427 60,455"
-                  fill="#f8fafc"
-                  stroke="#e2e8f0"
-                  strokeWidth="1"
-                />
-
-                {/* 3D Back Room: Back Wall */}
-                <rect
-                  x="102"
-                  y="7"
-                  width="1253"
-                  height="420"
-                  fill="#ffffff"
-                  stroke="#e2e8f0"
-                  strokeWidth="1"
-                />
-
-                {/* 3D Back Room: Floor */}
-                <polygon
-                  points="60,455 102,427 1355,427 1313,455"
-                  fill="#f1f5f9"
-                  stroke="#e2e8f0"
-                  strokeWidth="1"
-                />
-
-                {/* Y-axis Ticks & 3D Depth Grid Lines (Spanning Full 395px Height to Top Red Line) */}
+          {/* Modern Column Chart Area with Pinned Left Y-Axis for Optimal Mobile & Desktop Experience */}
+          <div className="flex-1 w-full flex items-stretch pt-2 pb-1 mt-1">
+            {/* Left Y-Axis: Pinned / Fixed so scale reference (400, 300, 200, 100, 0) never scrolls away on mobile */}
+            <div className="w-12 sm:w-14 shrink-0 select-none border-r border-slate-200/80 bg-white z-10 flex flex-col justify-between">
+              <svg viewBox="0 0 54 540" className="w-full h-[540px]">
+                {/* Y-axis Metric Title */}
+                <text
+                  x="44"
+                  y="26"
+                  textAnchor="end"
+                  className="text-[10px] font-black fill-slate-400 tracking-wider uppercase"
+                >
+                  Orders
+                </text>
                 {[400, 300, 200, 100, 0].map((val) => {
                   const ratio = val / 400;
-                  const yF = 455 - ratio * 395;
-                  const yB = 427 - ratio * 395;
+                  const y = 455 - ratio * 395;
                   return (
                     <g key={val}>
-                      {/* Tick Number Label on Left Axis */}
+                      {/* Clean Flat Tick Value */}
                       <text
-                        x="50"
-                        y={yF + 5}
+                        x="40"
+                        y={y + 4}
                         textAnchor="end"
-                        className="text-xs sm:text-sm font-black fill-slate-500"
+                        className="text-xs sm:text-[13px] font-bold fill-slate-500"
                       >
                         {val}
                       </text>
-                      {/* Left Wall Perspective Line */}
+                      {/* Axis Tick Notch */}
                       <line
-                        x1="60"
-                        y1={yF}
-                        x2="102"
-                        y2={yB}
-                        stroke="#e2e8f0"
-                        strokeWidth="1"
+                        x1="46"
+                        y1={y}
+                        x2="54"
+                        y2={y}
+                        stroke={val === 0 ? "#94a3b8" : "#cbd5e1"}
+                        strokeWidth={val === 0 ? "2" : "1"}
                       />
-                      {/* Back Wall Horizontal Grid Line */}
-                      <line
-                        x1="102"
-                        y1={yB}
-                        x2="1355"
-                        y2={yB}
-                        stroke={val === 0 ? "#cbd5e1" : "#f1f5f9"}
-                        strokeWidth={val === 0 ? "1.5" : "1"}
-                        strokeDasharray={val === 0 ? "none" : "3 3"}
-                      />
-                    </g>
-                  );
-                })}
-
-                {/* 12 Months 3D Clustered Columns (70% Column Width: bw=34px, cluster=70px per 100px column) */}
-                {monthlyOrderData.map((item, index) => {
-                  const colX = 114 + index * 100;
-                  const bw = 34; // 34px wide chunky bar front width
-                  const dx = 15; // Deep 3D perspective X
-                  const dy = -11; // Deep 3D perspective Y
-                  const maxH = 370; // Grand tall bars reaching all the way to top red line
-                  const isSelected = activeTooltipMonth === item.month;
-
-                  // Series 2 (Wholesale Orders) - Sits in the back row (36px offset + 34px bar = 70px cluster width = 70% of 100px column)
-                  const staggerX = 36;
-                  const staggerY = -14;
-                  const barX2 = colX + staggerX;
-                  const baseY2 = 455 + staggerY;
-                  const h2 = Math.max(20, Math.round((item.wholesale / 400) * maxH));
-                  const topY2 = baseY2 - h2;
-
-                  // Series 1 (Online Orders) - Sits in the front row
-                  const barX1 = colX;
-                  const baseY1 = 455;
-                  const h1 = Math.max(20, Math.round((item.online / 400) * maxH));
-                  const topY1 = baseY1 - h1;
-
-                  // Colors for Series 2 (Wholesale): Default Vibrant Emerald Green, Selected Warm Golden Amber
-                  const wholesaleFront = isSelected ? "#f89831" : "#00d084";
-                  const wholesaleTop = isSelected ? "#fef08a" : "#6ee7b7";
-                  const wholesaleSide = isSelected ? "#d97706" : "#059669";
-                  const wholesaleStroke = isSelected ? "#b45309" : "#047857";
-                  const wholesaleText = isSelected ? "#b45309" : "#059669";
-
-                  // Colors for Series 1 (Online): Default Vibrant Electric Blue, Selected Ruby Red
-                  const onlineFront = isSelected ? "#e53c3d" : "#0080ff";
-                  const onlineTop = isSelected ? "#fca5a5" : "#60a5fa";
-                  const onlineSide = isSelected ? "#b91c1c" : "#1d4ed8";
-                  const onlineStroke = isSelected ? "#991b1b" : "#1e40af";
-                  const onlineText = isSelected ? "#b91c1c" : "#1d4ed8";
-
-                  return (
-                    <g
-                      key={item.month}
-                      className="cursor-pointer group"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveTooltipMonth(isSelected ? null : item.month);
-                      }}
-                    >
-                      {/* Clickable transparent hitbox for the entire column */}
-                      <rect
-                        x={colX - 4}
-                        y={15}
-                        width={80}
-                        height={485}
-                        fill="transparent"
-                        className="hover:fill-blue-500/5 transition-colors"
-                      />
-
-                      {/* ======================================================== */}
-                      {/* 1. BACK ROW: Wholesale 3D Prism Bar (Emerald Green)     */}
-                      {/* ======================================================== */}
-                      <g className="transition-all duration-300">
-                        {/* Front Face */}
-                        <polygon
-                          points={`${barX2},${topY2} ${barX2 + bw},${topY2} ${barX2 + bw},${baseY2} ${barX2},${baseY2}`}
-                          fill={wholesaleFront}
-                          stroke={wholesaleStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Top Cap Face */}
-                        <polygon
-                          points={`${barX2},${topY2} ${barX2 + dx},${topY2 + dy} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw},${topY2}`}
-                          fill={wholesaleTop}
-                          stroke={wholesaleStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Right Side Face */}
-                        <polygon
-                          points={`${barX2 + bw},${topY2} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw + dx},${baseY2 + dy} ${barX2 + bw},${baseY2}`}
-                          fill={wholesaleSide}
-                          stroke={wholesaleStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Value Label above wholesale bar */}
-                        <text
-                          x={barX2 + bw / 2 + dx / 2}
-                          y={topY2 + dy - 7}
-                          textAnchor="middle"
-                          className="text-xs sm:text-[13px] font-black"
-                          fill={wholesaleText}
-                          style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
-                        >
-                          {item.wholesale}
-                        </text>
-                      </g>
-
-                      {/* ======================================================== */}
-                      {/* 2. FRONT ROW: Online 3D Prism Bar (Electric Blue)       */}
-                      {/* ======================================================== */}
-                      <g className="transition-all duration-300">
-                        {/* Front Face */}
-                        <polygon
-                          points={`${barX1},${topY1} ${barX1 + bw},${topY1} ${barX1 + bw},${baseY1} ${barX1},${baseY1}`}
-                          fill={onlineFront}
-                          stroke={onlineStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Top Cap Face */}
-                        <polygon
-                          points={`${barX1},${topY1} ${barX1 + dx},${topY1 + dy} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw},${topY1}`}
-                          fill={onlineTop}
-                          stroke={onlineStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Right Side Face */}
-                        <polygon
-                          points={`${barX1 + bw},${topY1} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw + dx},${baseY1 + dy} ${barX1 + bw},${baseY1}`}
-                          fill={onlineSide}
-                          stroke={onlineStroke}
-                          strokeWidth="0.8"
-                        />
-                        {/* Value Label above online bar */}
-                        <text
-                          x={barX1 + bw / 2 + dx / 2}
-                          y={topY1 + dy - 7}
-                          textAnchor="middle"
-                          className="text-xs sm:text-[13px] font-black"
-                          fill={onlineText}
-                          style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
-                        >
-                          {item.online}
-                        </text>
-                      </g>
-
-                      {/* Month Label */}
-                      <text
-                        x={colX + 35}
-                        y={490}
-                        textAnchor="middle"
-                        className={`text-sm select-none transition-colors ${
-                          isSelected
-                            ? "fill-slate-950 font-black"
-                            : "fill-slate-700 font-bold group-hover:fill-slate-950"
-                        }`}
-                      >
-                        {item.month}
-                      </text>
                     </g>
                   );
                 })}
               </svg>
+            </div>
 
-              {/* Floating Interactive Tooltip Popover on column select */}
-              {activeTooltipMonth && (
-                (() => {
-                  const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
-                  const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
-                  if (!selItem || selIndex === -1) return null;
-                  const colX = 114 + selIndex * 100;
-                  const percentX = Math.min(95, Math.max(5, ((colX + 35) / 1380) * 100));
+            {/* Scrollable Column Chart Area with Visible Custom Scrollbar */}
+            <div
+              ref={chartRef}
+              className="flex-1 min-w-0 overflow-x-auto pt-0 pb-3 chart-scrollbar"
+            >
+              <div className="relative w-[1260px] h-[540px] shrink-0">
+                <svg
+                  viewBox="0 0 1260 540"
+                  className="w-[1260px] h-[540px] overflow-visible select-none drop-shadow-2xs"
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  {/* Subtle Horizontal Reference Grid Lines Across Full Width */}
+                  {[400, 300, 200, 100, 0].map((val) => {
+                    const ratio = val / 400;
+                    const y = 455 - ratio * 395;
+                    return (
+                      <line
+                        key={val}
+                        x1="0"
+                        y1={y}
+                        x2="1260"
+                        y2={y}
+                        stroke={val === 0 ? "#cbd5e1" : "#f1f5f9"}
+                        strokeWidth={val === 0 ? "2" : "1"}
+                        strokeDasharray={val === 0 ? "none" : "4 4"}
+                      />
+                    );
+                  })}
 
-                  return (
-                    <div
-                      className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3.5 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[140px] -translate-x-1/2 top-2"
-                      style={{ left: `${percentX}%` }}
-                    >
-                      <div className="text-sm font-black text-slate-900 leading-tight">
-                        {selItem.month} 2026
+                  {/* 12 Months 3D Clustered Columns (70% Column Width: bw=34px, cluster=70px per 100px column) */}
+                  {monthlyOrderData.map((item, index) => {
+                    const colX = 28 + index * 100;
+                    const bw = 34; // 34px wide chunky bar front width
+                    const dx = 15; // Deep 3D perspective X
+                    const dy = -11; // Deep 3D perspective Y
+                    const maxH = 370; // Grand tall bars reaching all the way to top
+                    const isSelected = activeTooltipMonth === item.month;
+
+                    // Series 2 (Wholesale Orders) - Sits in the back row (36px offset + 34px bar = 70px cluster width = 70% of 100px column)
+                    const staggerX = 36;
+                    const staggerY = -14;
+                    const barX2 = colX + staggerX;
+                    const baseY2 = 455 + staggerY;
+                    const h2 = Math.max(20, Math.round((item.wholesale / 400) * maxH));
+                    const topY2 = baseY2 - h2;
+
+                    // Series 1 (Online Orders) - Sits in the front row
+                    const barX1 = colX;
+                    const baseY1 = 455;
+                    const h1 = Math.max(20, Math.round((item.online / 400) * maxH));
+                    const topY1 = baseY1 - h1;
+
+                    // Colors for Series 2 (Wholesale): Default Vibrant Emerald Green, Selected Warm Golden Amber
+                    const wholesaleFront = isSelected ? "#f89831" : "#00d084";
+                    const wholesaleTop = isSelected ? "#fef08a" : "#6ee7b7";
+                    const wholesaleSide = isSelected ? "#d97706" : "#059669";
+                    const wholesaleStroke = isSelected ? "#b45309" : "#047857";
+                    const wholesaleText = isSelected ? "#b45309" : "#059669";
+
+                    // Colors for Series 1 (Online): Default Vibrant Electric Blue, Selected Ruby Red
+                    const onlineFront = isSelected ? "#e53c3d" : "#0080ff";
+                    const onlineTop = isSelected ? "#fca5a5" : "#60a5fa";
+                    const onlineSide = isSelected ? "#b91c1c" : "#1d4ed8";
+                    const onlineStroke = isSelected ? "#991b1b" : "#1e40af";
+                    const onlineText = isSelected ? "#b91c1c" : "#1d4ed8";
+
+                    return (
+                      <g
+                        key={item.month}
+                        className="cursor-pointer group"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveTooltipMonth(isSelected ? null : item.month);
+                        }}
+                      >
+                        {/* Clickable transparent hitbox for the entire column */}
+                        <rect
+                          x={colX - 4}
+                          y={15}
+                          width={80}
+                          height={485}
+                          fill="transparent"
+                          className="hover:fill-blue-500/5 transition-colors"
+                        />
+
+                        {/* ======================================================== */}
+                        {/* 1. BACK ROW: Wholesale 3D Prism Bar (Emerald Green)     */}
+                        {/* ======================================================== */}
+                        <g className="transition-all duration-300">
+                          {/* Front Face */}
+                          <polygon
+                            points={`${barX2},${topY2} ${barX2 + bw},${topY2} ${barX2 + bw},${baseY2} ${barX2},${baseY2}`}
+                            fill={wholesaleFront}
+                            stroke={wholesaleStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Top Cap Face */}
+                          <polygon
+                            points={`${barX2},${topY2} ${barX2 + dx},${topY2 + dy} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw},${topY2}`}
+                            fill={wholesaleTop}
+                            stroke={wholesaleStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Right Side Face */}
+                          <polygon
+                            points={`${barX2 + bw},${topY2} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw + dx},${baseY2 + dy} ${barX2 + bw},${baseY2}`}
+                            fill={wholesaleSide}
+                            stroke={wholesaleStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Value Label above wholesale bar */}
+                          <text
+                            x={barX2 + bw / 2 + dx / 2}
+                            y={topY2 + dy - 7}
+                            textAnchor="middle"
+                            className="text-xs sm:text-[13px] font-black"
+                            fill={wholesaleText}
+                            style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
+                          >
+                            {item.wholesale}
+                          </text>
+                        </g>
+
+                        {/* ======================================================== */}
+                        {/* 2. FRONT ROW: Online 3D Prism Bar (Electric Blue)       */}
+                        {/* ======================================================== */}
+                        <g className="transition-all duration-300">
+                          {/* Front Face */}
+                          <polygon
+                            points={`${barX1},${topY1} ${barX1 + bw},${topY1} ${barX1 + bw},${baseY1} ${barX1},${baseY1}`}
+                            fill={onlineFront}
+                            stroke={onlineStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Top Cap Face */}
+                          <polygon
+                            points={`${barX1},${topY1} ${barX1 + dx},${topY1 + dy} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw},${topY1}`}
+                            fill={onlineTop}
+                            stroke={onlineStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Right Side Face */}
+                          <polygon
+                            points={`${barX1 + bw},${topY1} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw + dx},${baseY1 + dy} ${barX1 + bw},${baseY1}`}
+                            fill={onlineSide}
+                            stroke={onlineStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Value Label above online bar */}
+                          <text
+                            x={barX1 + bw / 2 + dx / 2}
+                            y={topY1 + dy - 7}
+                            textAnchor="middle"
+                            className="text-xs sm:text-[13px] font-black"
+                            fill={onlineText}
+                            style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
+                          >
+                            {item.online}
+                          </text>
+                        </g>
+
+                        {/* Month Label */}
+                        <text
+                          x={colX + 35}
+                          y={490}
+                          textAnchor="middle"
+                          className={`text-sm select-none transition-colors ${
+                            isSelected
+                              ? "fill-slate-950 font-black"
+                              : "fill-slate-700 font-bold group-hover:fill-slate-950"
+                          }`}
+                        >
+                          {item.month}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+
+                {/* Floating Interactive Tooltip Popover on column select */}
+                {activeTooltipMonth && (
+                  (() => {
+                    const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
+                    const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
+                    if (!selItem || selIndex === -1) return null;
+                    const colX = 28 + selIndex * 100;
+                    const percentX = Math.min(95, Math.max(5, ((colX + 35) / 1260) * 100));
+
+                    return (
+                      <div
+                        className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3.5 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[140px] -translate-x-1/2 top-2"
+                        style={{ left: `${percentX}%` }}
+                      >
+                        <div className="text-sm font-black text-slate-900 leading-tight">
+                          {selItem.month} 2026
+                        </div>
+                        <div className="text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1.5">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#0080ff] shrink-0" />
+                          <span>Online: {selItem.online} orders</span>
+                        </div>
+                        <div className="text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-1">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#00d084] shrink-0" />
+                          <span>Wholesale: {selItem.wholesale} orders</span>
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-semibold mt-1.5 pt-1.5 border-t border-slate-100">
+                          Total: {selItem.online + selItem.wholesale} orders
+                        </div>
                       </div>
-                      <div className="text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1.5">
-                        <span className="w-2.5 h-2.5 rounded-xs bg-[#0080ff] shrink-0" />
-                        <span>Online: {selItem.online} orders</span>
-                      </div>
-                      <div className="text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-1">
-                        <span className="w-2.5 h-2.5 rounded-xs bg-[#00d084] shrink-0" />
-                        <span>Wholesale: {selItem.wholesale} orders</span>
-                      </div>
-                      <div className="text-[11px] text-slate-500 font-semibold mt-1.5 pt-1.5 border-t border-slate-100">
-                        Total: {selItem.online + selItem.wholesale} orders
-                      </div>
-                    </div>
-                  );
-                })()
-              )}
+                    );
+                  })()
+                )}
+              </div>
             </div>
           </div>
         </div>
