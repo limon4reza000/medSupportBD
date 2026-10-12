@@ -150,10 +150,10 @@ export const TopHeaderBar: React.FC = () => {
           <Link
             href="/distributors"
             id="nearby-distributors-header-btn"
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-emerald-50 text-[#01382a] border border-slate-200/90 font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-blue-50 text-slate-800 border border-slate-200/90 hover:border-blue-300 font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group"
             title="Discover nearby authorized pharmaceutical depots & medicine stock on map"
           >
-            <MapPin className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
+            <MapPin className="w-4 h-4 text-[#0080ff] group-hover:scale-110 transition-transform" />
             <span className="font-extrabold">Nearby Depots</span>
           </Link>
 
@@ -161,12 +161,12 @@ export const TopHeaderBar: React.FC = () => {
           <button
             onClick={() => setIsGetAppOpen(true)}
             id="get-app-header-btn"
-            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#025540] to-emerald-700 hover:from-[#01382a] hover:to-emerald-800 text-white font-black text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group border border-emerald-400/40"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#0080ff] to-[#0060df] hover:from-[#0070e6] hover:to-[#0052be] text-white font-black text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group border border-blue-400/40"
             title="Download or install MedSupplyBD Mobile App (Android APK / iPhone / Web)"
           >
-            <Smartphone className="w-4.5 h-4.5 text-emerald-300 group-hover:scale-110 transition-transform" />
+            <Smartphone className="w-4.5 h-4.5 text-blue-100 group-hover:scale-110 transition-transform" />
             <span className="font-black">Get App</span>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[11px] font-black uppercase tracking-wider hidden md:inline">
+            <span className="px-2 py-0.5 rounded-full bg-white text-[#0060df] text-[11px] font-black uppercase tracking-wider hidden md:inline">
               APK &bull; iOS
             </span>
           </button>
@@ -175,7 +175,7 @@ export const TopHeaderBar: React.FC = () => {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-              className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-2xl bg-white hover:bg-emerald-50/60 border border-slate-200/90 shadow-xs hover:shadow-md transition-all group"
+              className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-2xl bg-white hover:bg-blue-50/60 border border-slate-200/90 shadow-xs hover:shadow-md transition-all group"
               title="Click to switch role (Super Admin, Pharma, Distributor, MPO, Pharmacy)"
             >
               <div className={`w-8 h-8 rounded-xl ${currentRoleConfig.badgeColor} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs`}>
@@ -183,10 +183,10 @@ export const TopHeaderBar: React.FC = () => {
               </div>
               <div className="hidden sm:flex flex-col text-left min-w-0 max-w-[170px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-bold text-slate-900 group-hover:text-emerald-900 transition-colors leading-tight truncate">
+                  <span className="text-sm font-bold text-slate-900 group-hover:text-[#0080ff] transition-colors leading-tight truncate">
                     {currentRoleConfig.label}
                   </span>
-                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
+                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-blue-100 text-[#0080ff]">
                     Switch
                   </span>
                 </div>
@@ -220,7 +220,7 @@ export const TopHeaderBar: React.FC = () => {
                         onClick={() => handleSelectRole(item.role)}
                         className={`w-full text-left p-2.5 rounded-2xl flex items-start gap-3 transition-all ${
                           isSelected
-                            ? "bg-[#025540] text-white shadow-md"
+                            ? "bg-[#0080ff] text-white shadow-md"
                             : "hover:bg-slate-50 text-slate-800"
                         }`}
                       >
@@ -236,12 +236,12 @@ export const TopHeaderBar: React.FC = () => {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-sm">{item.label}</span>
-                            {isSelected && <Check className="w-4 h-4 text-emerald-300" />}
+                            {isSelected && <Check className="w-4 h-4 text-white" />}
                           </div>
-                          <div className={`text-xs truncate ${isSelected ? "text-emerald-100 font-semibold" : "text-slate-600 font-medium"}`}>
+                          <div className={`text-xs truncate ${isSelected ? "text-blue-100 font-semibold" : "text-slate-600 font-medium"}`}>
                             {item.org}
                           </div>
-                          <div className={`text-xs mt-0.5 ${isSelected ? "text-emerald-200/80" : "text-slate-500"}`}>
+                          <div className={`text-xs mt-0.5 ${isSelected ? "text-blue-100/90" : "text-slate-500"}`}>
                             {item.description}
                           </div>
                         </div>
@@ -252,7 +252,7 @@ export const TopHeaderBar: React.FC = () => {
 
                 <div className="pt-2 border-t border-slate-100 px-3 py-1 text-xs sm:text-[13px] text-slate-600 flex items-center justify-between font-medium">
                   <span>Current: <strong>{currentUser.name}</strong></span>
-                  <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-emerald-700 font-bold hover:underline">
+                  <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-[#0080ff] font-bold hover:underline">
                     Edit Profile
                   </Link>
                 </div>
