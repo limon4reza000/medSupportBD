@@ -78,3 +78,38 @@ body {
 .btn-primary:hover {
   background-color: #059669;
 }
+
+/* ========================================================================= */
+/* 60FPS Hardware-Accelerated Smooth Slide-In / Slide-Out Drawer Animations */
+/* ========================================================================= */
+.drawer-container {
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 350ms;
+}
+
+.drawer-container.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  transition: none;
+}
+
+.drawer-backdrop {
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.drawer-container.is-open .drawer-backdrop {
+  opacity: 1;
+}
+
+.drawer-panel {
+  transform: translate3d(100%, 0, 0);
+  transition: transform 350ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+.drawer-container.is-open .drawer-panel {
+  transform: translate3d(0, 0, 0);
+}

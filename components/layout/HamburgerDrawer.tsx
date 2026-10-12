@@ -207,26 +207,18 @@ export const HamburgerDrawer: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex justify-end select-none ${
-        isMobileNavOpen
-          ? "visible pointer-events-auto"
-          : "invisible pointer-events-none delay-300"
+      className={`drawer-container fixed inset-0 z-50 flex justify-end select-none overflow-hidden ${
+        isMobileNavOpen ? "is-open" : ""
       }`}
     >
       {/* Backdrop with smooth fade in/out animation */}
       <div
-        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
-          isMobileNavOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className="drawer-backdrop fixed inset-0 bg-slate-900/50 backdrop-blur-sm cursor-pointer"
         onClick={closeDrawer}
       />
 
-      {/* Drawer Panel with smooth slide-in / slide-out transform animation */}
-      <div
-        className={`relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
-          isMobileNavOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
+      {/* Drawer Panel with 60FPS GPU-accelerated slide-in / slide-out */}
+      <div className="drawer-panel relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80">
         
         {/* Header with MedSupplyBD Brand Logo & User Profile Section */}
         <div className="p-4 sm:p-5 bg-white text-slate-800 border-b border-slate-200/80 relative">
