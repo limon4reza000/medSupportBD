@@ -127,19 +127,16 @@ export const TopHeaderBar: React.FC = () => {
 
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="relative flex-1 w-full flex items-center bg-white hover:bg-slate-50/90 cursor-pointer border border-slate-200/90 hover:border-emerald-500 rounded-2xl px-3.5 sm:px-4 py-2 sm:py-2.5 shadow-xs hover:shadow-md transition-all group"
-            title="Search medicine (Brand or Generic)"
+            className="relative flex-1 w-full flex items-center bg-slate-100/90 hover:bg-white cursor-pointer border-2 border-slate-200 hover:border-[#0080ff] focus-within:border-[#0080ff] focus-within:ring-2 focus-within:ring-blue-100 rounded-2xl px-4 py-2.5 shadow-2xs hover:shadow-md transition-all group"
+            title="Search medicine"
           >
-            <Search className="w-4.5 h-4.5 text-slate-400 group-hover:text-emerald-600 transition-colors mr-2.5 sm:mr-3 shrink-0" />
+            <Search className="w-5 h-5 text-slate-600 group-hover:text-[#0080ff] transition-colors mr-3 shrink-0" />
             <input
               type="text"
               readOnly
-              placeholder="Search 41,300+ medicines, manufacturers, generics..."
-              className="w-full bg-transparent text-sm text-slate-700 placeholder-slate-400 outline-none cursor-pointer font-medium truncate"
+              placeholder="Search medicine"
+              className="w-full bg-transparent text-sm sm:text-base text-slate-900 placeholder:text-slate-600 outline-none cursor-pointer font-semibold truncate"
             />
-            <kbd className="hidden md:inline-block px-2 py-0.5 rounded bg-slate-100 text-xs font-mono font-bold text-slate-500 border border-slate-200">
-              ⌘K
-            </kbd>
           </div>
         </div>
 

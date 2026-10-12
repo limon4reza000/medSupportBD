@@ -181,18 +181,18 @@ export const SearchCommand: React.FC = () => {
         {/* Search Input Header */}
         <div className="flex items-center px-4 sm:px-6 py-4 border-b border-slate-100 bg-slate-50/80 shrink-0">
           {isLoading ? (
-            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700 mr-3 shrink-0 animate-spin" />
+            <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 text-[#0080ff] mr-3 shrink-0 animate-spin" />
           ) : (
-            <Search className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700 mr-3 shrink-0" />
+            <Search className="w-5 h-5 sm:w-6 sm:h-6 text-[#0080ff] mr-3 shrink-0" />
           )}
 
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search medicine..."
+            placeholder="Search medicine"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-transparent text-sm sm:text-base lg:text-lg text-slate-900 placeholder-slate-400 outline-none font-medium"
+            className="w-full bg-transparent text-sm sm:text-base lg:text-lg text-slate-900 placeholder:text-slate-500 outline-none font-medium"
           />
 
           {searchQuery && (
