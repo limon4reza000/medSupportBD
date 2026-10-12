@@ -118,11 +118,11 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-white border-b border-slate-200/80 transition-all shadow-none">
+    <header className="sticky top-0 z-30 w-full transition-all shadow-none">
       {/* =================================================================== */}
-      {/* 1. MOBILE TOP NAVBAR (Full-Screen Edge-to-Edge, No Shadow)          */}
+      {/* 1. MOBILE TOP NAVBAR (Full-width on 2 sides, No Shadow, Rounded-b)  */}
       {/* =================================================================== */}
-      <div className="lg:hidden relative w-full overflow-hidden px-3 sm:px-5 py-2.5 flex flex-col gap-2 bg-white shadow-none">
+      <div className="lg:hidden relative w-full bg-white rounded-b-[22px] sm:rounded-b-[26px] border-b border-slate-200/90 shadow-none overflow-hidden px-3.5 pt-2.5 pb-3 flex flex-col gap-2">
         {/* Decorative Fluid Mint Wave Background (Matches Mockup) */}
         <svg
           className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
@@ -323,9 +323,9 @@ export const TopHeaderBar: React.FC = () => {
       </div>
 
       {/* =================================================================== */}
-      {/* 2. DESKTOP NAVBAR LAYOUT (Full Screen View)                         */}
+      {/* 2. DESKTOP NAVBAR LAYOUT                                            */}
       {/* =================================================================== */}
-      <div className="hidden lg:flex items-center justify-between gap-3 sm:gap-4 w-full px-6 lg:px-8 py-3">
+      <div className="hidden lg:flex items-center justify-between gap-3 sm:gap-4 w-full px-4 sm:px-6 lg:px-8 py-3">
         
         {/* Left: Global Search Input */}
         <div className="flex items-center flex-1 w-full min-w-0 gap-2">
