@@ -374,7 +374,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
             {/* Dual Bar Chart Area (Taller, Roomier & Wide Chunky Bars) */}
             <div ref={chartRef} className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
-              <div className="relative min-w-[500px] sm:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
+              <div className="relative min-w-[660px] sm:min-w-[740px] lg:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
                 {/* Y-axis Ticks & Horizontal Grid Lines */}
                 <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-xs sm:text-sm text-slate-500 font-bold">
                   <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
@@ -399,8 +399,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 12 Bars Columns */}
-                <div className="relative pl-9 sm:pl-10 pr-2 h-72 sm:h-80 lg:h-84 flex items-end justify-between gap-1 sm:gap-2">
+                {/* 12 Bars Columns with increased horizontal spacing */}
+                <div className="relative pl-9 sm:pl-11 pr-2 sm:pr-4 h-72 sm:h-80 lg:h-84 flex items-end justify-between gap-3 sm:gap-4 md:gap-5 lg:gap-6">
                   {monthlyOrderData.map((item, index) => {
                     const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
                     const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
@@ -445,11 +445,11 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           </div>
                         )}
 
-                        {/* Side by side Bars (Wide, Chunky & Bold 'mota mota') */}
-                        <div className="w-full flex items-end justify-center gap-0.5 sm:gap-1.5 h-full pb-1 px-0.5">
+                        {/* Side by side Bars (Wider Chunky Bars & Crisp Spacing) */}
+                        <div className="w-full flex items-end justify-center gap-1 sm:gap-1.5 h-full pb-1 px-0.5">
                           {/* Online Bar (Default Blue #0080ff, changes to Red #e53c3d when selected) */}
                           <div
-                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md transition-all duration-300 ${
+                            className={`w-3.5 sm:w-4.5 md:w-5.5 lg:w-5 xl:w-6 min-w-[13px] sm:min-w-[16px] max-w-[26px] sm:max-w-[34px] md:max-w-[40px] rounded-t-md sm:rounded-t-lg transition-all duration-300 ${
                               isSelected
                                 ? "bg-[#e53c3d] brightness-105 ring-2 ring-red-400/80 shadow-md scale-y-[1.02]"
                                 : "bg-[#0080ff] hover:brightness-105 shadow-xs"
@@ -458,7 +458,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           />
                           {/* Wholesale Bar (Default Green #00d084, changes to Orange #f89831 when selected) */}
                           <div
-                            className={`flex-1 min-w-[10px] max-w-[18px] sm:max-w-[24px] md:max-w-[30px] lg:max-w-[28px] xl:max-w-[34px] rounded-t sm:rounded-t-md transition-all duration-300 ${
+                            className={`w-3.5 sm:w-4.5 md:w-5.5 lg:w-5 xl:w-6 min-w-[13px] sm:min-w-[16px] max-w-[26px] sm:max-w-[34px] md:max-w-[40px] rounded-t-md sm:rounded-t-lg transition-all duration-300 ${
                               isSelected
                                 ? "bg-[#f89831] brightness-105 ring-2 ring-orange-400/80 shadow-md scale-y-[1.02]"
                                 : "bg-[#00d084] hover:brightness-105 shadow-xs"
