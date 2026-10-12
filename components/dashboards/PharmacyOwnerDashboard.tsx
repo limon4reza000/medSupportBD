@@ -347,13 +347,22 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 </div>
 
                 {/* Legends */}
+                {/* Legends with 3D Cube Icons */}
                 <div className="hidden sm:flex items-center gap-4 text-sm font-bold text-slate-600">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#0080ff] shrink-0" />
+                    <svg width="14" height="14" viewBox="0 0 16 16" className="shrink-0 drop-shadow-xs">
+                      <rect x="1" y="5" width="9" height="10" fill="#2563eb" stroke="#1e3a8a" strokeWidth="0.8" />
+                      <polygon points="1,5 5,1 14,1 10,5" fill="#93c5fd" stroke="#1e3a8a" strokeWidth="0.8" />
+                      <polygon points="10,5 14,1 14,11 10,15" fill="#1e40af" stroke="#1e3a8a" strokeWidth="0.8" />
+                    </svg>
                     <span className="text-slate-700 font-bold">Online Orders</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#00d084] shrink-0" />
+                    <svg width="14" height="14" viewBox="0 0 16 16" className="shrink-0 drop-shadow-xs">
+                      <rect x="1" y="5" width="9" height="10" fill="#ea580c" stroke="#7c2d12" strokeWidth="0.8" />
+                      <polygon points="1,5 5,1 14,1 10,5" fill="#fdba74" stroke="#7c2d12" strokeWidth="0.8" />
+                      <polygon points="10,5 14,1 14,11 10,15" fill="#9a3412" stroke="#7c2d12" strokeWidth="0.8" />
+                    </svg>
                     <span className="text-slate-700 font-bold">Wholesale Orders</span>
                   </div>
                 </div>
@@ -363,124 +372,277 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             {/* Mobile Legend row */}
             <div className="flex sm:hidden items-center gap-3.5 text-sm font-semibold text-slate-600 pt-2.5">
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
+                <svg width="12" height="12" viewBox="0 0 16 16" className="shrink-0">
+                  <rect x="1" y="5" width="9" height="10" fill="#2563eb" stroke="#1e3a8a" strokeWidth="0.8" />
+                  <polygon points="1,5 5,1 14,1 10,5" fill="#93c5fd" stroke="#1e3a8a" strokeWidth="0.8" />
+                  <polygon points="10,5 14,1 14,11 10,15" fill="#1e40af" stroke="#1e3a8a" strokeWidth="0.8" />
+                </svg>
                 <span className="text-slate-700">Online Orders</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
+                <svg width="12" height="12" viewBox="0 0 16 16" className="shrink-0">
+                  <rect x="1" y="5" width="9" height="10" fill="#ea580c" stroke="#7c2d12" strokeWidth="0.8" />
+                  <polygon points="1,5 5,1 14,1 10,5" fill="#fdba74" stroke="#7c2d12" strokeWidth="0.8" />
+                  <polygon points="10,5 14,1 14,11 10,15" fill="#9a3412" stroke="#7c2d12" strokeWidth="0.8" />
+                </svg>
                 <span className="text-slate-700">Wholesale Orders</span>
               </div>
             </div>
 
-            {/* Dual Bar Chart Area (Taller, Roomier & Wide Chunky Bars) */}
+            {/* 3D Clustered Column Chart Area (Exact 3D Cuboids & Perspective Stage matching reference image) */}
             <div ref={chartRef} className="overflow-x-auto scrollbar-none -mx-2 px-2 sm:mx-0 sm:px-0">
-              <div className="relative min-w-[660px] sm:min-w-[740px] lg:min-w-0 pt-14 sm:pt-16 pb-2 mt-1">
-                {/* Y-axis Ticks & Horizontal Grid Lines */}
-                <div className="absolute inset-x-0 top-14 sm:top-16 bottom-8 flex flex-col justify-between pointer-events-none select-none text-xs sm:text-sm text-slate-500 font-bold">
-                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2">400</span>
-                    <div className="flex-1" />
-                  </div>
-                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2">300</span>
-                    <div className="flex-1" />
-                  </div>
-                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2">200</span>
-                    <div className="flex-1" />
-                  </div>
-                  <div className="border-b border-slate-100 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2">100</span>
-                    <div className="flex-1" />
-                  </div>
-                  <div className="border-b border-slate-200 flex items-center justify-between pb-0.5">
-                    <span className="w-7 text-right pr-2 text-slate-500 font-bold">0</span>
-                    <div className="flex-1" />
-                  </div>
-                </div>
+              <div className="relative min-w-[760px] sm:min-w-[840px] lg:min-w-0 pt-4 pb-2 mt-1">
+                <svg
+                  viewBox="0 0 920 330"
+                  className="w-full h-auto overflow-visible select-none drop-shadow-2xs"
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  {/* 3D Back Room: Left Wall */}
+                  <polygon
+                    points="60,45 92,25 92,245 60,265"
+                    fill="#f8fafc"
+                    stroke="#cbd5e1"
+                    strokeWidth="1"
+                  />
 
-                {/* 12 Bars Columns with increased horizontal spacing */}
-                <div className="relative pl-9 sm:pl-11 pr-2 sm:pr-4 h-72 sm:h-80 lg:h-84 flex items-end justify-between gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+                  {/* 3D Back Room: Back Wall */}
+                  <rect
+                    x="92"
+                    y="25"
+                    width="803"
+                    height="220"
+                    fill="#ffffff"
+                    stroke="#cbd5e1"
+                    strokeWidth="1"
+                  />
+
+                  {/* 3D Back Room: Floor */}
+                  <polygon
+                    points="60,265 92,245 895,245 863,265"
+                    fill="#f1f5f9"
+                    stroke="#cbd5e1"
+                    strokeWidth="1"
+                  />
+
+                  {/* Y-axis Ticks & 3D Depth Grid Lines */}
+                  {[400, 300, 200, 100, 0].map((val) => {
+                    const ratio = val / 400;
+                    const yF = 265 - ratio * 205;
+                    const yB = 245 - ratio * 205;
+                    return (
+                      <g key={val}>
+                        {/* Tick Number Label on Left Axis */}
+                        <text
+                          x="50"
+                          y={yF + 4}
+                          textAnchor="end"
+                          className="text-[11px] sm:text-xs font-bold fill-slate-500"
+                        >
+                          {val}
+                        </text>
+                        {/* Left Wall Perspective Line */}
+                        <line
+                          x1="60"
+                          y1={yF}
+                          x2="92"
+                          y2={yB}
+                          stroke="#cbd5e1"
+                          strokeWidth="1"
+                        />
+                        {/* Back Wall Horizontal Grid Line */}
+                        <line
+                          x1="92"
+                          y1={yB}
+                          x2="895"
+                          y2={yB}
+                          stroke={val === 0 ? "#94a3b8" : "#e2e8f0"}
+                          strokeWidth={val === 0 ? "1.5" : "1"}
+                          strokeDasharray={val === 0 ? "none" : "3 3"}
+                        />
+                      </g>
+                    );
+                  })}
+
+                  {/* 12 Months 3D Clustered Columns */}
                   {monthlyOrderData.map((item, index) => {
-                    const onlineHeight = Math.min(100, Math.max(4, Math.round((item.online / 400) * 100)));
-                    const wholesaleHeight = Math.min(100, Math.max(4, Math.round((item.wholesale / 400) * 100)));
-                    const maxBarHeight = Math.max(onlineHeight, wholesaleHeight);
+                    const colX = 104 + index * 62.6;
+                    const bw = 16; // Bar front width
+                    const dx = 9; // 3D depth X
+                    const dy = -7; // 3D depth Y
+                    const maxH = 190;
                     const isSelected = activeTooltipMonth === item.month;
 
-                    // Align tooltip column-wise: edge-safe for leftmost/rightmost columns
-                    const tooltipAlignClass =
-                      index <= 1
-                        ? "left-0 sm:left-1/2 sm:-translate-x-1/2"
-                        : index >= monthlyOrderData.length - 2
-                        ? "right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2"
-                        : "left-1/2 -translate-x-1/2";
+                    // Series 2 (Wholesale Orders) - Sits in the back row, shifted right & up
+                    const staggerX = 14;
+                    const staggerY = -8;
+                    const barX2 = colX + staggerX;
+                    const baseY2 = 265 + staggerY;
+                    const h2 = Math.max(10, Math.round((item.wholesale / 400) * maxH));
+                    const topY2 = baseY2 - h2;
+
+                    // Series 1 (Online Orders) - Sits in the front row
+                    const barX1 = colX;
+                    const baseY1 = 265;
+                    const h1 = Math.max(10, Math.round((item.online / 400) * maxH));
+                    const topY1 = baseY1 - h1;
+
+                    // Colors for Series 2 (Wholesale): Default Orange, selected Amber Gold
+                    const orangeFront = isSelected ? "#f89831" : "#ea580c";
+                    const orangeTop = isSelected ? "#fed7aa" : "#fdba74";
+                    const orangeSide = isSelected ? "#c2410c" : "#9a3412";
+                    const orangeStroke = isSelected ? "#9a3412" : "#7c2d12";
+                    const orangeText = isSelected ? "#c2410c" : "#ea580c";
+
+                    // Colors for Series 1 (Online): Default Blue, selected Red
+                    const blueFront = isSelected ? "#e53c3d" : "#2563eb";
+                    const blueTop = isSelected ? "#fca5a5" : "#93c5fd";
+                    const blueSide = isSelected ? "#b91c1c" : "#1e40af";
+                    const blueStroke = isSelected ? "#7f1d1d" : "#1e3a8a";
+                    const blueText = isSelected ? "#b91c1c" : "#2563eb";
 
                     return (
-                      <div
+                      <g
                         key={item.month}
+                        className="cursor-pointer group"
                         onClick={(e) => {
                           e.stopPropagation();
                           setActiveTooltipMonth(isSelected ? null : item.month);
                         }}
-                        className="relative flex-1 flex flex-col items-center justify-end h-full group cursor-pointer"
-                        title={`Click to view ${item.month} 2026 breakdown`}
                       >
-                        {/* Interactive Floating Tooltip showing column-wise with that column on click */}
-                        {isSelected && (
-                          <div
-                            className={`absolute z-30 bg-white rounded-2xl p-3 shadow-xl border border-slate-100 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[130px] ${tooltipAlignClass}`}
-                            style={{ bottom: `calc(${Math.min(maxBarHeight + 3, 80)}% + 14px)` }}
-                          >
-                            <div className="text-sm font-black text-slate-900 leading-tight">
-                              {item.month} 2026
-                            </div>
-                            <div className="text-xs sm:text-sm text-[#0080ff] font-bold flex items-center gap-2 mt-1.5 whitespace-nowrap">
-                              <span className="w-2.5 h-2.5 rounded-full bg-[#0080ff] shrink-0" />
-                              <span>Online: {item.online}</span>
-                            </div>
-                            <div className="text-xs sm:text-sm text-[#00d084] font-bold flex items-center gap-2 mt-1 whitespace-nowrap">
-                              <span className="w-2.5 h-2.5 rounded-full bg-[#00d084] shrink-0" />
-                              <span>Wholesale: {item.wholesale}</span>
-                            </div>
-                          </div>
-                        )}
+                        {/* Clickable transparent hitbox for the entire column */}
+                        <rect
+                          x={colX - 4}
+                          y={25}
+                          width={56}
+                          height={275}
+                          fill="transparent"
+                          className="hover:fill-blue-500/5 transition-colors"
+                        />
 
-                        {/* Side by side Bars (Wider Chunky Bars & Crisp Spacing) */}
-                        <div className="w-full flex items-end justify-center gap-1 sm:gap-1.5 h-full pb-1 px-0.5">
-                          {/* Online Bar (Default Blue #0080ff, changes to Red #e53c3d when selected) */}
-                          <div
-                            className={`w-3.5 sm:w-4.5 md:w-5.5 lg:w-5 xl:w-6 min-w-[13px] sm:min-w-[16px] max-w-[26px] sm:max-w-[34px] md:max-w-[40px] rounded-t-md sm:rounded-t-lg transition-all duration-300 ${
-                              isSelected
-                                ? "bg-[#e53c3d] brightness-105 ring-2 ring-red-400/80 shadow-md scale-y-[1.02]"
-                                : "bg-[#0080ff] hover:brightness-105 shadow-xs"
-                            }`}
-                            style={{ height: `${onlineHeight}%` }}
+                        {/* ======================================================== */}
+                        {/* 1. BACK ROW: Wholesale 3D Prism Bar (rendered first)   */}
+                        {/* ======================================================== */}
+                        <g className="transition-all duration-300">
+                          {/* Front Face */}
+                          <polygon
+                            points={`${barX2},${topY2} ${barX2 + bw},${topY2} ${barX2 + bw},${baseY2} ${barX2},${baseY2}`}
+                            fill={orangeFront}
+                            stroke={orangeStroke}
+                            strokeWidth="0.8"
                           />
-                          {/* Wholesale Bar (Default Green #00d084, changes to Orange #f89831 when selected) */}
-                          <div
-                            className={`w-3.5 sm:w-4.5 md:w-5.5 lg:w-5 xl:w-6 min-w-[13px] sm:min-w-[16px] max-w-[26px] sm:max-w-[34px] md:max-w-[40px] rounded-t-md sm:rounded-t-lg transition-all duration-300 ${
-                              isSelected
-                                ? "bg-[#f89831] brightness-105 ring-2 ring-orange-400/80 shadow-md scale-y-[1.02]"
-                                : "bg-[#00d084] hover:brightness-105 shadow-xs"
-                            }`}
-                            style={{ height: `${wholesaleHeight}%` }}
+                          {/* Top Cap Face */}
+                          <polygon
+                            points={`${barX2},${topY2} ${barX2 + dx},${topY2 + dy} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw},${topY2}`}
+                            fill={orangeTop}
+                            stroke={orangeStroke}
+                            strokeWidth="0.8"
                           />
-                        </div>
+                          {/* Right Side Face */}
+                          <polygon
+                            points={`${barX2 + bw},${topY2} ${barX2 + bw + dx},${topY2 + dy} ${barX2 + bw + dx},${baseY2 + dy} ${barX2 + bw},${baseY2}`}
+                            fill={orangeSide}
+                            stroke={orangeStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Value Label above wholesale bar */}
+                          <text
+                            x={barX2 + bw / 2 + dx / 2}
+                            y={topY2 + dy - 4}
+                            textAnchor="middle"
+                            className="text-[9.5px] font-black"
+                            fill={orangeText}
+                          >
+                            {item.wholesale}
+                          </text>
+                        </g>
+
+                        {/* ======================================================== */}
+                        {/* 2. FRONT ROW: Online 3D Prism Bar (overlaps back row)  */}
+                        {/* ======================================================== */}
+                        <g className="transition-all duration-300">
+                          {/* Front Face */}
+                          <polygon
+                            points={`${barX1},${topY1} ${barX1 + bw},${topY1} ${barX1 + bw},${baseY1} ${barX1},${baseY1}`}
+                            fill={blueFront}
+                            stroke={blueStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Top Cap Face */}
+                          <polygon
+                            points={`${barX1},${topY1} ${barX1 + dx},${topY1 + dy} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw},${topY1}`}
+                            fill={blueTop}
+                            stroke={blueStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Right Side Face */}
+                          <polygon
+                            points={`${barX1 + bw},${topY1} ${barX1 + bw + dx},${topY1 + dy} ${barX1 + bw + dx},${baseY1 + dy} ${barX1 + bw},${baseY1}`}
+                            fill={blueSide}
+                            stroke={blueStroke}
+                            strokeWidth="0.8"
+                          />
+                          {/* Value Label above online bar */}
+                          <text
+                            x={barX1 + bw / 2 + dx / 2}
+                            y={topY1 + dy - 4}
+                            textAnchor="middle"
+                            className="text-[9.5px] font-black"
+                            fill={blueText}
+                          >
+                            {item.online}
+                          </text>
+                        </g>
 
                         {/* Month Label */}
-                        <span
-                          className={`text-xs sm:text-sm font-bold mt-2 select-none transition-colors ${
+                        <text
+                          x={colX + bw + staggerX / 2 - 2}
+                          y={292}
+                          textAnchor="middle"
+                          className={`text-xs select-none transition-colors ${
                             isSelected
-                              ? "text-slate-950 font-black scale-105"
-                              : "text-slate-600 group-hover:text-slate-950"
+                              ? "fill-slate-950 font-black"
+                              : "fill-slate-600 font-bold group-hover:fill-slate-900"
                           }`}
                         >
                           {item.month}
-                        </span>
-                      </div>
+                        </text>
+                      </g>
                     );
                   })}
-                </div>
+                </svg>
+
+                {/* Floating Interactive Tooltip Popover on column select */}
+                {activeTooltipMonth && (
+                  (() => {
+                    const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
+                    const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
+                    if (!selItem || selIndex === -1) return null;
+                    const colX = 104 + selIndex * 62.6;
+                    const percentX = Math.min(94, Math.max(6, ((colX + 15) / 920) * 100));
+
+                    return (
+                      <div
+                        className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[130px] -translate-x-1/2 top-1"
+                        style={{ left: `${percentX}%` }}
+                      >
+                        <div className="text-sm font-black text-slate-900 leading-tight">
+                          {selItem.month} 2026
+                        </div>
+                        <div className="text-xs text-[#2563eb] font-bold flex items-center gap-1.5 mt-1.5">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#2563eb] shrink-0" />
+                          <span>Online: {selItem.online} orders</span>
+                        </div>
+                        <div className="text-xs text-[#ea580c] font-bold flex items-center gap-1.5 mt-1">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#ea580c] shrink-0" />
+                          <span>Wholesale: {selItem.wholesale} orders</span>
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-semibold mt-1.5 pt-1.5 border-t border-slate-100">
+                          Total: {selItem.online + selItem.wholesale} orders
+                        </div>
+                      </div>
+                    );
+                  })()
+                )}
               </div>
             </div>
           </div>
