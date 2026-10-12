@@ -28,23 +28,18 @@ function assert(condition, label) {
 }
 
 assert(
-  header.includes('id="get-app-header-btn"') && header.includes('setIsGetAppOpen(true)'),
-  'TopHeaderBar: "Get App" button triggers setIsGetAppOpen(true)'
+  !header.includes('id="get-app-header-btn"'),
+  'TopHeaderBar: "Get App" button cleanly removed from top header bar'
 );
 
 assert(
-  homePage.includes('id="home-download-apk-btn"') && homePage.includes('href="/downloads/medsupplybd-v1.0.apk"'),
-  'HomePage Banner: "Android APK (17.3 MB)" button links to /downloads/medsupplybd-v1.0.apk'
+  sidebar.includes('setIsGetAppOpen(true)'),
+  'AppSidebar: "Get Mobile App" button triggers setIsGetAppOpen(true)'
 );
 
 assert(
-  homePage.includes('id="home-download-ios-btn"') && homePage.includes('href="/downloads/medsupplybd-v1.0.ipa"'),
-  'HomePage Banner: "Download for iOS (12.8 MB)" button links to /downloads/medsupplybd-v1.0.ipa'
-);
-
-assert(
-  homePage.includes('id="home-get-app-modal-btn"') && homePage.includes('setIsGetAppOpen(true)'),
-  'HomePage Banner: "All Options" button triggers setIsGetAppOpen(true)'
+  drawer.includes('setIsGetAppOpen(true)'),
+  'HamburgerDrawer: "Get Mobile App" button triggers setIsGetAppOpen(true)'
 );
 
 assert(

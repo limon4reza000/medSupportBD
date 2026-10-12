@@ -17,7 +17,6 @@ import {
   Settings,
   LogOut,
   Camera,
-  Smartphone,
   MapPin,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
@@ -153,20 +152,6 @@ export const TopHeaderBar: React.FC = () => {
             <MapPin className="w-4 h-4 text-[#0080ff] group-hover:scale-110 transition-transform" />
             <span className="font-extrabold">Nearby Depots</span>
           </Link>
-
-          {/* Get Mobile App Button */}
-          <button
-            onClick={() => setIsGetAppOpen(true)}
-            id="get-app-header-btn"
-            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl bg-gradient-to-r from-[#0080ff] to-[#0060df] hover:from-[#0070e6] hover:to-[#0052be] text-white font-black text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group border border-blue-400/40"
-            title="Download or install MedSupplyBD Mobile App (Android APK / iPhone / Web)"
-          >
-            <Smartphone className="w-4.5 h-4.5 text-blue-100 group-hover:scale-110 transition-transform" />
-            <span className="font-black">Get App</span>
-            <span className="px-2 py-0.5 rounded-full bg-white text-[#0060df] text-[11px] font-black uppercase tracking-wider hidden md:inline">
-              APK &bull; iOS
-            </span>
-          </button>
           
           {/* Interactive B2B Role Switcher Pill */}
           <div className="relative" ref={dropdownRef}>
