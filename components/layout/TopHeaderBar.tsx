@@ -118,11 +118,11 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full transition-all px-0 lg:px-8 py-0 lg:py-3 shadow-none">
+    <header className="sticky top-0 z-30 w-full bg-white border-b border-slate-200/90 shadow-2xs">
       {/* =================================================================== */}
       {/* 1. MOBILE TOP NAVBAR (Full-width, No Outer Radius, Edge-to-Edge)    */}
       {/* =================================================================== */}
-      <div className="lg:hidden relative w-full bg-white rounded-none border-b border-slate-200/90 shadow-none overflow-hidden px-3.5 sm:px-5 py-2.5 flex flex-col gap-2">
+      <div className="lg:hidden relative w-full overflow-hidden px-3.5 sm:px-5 py-2.5 flex flex-col gap-2">
         {/* Decorative Fluid Mint Wave Background (Exact Match to Mockup) */}
         <svg
           className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
@@ -299,15 +299,37 @@ export const TopHeaderBar: React.FC = () => {
       </div>
 
       {/* =================================================================== */}
-      {/* 2. DESKTOP NAVBAR LAYOUT                                            */}
+      {/* 2. DESKTOP NAVBAR LAYOUT (Edge-to-Edge Solid Background with Mint Waves) */}
       {/* =================================================================== */}
-      <div className="hidden lg:flex items-center justify-between gap-3 sm:gap-4 w-full px-4 sm:px-6 lg:px-8 py-3">
+      <div className="hidden lg:flex relative items-center justify-between gap-3 sm:gap-4 w-full px-6 lg:px-8 py-3">
         
+        {/* Background Layer with Matching Mint Waves (contained in overflow-hidden so dropdowns are not clipped) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <svg
+            className="absolute left-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
+            viewBox="0 0 120 90"
+            preserveAspectRatio="none"
+          >
+            <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#6ee7b7" />
+            <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#bef4df" opacity="0.85" />
+            <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
+          </svg>
+          <svg
+            className="absolute right-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
+            viewBox="0 0 120 90"
+            preserveAspectRatio="none"
+          >
+            <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#6ee7b7" />
+            <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#bef4df" opacity="0.85" />
+            <path d="M120,95 C105,85 95,90 85,95 Z" fill="#cdf7e5" />
+          </svg>
+        </div>
+
         {/* Left: Global Search Input */}
-        <div className="flex items-center flex-1 w-full min-w-0 gap-2">
+        <div className="flex items-center flex-1 w-full min-w-0 gap-2 relative z-10">
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="relative flex-1 w-full flex items-center bg-slate-100/90 hover:bg-white cursor-pointer border-2 border-slate-200 hover:border-[#0080ff] focus-within:border-[#0080ff] focus-within:ring-2 focus-within:ring-blue-100 rounded-2xl px-4 py-2.5 shadow-2xs hover:shadow-md transition-all group"
+            className="relative flex-1 w-full flex items-center bg-slate-50/90 hover:bg-white cursor-pointer border-2 border-slate-200/90 hover:border-[#0080ff] focus-within:border-[#0080ff] focus-within:ring-2 focus-within:ring-blue-100 rounded-2xl px-4 py-2.5 shadow-2xs hover:shadow-md transition-all group"
             title="Search medicine"
           >
             <Search className="w-5 h-5 text-slate-600 group-hover:text-[#0080ff] transition-colors mr-3 shrink-0" />
@@ -321,7 +343,7 @@ export const TopHeaderBar: React.FC = () => {
         </div>
 
         {/* Right: Nearby Depots | Role Switcher | Notifications Bell | User Profile */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0 relative z-10">
 
           {/* Nearby Depots & Map Finder Link */}
           <Link
