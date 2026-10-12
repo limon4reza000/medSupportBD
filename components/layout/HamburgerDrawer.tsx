@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -127,6 +127,31 @@ export const HamburgerDrawer: React.FC = () => {
     (o) => o.status !== "DELIVERED" && o.status !== "CANCELLED"
   ).length;
 
+  // Animation state to handle smooth slide-in and slide-out transitions
+  const [isOpen, setIsOpen] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    if (isMobileNavOpen) {
+      setShouldRender(true);
+      // Double rAF ensures DOM is mounted before transform class triggers transition
+      const frame1 = requestAnimationFrame(() => {
+        const frame2 = requestAnimationFrame(() => {
+          setIsOpen(true);
+        });
+        return () => cancelAnimationFrame(frame2);
+      });
+      return () => cancelAnimationFrame(frame1);
+    } else {
+      setIsOpen(false);
+      // Keep DOM rendered during 300ms exit animation
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isMobileNavOpen]);
+
   // Prevent background scroll when drawer is open
   useEffect(() => {
     if (isMobileNavOpen) {
@@ -139,7 +164,18 @@ export const HamburgerDrawer: React.FC = () => {
     };
   }, [isMobileNavOpen]);
 
-  if (!isMobileNavOpen) return null;
+  // Close drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileNavOpen) {
+        setIsMobileNavOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isMobileNavOpen, setIsMobileNavOpen]);
+
+  if (!shouldRender) return null;
 
   const closeDrawer = () => setIsMobileNavOpen(false);
 
@@ -197,15 +233,25 @@ export const HamburgerDrawer: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end select-none">
-      {/* Backdrop */}
+    <div
+      className={`fixed inset-0 z-50 flex justify-end select-none transition-all duration-300 ${
+        isOpen ? "pointer-events-auto" : "pointer-events-none"
+      }`}
+    >
+      {/* Backdrop with smooth fade animation */}
       <div
-        className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity animate-in fade-in"
+        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
+          isOpen ? "opacity-100" : "opacity-0"
+        }`}
         onClick={closeDrawer}
       />
 
-      {/* Drawer Panel (Right Side Slide-In with clean dashboard sidebar white theme) */}
-      <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 animate-in slide-in-from-right duration-250 border-l border-slate-200/80">
+      {/* Drawer Panel with smooth slide-in / slide-out transform animation */}
+      <div
+        className={`relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80 transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
         
         {/* Header with MedSupplyBD Brand Logo & User Profile Section */}
         <div className="p-4 sm:p-5 bg-white text-slate-800 border-b border-slate-200/80 relative">
@@ -219,7 +265,7 @@ export const HamburgerDrawer: React.FC = () => {
             </Link>
             <button
               onClick={closeDrawer}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-all duration-200 active:scale-90 hover:rotate-90 cursor-pointer"
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />

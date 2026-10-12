@@ -278,11 +278,11 @@ export const TopHeaderBar: React.FC = () => {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setIsMobileNavOpen(true)}
-            className="lg:hidden p-2.5 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200/80 text-slate-700 transition-all shadow-xs flex items-center justify-center shrink-0 active:scale-95"
+            className="lg:hidden p-2.5 rounded-2xl bg-white hover:bg-slate-100 hover:border-blue-300 hover:text-[#0080ff] border border-slate-200/80 text-slate-700 transition-all shadow-xs flex items-center justify-center shrink-0 active:scale-90 cursor-pointer group"
             aria-label="Open Navigation Drawer"
             title="Open Menu"
           >
-            <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+            <Menu className="w-5 h-5 transition-transform group-hover:scale-110" />
           </button>
 
         </div>
