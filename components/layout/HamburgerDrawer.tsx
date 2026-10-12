@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -127,31 +127,6 @@ export const HamburgerDrawer: React.FC = () => {
     (o) => o.status !== "DELIVERED" && o.status !== "CANCELLED"
   ).length;
 
-  // Animation state to handle smooth slide-in and slide-out transitions
-  const [isOpen, setIsOpen] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
-
-  useEffect(() => {
-    if (isMobileNavOpen) {
-      setShouldRender(true);
-      // Double rAF ensures DOM is mounted before transform class triggers transition
-      const frame1 = requestAnimationFrame(() => {
-        const frame2 = requestAnimationFrame(() => {
-          setIsOpen(true);
-        });
-        return () => cancelAnimationFrame(frame2);
-      });
-      return () => cancelAnimationFrame(frame1);
-    } else {
-      setIsOpen(false);
-      // Keep DOM rendered during 300ms exit animation
-      const timer = setTimeout(() => {
-        setShouldRender(false);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isMobileNavOpen]);
-
   // Prevent background scroll when drawer is open
   useEffect(() => {
     if (isMobileNavOpen) {
@@ -174,8 +149,6 @@ export const HamburgerDrawer: React.FC = () => {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobileNavOpen, setIsMobileNavOpen]);
-
-  if (!shouldRender) return null;
 
   const closeDrawer = () => setIsMobileNavOpen(false);
 
@@ -234,22 +207,24 @@ export const HamburgerDrawer: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex justify-end select-none transition-all duration-300 ${
-        isOpen ? "pointer-events-auto" : "pointer-events-none"
+      className={`fixed inset-0 z-50 flex justify-end select-none ${
+        isMobileNavOpen
+          ? "visible pointer-events-auto"
+          : "invisible pointer-events-none delay-300"
       }`}
     >
-      {/* Backdrop with smooth fade animation */}
+      {/* Backdrop with smooth fade in/out animation */}
       <div
         className={`fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
-          isOpen ? "opacity-100" : "opacity-0"
+          isMobileNavOpen ? "opacity-100" : "opacity-0"
         }`}
         onClick={closeDrawer}
       />
 
       {/* Drawer Panel with smooth slide-in / slide-out transform animation */}
       <div
-        className={`relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+        className={`relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform ${
+          isMobileNavOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         
