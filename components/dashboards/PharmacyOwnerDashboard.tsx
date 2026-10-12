@@ -389,11 +389,11 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* 3D Clustered Column Chart Area (Significantly Wider Columns & Extra Grand Chart Size) */}
+          {/* 3D Clustered Column Chart Area (Generous Horizontal Gap & Spacious 3D Bars) */}
           <div ref={chartRef} className="flex-1 flex flex-col justify-end w-full min-h-[460px] sm:min-h-[510px] lg:min-h-[550px] pt-4 overflow-x-auto scrollbar-none">
-            <div className="relative w-full h-full min-w-[840px] sm:min-w-[940px] lg:min-w-0 flex flex-col justify-end">
+            <div className="relative w-full h-full min-w-[980px] sm:min-w-[1100px] lg:min-w-0 flex flex-col justify-end">
               <svg
-                viewBox="0 0 1020 500"
+                viewBox="0 0 1240 500"
                 className="w-full h-full min-h-[430px] sm:min-h-[480px] lg:min-h-[520px] overflow-visible select-none drop-shadow-2xs"
                 preserveAspectRatio="xMidYMid meet"
               >
@@ -409,7 +409,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <rect
                   x="98"
                   y="19"
-                  width="897"
+                  width="1117"
                   height="365"
                   fill="#ffffff"
                   stroke="#e2e8f0"
@@ -418,13 +418,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                 {/* 3D Back Room: Floor */}
                 <polygon
-                  points="60,410 98,384 995,384 957,410"
+                  points="60,410 98,384 1215,384 1177,410"
                   fill="#f1f5f9"
                   stroke="#e2e8f0"
                   strokeWidth="1"
                 />
 
-                {/* Y-axis Ticks & 3D Depth Grid Lines (Spanning 345px Height) */}
+                {/* Y-axis Ticks & 3D Depth Grid Lines (Spanning 345px Height across 1240 Width) */}
                 {[400, 300, 200, 100, 0].map((val) => {
                   const ratio = val / 400;
                   const yF = 410 - ratio * 345;
@@ -453,7 +453,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       <line
                         x1="98"
                         y1={yB}
-                        x2="995"
+                        x2="1215"
                         y2={yB}
                         stroke={val === 0 ? "#cbd5e1" : "#f1f5f9"}
                         strokeWidth={val === 0 ? "1.5" : "1"}
@@ -463,17 +463,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   );
                 })}
 
-                {/* 12 Months 3D Clustered Columns (Extra Wide bw=25 & Grand Height) */}
+                {/* 12 Months 3D Clustered Columns (Spacious Step=88px, staggerX=30px for visible horizontal bar gap) */}
                 {monthlyOrderData.map((item, index) => {
-                  const colX = 110 + index * 70;
-                  const bw = 25; // Much wider, thick chunky bar front width
-                  const dx = 13; // Extra deep 3D perspective X
-                  const dy = -10; // Extra deep 3D perspective Y
-                  const maxH = 325; // Grand tall bars
+                  const colX = 108 + index * 88;
+                  const bw = 24; // Thick chunky bar width
+                  const dx = 13; // 3D depth X
+                  const dy = -10; // 3D depth Y
+                  const maxH = 325; // Tall bars
                   const isSelected = activeTooltipMonth === item.month;
 
-                  // Series 2 (Wholesale Orders) - Sits in the back row, shifted right & up
-                  const staggerX = 20;
+                  // Series 2 (Wholesale Orders) - Sits in the back row with 6px horizontal separation from Online bar
+                  const staggerX = 30; // 30 - 24 = 6px distinct horizontal space between bars
                   const staggerY = -12;
                   const barX2 = colX + staggerX;
                   const baseY2 = 410 + staggerY;
@@ -511,9 +511,9 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     >
                       {/* Clickable transparent hitbox for the entire column */}
                       <rect
-                        x={colX - 4}
+                        x={colX - 6}
                         y={15}
-                        width={68}
+                        width={78}
                         height={435}
                         fill="transparent"
                         className="hover:fill-blue-500/5 transition-colors"
@@ -597,7 +597,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                       {/* Month Label */}
                       <text
-                        x={colX + bw + staggerX / 2 - 2}
+                        x={colX + (bw + staggerX) / 2}
                         y={438}
                         textAnchor="middle"
                         className={`text-xs sm:text-sm select-none transition-colors ${
@@ -619,8 +619,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
                   const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
                   if (!selItem || selIndex === -1) return null;
-                  const colX = 110 + selIndex * 70;
-                  const percentX = Math.min(94, Math.max(6, ((colX + 22) / 1020) * 100));
+                  const colX = 108 + selIndex * 88;
+                  const percentX = Math.min(94, Math.max(6, ((colX + 27) / 1240) * 100));
 
                   return (
                     <div
