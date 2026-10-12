@@ -118,14 +118,14 @@ export const TopHeaderBar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full transition-all px-2.5 sm:px-4 lg:px-8 py-2 lg:py-3">
+    <header className="sticky top-0 z-30 w-full bg-white border-b border-slate-200/80 transition-all shadow-none">
       {/* =================================================================== */}
-      {/* 1. MOBILE TOP NAVBAR (Exact Pixel Match to User Mockup Screenshot)  */}
+      {/* 1. MOBILE TOP NAVBAR (Full-Screen Edge-to-Edge, No Shadow)          */}
       {/* =================================================================== */}
-      <div className="lg:hidden relative w-full bg-white rounded-[26px] sm:rounded-[30px] border border-slate-200/90 shadow-xs overflow-hidden px-3.5 py-2.5 sm:px-5 sm:py-3 flex flex-col gap-2">
+      <div className="lg:hidden relative w-full overflow-hidden px-3 sm:px-5 py-2.5 flex flex-col gap-2 bg-white shadow-none">
         {/* Decorative Fluid Mint Wave Background (Matches Mockup) */}
         <svg
-          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-45 z-0"
+          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
@@ -133,7 +133,7 @@ export const TopHeaderBar: React.FC = () => {
           <path d="M0,15 C40,10 60,45 25,75 C10,90 0,90 0,90 Z" fill="#a7f3d0" opacity="0.6" />
         </svg>
         <svg
-          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-45 z-0"
+          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
@@ -145,7 +145,7 @@ export const TopHeaderBar: React.FC = () => {
         <div className="flex items-center justify-between w-full relative z-10 gap-1">
           
           {/* Left: Hamburger Button + Logo with Pill Icon and MedSupplyBD Text */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={() => setIsMobileNavOpen(true)}
               className="p-1 -ml-1 text-slate-800 hover:text-slate-950 transition-colors active:scale-90 cursor-pointer"
@@ -159,26 +159,26 @@ export const TopHeaderBar: React.FC = () => {
               <img
                 src="/images/sidebar-logo.png"
                 alt="MedSupplyBD"
-                className="h-7 sm:h-8 w-auto object-contain drop-shadow-2xs"
+                className="h-6.5 sm:h-8 w-auto object-contain"
               />
-              <span className="text-[17px] sm:text-xl font-black tracking-tight text-slate-900 leading-none">
+              <span className="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">
                 MedSupplyBD
               </span>
             </Link>
           </div>
 
           {/* Right: Role Pill | Notification Bell | User Avatar | 9-Dot Grip Launcher */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             
             {/* Role Indicator Pill (🟢 Pharmacy Owner ⌵) */}
             <div className="relative" ref={mobileDropdownRef}>
               <button
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebfbf3] hover:bg-[#d8f6e8] border border-[#a7f3d0] text-slate-800 text-xs font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ebfbf3] hover:bg-[#d8f6e8] border border-[#a7f3d0] text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer"
                 title="Switch Operational Persona"
               >
                 <span className="w-2 h-2 rounded-full bg-[#00c48c] shrink-0" />
-                <span className="text-slate-800 font-bold truncate max-w-[85px] xs:max-w-none text-[11px] sm:text-xs">
+                <span className="text-slate-800 font-bold truncate max-w-[70px] xs:max-w-none text-[11px] sm:text-xs">
                   {currentRoleConfig.label}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-600 shrink-0" />
@@ -186,7 +186,7 @@ export const TopHeaderBar: React.FC = () => {
 
               {/* Mobile Role Switcher Floating Menu */}
               {isRoleDropdownOpen && (
-                <div className="fixed left-3 right-3 top-20 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="fixed left-3 right-3 top-16 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
                   <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
                     <div>
                       <div className="text-xs font-black uppercase tracking-wider text-slate-500">
@@ -248,11 +248,11 @@ export const TopHeaderBar: React.FC = () => {
             {/* Notification Bell (Circular button with red badge count) */}
             <Link
               href="/notifications"
-              className="relative w-8 h-8 rounded-full bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-700 flex items-center justify-center transition-all active:scale-95 shadow-2xs"
+              className="relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-700 flex items-center justify-center transition-all active:scale-95"
               title="Notifications"
             >
-              <Bell className="w-4 h-4 stroke-[2]" />
-              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-[#ef4444] text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white shadow-xs">
+              <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2]" />
+              <span className="absolute -top-1 -right-1 min-w-[15px] h-3.5 sm:h-4 px-1 rounded-full bg-[#ef4444] text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white">
                 {unreadCount > 0 ? (unreadCount > 9 ? "9+" : unreadCount) : 4}
               </span>
             </Link>
@@ -263,7 +263,7 @@ export const TopHeaderBar: React.FC = () => {
               className="flex items-center gap-0.5 p-0.5 rounded-full hover:bg-slate-100 transition-all cursor-pointer group"
               title={`Profile: ${currentUser.name}`}
             >
-              <div className="relative w-8 h-8 rounded-full overflow-hidden ring-1.5 ring-emerald-300 shrink-0 shadow-2xs">
+              <div className="relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full overflow-hidden ring-1.5 ring-emerald-300 shrink-0">
                 <img
                   src={currentUser.avatar || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"}
                   alt={currentUser.name}
@@ -277,11 +277,11 @@ export const TopHeaderBar: React.FC = () => {
             {/* 9-Dot Grip / App Launcher Icon Button */}
             <button
               onClick={() => setIsMobileNavOpen(true)}
-              className="w-8 h-8 rounded-2xl bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-800 flex items-center justify-center transition-all active:scale-95 cursor-pointer shadow-2xs"
+              className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-2xl bg-[#f1f5f9] hover:bg-slate-200/80 text-slate-800 flex items-center justify-center transition-all active:scale-95 cursor-pointer"
               title="All Modules & Features"
               aria-label="Open App Launcher"
             >
-              <div className="grid grid-cols-3 gap-[2.5px] p-1">
+              <div className="grid grid-cols-3 gap-[2px] p-1">
                 <span className="w-1 h-1 rounded-full bg-slate-800" />
                 <span className="w-1 h-1 rounded-full bg-slate-800" />
                 <span className="w-1 h-1 rounded-full bg-slate-800" />
@@ -299,7 +299,7 @@ export const TopHeaderBar: React.FC = () => {
         {/* Row 2: Full-Width Rounded Pill Search Bar with Green Magnifier & ScanLine Icon */}
         <div
           onClick={() => setIsSearchOpen(true)}
-          className="relative w-full z-10 flex items-center justify-between bg-white hover:bg-slate-50/80 cursor-pointer border border-slate-200/80 hover:border-emerald-500 focus-within:border-emerald-500 rounded-full px-4 py-2 shadow-2xs hover:shadow-xs transition-all group"
+          className="relative w-full z-10 flex items-center justify-between bg-white hover:bg-slate-50/80 cursor-pointer border border-slate-200/90 hover:border-emerald-500 focus-within:border-emerald-500 rounded-full px-4 py-2 transition-all group shadow-none"
           title="Search medicine, brand, manufacturer..."
         >
           <div className="flex items-center flex-1 min-w-0 mr-2">
@@ -325,7 +325,7 @@ export const TopHeaderBar: React.FC = () => {
       {/* =================================================================== */}
       {/* 2. DESKTOP NAVBAR LAYOUT (Full Screen View)                         */}
       {/* =================================================================== */}
-      <div className="hidden lg:flex items-center justify-between gap-3 sm:gap-4 w-full">
+      <div className="hidden lg:flex items-center justify-between gap-3 sm:gap-4 w-full px-6 lg:px-8 py-3">
         
         {/* Left: Global Search Input */}
         <div className="flex items-center flex-1 w-full min-w-0 gap-2">
