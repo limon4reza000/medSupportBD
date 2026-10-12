@@ -389,42 +389,33 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Modern Column Chart Area with Pinned Left Y-Axis for Optimal Mobile & Desktop Experience */}
-          <div className="flex-1 w-full flex items-stretch pt-2 pb-1 mt-1">
-            {/* Left Y-Axis: Pinned / Fixed so scale reference (400, 300, 200, 100, 0) never scrolls away on mobile */}
-            <div className="w-12 sm:w-14 shrink-0 select-none border-r border-slate-200/80 bg-white z-10 flex flex-col justify-between">
-              <svg viewBox="0 0 54 540" className="w-full h-[540px]">
-                {/* Y-axis Metric Title */}
-                <text
-                  x="44"
-                  y="26"
-                  textAnchor="end"
-                  className="text-[10px] font-black fill-slate-400 tracking-wider uppercase"
-                >
-                  Orders
-                </text>
+          {/* Modern Column Chart Area with Clean Minimalist Grid (Matching User Reference) */}
+          <div className="flex-1 w-full flex items-stretch pt-2 pb-1 mt-1 bg-white">
+            {/* Left Y-Axis: Clean Numbers with Seamless Solid Horizontal Grid Line Start */}
+            <div className="w-10 sm:w-12 shrink-0 select-none bg-white z-10 flex flex-col justify-between">
+              <svg viewBox="0 0 46 540" className="w-full h-[540px]">
                 {[400, 300, 200, 100, 0].map((val) => {
                   const ratio = val / 400;
                   const y = 455 - ratio * 395;
                   return (
                     <g key={val}>
-                      {/* Clean Flat Tick Value */}
+                      {/* Clean Tick Value */}
                       <text
-                        x="40"
+                        x="34"
                         y={y + 4}
                         textAnchor="end"
-                        className="text-xs sm:text-[13px] font-bold fill-slate-500"
+                        className="text-xs font-medium fill-slate-500"
                       >
                         {val}
                       </text>
-                      {/* Axis Tick Notch */}
+                      {/* Seamless Grid Line Start (matching reference image) */}
                       <line
-                        x1="46"
+                        x1="38"
                         y1={y}
-                        x2="54"
+                        x2="46"
                         y2={y}
-                        stroke={val === 0 ? "#94a3b8" : "#cbd5e1"}
-                        strokeWidth={val === 0 ? "2" : "1"}
+                        stroke="#e2e8f0"
+                        strokeWidth="1"
                       />
                     </g>
                   );
@@ -435,7 +426,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             {/* Scrollable Column Chart Area with Visible Custom Scrollbar */}
             <div
               ref={chartRef}
-              className="flex-1 min-w-0 overflow-x-auto pt-0 pb-3 chart-scrollbar"
+              className="flex-1 min-w-0 overflow-x-auto pt-0 pb-3 chart-scrollbar bg-white"
             >
               <div className="relative w-[1260px] h-[540px] shrink-0">
                 <svg
@@ -443,7 +434,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   className="w-[1260px] h-[540px] overflow-visible select-none drop-shadow-2xs"
                   preserveAspectRatio="xMidYMid meet"
                 >
-                  {/* Subtle Horizontal Reference Grid Lines Across Full Width */}
+                  {/* Clean Solid Horizontal Grid Lines Across Full Width (Matching User Reference) */}
                   {[400, 300, 200, 100, 0].map((val) => {
                     const ratio = val / 400;
                     const y = 455 - ratio * 395;
@@ -454,9 +445,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         y1={y}
                         x2="1260"
                         y2={y}
-                        stroke={val === 0 ? "#cbd5e1" : "#f1f5f9"}
-                        strokeWidth={val === 0 ? "2" : "1"}
-                        strokeDasharray={val === 0 ? "none" : "4 4"}
+                        stroke="#e2e8f0"
+                        strokeWidth="1"
                       />
                     );
                   })}
