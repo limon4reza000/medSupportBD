@@ -389,17 +389,17 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* 3D Clustered Column Chart Area (Full Card Expansion & Massive 3D Bars) */}
-          <div ref={chartRef} className="flex-1 flex flex-col justify-end w-full min-h-[380px] sm:min-h-[440px] pt-3 overflow-x-auto scrollbar-none">
-            <div className="relative w-full h-full min-w-[760px] sm:min-w-[840px] lg:min-w-0 flex flex-col justify-end">
+          {/* 3D Clustered Column Chart Area (Significantly Wider Columns & Extra Grand Chart Size) */}
+          <div ref={chartRef} className="flex-1 flex flex-col justify-end w-full min-h-[460px] sm:min-h-[510px] lg:min-h-[550px] pt-4 overflow-x-auto scrollbar-none">
+            <div className="relative w-full h-full min-w-[840px] sm:min-w-[940px] lg:min-w-0 flex flex-col justify-end">
               <svg
-                viewBox="0 0 920 440"
-                className="w-full h-full min-h-[360px] sm:min-h-[420px] overflow-visible select-none drop-shadow-2xs"
+                viewBox="0 0 1020 500"
+                className="w-full h-full min-h-[430px] sm:min-h-[480px] lg:min-h-[520px] overflow-visible select-none drop-shadow-2xs"
                 preserveAspectRatio="xMidYMid meet"
               >
                 {/* 3D Back Room: Left Wall */}
                 <polygon
-                  points="58,40 92,18 92,338 58,360"
+                  points="60,45 98,19 98,384 60,410"
                   fill="#f8fafc"
                   stroke="#e2e8f0"
                   strokeWidth="1"
@@ -407,10 +407,10 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                 {/* 3D Back Room: Back Wall */}
                 <rect
-                  x="92"
-                  y="18"
-                  width="803"
-                  height="320"
+                  x="98"
+                  y="19"
+                  width="897"
+                  height="365"
                   fill="#ffffff"
                   stroke="#e2e8f0"
                   strokeWidth="1"
@@ -418,42 +418,42 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                 {/* 3D Back Room: Floor */}
                 <polygon
-                  points="58,360 92,338 895,338 861,360"
+                  points="60,410 98,384 995,384 957,410"
                   fill="#f1f5f9"
                   stroke="#e2e8f0"
                   strokeWidth="1"
                 />
 
-                {/* Y-axis Ticks & 3D Depth Grid Lines (Taller 310px Vertical Span) */}
+                {/* Y-axis Ticks & 3D Depth Grid Lines (Spanning 345px Height) */}
                 {[400, 300, 200, 100, 0].map((val) => {
                   const ratio = val / 400;
-                  const yF = 360 - ratio * 300;
-                  const yB = 338 - ratio * 300;
+                  const yF = 410 - ratio * 345;
+                  const yB = 384 - ratio * 345;
                   return (
                     <g key={val}>
                       {/* Tick Number Label on Left Axis */}
                       <text
-                        x="48"
-                        y={yF + 4}
+                        x="50"
+                        y={yF + 5}
                         textAnchor="end"
-                        className="text-xs sm:text-[13px] font-bold fill-slate-500"
+                        className="text-xs sm:text-sm font-black fill-slate-500"
                       >
                         {val}
                       </text>
                       {/* Left Wall Perspective Line */}
                       <line
-                        x1="58"
+                        x1="60"
                         y1={yF}
-                        x2="92"
+                        x2="98"
                         y2={yB}
                         stroke="#e2e8f0"
                         strokeWidth="1"
                       />
                       {/* Back Wall Horizontal Grid Line */}
                       <line
-                        x1="92"
+                        x1="98"
                         y1={yB}
-                        x2="895"
+                        x2="995"
                         y2={yB}
                         stroke={val === 0 ? "#cbd5e1" : "#f1f5f9"}
                         strokeWidth={val === 0 ? "1.5" : "1"}
@@ -463,27 +463,27 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   );
                 })}
 
-                {/* 12 Months 3D Clustered Columns (Bigger, Chunkier & Taller) */}
+                {/* 12 Months 3D Clustered Columns (Extra Wide bw=25 & Grand Height) */}
                 {monthlyOrderData.map((item, index) => {
-                  const colX = 104 + index * 62.5;
-                  const bw = 19; // Bigger chunky bar front width
-                  const dx = 10; // 3D depth X
-                  const dy = -8; // 3D depth Y
-                  const maxH = 280; // Taller bar height (fills full card height)
+                  const colX = 110 + index * 70;
+                  const bw = 25; // Much wider, thick chunky bar front width
+                  const dx = 13; // Extra deep 3D perspective X
+                  const dy = -10; // Extra deep 3D perspective Y
+                  const maxH = 325; // Grand tall bars
                   const isSelected = activeTooltipMonth === item.month;
 
                   // Series 2 (Wholesale Orders) - Sits in the back row, shifted right & up
-                  const staggerX = 16;
-                  const staggerY = -9;
+                  const staggerX = 20;
+                  const staggerY = -12;
                   const barX2 = colX + staggerX;
-                  const baseY2 = 360 + staggerY;
-                  const h2 = Math.max(14, Math.round((item.wholesale / 400) * maxH));
+                  const baseY2 = 410 + staggerY;
+                  const h2 = Math.max(16, Math.round((item.wholesale / 400) * maxH));
                   const topY2 = baseY2 - h2;
 
                   // Series 1 (Online Orders) - Sits in the front row
                   const barX1 = colX;
-                  const baseY1 = 360;
-                  const h1 = Math.max(14, Math.round((item.online / 400) * maxH));
+                  const baseY1 = 410;
+                  const h1 = Math.max(16, Math.round((item.online / 400) * maxH));
                   const topY1 = baseY1 - h1;
 
                   // Colors for Series 2 (Wholesale): Default Vibrant Emerald Green, Selected Warm Golden Amber
@@ -513,8 +513,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       <rect
                         x={colX - 4}
                         y={15}
-                        width={58}
-                        height={385}
+                        width={68}
+                        height={435}
                         fill="transparent"
                         className="hover:fill-blue-500/5 transition-colors"
                       />
@@ -547,11 +547,11 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         {/* Value Label above wholesale bar */}
                         <text
                           x={barX2 + bw / 2 + dx / 2}
-                          y={topY2 + dy - 5}
+                          y={topY2 + dy - 6}
                           textAnchor="middle"
-                          className="text-[10px] sm:text-[11px] font-black"
+                          className="text-[11px] sm:text-xs font-black"
                           fill={wholesaleText}
-                          style={{ filter: "drop-shadow(0 1px 1.5px rgba(255,255,255,0.9))" }}
+                          style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
                         >
                           {item.wholesale}
                         </text>
@@ -585,11 +585,11 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         {/* Value Label above online bar */}
                         <text
                           x={barX1 + bw / 2 + dx / 2}
-                          y={topY1 + dy - 5}
+                          y={topY1 + dy - 6}
                           textAnchor="middle"
-                          className="text-[10px] sm:text-[11px] font-black"
+                          className="text-[11px] sm:text-xs font-black"
                           fill={onlineText}
-                          style={{ filter: "drop-shadow(0 1px 1.5px rgba(255,255,255,0.9))" }}
+                          style={{ filter: "drop-shadow(0 1px 2px rgba(255,255,255,0.95))" }}
                         >
                           {item.online}
                         </text>
@@ -598,12 +598,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       {/* Month Label */}
                       <text
                         x={colX + bw + staggerX / 2 - 2}
-                        y={392}
+                        y={438}
                         textAnchor="middle"
                         className={`text-xs sm:text-sm select-none transition-colors ${
                           isSelected
                             ? "fill-slate-950 font-black"
-                            : "fill-slate-600 font-bold group-hover:fill-slate-900"
+                            : "fill-slate-700 font-bold group-hover:fill-slate-950"
                         }`}
                       >
                         {item.month}
@@ -619,12 +619,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
                   const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
                   if (!selItem || selIndex === -1) return null;
-                  const colX = 104 + selIndex * 62.5;
-                  const percentX = Math.min(94, Math.max(6, ((colX + 18) / 920) * 100));
+                  const colX = 110 + selIndex * 70;
+                  const percentX = Math.min(94, Math.max(6, ((colX + 22) / 1020) * 100));
 
                   return (
                     <div
-                      className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[130px] -translate-x-1/2 top-1"
+                      className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3.5 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[140px] -translate-x-1/2 top-2"
                       style={{ left: `${percentX}%` }}
                     >
                       <div className="text-sm font-black text-slate-900 leading-tight">
