@@ -302,7 +302,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         {/* ================================================================= */}
         {/* 2.1 ORDER OVERVIEW (12-Month Bar Chart)                           */}
         {/* ================================================================= */}
-        <div className="lg:col-span-6 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between">
+        <div className="lg:col-span-6 bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-slate-200/80 shadow-xs flex flex-col justify-between">
           {/* Header + Dropdown + Legends */}
           <div className="shrink-0">
             <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100/90">
@@ -373,12 +373,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Modern 2D Clustered Column Chart (Matching User Reference Image) */}
+          {/* Modern 2D Clustered Column Chart (Optimized for Mobile: Jan-Apr all visible at once) */}
           <div className="flex-1 w-full flex flex-col pt-2 pb-1 mt-1 bg-white">
             <div className="flex-1 w-full flex items-stretch">
               {/* Left Y-Axis: Clean Numbers with Subtle Tick Marks */}
-              <div className="w-10 sm:w-12 shrink-0 select-none bg-white z-10 flex flex-col justify-between">
-                <svg viewBox="0 0 46 460" className="w-full h-[460px]">
+              <div className="w-8 sm:w-10 shrink-0 select-none bg-white z-10 flex flex-col justify-between">
+                <svg viewBox="0 0 32 460" className="w-full h-[460px]">
                   {[400, 300, 200, 100, 0].map((val) => {
                     const ratio = val / 400;
                     const y = 400 - ratio * 340;
@@ -386,18 +386,18 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       <g key={val}>
                         {/* Clean Tick Value */}
                         <text
-                          x="34"
+                          x="26"
                           y={y + 4}
                           textAnchor="end"
-                          className="text-xs font-semibold fill-slate-500"
+                          className="text-[10px] sm:text-xs font-semibold fill-slate-500"
                         >
                           {val}
                         </text>
                         {/* Seamless Grid Line Tick */}
                         <line
-                          x1="38"
+                          x1="28"
                           y1={y}
-                          x2="46"
+                          x2="32"
                           y2={y}
                           stroke="#e5e7eb"
                           strokeWidth="1"
@@ -413,10 +413,10 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 ref={chartRef}
                 className="flex-1 min-w-0 overflow-x-auto pt-0 pb-3 chart-scrollbar bg-white"
               >
-                <div className="relative w-[1240px] h-[460px] shrink-0">
+                <div className="relative w-[840px] h-[460px] shrink-0">
                   <svg
-                    viewBox="0 0 1240 460"
-                    className="w-[1240px] h-[460px] overflow-visible select-none"
+                    viewBox="0 0 840 460"
+                    className="w-[840px] h-[460px] overflow-visible select-none"
                     preserveAspectRatio="xMidYMid meet"
                   >
                     {/* Clean Horizontal Grid Lines Across Full Width */}
@@ -428,7 +428,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           key={val}
                           x1="0"
                           y1={y}
-                          x2="1240"
+                          x2="840"
                           y2={y}
                           stroke={val === 0 ? "#cbd5e1" : "#e5e7eb"}
                           strokeWidth={val === 0 ? "1.5" : "1"}
@@ -436,13 +436,13 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       );
                     })}
 
-                    {/* 12 Months 2D Clustered Columns (Side-by-side matching reference image) */}
+                    {/* 12 Months 2D Clustered Columns (Tighter gap: Jan to Apr fit together on mobile screen) */}
                     {monthlyOrderData.map((item, index) => {
-                      const colSpacing = 98;
-                      const colStartX = 24 + index * colSpacing;
-                      const bw = 30; // Bar width
-                      const gap = 3; // Space between the 2 paired bars
-                      const offset = (colSpacing - (2 * bw + gap)) / 2; // 17.5px centered in column
+                      const colSpacing = 68; // Compact column spacing so Jan-Apr fit simultaneously
+                      const colStartX = 4 + index * colSpacing;
+                      const bw = 22; // 22px bar width
+                      const gap = 2; // 2px gap between paired bars
+                      const offset = (colSpacing - (2 * bw + gap)) / 2; // 11px centered in column
                       const isSelected = activeTooltipMonth === item.month;
 
                       // Bar 1: Online Orders (Blue, Left)
@@ -494,9 +494,9 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Value label directly above Online Bar */}
                           <text
                             x={bar1X + bw / 2}
-                            y={bar1Y - 6}
+                            y={bar1Y - 5}
                             textAnchor="middle"
-                            className="text-xs font-semibold fill-slate-700"
+                            className="text-[10px] sm:text-xs font-semibold fill-slate-700"
                           >
                             {item.online}
                           </text>
@@ -514,9 +514,9 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                           {/* Value label directly above Wholesale Bar */}
                           <text
                             x={bar2X + bw / 2}
-                            y={bar2Y - 6}
+                            y={bar2Y - 5}
                             textAnchor="middle"
-                            className="text-xs font-semibold fill-slate-700"
+                            className="text-[10px] sm:text-xs font-semibold fill-slate-700"
                           >
                             {item.wholesale}
                           </text>
@@ -526,7 +526,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                             x={centerX}
                             y={430}
                             textAnchor="middle"
-                            className={`text-sm select-none transition-colors ${
+                            className={`text-xs sm:text-sm select-none transition-colors ${
                               isSelected
                                 ? "fill-slate-950 font-black"
                                 : "fill-slate-600 font-semibold group-hover:fill-slate-900"
@@ -546,10 +546,10 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       const selItem = monthlyOrderData[selIndex];
                       if (!selItem || selIndex === -1) return null;
 
-                      const colSpacing = 98;
-                      const colStartX = 24 + selIndex * colSpacing;
-                      const bw = 30;
-                      const gap = 3;
+                      const colSpacing = 68;
+                      const colStartX = 4 + selIndex * colSpacing;
+                      const bw = 22;
+                      const gap = 2;
                       const offset = (colSpacing - (2 * bw + gap)) / 2;
 
                       const bar1X = colStartX + offset;
@@ -566,7 +566,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                       // Tooltip sits directly on top of the selected column pair
                       const tooltipHeight = 106;
                       const tooltipY = Math.max(8, topPeak - tooltipHeight - 8);
-                      const tooltipLeft = Math.max(85, Math.min(1155, centerX));
+                      const tooltipLeft = Math.max(75, Math.min(765, centerX));
 
                       return (
                         <div
