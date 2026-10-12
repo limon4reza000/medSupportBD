@@ -51,14 +51,14 @@ export const PharmacyOwnerDashboard: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 12-Month Order Overview Data matching user mockup
+  // 12-Month Order Overview Data with elevated Feb, Mar, Jun peak volumes
   const monthlyOrderData = [
     { month: "Jan", online: 80, wholesale: 40 },
-    { month: "Feb", online: 115, wholesale: 50 },
-    { month: "Mar", online: 140, wholesale: 65 },
-    { month: "Apr", online: 125, wholesale: 72 },
-    { month: "May", online: 160, wholesale: 102 },
-    { month: "Jun", online: 182, wholesale: 116 },
+    { month: "Feb", online: 210, wholesale: 125 },
+    { month: "Mar", online: 265, wholesale: 160 },
+    { month: "Apr", online: 135, wholesale: 80 },
+    { month: "May", online: 175, wholesale: 110 },
+    { month: "Jun", online: 315, wholesale: 195 },
     { month: "Jul", online: 220, wholesale: 145, isHighlighted: true },
     { month: "Aug", online: 265, wholesale: 178 },
     { month: "Sep", online: 292, wholesale: 195 },
@@ -350,16 +350,16 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <div className="hidden sm:flex items-center gap-4 text-sm font-bold text-slate-600">
                   <div className="flex items-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 16 16" className="shrink-0 drop-shadow-xs">
-                      <rect x="1" y="5" width="9" height="10" fill="#0080ff" stroke="#1e40af" strokeWidth="0.8" />
-                      <polygon points="1,5 5,1 14,1 10,5" fill="#60a5fa" stroke="#1e40af" strokeWidth="0.8" />
-                      <polygon points="10,5 14,1 14,11 10,15" fill="#1d4ed8" stroke="#1e40af" strokeWidth="0.8" />
+                      <rect x="1" y="5" width="9" height="10" fill="#38bdf8" stroke="#0284c7" strokeWidth="0.8" />
+                      <polygon points="1,5 5,1 14,1 10,5" fill="#bae6fd" stroke="#0284c7" strokeWidth="0.8" />
+                      <polygon points="10,5 14,1 14,11 10,15" fill="#0ea5e9" stroke="#0284c7" strokeWidth="0.8" />
                     </svg>
                     <span className="text-slate-700 font-bold">Online Orders</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <svg width="14" height="14" viewBox="0 0 16 16" className="shrink-0 drop-shadow-xs">
-                      <rect x="1" y="5" width="9" height="10" fill="#00d084" stroke="#047857" strokeWidth="0.8" />
-                      <polygon points="1,5 5,1 14,1 10,5" fill="#6ee7b7" stroke="#047857" strokeWidth="0.8" />
+                      <rect x="1" y="5" width="9" height="10" fill="#34d399" stroke="#059669" strokeWidth="0.8" />
+                      <polygon points="1,5 5,1 14,1 10,5" fill="#a7f3d0" stroke="#059669" strokeWidth="0.8" />
                       <polygon points="10,5 14,1 14,11 10,15" fill="#059669" stroke="#047857" strokeWidth="0.8" />
                     </svg>
                     <span className="text-slate-700 font-bold">Wholesale Orders</span>
@@ -372,16 +372,16 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             <div className="flex sm:hidden items-center gap-3.5 text-sm font-semibold text-slate-600 pt-2.5">
               <div className="flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 16 16" className="shrink-0">
-                  <rect x="1" y="5" width="9" height="10" fill="#0080ff" stroke="#1e40af" strokeWidth="0.8" />
-                  <polygon points="1,5 5,1 14,1 10,5" fill="#60a5fa" stroke="#1e40af" strokeWidth="0.8" />
-                  <polygon points="10,5 14,1 14,11 10,15" fill="#1d4ed8" stroke="#1e40af" strokeWidth="0.8" />
+                  <rect x="1" y="5" width="9" height="10" fill="#38bdf8" stroke="#0284c7" strokeWidth="0.8" />
+                  <polygon points="1,5 5,1 14,1 10,5" fill="#bae6fd" stroke="#0284c7" strokeWidth="0.8" />
+                  <polygon points="10,5 14,1 14,11 10,15" fill="#0ea5e9" stroke="#0284c7" strokeWidth="0.8" />
                 </svg>
                 <span className="text-slate-700">Online Orders</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <svg width="12" height="12" viewBox="0 0 16 16" className="shrink-0">
-                  <rect x="1" y="5" width="9" height="10" fill="#00d084" stroke="#047857" strokeWidth="0.8" />
-                  <polygon points="1,5 5,1 14,1 10,5" fill="#6ee7b7" stroke="#047857" strokeWidth="0.8" />
+                  <rect x="1" y="5" width="9" height="10" fill="#34d399" stroke="#059669" strokeWidth="0.8" />
+                  <polygon points="1,5 5,1 14,1 10,5" fill="#a7f3d0" stroke="#059669" strokeWidth="0.8" />
                   <polygon points="10,5 14,1 14,11 10,15" fill="#059669" stroke="#047857" strokeWidth="0.8" />
                 </svg>
                 <span className="text-slate-700">Wholesale Orders</span>
@@ -474,19 +474,19 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     const h1 = Math.max(20, Math.round((item.online / 400) * maxH));
                     const topY1 = baseY1 - h1;
 
-                    // Colors for Series 2 (Wholesale): Default Vibrant Emerald Green, Selected Warm Golden Amber
-                    const wholesaleFront = isSelected ? "#f89831" : "#00d084";
-                    const wholesaleTop = isSelected ? "#fef08a" : "#6ee7b7";
+                    // Colors for Series 2 (Wholesale): Default Lighter Fresh Mint Emerald, Selected Warm Golden Amber
+                    const wholesaleFront = isSelected ? "#fbbf24" : "#34d399";
+                    const wholesaleTop = isSelected ? "#fef08a" : "#a7f3d0";
                     const wholesaleSide = isSelected ? "#d97706" : "#059669";
-                    const wholesaleStroke = isSelected ? "#b45309" : "#047857";
-                    const wholesaleText = isSelected ? "#b45309" : "#059669";
+                    const wholesaleStroke = isSelected ? "#b45309" : "#059669";
+                    const wholesaleText = isSelected ? "#b45309" : "#047857";
 
-                    // Colors for Series 1 (Online): Default Vibrant Electric Blue, Selected Ruby Red
-                    const onlineFront = isSelected ? "#e53c3d" : "#0080ff";
-                    const onlineTop = isSelected ? "#fca5a5" : "#60a5fa";
-                    const onlineSide = isSelected ? "#b91c1c" : "#1d4ed8";
-                    const onlineStroke = isSelected ? "#991b1b" : "#1e40af";
-                    const onlineText = isSelected ? "#b91c1c" : "#1d4ed8";
+                    // Colors for Series 1 (Online): Default Lighter Azure Sky Blue, Selected Coral Red
+                    const onlineFront = isSelected ? "#f87171" : "#38bdf8";
+                    const onlineTop = isSelected ? "#fecaca" : "#bae6fd";
+                    const onlineSide = isSelected ? "#dc2626" : "#0ea5e9";
+                    const onlineStroke = isSelected ? "#b91c1c" : "#0284c7";
+                    const onlineText = isSelected ? "#b91c1c" : "#0284c7";
 
                     return (
                       <g
@@ -641,12 +641,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         <div className="text-[14px] font-black text-slate-900 leading-tight tracking-tight">
                           {selItem.month} 2026
                         </div>
-                        <div className="text-xs text-[#0080ff] font-bold flex items-center gap-2 mt-2">
-                          <span className="w-2.5 h-2.5 rounded-xs bg-[#0080ff] shrink-0" />
+                        <div className="text-xs text-[#0284c7] font-bold flex items-center gap-2 mt-2">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#38bdf8] shrink-0" />
                           <span>Online: {selItem.online} orders</span>
                         </div>
-                        <div className="text-xs text-[#00d084] font-bold flex items-center gap-2 mt-1">
-                          <span className="w-2.5 h-2.5 rounded-xs bg-[#00d084] shrink-0" />
+                        <div className="text-xs text-[#047857] font-bold flex items-center gap-2 mt-1">
+                          <span className="w-2.5 h-2.5 rounded-xs bg-[#34d399] shrink-0" />
                           <span>Wholesale: {selItem.wholesale} orders</span>
                         </div>
                         <div className="text-[11px] text-slate-500 font-semibold mt-2 pt-2 border-t border-slate-100">
