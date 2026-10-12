@@ -601,34 +601,60 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                   })}
                 </svg>
 
-                {/* Floating Interactive Tooltip Popover on column select */}
+                {/* Floating Interactive Tooltip Popover hovering directly on top of the selected bar */}
                 {activeTooltipMonth && (
                   (() => {
-                    const selItem = monthlyOrderData.find((m) => m.month === activeTooltipMonth);
                     const selIndex = monthlyOrderData.findIndex((m) => m.month === activeTooltipMonth);
+                    const selItem = monthlyOrderData[selIndex];
                     if (!selItem || selIndex === -1) return null;
+
                     const colX = 28 + selIndex * 100;
-                    const percentX = Math.min(95, Math.max(5, ((colX + 35) / 1260) * 100));
+                    const bw = 34;
+                    const dx = 15;
+                    const dy = -11;
+                    const maxH = 370;
+
+                    const staggerX = 36;
+                    const staggerY = -14;
+                    const baseY2 = 455 + staggerY;
+                    const h2 = Math.max(20, Math.round((selItem.wholesale / 400) * maxH));
+                    const topY2 = baseY2 - h2;
+
+                    const baseY1 = 455;
+                    const h1 = Math.max(20, Math.round((selItem.online / 400) * maxH));
+                    const topY1 = baseY1 - h1;
+
+                    // Highest peak among the two 3D column bars including cap & top value label
+                    const highestCapY = Math.min(topY1 + dy, topY2 + dy);
+                    const topPeak = highestCapY - 20;
+
+                    // Tooltip sits directly on top of the selected bar with bottom pointer arrow
+                    const tooltipHeight = 106;
+                    const tooltipY = Math.max(8, topPeak - tooltipHeight - 8);
+                    const tooltipLeft = Math.max(85, Math.min(1175, colX + 42));
 
                     return (
                       <div
-                        className="absolute z-30 bg-white/95 backdrop-blur-sm rounded-xl p-3.5 shadow-xl border border-slate-200 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[140px] -translate-x-1/2 top-2"
-                        style={{ left: `${percentX}%` }}
+                        className="absolute z-30 bg-white rounded-2xl p-3.5 shadow-xl border border-slate-200/90 text-left pointer-events-none animate-in fade-in zoom-in-95 duration-150 whitespace-nowrap min-w-[145px] -translate-x-1/2 transition-all"
+                        style={{ left: `${tooltipLeft}px`, top: `${tooltipY}px` }}
                       >
-                        <div className="text-sm font-black text-slate-900 leading-tight">
+                        <div className="text-[14px] font-black text-slate-900 leading-tight tracking-tight">
                           {selItem.month} 2026
                         </div>
-                        <div className="text-xs text-[#0080ff] font-bold flex items-center gap-1.5 mt-1.5">
+                        <div className="text-xs text-[#0080ff] font-bold flex items-center gap-2 mt-2">
                           <span className="w-2.5 h-2.5 rounded-xs bg-[#0080ff] shrink-0" />
                           <span>Online: {selItem.online} orders</span>
                         </div>
-                        <div className="text-xs text-[#00d084] font-bold flex items-center gap-1.5 mt-1">
+                        <div className="text-xs text-[#00d084] font-bold flex items-center gap-2 mt-1">
                           <span className="w-2.5 h-2.5 rounded-xs bg-[#00d084] shrink-0" />
                           <span>Wholesale: {selItem.wholesale} orders</span>
                         </div>
-                        <div className="text-[11px] text-slate-500 font-semibold mt-1.5 pt-1.5 border-t border-slate-100">
+                        <div className="text-[11px] text-slate-500 font-semibold mt-2 pt-2 border-t border-slate-100">
                           Total: {selItem.online + selItem.wholesale} orders
                         </div>
+
+                        {/* Downward pointing caret pointing directly to the bar */}
+                        <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-r border-b border-slate-200 rotate-45 pointer-events-none" />
                       </div>
                     );
                   })()
