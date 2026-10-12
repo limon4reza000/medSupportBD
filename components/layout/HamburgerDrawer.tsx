@@ -207,7 +207,7 @@ export const HamburgerDrawer: React.FC = () => {
 
   return (
     <div
-      className={`drawer-container fixed inset-0 z-50 flex justify-end select-none overflow-hidden ${
+      className={`drawer-container fixed inset-0 z-50 flex justify-start select-none overflow-hidden ${
         isMobileNavOpen ? "is-open" : ""
       }`}
     >
@@ -217,8 +217,8 @@ export const HamburgerDrawer: React.FC = () => {
         onClick={closeDrawer}
       />
 
-      {/* Drawer Panel with 60FPS GPU-accelerated slide-in / slide-out */}
-      <div className="drawer-panel relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-l border-slate-200/80">
+      {/* Drawer Panel with 60FPS GPU-accelerated slide-in / slide-out from Left */}
+      <div className="drawer-panel relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-800 border-r border-slate-200/80">
         
         {/* Header with MedSupplyBD Brand Logo & User Profile Section */}
         <div className="p-4 sm:p-5 bg-white text-slate-800 border-b border-slate-200/80 relative">
