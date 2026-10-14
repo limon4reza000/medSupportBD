@@ -61,13 +61,16 @@ export const TakaIcon: React.FC<TakaIconProps> = ({
           <rect width="24" height="24" fill="white" />
           <text
             x="6.2"
-            y="6.0"
+            y="6.7"
             textAnchor="middle"
             dominantBaseline="central"
             fill="black"
-            fontSize="5.2"
+            stroke="black"
+            strokeWidth="0.5"
+            strokeLinejoin="round"
+            fontSize="6.8"
             fontWeight="900"
-            fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            fontFamily="'Nirmala UI', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
           >
             ৳
           </text>
@@ -90,7 +93,7 @@ export const TakaIcon: React.FC<TakaIconProps> = ({
       <circle
         cx="6.2"
         cy="6.0"
-        r="4.0"
+        r="4.2"
         fill={isGradient ? `url(#${gradCyanId})` : "currentColor"}
         mask={`url(#${coinMaskId})`}
       />
