@@ -118,7 +118,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
               <Boxes className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             41,302
           </div>
           <div className="text-[11px] text-emerald-600 font-semibold mt-1">
@@ -134,7 +134,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
               <Truck className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {authorizedDistributors.length + 16} Depots
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">
@@ -150,7 +150,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
               <Gift className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {activeOffers.length} Campaigns
           </div>
           <div className="text-[11px] text-purple-700 font-semibold mt-1">
@@ -166,7 +166,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
               <AlertOctagon className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {batchRecalls.filter((r) => r.status === "ACTIVE_RECALL").length} Lot Flagged
           </div>
           <div className="text-[11px] text-rose-600 font-semibold mt-1">

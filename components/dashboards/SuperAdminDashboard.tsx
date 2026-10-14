@@ -122,7 +122,7 @@ export const SuperAdminDashboard: React.FC = () => {
               ৳
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             ৳{(totalGmv / 10000000).toFixed(2)} Cr
           </div>
           <div className="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center gap-1">
@@ -138,7 +138,7 @@ export const SuperAdminDashboard: React.FC = () => {
               <Building2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {organizations.length}
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">
@@ -154,7 +154,7 @@ export const SuperAdminDashboard: React.FC = () => {
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {pharmacies.length + 1240}
           </div>
           <div className="text-[11px] text-emerald-600 font-semibold mt-1">
@@ -170,7 +170,7 @@ export const SuperAdminDashboard: React.FC = () => {
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {batchRecalls.filter((r) => r.status === "ACTIVE_RECALL").length}
           </div>
           <div className="text-[11px] text-rose-600 font-semibold mt-1">

@@ -119,7 +119,7 @@ export const DistributorDashboard: React.FC = () => {
               ৳
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             ৳{(totalInventoryValue / 100000).toFixed(2)} Lac
           </div>
           <div className="text-[11px] text-emerald-600 font-semibold mt-1">
@@ -135,7 +135,7 @@ export const DistributorDashboard: React.FC = () => {
               <PackageCheck className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {pendingOrders.length} Orders
           </div>
           <div className="text-[11px] text-blue-600 font-semibold mt-1">
@@ -151,7 +151,7 @@ export const DistributorDashboard: React.FC = () => {
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {nearExpiryBatches.length} Batches
           </div>
           <div className="text-[11px] text-amber-700 font-semibold mt-1">
@@ -167,7 +167,7 @@ export const DistributorDashboard: React.FC = () => {
               <Truck className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {deliveryRecords.length} Active Trips
           </div>
           <div className="text-[11px] text-purple-700 font-semibold mt-1">

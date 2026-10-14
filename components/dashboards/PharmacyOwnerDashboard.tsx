@@ -224,7 +224,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Products</div>
-              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-bold text-slate-900 mt-0.5 tracking-tight leading-none">
                 25,430
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
@@ -243,7 +243,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Suppliers</div>
-              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-bold text-slate-900 mt-0.5 tracking-tight leading-none">
                 350+
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
@@ -262,7 +262,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">Total Orders</div>
-              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-bold text-slate-900 mt-0.5 tracking-tight leading-none">
                 1,200+
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
@@ -281,7 +281,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-xs sm:text-sm font-bold text-slate-500 truncate">On-Time Delivery</div>
-              <div className="text-lg sm:text-[28px] font-black text-slate-900 mt-0.5 tracking-tight leading-none">
+              <div className="text-lg sm:text-[28px] font-bold text-slate-900 mt-0.5 tracking-tight leading-none">
                 99%
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">

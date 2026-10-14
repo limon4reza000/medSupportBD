@@ -125,7 +125,7 @@ export const MpoTerminalDashboard: React.FC = () => {
               ৳
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             ৳84,200
           </div>
           <div className="text-[11px] text-emerald-600 font-semibold mt-1">
@@ -141,7 +141,7 @@ export const MpoTerminalDashboard: React.FC = () => {
               <Target className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {percentAchieved}% Achieved
           </div>
           <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden mt-1.5">
@@ -157,7 +157,7 @@ export const MpoTerminalDashboard: React.FC = () => {
               <MapPin className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {mrVisits.filter((v) => v.status === "COMPLETED").length} / {pharmacies.length + 5} Done
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">
@@ -173,7 +173,7 @@ export const MpoTerminalDashboard: React.FC = () => {
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-xl sm:text-2xl font-black text-slate-900">
+          <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {offers.filter((o) => o.isActive).length} Trade Offers
           </div>
           <div className="text-[11px] text-amber-700 font-semibold mt-1">
