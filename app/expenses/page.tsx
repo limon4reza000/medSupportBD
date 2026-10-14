@@ -253,34 +253,40 @@ export default function ExpensesPage() {
       </div>
 
       {/* Filters Bar: Month & Category */}
-      <div className="bg-white rounded-3xl p-4 border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-slate-500">Month:</span>
-          <input
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none"
-          />
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 overflow-hidden">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
+          {/* Month Filter */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial min-w-[135px]">
+            <span className="text-xs font-bold text-slate-500 shrink-0">Month:</span>
+            <input
+              type="month"
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="w-full sm:w-auto px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0080ff]/20 min-w-0"
+            />
+          </div>
 
-          <span className="text-xs font-bold text-slate-500 ml-2">Category:</span>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none"
-          >
-            <option value="ALL">All Categories</option>
-            <option value="RENT">Shop Rent</option>
-            <option value="ELECTRICITY">Electricity & Utilities</option>
-            <option value="SALARY">Staff Salaries</option>
-            <option value="TRANSPORT">Transport</option>
-            <option value="MAINTENANCE">Maintenance</option>
-            <option value="TEA_SNACKS">Tea & Snacks</option>
-            <option value="OTHER">Other</option>
-          </select>
+          {/* Category Filter */}
+          <div className="flex items-center gap-2 flex-1 sm:flex-initial min-w-[155px]">
+            <span className="text-xs font-bold text-slate-500 shrink-0">Category:</span>
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="w-full sm:w-auto px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0080ff]/20 min-w-0"
+            >
+              <option value="ALL">All Categories</option>
+              <option value="RENT">Shop Rent</option>
+              <option value="ELECTRICITY">Electricity & Utilities</option>
+              <option value="SALARY">Staff Salaries</option>
+              <option value="TRANSPORT">Transport</option>
+              <option value="MAINTENANCE">Maintenance</option>
+              <option value="TEA_SNACKS">Tea & Snacks</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
         </div>
 
-        <div className="text-xs font-semibold text-slate-500">
+        <div className="text-xs font-semibold text-slate-500 shrink-0">
           Showing {filteredExpenses.length} records
         </div>
       </div>
