@@ -214,7 +214,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       {/* =================================================================== */}
       {/* 1. TOP ROW: 4 METRIC KPI CARDS                                      */}
       {/* =================================================================== */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-1.5 sm:gap-2 lg:gap-2.5">
         
         {/* Card 1: Total Products */}
         <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
