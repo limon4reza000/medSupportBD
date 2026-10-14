@@ -10,7 +10,6 @@ import {
   User,
   Users,
   BarChart3,
-  DollarSign,
   Settings,
   Headphones,
   ChevronRight,
@@ -29,6 +28,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
+import { TakaIcon } from "@/components/common/TakaIcon";
 
 // Custom SVG matching the 3-connected-nodes icon for Medicine Stock
 const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
@@ -103,10 +103,10 @@ export const AppSidebar: React.FC = () => {
           { label: "Depot Command", href: "/", icon: LayoutGrid },
           { label: "Wholesale Orders Queue", href: "/orders", icon: PackageCheck },
           { label: "FEFO Batch Stock", href: "/inventory/batches", icon: MedicineStockIcon },
-          { label: "Pharmacy Due Ledger", href: "/customer-due", icon: DollarSign },
+          { label: "Pharmacy Due Ledger", href: "/customer-due", icon: TakaIcon },
           { label: "Depot Logistics & Hub", href: "/depot", icon: Truck },
           { label: "Staff & Payroll", href: "/employees", icon: Users },
-          { label: "Expenses Tracking", href: "/expenses", icon: DollarSign },
+          { label: "Expenses Tracking", href: "/expenses", icon: TakaIcon },
           { label: "Depot Reports & BI", href: "/reports", icon: BarChart3 },
         ];
 
@@ -130,7 +130,7 @@ export const AppSidebar: React.FC = () => {
           { label: "Customer Due", href: "/customer-due", icon: User },
           { label: "Staff & Payroll", href: "/employees", icon: Users },
           { label: "Reports & BI", href: "/reports", icon: BarChart3 },
-          { label: "Expenses", href: "/expenses", icon: DollarSign },
+          { label: "Expenses", href: "/expenses", icon: TakaIcon },
           { label: "MR Portal", href: "/mr-portal", icon: MRPortalIcon },
         ];
     }

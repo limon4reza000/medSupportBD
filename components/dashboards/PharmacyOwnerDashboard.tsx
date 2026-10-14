@@ -22,13 +22,13 @@ import {
   PieChart,
   Home,
   Plus,
-  DollarSign,
   Briefcase,
   Settings,
   ShieldCheck,
   LayoutGrid,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
+import { TakaIcon } from "@/components/common/TakaIcon";
 
 export const PharmacyOwnerDashboard: React.FC = () => {
   const router = useRouter();
@@ -1202,7 +1202,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               image: "/images/module-expenses.png",
               iconBg: "bg-amber-500",
               cardBg: "bg-[#fff9ea] border-[#fef2b8] hover:border-amber-400 hover:shadow-amber-100/50",
-              icon: DollarSign,
+              icon: TakaIcon,
             },
             {
               title: "MR Portal",

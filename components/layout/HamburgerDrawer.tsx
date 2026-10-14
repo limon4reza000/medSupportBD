@@ -22,7 +22,6 @@ import {
   Layers,
   Truck,
   FileText,
-  DollarSign,
   ChevronRight,
   LucideIcon,
   Camera,
@@ -37,6 +36,7 @@ import {
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
+import { TakaIcon } from "@/components/common/TakaIcon";
 
 // Custom SVG matching the 3-connected-nodes icon for Medicine Stock
 const MedicineStockIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
@@ -163,7 +163,7 @@ export const HamburgerDrawer: React.FC = () => {
         { label: "Customer Due", href: "/customer-due", icon: User },
         { label: "Staff & Payroll", href: "/employees", icon: Users },
         { label: "Reports & BI", href: "/reports", icon: BarChart3 },
-        { label: "Expenses", href: "/expenses", icon: DollarSign },
+        { label: "Expenses", href: "/expenses", icon: TakaIcon },
         { label: "MR Portal", href: "/mr-portal", icon: MRPortalIcon },
       ],
     },
