@@ -121,6 +121,24 @@ export default function ExpensesPage() {
     }).sort((a, b) => b.amount - a.amount);
   }, [expenses, selectedMonth, totalMonthExpense]);
 
+  // Helper for Payment Method badge background and text colors (Bank, bKash, Nagad, Cash)
+  const getPaymentBadge = (method: string) => {
+    const m = (method || "").toUpperCase();
+    if (m.includes("BKASH")) {
+      return "bg-pink-100 text-pink-700 border-pink-200";
+    }
+    if (m.includes("NAGAD")) {
+      return "bg-orange-100 text-orange-700 border-orange-200";
+    }
+    if (m.includes("BANK")) {
+      return "bg-blue-100 text-blue-700 border-blue-200";
+    }
+    if (m.includes("CASH")) {
+      return "bg-emerald-100 text-emerald-700 border-emerald-200";
+    }
+    return "bg-slate-100 text-slate-700 border-slate-200";
+  };
+
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!expenseTitle || expenseAmount <= 0) return;
@@ -327,7 +345,7 @@ export default function ExpensesPage() {
                     </td>
                     <td className="py-3.5 px-3 text-slate-700 min-w-[130px]">{exp.payee}</td>
                     <td className="py-3.5 px-3 whitespace-nowrap">
-                      <span className="font-mono text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded">
+                      <span className={`font-mono font-bold text-[10px] px-2 py-0.5 rounded-md border ${getPaymentBadge(exp.paymentMethod)}`}>
                         {exp.paymentMethod}
                       </span>
                     </td>
