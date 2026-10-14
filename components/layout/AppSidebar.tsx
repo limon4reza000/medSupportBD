@@ -157,11 +157,11 @@ export const AppSidebar: React.FC = () => {
     <aside className="hidden lg:flex flex-col w-[275px] shrink-0 h-screen sticky top-0 bg-white text-slate-800 border-r border-slate-200/80 select-none z-30 overflow-y-auto scrollbar-none relative">
       {/* Brand Header with Large Prominent Logo */}
       <div className="px-5 pt-6 pb-4 mb-1">
-        <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
+        <Link href="/" className="flex items-center group" title="MedGo Home">
           <img
-            src="/images/medsupplybd-logo.png"
-            alt="MedSupplyBD"
-            className="h-14 sm:h-16 w-auto max-w-[245px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
+            src="/images/medgo-logo.png"
+            alt="MedGo"
+            className="h-12 sm:h-14 w-auto max-w-[245px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
           />
         </Link>
       </div>
@@ -178,17 +178,17 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-bold shadow-2xs border border-blue-100"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
+                  ? "bg-[#eff6ff] text-[#0080ff] font-extrabold shadow-2xs border border-blue-100"
+                  : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon
                   className={`w-5 h-5 shrink-0 transition-colors ${
-                    isActive ? "text-[#0080ff] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
+                    isActive ? "text-[#0080ff] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
                   }`}
                 />
-                <span className="text-[14px] sm:text-[14.5px] truncate tracking-tight">{item.label}</span>
+                <span className="text-[15px] sm:text-[15.5px] truncate tracking-tight">{item.label}</span>
               </div>
 
               <ChevronRight
@@ -214,17 +214,17 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-bold shadow-2xs border border-blue-100"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
+                  ? "bg-[#eff6ff] text-[#0080ff] font-extrabold shadow-2xs border border-blue-100"
+                  : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon
                   className={`w-5 h-5 shrink-0 transition-colors ${
-                    isActive ? "text-[#0080ff] stroke-[2.4]" : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
+                    isActive ? "text-[#0080ff] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
                   }`}
                 />
-                <span className="text-[14px] sm:text-[14.5px] truncate tracking-tight">{item.label}</span>
+                <span className="text-[15px] sm:text-[15.5px] truncate tracking-tight">{item.label}</span>
               </div>
 
               <ChevronRight

@@ -223,11 +223,11 @@ export const HamburgerDrawer: React.FC = () => {
         {/* Header with MedSupplyBD Brand Logo & User Profile Section */}
         <div className="p-4 sm:p-5 bg-white text-slate-800 border-b border-slate-200/80 relative">
           <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-            <Link href="/" onClick={closeDrawer} className="flex items-center group" title="MedSupplyBD Home">
+            <Link href="/" onClick={closeDrawer} className="flex items-center group" title="MedGo Home">
               <img
-                src="/images/medsupplybd-logo.png"
-                alt="MedSupplyBD"
-                className="h-12 sm:h-14 w-auto max-w-[210px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
+                src="/images/medgo-logo.png"
+                alt="MedGo"
+                className="h-10 sm:h-12 w-auto max-w-[210px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
               />
             </Link>
             <button
@@ -352,21 +352,21 @@ export const HamburgerDrawer: React.FC = () => {
                       key={iIdx}
                       href={item.href}
                       onClick={closeDrawer}
-                      className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm transition-all duration-150 ${
+                      className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                         isActive
-                          ? "bg-[#eff6ff] text-[#0080ff] font-bold shadow-2xs border border-blue-100"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium"
+                          ? "bg-[#eff6ff] text-[#0080ff] font-extrabold shadow-2xs border border-blue-100"
+                          : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <Icon
                           className={`w-5 h-5 shrink-0 transition-colors ${
                             isActive
-                              ? "text-[#0080ff] stroke-[2.4]"
-                              : "text-slate-400 group-hover:text-slate-700 stroke-[2]"
+                              ? "text-[#0080ff] stroke-[2.5]"
+                              : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
                           }`}
                         />
-                        <span className="truncate">{item.label}</span>
+                        <span className="text-[15px] sm:text-[15.5px] truncate tracking-tight">{item.label}</span>
                       </div>
 
                       <div className="flex items-center gap-1.5 shrink-0">
