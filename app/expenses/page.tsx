@@ -292,19 +292,19 @@ export default function ExpensesPage() {
       </div>
 
       {/* Expenses Table */}
-      <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm space-y-4">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-4">
+        <div className="overflow-x-auto scrollbar-thin">
+          <table className="w-full min-w-[750px] text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px] font-bold">
-                <th className="pb-3">Date</th>
-                <th className="pb-3">Category</th>
-                <th className="pb-3">Title / Expense Description</th>
-                <th className="pb-3">Payee / Vendor</th>
-                <th className="pb-3">Payment Method</th>
-                <th className="pb-3">Voucher #</th>
-                <th className="pb-3 text-right">Amount (৳)</th>
-                <th className="pb-3 text-right">Action</th>
+              <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px] font-bold tracking-wider">
+                <th className="pb-3 pr-3 whitespace-nowrap">Date</th>
+                <th className="pb-3 px-3 whitespace-nowrap">Category</th>
+                <th className="pb-3 px-3 min-w-[180px]">Title / Expense Description</th>
+                <th className="pb-3 px-3 min-w-[130px]">Payee / Vendor</th>
+                <th className="pb-3 px-3 whitespace-nowrap">Payment Method</th>
+                <th className="pb-3 px-3 whitespace-nowrap">Voucher #</th>
+                <th className="pb-3 px-3 text-right whitespace-nowrap">Amount (৳)</th>
+                <th className="pb-3 pl-3 text-right whitespace-nowrap">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium">
@@ -313,31 +313,31 @@ export default function ExpensesPage() {
 
                 return (
                   <tr key={exp.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 font-mono text-slate-600">{exp.date}</td>
-                    <td className="py-3">
+                    <td className="py-3.5 pr-3 font-mono text-slate-600 whitespace-nowrap">{exp.date}</td>
+                    <td className="py-3.5 px-3 whitespace-nowrap">
                       <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] ${conf.bg}`}>
                         {conf.label}
                       </span>
                     </td>
-                    <td className="py-3 font-bold text-slate-900">
+                    <td className="py-3.5 px-3 font-bold text-slate-900 min-w-[180px]">
                       {exp.title}
                       {exp.notes && (
-                        <span className="text-[10px] text-slate-400 font-normal block">{exp.notes}</span>
+                        <span className="text-[10px] text-slate-400 font-normal block mt-0.5">{exp.notes}</span>
                       )}
                     </td>
-                    <td className="py-3 text-slate-700">{exp.payee}</td>
-                    <td className="py-3">
+                    <td className="py-3.5 px-3 text-slate-700 min-w-[130px]">{exp.payee}</td>
+                    <td className="py-3.5 px-3 whitespace-nowrap">
                       <span className="font-mono text-[10px] bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded">
                         {exp.paymentMethod}
                       </span>
                     </td>
-                    <td className="py-3 font-mono text-[10px] text-slate-500">
+                    <td className="py-3.5 px-3 font-mono text-[10px] text-slate-500 whitespace-nowrap">
                       {exp.voucherNo || "—"}
                     </td>
-                    <td className="py-3 text-right font-mono font-black text-sm text-slate-900">
+                    <td className="py-3.5 px-3 text-right font-mono font-black text-sm text-slate-900 whitespace-nowrap">
                       ৳{exp.amount.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
                     </td>
-                    <td className="py-3 text-right">
+                    <td className="py-3.5 pl-3 text-right whitespace-nowrap">
                       <button
                         onClick={() => deleteExpense(exp.id)}
                         className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
