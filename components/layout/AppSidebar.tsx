@@ -178,7 +178,7 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-extrabold shadow-2xs border border-blue-100"
+                  ? "bg-[#eff6ff] text-[#0080ff] font-semibold shadow-2xs border border-blue-100"
                   : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
@@ -214,7 +214,7 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-extrabold shadow-2xs border border-blue-100"
+                  ? "bg-[#eff6ff] text-[#0080ff] font-semibold shadow-2xs border border-blue-100"
                   : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
