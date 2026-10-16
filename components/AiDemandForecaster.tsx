@@ -79,7 +79,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#241B52] to-[#4338CA] flex items-center justify-center shadow-md">
                 <TrendingUp className="w-4 h-4 text-white" />
               </div>
               <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">

@@ -11,16 +11,18 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          bg: "#F6F8F7", // Main Background: Soft Cool White
+          bg: "#F5F6FC", // Main Background: Soft Periwinkle Off-White
           card: "#FFFFFF", // Card Background: Pure White
-          navbar: "#065F52", // Navbar: Deep Emerald
-          heroFrom: "#065F52", // Hero Start: Deep Emerald
-          heroTo: "#0F8F78", // Hero End: Emerald Gradient
-          primary: "#10B981", // Primary Button: Medical Green
-          primaryHover: "#059669", // Button Hover: Dark Green
+          navbar: "#241B52", // Navbar: Deep Royal Indigo
+          heroFrom: "#241B52", // Hero Start: Deep Royal Indigo
+          heroTo: "#4338CA", // Hero End: Royal Iris Indigo
+          primary: "#4F46E5", // Primary Button & Active Pill: Vibrant Iris
+          primaryHover: "#4338CA", // Button Hover: Darker Indigo
+          accent: "#818CF8", // Soft Iris Accent
+          coral: "#FB923C", // Warm Highlight: Peach / Coral
           navy: "#0F172A", // Main Text: Deep Navy
           slate: "#64748B", // Secondary Text: Slate Gray
-          border: "#DDE8E3", // Border: Soft Gray Green
+          border: "#E0E7FF", // Border: Soft Indigo Slate
         },
       },
       fontFamily: {

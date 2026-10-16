@@ -325,18 +325,18 @@ export default function PosPage() {
     <div className="space-y-5 animate-in fade-in duration-300">
       
       {/* Top Banner / Actions Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#044a40] via-[#065F52] to-[#0a7a6a] p-4 sm:p-5 rounded-3xl text-white shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] p-4 sm:p-5 rounded-3xl text-white shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
               Retail Point of Sale
             </span>
-            <span className="text-xs text-emerald-100 font-mono">Terminal #01 • Cashier Ready</span>
+            <span className="text-xs text-indigo-100 font-mono">Terminal #01 • Cashier Ready</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
             Daily Sales (POS) Counter
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Instant medicine search, strip/box billing, multi-tender payment, auto FEFO stock reduction & customer credit ledger.
           </p>
         </div>
@@ -346,13 +346,13 @@ export default function PosPage() {
             onClick={() => setIsDailyClosingOpen(true)}
             className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 backdrop-blur-md transition-all flex items-center gap-2 hover:scale-102"
           >
-            <FileText className="w-4 h-4 text-emerald-300" />
+            <FileText className="w-4 h-4 text-indigo-200" />
             <span>Daily Closing (Z-Report)</span>
           </button>
 
           <Link
             href="/customer-due"
-            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
+            className="px-4 py-2.5 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
           >
             <CreditCard className="w-4 h-4" />
             <span>Customer Due Ledger</span>

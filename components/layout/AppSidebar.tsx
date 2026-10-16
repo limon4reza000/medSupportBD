@@ -178,14 +178,14 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-semibold shadow-2xs border border-blue-100"
+                  ? "bg-[#EEF2FF] text-[#4F46E5] font-semibold shadow-2xs border border-indigo-200"
                   : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon
                   className={`w-5 h-5 shrink-0 transition-colors ${
-                    isActive ? "text-[#0080ff] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
+                    isActive ? "text-[#4F46E5] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
                   }`}
                 />
                 <span className="text-[15px] sm:text-[15.5px] truncate tracking-tight">{item.label}</span>
@@ -193,7 +193,7 @@ export const AppSidebar: React.FC = () => {
 
               <ChevronRight
                 className={`w-4 h-4 shrink-0 transition-colors ${
-                  isActive ? "text-[#0080ff]" : "text-slate-300 group-hover:text-slate-500"
+                  isActive ? "text-[#4F46E5]" : "text-slate-300 group-hover:text-slate-500"
                 }`}
               />
             </Link>
@@ -214,14 +214,14 @@ export const AppSidebar: React.FC = () => {
               href={item.href}
               className={`group relative flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all duration-150 ${
                 isActive
-                  ? "bg-[#eff6ff] text-[#0080ff] font-semibold shadow-2xs border border-blue-100"
+                  ? "bg-[#EEF2FF] text-[#4F46E5] font-semibold shadow-2xs border border-indigo-200"
                   : "text-slate-700 hover:text-slate-950 hover:bg-slate-50 font-semibold"
               }`}
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Icon
                   className={`w-5 h-5 shrink-0 transition-colors ${
-                    isActive ? "text-[#0080ff] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
+                    isActive ? "text-[#4F46E5] stroke-[2.5]" : "text-slate-400 group-hover:text-slate-700 stroke-[2.2]"
                   }`}
                 />
                 <span className="text-[15px] sm:text-[15.5px] truncate tracking-tight">{item.label}</span>
@@ -229,7 +229,7 @@ export const AppSidebar: React.FC = () => {
 
               <ChevronRight
                 className={`w-4 h-4 shrink-0 transition-colors ${
-                  isActive ? "text-[#0080ff]" : "text-slate-300 group-hover:text-slate-500"
+                  isActive ? "text-[#4F46E5]" : "text-slate-300 group-hover:text-slate-500"
                 }`}
               />
             </Link>
@@ -242,14 +242,14 @@ export const AppSidebar: React.FC = () => {
         {/* Get Mobile App Button */}
         <button
           onClick={() => setIsGetAppOpen(true)}
-          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#0080ff] hover:bg-[#006fe6] text-white text-sm font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
+          className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-sm font-bold transition-all shadow-xs group active:scale-95 cursor-pointer"
           title="Install MedSupplyBD App (PWA / Android APK)"
         >
           <div className="flex items-center gap-2.5">
-            <Smartphone className="w-5 h-5 text-blue-100" />
+            <Smartphone className="w-5 h-5 text-indigo-100" />
             <span>Get Mobile App</span>
           </div>
-          <span className="px-2 py-0.5 rounded bg-white text-[#006fe6] text-[11px] font-black uppercase tracking-wider">
+          <span className="px-2 py-0.5 rounded bg-white text-[#4F46E5] text-[11px] font-black uppercase tracking-wider">
             APK &bull; iOS
           </span>
         </button>
@@ -264,7 +264,7 @@ export const AppSidebar: React.FC = () => {
             <Globe className="w-5 h-5 text-slate-500" />
             <span>Language / ভাষা</span>
           </div>
-          <div className="flex items-center px-2.5 py-0.5 rounded bg-blue-50 text-[#0080ff] border border-blue-200 text-xs font-black">
+          <div className="flex items-center px-2.5 py-0.5 rounded bg-indigo-50 text-[#4F46E5] border border-indigo-200 text-xs font-black">
             <span>{language === "en" ? "BN" : "EN"}</span>
           </div>
         </button>

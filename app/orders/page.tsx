@@ -46,20 +46,20 @@ export default function WholesaleOrdersQueuePage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#01382b] via-[#025540] to-[#014030] text-white p-6 rounded-3xl shadow-lg border border-emerald-600/30">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white p-6 rounded-3xl shadow-lg border border-indigo-500/30">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400 text-slate-950 flex items-center gap-1 shadow-sm">
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#FB923C] text-white flex items-center gap-1 shadow-sm">
               <PackageCheck className="w-3.5 h-3.5" /> B2B Wholesale Queue
             </span>
-            <span className="text-xs text-emerald-200 font-mono">
+            <span className="text-xs text-indigo-200 font-mono">
               {currentUser.organizationName || "Central Depot Distribution"}
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight mt-1">
             Wholesale Orders Processing & Invoicing
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100/80 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-indigo-100/80 mt-1 max-w-2xl">
             Authorize incoming bulk orders from retail pharmacies and MPOs, verify batch FIFO allocation, generate VAT invoices, and assign delivery vans.
           </p>
         </div>

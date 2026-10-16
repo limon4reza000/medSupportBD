@@ -121,9 +121,9 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
       <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="relative bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-900 text-white p-5 sm:p-6 flex items-start justify-between">
+        <div className="relative bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white p-5 sm:p-6 flex items-start justify-between">
           <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white text-[#01382a] flex items-center justify-center shadow-lg font-black text-2xl shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-white text-[#241B52] flex items-center justify-center shadow-lg font-black text-2xl shrink-0">
               🏢
             </div>
             <div>
@@ -131,7 +131,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                 <h3 className="text-base sm:text-lg font-black text-white">
                   {distributor.name}
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#FB923C] text-white text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-xs">
                   <ShieldCheck className="w-3 h-3" />
                   <span>DGDA Verified Depot</span>
                 </span>

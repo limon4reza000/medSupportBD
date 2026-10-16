@@ -10,7 +10,7 @@ export const MedSupportLogo: React.FC<{
     return (
       <img
         src="/images/sidebar-logo.png"
-        alt="MedSupplyBD Icon"
+        alt="MedGo Icon"
         className={`object-contain max-h-full max-w-full ${className}`}
       />
     );
@@ -18,8 +18,8 @@ export const MedSupportLogo: React.FC<{
 
   return (
     <img
-      src="/images/medsupplybd-logo.png"
-      alt="MedSupplyBD Logo"
+      src="/images/medgo-logo.png"
+      alt="MedGo Logo"
       className={`object-contain max-h-full max-w-full ${className}`}
     />
   );

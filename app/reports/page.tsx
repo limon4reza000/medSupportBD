@@ -174,18 +174,18 @@ export default function ReportsPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#044a40] via-[#065F52] to-[#0a7a6a] p-5 rounded-3xl text-white shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] p-5 rounded-3xl text-white shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
               Executive Analytics & BI
             </span>
-            <span className="text-xs text-emerald-100 font-mono">Financial Year {selectedYear}</span>
+            <span className="text-xs text-indigo-100 font-mono">Financial Year {selectedYear}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
             Financial & Sales Reports Suite
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Interactive sales line charts, company revenue pie chart, top medicines bar chart, and net profit ledger.
           </p>
         </div>
@@ -195,13 +195,13 @@ export default function ReportsPage() {
             onClick={handleExportCsv}
             className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 backdrop-blur-md transition-all flex items-center gap-2 hover:scale-102"
           >
-            <Download className="w-4 h-4 text-emerald-300" />
+            <Download className="w-4 h-4 text-indigo-200" />
             <span>Export Excel / CSV</span>
           </button>
 
           <button
             onClick={handlePrintPdf}
-            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
+            className="px-4 py-2.5 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
           >
             <Printer className="w-4 h-4" />
             <span>Print Report (PDF)</span>
@@ -296,12 +296,12 @@ export default function ReportsPage() {
         </div>
 
         {/* Net Profit */}
-        <div className="bg-gradient-to-br from-[#065F52] to-[#044a40] text-white rounded-3xl p-5 shadow-lg">
-          <div className="text-[10px] font-bold text-emerald-200 uppercase tracking-wider">Net Profit (Final)</div>
+        <div className="bg-gradient-to-br from-[#241B52] via-[#2E236C] to-[#4338CA] text-white rounded-3xl p-5 shadow-lg">
+          <div className="text-[10px] font-bold text-indigo-200 uppercase tracking-wider">Net Profit (Final)</div>
           <div className="text-xl sm:text-2xl font-black font-mono text-white mt-1">
             ৳{netProfit.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[11px] text-emerald-200 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-200 font-semibold mt-1">
             {netMarginPercent}% Net Profit Margin
           </div>
         </div>

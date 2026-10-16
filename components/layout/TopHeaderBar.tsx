@@ -123,24 +123,24 @@ export const TopHeaderBar: React.FC = () => {
       {/* 1. MOBILE TOP NAVBAR (Full-width, No Outer Radius, Edge-to-Edge)    */}
       {/* =================================================================== */}
       <div className="lg:hidden relative w-full overflow-hidden px-3.5 sm:px-5 py-2.5 flex flex-col gap-2">
-        {/* Decorative Fluid Mint Wave Background (Exact Match to Mockup) */}
+        {/* Decorative Fluid Wave Background */}
         <svg
-          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
+          className="absolute left-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
-          <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#6ee7b7" />
-          <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#bef4df" opacity="0.85" />
-          <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
+          <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#C7D2FE" />
+          <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#E0E7FF" opacity="0.85" />
+          <path d="M0,95 C15,85 25,90 35,95 Z" fill="#EEF2FF" />
         </svg>
         <svg
-          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-50 z-0"
+          className="absolute right-0 top-0 h-full w-28 sm:w-36 pointer-events-none opacity-40 z-0"
           viewBox="0 0 120 90"
           preserveAspectRatio="none"
         >
-          <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#6ee7b7" />
-          <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#bef4df" opacity="0.85" />
-          <path d="M120,95 C105,85 95,90 85,95 Z" fill="#cdf7e5" />
+          <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#C7D2FE" />
+          <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#E0E7FF" opacity="0.85" />
+          <path d="M120,95 C105,85 95,90 85,95 Z" fill="#EEF2FF" />
         </svg>
 
         {/* Row 1: Left (Menu + Logo) | Right (Role Pill + Bell + Avatar) */}
@@ -157,11 +157,11 @@ export const TopHeaderBar: React.FC = () => {
               <Menu className="w-5.5 h-5.5 stroke-[2.4]" />
             </button>
 
-            <Link href="/" className="flex items-center group" title="MedSupplyBD Home">
+            <Link href="/" className="flex items-center group" title="MedGo Home">
               <img
-                src="/images/medsupplybd-logo.png"
-                alt="MedSupplyBD"
-                className="h-7.5 sm:h-8.5 w-auto max-w-[130px] sm:max-w-[160px] object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
+                src="/images/medgo-logo.png"
+                alt="MedGo"
+                className="h-8 sm:h-9 w-auto max-w-[130px] sm:max-w-[160px] object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
               />
             </Link>
           </div>
@@ -173,10 +173,10 @@ export const TopHeaderBar: React.FC = () => {
             <div className="relative" ref={mobileDropdownRef}>
               <button
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#ebfbf3] hover:bg-[#d8f6e8] border border-[#a7f3d0] text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer shadow-none"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#EEF2FF] hover:bg-[#E0E7FF] border border-indigo-200 text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer shadow-none"
                 title="Switch Operational Persona"
               >
-                <span className="w-2 h-2 rounded-full bg-[#00c48c] shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-[#4F46E5] shrink-0" />
                 <span className="text-slate-800 font-bold truncate max-w-[85px] xs:max-w-none text-[11px] sm:text-xs">
                   Pharmacy Ow...
                 </span>
@@ -214,7 +214,7 @@ export const TopHeaderBar: React.FC = () => {
                           onClick={() => handleSelectRole(item.role)}
                           className={`w-full text-left p-2.5 rounded-2xl flex items-start gap-3 transition-all ${
                             isSelected
-                              ? "bg-[#0080ff] text-white shadow-md"
+                              ? "bg-[#4F46E5] text-white shadow-md"
                               : "hover:bg-slate-50 text-slate-800"
                           }`}
                         >
@@ -232,7 +232,7 @@ export const TopHeaderBar: React.FC = () => {
                               <span className="font-bold text-sm">{item.label}</span>
                               {isSelected && <Check className="w-4 h-4 text-white" />}
                             </div>
-                            <div className={`text-xs truncate ${isSelected ? "text-blue-100 font-semibold" : "text-slate-600 font-medium"}`}>
+                            <div className={`text-xs truncate ${isSelected ? "text-indigo-100 font-semibold" : "text-slate-600 font-medium"}`}>
                               {item.org}
                             </div>
                           </div>
@@ -256,10 +256,10 @@ export const TopHeaderBar: React.FC = () => {
               </span>
             </Link>
 
-            {/* User Profile Doctor Avatar with Green Online Dot */}
+            {/* User Profile Doctor Avatar with Online Dot */}
             <Link
               href="/profile"
-              className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 ring-1.5 ring-emerald-300 transition-all cursor-pointer group shadow-none"
+              className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 ring-1.5 ring-indigo-300 transition-all cursor-pointer group shadow-none"
               title={`Profile: ${currentUser.name}`}
             >
               <img
@@ -267,19 +267,19 @@ export const TopHeaderBar: React.FC = () => {
                 alt={currentUser.name}
                 className="w-full h-full object-cover"
               />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-[#00c48c] ring-1.5 ring-white" />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-[#4F46E5] ring-1.5 ring-white" />
             </Link>
           </div>
         </div>
 
-        {/* Row 2: Full-Width Rounded Pill Search Bar with Green Magnifier & ScanLine Icon */}
+        {/* Row 2: Full-Width Rounded Pill Search Bar with Iris Magnifier & ScanLine Icon */}
         <div
           onClick={() => setIsSearchOpen(true)}
-          className="relative w-full z-10 flex items-center justify-between bg-white hover:bg-slate-50/80 cursor-pointer border border-slate-200/90 hover:border-emerald-500 focus-within:border-emerald-500 rounded-full px-4 py-2 transition-all group shadow-none"
+          className="relative w-full z-10 flex items-center justify-between bg-white hover:bg-slate-50/80 cursor-pointer border border-slate-200/90 hover:border-[#4F46E5] focus-within:border-[#4F46E5] rounded-full px-4 py-2 transition-all group shadow-none"
           title="Search medicine, brand, manufacturer..."
         >
           <div className="flex items-center flex-1 min-w-0 mr-2">
-            <Search className="w-5 h-5 text-[#00c48c] mr-2.5 shrink-0 group-hover:scale-105 transition-transform stroke-[2.2]" />
+            <Search className="w-5 h-5 text-[#4F46E5] mr-2.5 shrink-0 group-hover:scale-105 transition-transform stroke-[2.2]" />
             <input
               type="text"
               readOnly
@@ -288,9 +288,9 @@ export const TopHeaderBar: React.FC = () => {
             />
           </div>
 
-          {/* Barcode/QR Scanner Icon inside soft green rounded box */}
+          {/* Barcode/QR Scanner Icon inside soft iris rounded box */}
           <div
-            className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-xl bg-[#ebfbf3] border border-[#a7f3d0]/60 flex items-center justify-center text-[#00c48c] shrink-0 group-hover:bg-[#d8f6e8] transition-colors shadow-none"
+            className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-xl bg-[#EEF2FF] border border-indigo-200 flex items-center justify-center text-[#4F46E5] shrink-0 group-hover:bg-[#E0E7FF] transition-colors shadow-none"
             title="Scan Medicine Barcode or Prescription"
           >
             <ScanLine className="w-4.5 h-4.5 stroke-[2.2]" />
@@ -299,29 +299,29 @@ export const TopHeaderBar: React.FC = () => {
       </div>
 
       {/* =================================================================== */}
-      {/* 2. DESKTOP NAVBAR LAYOUT (Edge-to-Edge Solid Background with Mint Waves) */}
+      {/* 2. DESKTOP NAVBAR LAYOUT (Edge-to-Edge Solid Background with Wave Accents) */}
       {/* =================================================================== */}
       <div className="hidden lg:flex relative items-center justify-between gap-3 sm:gap-4 w-full px-6 lg:px-8 py-3">
         
-        {/* Background Layer with Matching Mint Waves (contained in overflow-hidden so dropdowns are not clipped) */}
+        {/* Background Layer with Subtle Wave Accents */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           <svg
-            className="absolute left-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
+            className="absolute left-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
             viewBox="0 0 120 90"
             preserveAspectRatio="none"
           >
-            <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#6ee7b7" />
-            <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#bef4df" opacity="0.85" />
-            <path d="M0,95 C15,85 25,90 35,95 Z" fill="#cdf7e5" />
+            <path d="M0,0 C55,0 80,35 45,65 C18,85 5,95 0,95 Z" fill="#C7D2FE" />
+            <path d="M0,15 C45,10 65,50 30,80 C12,95 0,95 0,95 Z" fill="#E0E7FF" opacity="0.85" />
+            <path d="M0,95 C15,85 25,90 35,95 Z" fill="#EEF2FF" />
           </svg>
           <svg
-            className="absolute right-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-50"
+            className="absolute right-0 top-0 h-full w-56 xl:w-72 pointer-events-none opacity-40"
             viewBox="0 0 120 90"
             preserveAspectRatio="none"
           >
-            <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#6ee7b7" />
-            <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#bef4df" opacity="0.85" />
-            <path d="M120,95 C105,85 95,90 85,95 Z" fill="#cdf7e5" />
+            <path d="M120,0 C65,0 40,35 75,65 C102,85 115,95 120,95 Z" fill="#C7D2FE" />
+            <path d="M120,15 C75,10 55,50 90,80 C108,95 120,95 120,95 Z" fill="#E0E7FF" opacity="0.85" />
+            <path d="M120,95 C105,85 95,90 85,95 Z" fill="#EEF2FF" />
           </svg>
         </div>
 
@@ -329,10 +329,10 @@ export const TopHeaderBar: React.FC = () => {
         <div className="flex items-center flex-1 w-full min-w-0 gap-2 relative z-10">
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="relative flex-1 w-full flex items-center bg-slate-50/90 hover:bg-white cursor-pointer border-2 border-slate-200/90 hover:border-[#0080ff] focus-within:border-[#0080ff] focus-within:ring-2 focus-within:ring-blue-100 rounded-2xl px-4 py-2.5 shadow-2xs hover:shadow-md transition-all group"
+            className="relative flex-1 w-full flex items-center bg-slate-50/90 hover:bg-white cursor-pointer border-2 border-slate-200/90 hover:border-[#4F46E5] focus-within:border-[#4F46E5] focus-within:ring-2 focus-within:ring-indigo-100 rounded-2xl px-4 py-2.5 shadow-2xs hover:shadow-md transition-all group"
             title="Search medicine"
           >
-            <Search className="w-5 h-5 text-slate-600 group-hover:text-[#0080ff] transition-colors mr-3 shrink-0" />
+            <Search className="w-5 h-5 text-slate-600 group-hover:text-[#4F46E5] transition-colors mr-3 shrink-0" />
             <input
               type="text"
               readOnly
@@ -349,10 +349,10 @@ export const TopHeaderBar: React.FC = () => {
           <Link
             href="/distributors"
             id="nearby-distributors-header-btn"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-blue-50 text-slate-800 border border-slate-200/90 hover:border-blue-300 font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-white hover:bg-indigo-50 text-slate-800 border border-slate-200/90 hover:border-indigo-300 font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-95 group"
             title="Discover nearby authorized pharmaceutical depots & medicine stock on map"
           >
-            <MapPin className="w-4 h-4 text-[#0080ff] group-hover:scale-110 transition-transform" />
+            <MapPin className="w-4 h-4 text-[#4F46E5] group-hover:scale-110 transition-transform" />
             <span className="font-extrabold">Nearby Depots</span>
           </Link>
           
@@ -360,7 +360,7 @@ export const TopHeaderBar: React.FC = () => {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-              className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-2xl bg-white hover:bg-blue-50/60 border border-slate-200/90 shadow-xs hover:shadow-md transition-all group"
+              className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-2xl bg-white hover:bg-indigo-50/60 border border-slate-200/90 shadow-xs hover:shadow-md transition-all group"
               title="Click to switch role (Super Admin, Pharma, Distributor, MPO, Pharmacy)"
             >
               <div className={`w-8 h-8 rounded-xl ${currentRoleConfig.badgeColor} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs`}>
@@ -368,10 +368,10 @@ export const TopHeaderBar: React.FC = () => {
               </div>
               <div className="flex flex-col text-left min-w-0 max-w-[170px]">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-bold text-slate-900 group-hover:text-[#0080ff] transition-colors leading-tight truncate">
+                  <span className="text-sm font-bold text-slate-900 group-hover:text-[#4F46E5] transition-colors leading-tight truncate">
                     {currentRoleConfig.label}
                   </span>
-                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-blue-100 text-[#0080ff]">
+                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-indigo-100 text-[#4F46E5]">
                     Switch
                   </span>
                 </div>
@@ -405,7 +405,7 @@ export const TopHeaderBar: React.FC = () => {
                         onClick={() => handleSelectRole(item.role)}
                         className={`w-full text-left p-2.5 rounded-2xl flex items-start gap-3 transition-all ${
                           isSelected
-                            ? "bg-[#0080ff] text-white shadow-md"
+                            ? "bg-[#4F46E5] text-white shadow-md"
                             : "hover:bg-slate-50 text-slate-800"
                         }`}
                       >
@@ -423,10 +423,10 @@ export const TopHeaderBar: React.FC = () => {
                             <span className="font-bold text-sm">{item.label}</span>
                             {isSelected && <Check className="w-4 h-4 text-white" />}
                           </div>
-                          <div className={`text-xs truncate ${isSelected ? "text-blue-100 font-semibold" : "text-slate-600 font-medium"}`}>
+                          <div className={`text-xs truncate ${isSelected ? "text-indigo-100 font-semibold" : "text-slate-600 font-medium"}`}>
                             {item.org}
                           </div>
-                          <div className={`text-xs mt-0.5 ${isSelected ? "text-blue-100/90" : "text-slate-500"}`}>
+                          <div className={`text-xs mt-0.5 ${isSelected ? "text-indigo-100/90" : "text-slate-500"}`}>
                             {item.description}
                           </div>
                         </div>
@@ -437,7 +437,7 @@ export const TopHeaderBar: React.FC = () => {
 
                 <div className="pt-2 border-t border-slate-100 px-3 py-1 text-xs sm:text-[13px] text-slate-600 flex items-center justify-between font-medium">
                   <span>Current: <strong>{currentUser.name}</strong></span>
-                  <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-[#0080ff] font-bold hover:underline">
+                  <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-[#4F46E5] font-bold hover:underline">
                     Edit Profile
                   </Link>
                 </div>
@@ -465,7 +465,7 @@ export const TopHeaderBar: React.FC = () => {
             className="flex items-center gap-2 p-1.5 pl-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200/80 shadow-2xs transition-all"
             title="My Profile - Mahfuzul Islam"
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden ring-1.5 ring-emerald-400/80 shrink-0 shadow-xs">
+            <div className="w-8 h-8 rounded-full overflow-hidden ring-1.5 ring-indigo-300 shrink-0 shadow-xs">
               <img
                 src={currentUser.avatar || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"}
                 alt={currentUser.name}

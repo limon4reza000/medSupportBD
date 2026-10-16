@@ -40,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#025540]/95 backdrop-blur-md border-b border-white/10 shadow-md">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#3B2D7E] backdrop-blur-md border-b border-indigo-950/40 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           
@@ -48,9 +48,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center space-x-3 shrink-0">
             <Link href="/" className="flex items-center">
               <img
-                src="/images/medsupplybd-logo.png"
-                alt="MedSupplyBD"
-                className="h-9 w-auto object-contain"
+                src="/images/medgo-logo.png"
+                alt="MedGo"
+                className="h-8 w-auto object-contain"
               />
             </Link>
           </div>
@@ -67,11 +67,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 ${
                     isActive
-                      ? "bg-white text-[#025540] shadow-sm font-bold"
+                      ? "bg-white text-[#241B52] shadow-sm font-bold"
                       : "text-white/80 hover:text-white hover:bg-white/10"
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#025540]" : "text-white/80"}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "text-[#241B52]" : "text-white/80"}`} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Pharmacy Selector Dropdown */}
             <div className="relative">
               <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-xl border border-white/20 shadow-sm">
-                <Building2 className="w-4 h-4 text-[#025540]" />
+                <Building2 className="w-4 h-4 text-[#4F46E5]" />
                 <select
                   value={selectedPharmacyId}
                   onChange={(e) => onSelectPharmacy(e.target.value)}
@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     : "bg-white/15 text-white border-white/20"
                 }`}
               >
-                <span className={`w-2 h-2 rounded-full ${currentPharmacy.isCreditBlocked ? "bg-red-400" : "bg-[#34d399]"}`} />
+                <span className={`w-2 h-2 rounded-full ${currentPharmacy.isCreditBlocked ? "bg-red-400" : "bg-[#818CF8]"}`} />
                 <span>৳{(currentPharmacy.creditLimit - currentPharmacy.currentBalance).toLocaleString()} Cr</span>
               </div>
             )}
@@ -127,11 +127,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => setActiveTab(item.id)}
                 className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all ${
                   isActive
-                    ? "bg-white text-[#025540] font-bold shadow-sm"
+                    ? "bg-white text-[#241B52] font-bold shadow-sm"
                     : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
-                <Icon className={`w-3 h-3 ${isActive ? "text-[#025540]" : "text-white/80"}`} />
+                <Icon className={`w-3 h-3 ${isActive ? "text-[#241B52]" : "text-white/80"}`} />
                 <span>{item.label}</span>
               </button>
             );

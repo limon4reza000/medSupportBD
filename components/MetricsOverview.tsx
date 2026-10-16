@@ -39,7 +39,7 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#025540]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]"></span>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Depot Inventory
               </p>
@@ -51,12 +51,12 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
               Loose pieces across {medicines.length} verified SKUs
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center text-white shadow-lg shadow-[#025540]/20 group-hover:scale-105 transition-transform duration-200">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#241B52] to-[#4338CA] flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
             <Package className="w-5 h-5 text-white" />
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-          <span className="text-[#025540] font-bold flex items-center gap-1">
+          <span className="text-[#4F46E5] font-bold flex items-center gap-1">
             <TrendingUp className="w-3.5 h-3.5" />
             FIFO Dispatch Active
           </span>
@@ -69,25 +69,25 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#025540]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]"></span>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Credit Headroom
               </p>
             </div>
-            <h3 className="text-2xl font-black text-[#025540] mt-1.5 font-mono tracking-tight">
+            <h3 className="text-2xl font-black text-[#4F46E5] mt-1.5 font-mono tracking-tight">
               ৳{availableCredit.toLocaleString()}
             </h3>
             <p className="text-xs text-slate-500 mt-0.5 font-medium">
               Used: ৳{pharmacy.currentBalance.toLocaleString()} / ৳{pharmacy.creditLimit.toLocaleString()}
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center text-white shadow-lg shadow-[#025540]/20 group-hover:scale-105 transition-transform duration-200">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#241B52] to-[#4338CA] flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
             <ShieldAlert className="w-5 h-5 text-white" />
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-          <span className="text-[#025540] font-bold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span className="text-[#4F46E5] font-bold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
             Limit Approved
           </span>
           <span className="text-slate-400 font-medium">Max {pharmacy.creditDaysLimit} Days</span>
@@ -99,7 +99,7 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#025540]"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4F46E5]"></span>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 Live Trade Bonus
               </p>
@@ -112,12 +112,12 @@ export const MetricsOverview: React.FC<MetricsOverviewProps> = ({
               10+1 Napa Extra, 5% Seclo Slab
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center text-white shadow-lg shadow-[#025540]/20 group-hover:scale-105 transition-transform duration-200">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#241B52] to-[#4338CA] flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-          <span className="text-[#025540] font-bold flex items-center gap-1">
+          <span className="text-[#4F46E5] font-bold flex items-center gap-1">
             <Sparkles className="w-3.5 h-3.5" />
             Auto Calculated
           </span>

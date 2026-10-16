@@ -1,5 +1,5 @@
 // MedSupplyBD Mobile PWA Service Worker
-const CACHE_NAME = 'medsupply-v1.1';
+const CACHE_NAME = 'medsupply-v1.2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -9,6 +9,7 @@ const STATIC_ASSETS = [
   '/logo.png',
   '/images/sidebar-logo.png',
   '/images/medsupplybd-logo.png',
+  '/images/medgo-logo.png',
 ];
 
 // Install: Cache initial static shell

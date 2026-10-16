@@ -496,7 +496,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                     <button
                       onClick={() => addToCart(med)}
                       disabled={availableStock <= 0}
-                      className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#025540] to-[#036b51] hover:from-[#036b51] hover:to-[#047857] text-white font-bold text-xs shadow-md shadow-[#025540]/20 flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
+                      className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#4338CA] hover:from-[#4338CA] hover:to-[#3730A3] text-white font-bold text-xs shadow-md shadow-indigo-500/20 flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       Add
@@ -709,7 +709,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
                 <button
                   onClick={handleCheckout}
                   disabled={isSubmitting || !creditAudit.isApproved}
-                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#025540] to-[#036b51] hover:from-[#036b51] hover:to-[#047857] text-white font-extrabold text-sm shadow-xl shadow-[#025540]/25 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 active:scale-[0.99]"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#4F46E5] to-[#4338CA] hover:from-[#4338CA] hover:to-[#3730A3] text-white font-extrabold text-sm shadow-xl shadow-indigo-500/25 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 active:scale-[0.99]"
                 >
                   {isSubmitting ? (
                     <span>Acquiring Lock & Deducting FIFO Batches...</span>
@@ -771,7 +771,7 @@ export const OrderCuttingTerminal: React.FC<OrderCuttingTerminalProps> = ({
 
             <button
               onClick={() => setOrderReceipt(null)}
-              className="w-full py-3 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs transition-all shadow-lg"
+              className="w-full py-3 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-xs transition-all shadow-lg"
             >
               Close Receipt & Continue Cutting Orders
             </button>

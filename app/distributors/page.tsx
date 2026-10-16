@@ -260,20 +260,20 @@ export default function DistributorsMapPage() {
       {/* =================================================================== */}
       {/* 1. TOP HEADER & TITLE BANNER                                        */}
       {/* =================================================================== */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-950 text-white p-5 rounded-3xl shadow-lg border border-emerald-500/20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white p-5 rounded-3xl shadow-lg border border-indigo-500/20">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase tracking-wider">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#FB923C] text-white text-[10px] font-black uppercase tracking-wider">
               Live Geospatial Logistics
             </span>
-            <span className="text-xs text-emerald-200">
+            <span className="text-xs text-indigo-200">
               Interactive Leaflet Map &bull; OSRM Routing &bull; DGDA Depots
             </span>
           </div>
           <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
             Nearby Distributor &amp; Medicine Inventory Finder
           </h1>
-          <p className="text-xs text-emerald-100/90 max-w-2xl">
+          <p className="text-xs text-indigo-100/90 max-w-2xl">
             Locate authorized pharmaceutical depots within your radius, compare available stock and B2B trade prices, inspect turn-by-turn routes, and place direct orders.
           </p>
         </div>

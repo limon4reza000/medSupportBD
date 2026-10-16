@@ -1,6 +1,10 @@
-# MedSupplyBD — B2B Pharmaceutical Supply Chain, Order Cutting & Distribution Platform
+<p align="center">
+  <img src="assets/MedGo%20logo.png" alt="MedGo Logo" width="380" />
+</p>
 
-**MedSupplyBD** is an enterprise-grade B2B Pharmaceutical Supply Chain, Wholesale Procurement, Order Cutting, and Near-Expiry Inventory Management System built specifically for the Bangladesh pharmaceutical ecosystem (`Pharma Company → Regional Depot → Field MPO/SR → Retail Pharmacy`).
+# MedGo (MedSupplyBD) — B2B Pharmaceutical Supply Chain, Order Cutting & Distribution Platform
+
+**MedGo** is an enterprise-grade B2B Pharmaceutical Supply Chain, Wholesale Procurement, Order Cutting, and Near-Expiry Inventory Management System built specifically for the Bangladesh pharmaceutical ecosystem (`Pharma Company → Regional Depot → Field MPO/SR → Retail Pharmacy`).
 
 The platform indexes **41,302 verified DGDA pharmaceutical SKUs** across **339 licensed manufacturers** with real-time trade schemes, FEFO batch allocation, credit risk auditing, and AI clinical demand intelligence.
 
@@ -114,7 +118,7 @@ MedSupplyBD provides 5 dedicated workflow interfaces with a persistent top perso
 | :--- | :--- |
 | **Framework** | Next.js 14 (App Router) |
 | **Language** | TypeScript (Strict Mode) |
-| **Styling** | Vanilla Tailwind CSS (Custom `#025540` Surgical Green Palette) |
+| **Styling** | Vanilla Tailwind CSS (Custom Royal Indigo & Vibrant Iris `#241B52` / `#4F46E5` Palette with Coral Accents) |
 | **Icons** | Lucide React |
 | **Database & ORM** | PostgreSQL / MySQL with Prisma ORM |
 | **Validation** | Zod Schemas |

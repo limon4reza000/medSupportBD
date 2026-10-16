@@ -208,9 +208,9 @@ export const GetAppModal: React.FC = () => {
             <div className="space-y-4">
               
               {/* PRIMARY ACTION 1: DIRECT ANDROID APK DOWNLOAD */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-emerald-400/30">
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-indigo-400/30">
                 <div className="flex items-center gap-3.5 w-full sm:w-auto">
-                  <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-2xl">
+                  <div className="w-12 h-12 rounded-2xl bg-white text-[#241B52] flex items-center justify-center font-bold shrink-0 shadow-md text-2xl">
                     🤖
                   </div>
                   <div>
@@ -218,11 +218,11 @@ export const GetAppModal: React.FC = () => {
                       <h4 className="font-black text-sm sm:text-base text-white">
                         Android APK Download
                       </h4>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                      <span className="px-2 py-0.5 rounded-full bg-[#FB923C] text-white text-[10px] font-black uppercase">
                         v1.0 (17.3 MB)
                       </span>
                     </div>
-                    <p className="text-xs text-emerald-100/90 mt-0.5">
+                    <p className="text-xs text-indigo-100/90 mt-0.5">
                       Direct standalone installer for all Android phones, tablets &amp; field MPO terminals
                     </p>
                   </div>
@@ -336,9 +336,9 @@ export const GetAppModal: React.FC = () => {
 
                 <button
                   onClick={handleDirectInstall}
-                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-bold text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95 shrink-0"
                 >
-                  <Download className="w-3.5 h-3.5 text-emerald-300" />
+                  <Download className="w-3.5 h-3.5 text-indigo-200" />
                   <span>Install to Browser</span>
                 </button>
               </div>
@@ -410,9 +410,9 @@ export const GetAppModal: React.FC = () => {
             <div className="space-y-4">
               
               {/* Main Android Download Card */}
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-[#01382a] via-[#025540] to-emerald-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-emerald-400/30">
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl border border-indigo-400/30">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-white text-[#01382a] flex items-center justify-center font-bold shrink-0 shadow-md text-3xl">
+                  <div className="w-14 h-14 rounded-2xl bg-white text-[#241B52] flex items-center justify-center font-bold shrink-0 shadow-md text-3xl">
                     🤖
                   </div>
                   <div>
@@ -420,11 +420,11 @@ export const GetAppModal: React.FC = () => {
                       <h4 className="font-black text-base text-white">
                         MedSupplyBD Native Android APK
                       </h4>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                      <span className="px-2 py-0.5 rounded-full bg-[#FB923C] text-white text-[10px] font-black uppercase">
                         v1.0 Release
                       </span>
                     </div>
-                    <p className="text-xs text-emerald-100/90 mt-1">
+                    <p className="text-xs text-indigo-100/90 mt-1">
                       Direct standalone package. No Google Play account required.
                     </p>
                   </div>
@@ -544,17 +544,17 @@ export const GetAppModal: React.FC = () => {
                   <a
                     href="/downloads/medsupplybd-ios.mobileconfig"
                     download="medsupplybd-ios.mobileconfig"
-                    className="p-4 rounded-xl bg-gradient-to-r from-emerald-600 to-[#025540] hover:from-emerald-500 hover:to-[#01382a] text-white font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-between gap-2 active:scale-95 group border border-emerald-400/30"
+                    className="p-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#241B52] hover:from-[#4338CA] hover:to-[#1E1743] text-white font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-between gap-2 active:scale-95 group border border-indigo-400/30"
                     id="tab-ios-download-profile-btn"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Zap className="w-5 h-5 text-emerald-300 group-hover:scale-110 transition-transform" />
+                      <Zap className="w-5 h-5 text-indigo-200 group-hover:scale-110 transition-transform" />
                       <div className="text-left">
                         <div className="font-black text-white">1-Click iOS Profile</div>
-                        <div className="text-[10px] font-normal text-emerald-200">Apple WebClip Profile</div>
+                        <div className="text-[10px] font-normal text-indigo-200">Apple WebClip Profile</div>
                       </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-emerald-200" />
+                    <ArrowRight className="w-4 h-4 text-indigo-200" />
                   </a>
 
                 </div>
@@ -676,9 +676,9 @@ export const GetAppModal: React.FC = () => {
                 </p>
                 <button
                   onClick={handleDirectInstall}
-                  className="px-5 py-2.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-bold text-xs transition-all shadow-md flex items-center gap-2 active:scale-95"
+                  className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs transition-all shadow-md flex items-center gap-2 active:scale-95"
                 >
-                  <Download className="w-4 h-4 text-emerald-300" />
+                  <Download className="w-4 h-4 text-indigo-200" />
                   <span>Trigger Browser Install</span>
                 </button>
               </div>

@@ -166,18 +166,18 @@ export default function ExpensesPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#044a40] via-[#065F52] to-[#0a7a6a] p-5 rounded-3xl text-white shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] p-5 rounded-3xl text-white shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
               Operating Expenditure
             </span>
-            <span className="text-xs text-emerald-100 font-mono">Store OPEX Ledger</span>
+            <span className="text-xs text-indigo-100 font-mono">Store OPEX Ledger</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
             Expense Tracking & Utility Logs
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Track commercial rent, electricity, courier logistics, maintenance, and staff costs with monthly summaries.
           </p>
         </div>
@@ -185,7 +185,7 @@ export default function ExpensesPage() {
         <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
+            className="px-4 py-2.5 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>+ Add New Expense</span>
@@ -376,9 +376,9 @@ export default function ExpensesPage() {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
           <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
-            <div className="p-5 bg-gradient-to-r from-[#044a40] to-[#065F52] text-white flex items-center justify-between">
+            <div className="p-5 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Receipt className="w-5 h-5 text-emerald-300" />
+                <Receipt className="w-5 h-5 text-indigo-200" />
                 <h3 className="font-black text-base">Record Operating Expense</h3>
               </div>
               <button onClick={() => setIsAddModalOpen(false)}>
@@ -502,7 +502,7 @@ export default function ExpensesPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold"
                 >
                   Save Expense
                 </button>

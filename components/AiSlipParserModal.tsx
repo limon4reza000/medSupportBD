@@ -114,7 +114,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center space-x-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#025540] to-[#036b51] flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#241B52] to-[#4338CA] flex items-center justify-center shadow-md">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
               <h2 className="text-lg font-extrabold text-slate-900 tracking-tight">
@@ -152,7 +152,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
           <div className="premium-card p-5 space-y-3.5">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-[#025540]" />
+                <FileText className="w-3.5 h-3.5 text-[#4F46E5]" />
                 Prescription / Memo Raw Text
               </label>
               <span className="text-[10px] text-slate-400 font-mono font-bold">
@@ -165,7 +165,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
               value={memoText}
               onChange={(e) => setMemoText(e.target.value)}
               placeholder="Paste doctor prescription text, memo notes, or WhatsApp order request here..."
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-900 placeholder-slate-400 font-mono focus:outline-none focus:border-[#025540] focus:ring-2 focus:ring-[#025540]/10 transition-all resize-none leading-relaxed"
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-900 placeholder-slate-400 font-mono focus:outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/10 transition-all resize-none leading-relaxed"
             />
 
             {/* Action Buttons */}
@@ -173,7 +173,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
               <button
                 onClick={handleParse}
                 disabled={isParsing || !memoText.trim()}
-                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#025540] to-[#036b51] hover:from-[#036b51] hover:to-[#047857] text-white font-extrabold text-xs shadow-lg shadow-[#025540]/20 flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.99]"
+                className="flex-1 py-3.5 rounded-2xl bg-gradient-to-r from-[#4F46E5] to-[#4338CA] hover:from-[#4338CA] hover:to-[#3730A3] text-white font-extrabold text-xs shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 disabled:opacity-50 transition-all active:scale-[0.99]"
               >
                 {isParsing ? (
                   <>

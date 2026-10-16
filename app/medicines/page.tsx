@@ -138,19 +138,19 @@ export default function MedicineListPage() {
       {/* =================================================================== */}
       {/* 🟢 TOP HERO & DATABASE COUNTER HEADER                               */}
       {/* =================================================================== */}
-      <div className="bg-gradient-to-br from-[#044a40] via-[#065F52] to-[#0a7a6a] rounded-3xl p-6 sm:p-7 border border-white/10 shadow-lg text-white relative overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-gradient-to-br from-[#241B52] via-[#2E236C] to-[#4338CA] rounded-3xl p-6 sm:p-7 border border-white/10 shadow-lg text-white relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/15 text-emerald-100 border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-xs">
-                <Database className="w-3.5 h-3.5 text-emerald-300" />
+              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-white/15 text-indigo-100 border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-xs">
+                <Database className="w-3.5 h-3.5 text-indigo-200" />
                 <span>DGDA Master Medicine Catalog</span>
               </span>
 
-              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 backdrop-blur-md flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+              <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-indigo-500/20 text-indigo-200 border border-indigo-400/30 backdrop-blur-md flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-indigo-200" />
                 <span>Indexed & Verified</span>
               </span>
             </div>
@@ -158,21 +158,21 @@ export default function MedicineListPage() {
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
               Medicine Directory (~41,000 SKUs)
             </h1>
-            <p className="text-xs sm:text-sm text-emerald-100/90 max-w-2xl font-normal leading-relaxed">
+            <p className="text-xs sm:text-sm text-indigo-100/90 max-w-2xl font-normal leading-relaxed">
               Complete pharmaceutical price master with real-time prefix-ranked search, DGDA registration numbers, wholesale trade price (TP), and retail MRP.
             </p>
           </div>
 
           {/* Database Counter Stat Box */}
           <div className="p-4 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md shrink-0 flex flex-col justify-center min-w-[200px]">
-            <div className="text-[11px] font-bold text-emerald-200 uppercase tracking-wider">
+            <div className="text-[11px] font-bold text-indigo-200 uppercase tracking-wider">
               Total Database Inventory
             </div>
             <div className="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">
               {totalDatabase.toLocaleString()}
-              <span className="text-xs font-semibold text-emerald-200 ml-1">medicines</span>
+              <span className="text-xs font-semibold text-indigo-200 ml-1">medicines</span>
             </div>
-            <div className="text-[10px] text-emerald-200/80 mt-1 flex items-center gap-1">
+            <div className="text-[10px] text-indigo-200/80 mt-1 flex items-center gap-1">
               <span>Lazy loaded in 50-row chunks</span>
             </div>
           </div>

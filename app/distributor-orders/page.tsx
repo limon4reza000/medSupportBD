@@ -160,18 +160,18 @@ export default function DistributorOrdersPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#044a40] via-[#065F52] to-[#0a7a6a] p-5 rounded-3xl text-white shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] p-5 rounded-3xl text-white shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
               Procurement & Supply Chain
             </span>
-            <span className="text-xs text-emerald-100 font-mono">B2B Order Cutting & MR Dispatch</span>
+            <span className="text-xs text-indigo-100 font-mono">B2B Order Cutting & MR Dispatch</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
             Company & Distributor Orders
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Browse company catalogs, cut purchase orders, share via WhatsApp/SMS to MRs, and track company due balances.
           </p>
         </div>
@@ -184,7 +184,7 @@ export default function DistributorOrdersPage() {
             }}
             className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 backdrop-blur-md transition-all flex items-center gap-2 hover:scale-102"
           >
-            <DollarSign className="w-4 h-4 text-emerald-300" />
+            <DollarSign className="w-4 h-4 text-indigo-200" />
             <span>Record Payment to Company</span>
           </button>
         </div>
