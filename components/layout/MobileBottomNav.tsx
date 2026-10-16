@@ -6,104 +6,116 @@ import { usePathname } from "next/navigation";
 import {
   Home,
   Database,
-  Search,
+  MapPin,
   ShoppingCart,
-  Zap,
+  User,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 
 export const MobileBottomNav: React.FC = () => {
   const pathname = usePathname();
-  const {
-    cart,
-    setIsSearchOpen,
-    setIsQuickOrderOpen,
-  } = useApp();
+  const { cart, currentUser } = useApp();
+
+  // If user is currently on the standalone mobile prototype simulator page, don't show double bottom nav
+  if (pathname === "/mobile-prototype") {
+    return null;
+  }
 
   const totalCartCount = cart.reduce((sum, item) => sum + item.orderedQty, 0);
 
+  const navItems = [
+    {
+      label: "Home",
+      href: "/",
+      icon: Home,
+      isActive: pathname === "/",
+    },
+    {
+      label: "Medicines",
+      href: "/medicines",
+      icon: Database,
+      isActive: pathname === "/medicines",
+    },
+    {
+      label: "Nearby Map",
+      href: "/distributors",
+      icon: MapPin,
+      isActive: pathname === "/distributors",
+      isCenter: true,
+    },
+    {
+      label: "Orders / POS",
+      href: "/pos",
+      icon: ShoppingCart,
+      isActive: pathname === "/pos" || pathname === "/orders",
+      badge: totalCartCount > 0 ? totalCartCount : undefined,
+    },
+    {
+      label: "Profile",
+      href: "/profile",
+      icon: User,
+      isActive: pathname === "/profile",
+    },
+  ];
+
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#1E1743]/95 backdrop-blur-lg border-t border-indigo-500/20 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-[0_-4px_25px_rgba(0,0,0,0.3)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-2 py-1.5 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] shadow-[0_-4px_20px_rgba(0,0,0,0.06)]"
       aria-label="Mobile Bottom Navigation"
     >
-      <div className="flex items-center justify-around">
-        
-        {/* 1. Home / Marketplace */}
-        <Link
-          href="/"
-          className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all ${
-            pathname === "/"
-              ? "text-white font-black"
-              : "text-indigo-200/70 hover:text-white"
-          }`}
-        >
-          <div className="relative">
-            <Home className="w-5 h-5" />
-            {pathname === "/" && (
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-            )}
-          </div>
-          <span className="text-[10px] font-bold">Home</span>
-        </Link>
+      <div className="flex items-center justify-around max-w-md mx-auto">
+        {navItems.map((item) => {
+          const Icon = item.icon;
 
-        {/* 2. 41k Medicine Directory */}
-        <Link
-          href="/medicines"
-          className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all ${
-            pathname === "/medicines"
-              ? "text-white font-black"
-              : "text-indigo-200/70 hover:text-white"
-          }`}
-        >
-          <div className="relative">
-            <Database className="w-5 h-5" />
-            {pathname === "/medicines" && (
-              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#FB923C]" />
-            )}
-          </div>
-          <span className="text-[10px] font-bold">41k SKUs</span>
-        </Link>
+          if (item.isCenter) {
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="flex flex-col items-center gap-0.5 -mt-4 group active:scale-95 transition-transform"
+                aria-label={item.label}
+              >
+                <div className={`w-11 h-11 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                  item.isActive
+                    ? "bg-gradient-to-tr from-[#1A56DB] to-[#059669] text-white ring-4 ring-emerald-100"
+                    : "bg-gradient-to-tr from-[#1A56DB] to-[#2563EB] text-white hover:from-[#1E40AF] hover:to-[#1A56DB]"
+                }`}>
+                  <Icon className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <span className={`text-[10px] font-bold ${
+                  item.isActive ? "text-[#1A56DB]" : "text-slate-600"
+                }`}>
+                  {item.label}
+                </span>
+              </Link>
+            );
+          }
 
-        {/* 3. Global Search (Center Action Button) */}
-        <button
-          onClick={() => setIsSearchOpen(true)}
-          className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-indigo-200/70 hover:text-white transition-all active:scale-95"
-          aria-label="Open Global Medicine Search"
-        >
-          <div className="w-10 h-10 -mt-5 rounded-full bg-[#4F46E5] text-white flex items-center justify-center shadow-lg shadow-indigo-500/40 border-2 border-[#1E1743]">
-            <Search className="w-5 h-5" />
-          </div>
-          <span className="text-[10px] font-bold text-indigo-100">Search</span>
-        </button>
-
-        {/* 4. Order Cutting POS */}
-        <button
-          onClick={() => setIsQuickOrderOpen(true)}
-          className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-indigo-200/70 hover:text-white transition-all active:scale-95"
-          aria-label="Open Wholesale Order POS"
-        >
-          <Zap className="w-5 h-5" />
-          <span className="text-[10px] font-bold">Order POS</span>
-        </button>
-
-        {/* 5. Cart / Wholesale B2B Basket */}
-        <button
-          onClick={() => setIsQuickOrderOpen(true)}
-          className="flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-indigo-200/70 hover:text-white transition-all relative active:scale-95"
-          aria-label="View Wholesale Cart"
-        >
-          <div className="relative">
-            <ShoppingCart className="w-5 h-5" />
-            {totalCartCount > 0 && (
-              <span className="absolute -top-1.5 -right-2 px-1.5 py-0.2 rounded-full bg-[#FB923C] text-white text-[9px] font-black shadow-xs animate-in zoom-in">
-                {totalCartCount}
-              </span>
-            )}
-          </div>
-          <span className="text-[10px] font-bold">Cart</span>
-        </button>
-
+          return (
+            <Link
+              key={item.label}
+              href={item.href}
+              className={`flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl transition-all ${
+                item.isActive
+                  ? "text-[#1A56DB] font-extrabold"
+                  : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              <div className="relative">
+                <Icon className={`w-5 h-5 ${item.isActive ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
+                {item.badge !== undefined && (
+                  <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-[#059669] text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white shadow-xs">
+                    {item.badge}
+                  </span>
+                )}
+                {item.isActive && !item.badge && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#059669]" />
+                )}
+              </div>
+              <span className="text-[10px] tracking-tight">{item.label}</span>
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

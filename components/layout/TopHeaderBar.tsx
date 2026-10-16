@@ -33,30 +33,9 @@ export const TopHeaderBar: React.FC = () => {
     currentPharmacy,
     notifications,
     currentUser,
-    setCurrentUserRole,
   } = useApp();
 
-  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const mobileDropdownRef = useRef<HTMLDivElement>(null);
-
   const unreadCount = notifications?.filter((n) => !n.isRead).length || 1;
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(target) &&
-        (!mobileDropdownRef.current || !mobileDropdownRef.current.contains(target))
-      ) {
-        setIsRoleDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const rolesConfig: {
     role: UserRole;
@@ -113,11 +92,6 @@ export const TopHeaderBar: React.FC = () => {
     rolesConfig[rolesConfig.length - 1];
   const CurrentIcon = currentRoleConfig.icon;
 
-  const handleSelectRole = (role: UserRole) => {
-    setCurrentUserRole(role);
-    setIsRoleDropdownOpen(false);
-  };
-
   return (
     <header className="sticky top-0 z-30 w-full bg-white border-b border-slate-200/90 shadow-2xs">
       {/* =================================================================== */}
@@ -170,88 +144,25 @@ export const TopHeaderBar: React.FC = () => {
           {/* Right: Role Pill | Notification Bell | User Avatar */}
           <div className="flex items-center gap-2 shrink-0">
             
-            {/* Role Indicator Pill (🟢 Pharmacy Ow... ⌵) */}
-            <div className="relative" ref={mobileDropdownRef}>
-              <button
-                onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-[#EEF2FF] hover:bg-[#E0E7FF] border border-indigo-200 text-slate-800 text-xs font-semibold transition-all active:scale-95 cursor-pointer shadow-none"
-                title="Switch Operational Persona"
-              >
-                <span className="w-2 h-2 rounded-full bg-[#4F46E5] shrink-0" />
-                <span className="text-slate-800 font-bold truncate max-w-[85px] xs:max-w-none text-[11px] sm:text-xs">
-                  Pharmacy Ow...
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-              </button>
+            {/* Authenticated Account Role Badge (No Switcher - Authorized Access Only) */}
+            <Link
+              href="/profile"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-800 text-xs font-bold transition-all shadow-none"
+              title={`Authorized Account: ${currentUser.name} (${currentRoleConfig.label})`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span className="text-slate-800 font-bold truncate max-w-[95px] text-[11px] sm:text-xs">
+                {currentRoleConfig.label}
+              </span>
+            </Link>
 
-              {/* Mobile Role Switcher Floating Menu */}
-              {isRoleDropdownOpen && (
-                <div className="fixed left-3 right-3 top-20 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-black uppercase tracking-wider text-slate-500">
-                        Switch Operational Persona
-                      </div>
-                      <div className="text-xs text-slate-600 mt-0.5 font-medium">
-                        Select a pharmaceutical role:
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setIsRoleDropdownOpen(false)}
-                      className="text-slate-400 hover:text-slate-700 p-1 text-xs font-bold"
-                    >
-                      ✕
-                    </button>
-                  </div>
-
-                  <div className="space-y-1.5 py-2 max-h-[60vh] overflow-y-auto">
-                    {rolesConfig.map((item) => {
-                      const Icon = item.icon;
-                      const isSelected = currentUser.role === item.role;
-
-                      return (
-                        <button
-                          key={item.role}
-                          onClick={() => handleSelectRole(item.role)}
-                          className={`w-full text-left p-2.5 rounded-2xl flex items-start gap-3 transition-all ${
-                            isSelected
-                              ? "bg-[#4F46E5] text-white shadow-md"
-                              : "hover:bg-slate-50 text-slate-800"
-                          }`}
-                        >
-                          <div
-                            className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
-                              isSelected
-                                ? "bg-white/20 text-white"
-                                : `${item.badgeColor} text-white`
-                            }`}
-                          >
-                            <Icon className="w-4 h-4" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <span className="font-bold text-sm">{item.label}</span>
-                              {isSelected && <Check className="w-4 h-4 text-white" />}
-                            </div>
-                            <div className={`text-xs truncate ${isSelected ? "text-indigo-100 font-semibold" : "text-slate-600 font-medium"}`}>
-                              {item.org}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Mobile Prototype Button for Mobile View */}
+            {/* Android Mobile Prototype Button */}
             <Link
               href="/mobile-prototype"
-              className="relative w-8 h-8 rounded-full bg-[#241B52] hover:bg-[#2E236C] text-white flex items-center justify-center transition-all active:scale-95 shadow-none ring-1 ring-indigo-500/30"
-              title="Interactive Mobile Prototype"
+              className="relative w-8 h-8 rounded-full bg-[#1A56DB] hover:bg-[#1E40AF] text-white flex items-center justify-center transition-all active:scale-95 shadow-xs"
+              title="Interactive Android Mobile Prototype"
             >
-              <Smartphone className="w-4 h-4 text-[#FB923C]" />
+              <Smartphone className="w-4 h-4 text-emerald-300" />
             </Link>
 
             {/* Notification Bell (Circular button with red badge count 4) */}
@@ -366,103 +277,38 @@ export const TopHeaderBar: React.FC = () => {
             <span className="font-extrabold">Nearby Depots</span>
           </Link>
           
-          {/* Interactive B2B Role Switcher Pill for Desktop */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-              className="flex items-center gap-2 sm:gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-2xl bg-white hover:bg-indigo-50/60 border border-slate-200/90 shadow-xs hover:shadow-md transition-all group"
-              title="Click to switch role (Super Admin, Pharma, Distributor, MPO, Pharmacy)"
-            >
-              <div className={`w-8 h-8 rounded-xl ${currentRoleConfig.badgeColor} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs`}>
-                <CurrentIcon className="w-4 h-4" />
-              </div>
-              <div className="flex flex-col text-left min-w-0 max-w-[170px]">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-bold text-slate-900 group-hover:text-[#4F46E5] transition-colors leading-tight truncate">
-                    {currentRoleConfig.label}
-                  </span>
-                  <span className="text-[11px] font-black uppercase px-2 py-0.5 rounded bg-indigo-100 text-[#4F46E5]">
-                    Switch
-                  </span>
-                </div>
-                <span className="text-xs text-slate-500 font-medium leading-tight truncate">
-                  {currentUser.organizationName || currentRoleConfig.org}
+          {/* Authenticated Account Badge (No Switcher - Authorized Access Only) */}
+          <Link
+            href="/profile"
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200/90 shadow-2xs transition-all group"
+            title={`Authorized Account: ${currentUser.name} (${currentRoleConfig.label})`}
+          >
+            <div className={`w-8 h-8 rounded-xl ${currentRoleConfig.badgeColor} flex items-center justify-center shrink-0 shadow-xs`}>
+              <CurrentIcon className="w-4 h-4" />
+            </div>
+            <div className="flex flex-col text-left min-w-0 max-w-[170px]">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-bold text-slate-900 leading-tight truncate">
+                  {currentRoleConfig.label}
+                </span>
+                <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Verified
                 </span>
               </div>
-              <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-700 transition-colors ml-0.5" />
-            </button>
+              <span className="text-xs text-slate-500 font-medium leading-tight truncate">
+                {currentUser.organizationName || currentRoleConfig.org}
+              </span>
+            </div>
+          </Link>
 
-            {/* Role Switcher Floating Menu for Desktop */}
-            {isRoleDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-2 border-b border-slate-100">
-                  <div className="text-xs font-black uppercase tracking-wider text-slate-500">
-                    Switch Operational Persona
-                  </div>
-                  <div className="text-sm text-slate-600 mt-0.5 font-medium">
-                    Test the complete multi-tenant B2B pharmaceutical workflow:
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 py-2">
-                  {rolesConfig.map((item) => {
-                    const Icon = item.icon;
-                    const isSelected = currentUser.role === item.role;
-
-                    return (
-                      <button
-                        key={item.role}
-                        onClick={() => handleSelectRole(item.role)}
-                        className={`w-full text-left p-2.5 rounded-2xl flex items-start gap-3 transition-all ${
-                          isSelected
-                            ? "bg-[#4F46E5] text-white shadow-md"
-                            : "hover:bg-slate-50 text-slate-800"
-                        }`}
-                      >
-                        <div
-                          className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
-                            isSelected
-                              ? "bg-white/20 text-white"
-                              : `${item.badgeColor} text-white`
-                          }`}
-                        >
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <span className="font-bold text-sm">{item.label}</span>
-                            {isSelected && <Check className="w-4 h-4 text-white" />}
-                          </div>
-                          <div className={`text-xs truncate ${isSelected ? "text-indigo-100 font-semibold" : "text-slate-600 font-medium"}`}>
-                            {item.org}
-                          </div>
-                          <div className={`text-xs mt-0.5 ${isSelected ? "text-indigo-100/90" : "text-slate-500"}`}>
-                            {item.description}
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="pt-2 border-t border-slate-100 px-3 py-1 text-xs sm:text-[13px] text-slate-600 flex items-center justify-between font-medium">
-                  <span>Current: <strong>{currentUser.name}</strong></span>
-                  <Link href="/profile" onClick={() => setIsRoleDropdownOpen(false)} className="text-[#4F46E5] font-bold hover:underline">
-                    Edit Profile
-                  </Link>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile Prototype Simulator Link for Desktop */}
+          {/* Android Mobile Prototype Link for Desktop */}
           <Link
             href="/mobile-prototype"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#241B52] to-[#4F46E5] text-white text-xs font-black shadow-xs hover:shadow-md transition-all active:scale-95 shrink-0 border border-indigo-400/30"
-            title="Interactive Mobile Prototype Simulator"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white text-xs font-black shadow-xs hover:shadow-md transition-all active:scale-95 shrink-0"
+            title="Interactive Android Mobile Prototype Simulator"
           >
-            <Smartphone className="w-3.5 h-3.5 text-[#FB923C]" />
-            <span className="hidden xl:inline">Mobile Prototype</span>
+            <Smartphone className="w-3.5 h-3.5 text-emerald-200" />
+            <span className="hidden xl:inline">Android Prototype</span>
           </Link>
 
           {/* Notification Bell for Desktop */}
