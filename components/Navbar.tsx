@@ -48,7 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center space-x-3 shrink-0">
             <Link href="/" className="flex items-center">
               <img
-                src="/images/medgo-logo.png"
+                src="/images/png-final.png"
                 alt="MedGo"
                 className="h-8 w-auto object-contain"
               />

@@ -225,7 +225,7 @@ export const HamburgerDrawer: React.FC = () => {
           <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
             <Link href="/" onClick={closeDrawer} className="flex items-center group" title="MedGo Home">
               <img
-                src="/images/medgo-logo.png"
+                src="/images/png-final.png"
                 alt="MedGo"
                 className="h-10 sm:h-12 w-auto max-w-[210px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
               />

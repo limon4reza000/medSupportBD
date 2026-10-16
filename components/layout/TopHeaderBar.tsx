@@ -134,7 +134,7 @@ export const TopHeaderBar: React.FC = () => {
 
             <Link href="/" className="flex items-center group" title="MedGo Home">
               <img
-                src="/images/medgo-logo.png"
+                src="/images/png-final.png"
                 alt="MedGo"
                 className="h-8 sm:h-9 w-auto max-w-[130px] sm:max-w-[160px] object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
               />

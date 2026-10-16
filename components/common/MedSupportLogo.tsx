@@ -18,7 +18,7 @@ export const MedSupportLogo: React.FC<{
 
   return (
     <img
-      src="/images/medgo-logo.png"
+      src="/images/png-final.png"
       alt="MedGo Logo"
       className={`object-contain max-h-full max-w-full ${className}`}
     />

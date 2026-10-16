@@ -170,7 +170,7 @@ export const AppSidebar: React.FC = () => {
       <div className="px-5 pt-6 pb-4 mb-1">
         <Link href="/" className="flex items-center group" title="MedGo Home">
           <img
-            src="/images/medgo-logo.png"
+            src="/images/png-final.png"
             alt="MedGo"
             className="h-12 sm:h-14 w-auto max-w-[245px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
           />

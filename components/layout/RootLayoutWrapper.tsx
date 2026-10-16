@@ -85,7 +85,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                 <div className="space-y-3">
                   <Link href="/" className="inline-block group" title="MedGo Home">
                     <img
-                      src="/images/medgo-logo.png"
+                      src="/images/png-final.png"
                       alt="MedGo"
                       className="h-9 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
                     />
