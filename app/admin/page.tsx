@@ -37,6 +37,7 @@ export default function AdminSettingsPage() {
     [UserRole.DEPOT_MANAGER]: ["medicine.read", "medicine.create", "inventory.adjust", "order.approve", "order.dispatch", "report.read"],
     [UserRole.SALES_REP]: ["medicine.read", "order.create", "payment.create", "ledger.read", "report.read"],
     [UserRole.PHARMACY_OWNER]: ["medicine.read", "order.create", "ledger.read"],
+    [UserRole.RETAIL_PHARMACY]: ["medicine.read", "order.create", "ledger.read"],
   };
 
   return (

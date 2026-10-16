@@ -119,6 +119,17 @@ export const AppSidebar: React.FC = () => {
           { label: "My Placed Orders", href: "/my-orders", icon: Truck },
         ];
 
+      case UserRole.RETAIL_PHARMACY:
+        return [
+          { label: "Retail Dashboard", href: "/", icon: LayoutGrid },
+          { label: "Sales POS", href: "/pos", icon: ShoppingCart },
+          { label: "Medicine Stock", href: "/inventory", icon: MedicineStockIcon },
+          { label: "Order from Depots", href: "/distributors", icon: MapPin },
+          { label: "Customer Due", href: "/customer-due", icon: User },
+          { label: "Daily Sales Reports", href: "/reports", icon: BarChart3 },
+          { label: "Shop Expenses", href: "/expenses", icon: TakaIcon },
+        ];
+
       case UserRole.PHARMACY_OWNER:
       default:
         return [

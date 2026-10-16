@@ -12,6 +12,7 @@ export enum UserRole {
   DEPOT_MANAGER = "DEPOT_MANAGER", // Backwards-compatible alias to DISTRIBUTOR
   SALES_REP = "SALES_REP", // Medical Promotion Officer (MPO / SR)
   PHARMACY_OWNER = "PHARMACY_OWNER",
+  RETAIL_PHARMACY = "RETAIL_PHARMACY",
 }
 
 export enum PackagingUnit {
@@ -828,4 +829,155 @@ export interface IRouteDirectionResult {
   durationMinutes: number;
   source: "OSRM_REALTIME" | "ESTIMATED_ROAD_MODEL";
 }
+
+// ============================================================================
+// ROLE-BASED REGISTRATION DOMAIN MODELS & SCHEMAS
+// ============================================================================
+
+export enum RegistrationStatus {
+  PENDING_VERIFICATION = "PENDING_VERIFICATION",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export interface IRegistrationDocument {
+  id: string;
+  type: "TIN_CERTIFICATE" | "TRADE_LICENSE" | "NID_FRONT" | "NID_BACK" | "COMPANY_LOGO" | "EMPLOYEE_ID_CARD";
+  fileName: string;
+  fileSize: number;
+  mimeType: string;
+  dataUrl?: string; // base64 preview or uploaded secure storage URL
+  uploadedAt: string;
+}
+
+export interface IRegistrationApplication {
+  id: string;
+  trackingNumber: string;
+  role: UserRole;
+  status: RegistrationStatus;
+  createdAt: string;
+  updatedAt: string;
+  isPhoneVerified: boolean;
+  isEmailVerified: boolean;
+  
+  // Role-specific submitted data
+  shopName?: string;
+  companyName?: string;
+  distributorName?: string;
+  ownerName?: string;
+  authorizedPersonName?: string;
+  phone: string;
+  email?: string;
+  nidNumber?: string;
+  tradeLicenseNo?: string;
+  tinNumber?: string;
+  address?: string;
+  thana?: string;
+  district?: string;
+  latitude?: number;
+  longitude?: number;
+  employeeId?: string;
+  affiliatedCompany?: string;
+  designatedTerritory?: string;
+  serviceArea?: string[];
+  authorizedPharmaCompanies?: string[];
+  documents: IRegistrationDocument[];
+  verificationNotes?: string;
+  rejectionReason?: string;
+}
+
+// ----------------------------------------------------------------------------
+// ZOD VALIDATION SCHEMAS PER ROLE
+// ----------------------------------------------------------------------------
+
+export const BD_PHONE_REGEX = /^(?:\+?88)?01[3-9]\d{8}$/;
+export const BD_NID_REGEX = /^(?:\d{10}|\d{13}|\d{17})$/;
+export const BD_TIN_REGEX = /^\d{12}$/;
+
+// 1. Pharmacy Owner Schema
+export const PharmacyOwnerRegistrationSchema = z.object({
+  role: z.literal(UserRole.PHARMACY_OWNER),
+  shopName: z.string().min(3, "Pharmacy / Shop Name must be at least 3 characters"),
+  ownerName: z.string().min(3, "Owner's Full Name must be at least 3 characters"),
+  phone: z.string().regex(BD_PHONE_REGEX, "Enter a valid 11-digit Bangladeshi mobile number (01XXXXXXXXX)"),
+  nidNumber: z.string().regex(BD_NID_REGEX, "NID Number must be 10, 13, or 17 numeric digits"),
+  tradeLicenseNo: z.string().min(5, "Trade License Number is required (min 5 characters)"),
+  tinNumber: z.string().min(5, "TIN / e-TIN number or certificate is mandatory"),
+  address: z.string().min(5, "Shop physical address is mandatory"),
+  latitude: z.number().min(20).max(27, "Valid Bangladesh latitude required"),
+  longitude: z.number().min(88).max(93, "Valid Bangladesh longitude required"),
+  isPhoneVerified: z.boolean().refine((val) => val === true, "Mobile number must be verified by OTP"),
+  tinCertificateUrl: z.string().optional(),
+  tradeLicenseUrl: z.string().optional(),
+});
+
+// 2. Retail Pharmacy Schema
+export const RetailPharmacyRegistrationSchema = z.object({
+  role: z.literal(UserRole.RETAIL_PHARMACY),
+  shopName: z.string().min(3, "Pharmacy / Retail Shop Name must be at least 3 characters"),
+  ownerName: z.string().min(3, "Owner's Full Name must be at least 3 characters"),
+  phone: z.string().regex(BD_PHONE_REGEX, "Enter a valid 11-digit Bangladeshi mobile number (01XXXXXXXXX)"),
+  nidNumber: z.string().regex(BD_NID_REGEX, "NID Number must be 10, 13, or 17 numeric digits"),
+  tradeLicenseNo: z.string().min(5, "Trade License Number is required"),
+  tinNumber: z.string().min(5, "TIN / e-TIN number or certificate is mandatory"),
+  address: z.string().min(5, "Shop physical address is mandatory"),
+  latitude: z.number().min(20).max(27, "Valid Bangladesh latitude required"),
+  longitude: z.number().min(88).max(93, "Valid Bangladesh longitude required"),
+  isPhoneVerified: z.boolean().refine((val) => val === true, "Mobile number must be verified by OTP"),
+  tinCertificateUrl: z.string().optional(),
+  tradeLicenseUrl: z.string().optional(),
+});
+
+// 3. Pharmaceutical Company Schema
+export const PharmaCompanyRegistrationSchema = z.object({
+  role: z.literal(UserRole.PHARMA_COMPANY),
+  companyName: z.string().min(3, "Pharmaceutical Company Name is required"),
+  address: z.string().min(5, "Corporate HQ / Factory location is mandatory"),
+  latitude: z.number().min(20).max(27, "Valid Bangladesh latitude required"),
+  longitude: z.number().min(88).max(93, "Valid Bangladesh longitude required"),
+  tradeLicenseNo: z.string().min(5, "Trade License Number is required"),
+  tinNumber: z.string().min(5, "TIN / e-TIN is mandatory"),
+  authorizedRepresentativeName: z.string().optional(),
+  officialPhone: z.string().regex(BD_PHONE_REGEX, "Valid official contact number required").optional(),
+  officialEmail: z.string().email("Valid official email address required").optional(),
+  isContactVerified: z.boolean().refine((val) => val === true, "At least one company contact method must be verified"),
+  logoUrl: z.string().optional(),
+  tinCertificateUrl: z.string().optional(),
+  tradeLicenseUrl: z.string().optional(),
+});
+
+// 4. Distributor / Depot Schema
+export const DistributorRegistrationSchema = z.object({
+  role: z.literal(UserRole.DISTRIBUTOR),
+  distributorName: z.string().min(3, "Distributor / Depot Name is required"),
+  ownerName: z.string().min(3, "Owner or Authorized Person's Full Name is required"),
+  phone: z.string().regex(BD_PHONE_REGEX, "Valid 11-digit mobile number required"),
+  tradeLicenseNo: z.string().min(5, "Trade License Number is mandatory"),
+  tinNumber: z.string().min(5, "TIN / e-TIN number or certificate is mandatory"),
+  address: z.string().min(5, "Business depot location is mandatory"),
+  latitude: z.number().min(20).max(27, "Valid Bangladesh latitude required"),
+  longitude: z.number().min(88).max(93, "Valid Bangladesh longitude required"),
+  isPhoneVerified: z.boolean().refine((val) => val === true, "Mobile number must be verified by OTP"),
+  nidNumber: z.string().optional(),
+  serviceArea: z.array(z.string()).optional(),
+  authorizedPharmaCompanies: z.array(z.string()).optional(),
+  tinCertificateUrl: z.string().optional(),
+  tradeLicenseUrl: z.string().optional(),
+});
+
+// 5. Medical Representative (MPO / SR) Schema
+export const SalesRepRegistrationSchema = z.object({
+  role: z.literal(UserRole.SALES_REP),
+  employeeId: z.string().min(3, "Official Company Employee ID is mandatory"),
+  nidNumber: z.string().regex(BD_NID_REGEX, "NID Number must be 10, 13, or 17 numeric digits"),
+  phone: z.string().optional(),
+  email: z.string().email().optional(),
+  affiliatedCompany: z.string().min(2, "Affiliated Pharmaceutical Company is required"),
+  designatedTerritory: z.string().optional(),
+  isContactVerified: z.boolean().refine((val) => val === true, "At least one contact method (Mobile OTP or Email) must be verified"),
+}).refine(
+  (data) => (data.phone && data.phone.trim().length > 0) || (data.email && data.email.trim().length > 0),
+  { message: "At least one contact method (Mobile Number or Gmail / Email Address) is required", path: ["phone"] }
+);
+
 

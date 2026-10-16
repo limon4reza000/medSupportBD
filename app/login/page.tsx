@@ -75,6 +75,20 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => {
+                setRole(UserRole.RETAIL_PHARMACY);
+                setEmail("shahalam.retail@medsupplybd.com");
+              }}
+              className={`p-2 rounded-lg font-semibold transition-all ${
+                role === UserRole.RETAIL_PHARMACY
+                  ? "bg-[#4F46E5] text-white"
+                  : "bg-white border text-slate-700 hover:bg-slate-100"
+              }`}
+            >
+              Retail Pharmacy
+            </button>
+            <button
+              type="button"
+              onClick={() => {
                 setRole(UserRole.SALES_REP);
                 setEmail("tariqul.sr@medsupplybd.com");
               }}
@@ -89,25 +103,39 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => {
-                setRole(UserRole.DEPOT_MANAGER);
+                setRole(UserRole.DISTRIBUTOR);
                 setEmail("kamrul.depot@medsupplybd.com");
               }}
               className={`p-2 rounded-lg font-semibold transition-all ${
-                role === UserRole.DEPOT_MANAGER
+                role === UserRole.DISTRIBUTOR || role === UserRole.DEPOT_MANAGER
                   ? "bg-[#4F46E5] text-white"
                   : "bg-white border text-slate-700 hover:bg-slate-100"
               }`}
             >
-              Depot Manager
+              Distributor / Depot
             </button>
             <button
               type="button"
               onClick={() => {
-                setRole(UserRole.ADMIN);
-                setEmail("admin@medsupplybd.com");
+                setRole(UserRole.PHARMA_COMPANY);
+                setEmail("commercial@squarepharma.com.bd");
               }}
               className={`p-2 rounded-lg font-semibold transition-all ${
-                role === UserRole.ADMIN
+                role === UserRole.PHARMA_COMPANY
+                  ? "bg-[#4F46E5] text-white"
+                  : "bg-white border text-slate-700 hover:bg-slate-100"
+              }`}
+            >
+              Pharma Company
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRole(UserRole.SUPER_ADMIN);
+                setEmail("superadmin.dgda@medsupplybd.com");
+              }}
+              className={`p-2 rounded-lg font-semibold transition-all ${
+                role === UserRole.SUPER_ADMIN || role === UserRole.ADMIN
                   ? "bg-[#4F46E5] text-white"
                   : "bg-white border text-slate-700 hover:bg-slate-100"
               }`}

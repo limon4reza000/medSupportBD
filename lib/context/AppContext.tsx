@@ -478,6 +478,18 @@ export const DEMO_PERSONAS: Record<UserRole, DemoPersona> = {
     organizationCode: "PHARM-DHK-001",
     title: "Licensed Pharmacist & Managing Director",
     territory: "Dhanmondi, Dhaka",
+    badge: "Pharmacy Chain",
+  },
+  [UserRole.RETAIL_PHARMACY]: {
+    name: "Mohammad Shah Alam",
+    role: UserRole.RETAIL_PHARMACY,
+    email: "shahalam.retail@medsupplybd.com",
+    avatar: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&auto=format&fit=crop&q=80",
+    organizationName: "Popular Med Corner (Retail)",
+    organizationType: "PHARMACY_GROUP",
+    organizationCode: "RETAIL-DHK-042",
+    title: "Licensed Dispensary Manager",
+    territory: "Mirpur 10, Dhaka",
     badge: "Retail Pharmacy",
   },
 };

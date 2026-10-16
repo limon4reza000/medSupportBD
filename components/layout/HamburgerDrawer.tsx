@@ -324,13 +324,23 @@ export const HamburgerDrawer: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
-                className={`col-span-2 p-2 rounded-xl text-left font-bold truncate transition-all ${
+                className={`p-2 rounded-xl text-left font-bold truncate transition-all ${
                   currentUser.role === UserRole.PHARMACY_OWNER
                     ? "bg-[#4F46E5] hover:bg-[#4338CA] text-white shadow-xs"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200/80"
                 }`}
               >
-                Pharmacy Owner (Retail)
+                Pharmacy Owner
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.RETAIL_PHARMACY)}
+                className={`p-2 rounded-xl text-left font-bold truncate transition-all ${
+                  currentUser.role === UserRole.RETAIL_PHARMACY
+                    ? "bg-[#4F46E5] hover:bg-[#4338CA] text-white shadow-xs"
+                    : "bg-slate-100 text-slate-700 hover:bg-slate-200/80"
+                }`}
+              >
+                Retail Pharmacy
               </button>
             </div>
           </div>

@@ -235,13 +235,23 @@ export const ProfileDropdown: React.FC = () => {
               </button>
               <button
                 onClick={() => setCurrentUserRole(UserRole.PHARMACY_OWNER)}
-                className={`col-span-2 p-1.5 rounded-lg text-left transition-colors font-bold ${
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
                   currentUser.role === UserRole.PHARMACY_OWNER
                     ? "bg-[#4F46E5] text-white"
                     : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
-                Pharmacy Owner (Green Care)
+                Pharmacy Owner
+              </button>
+              <button
+                onClick={() => setCurrentUserRole(UserRole.RETAIL_PHARMACY)}
+                className={`p-1.5 rounded-lg text-left transition-colors font-bold ${
+                  currentUser.role === UserRole.RETAIL_PHARMACY
+                    ? "bg-[#4F46E5] text-white"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200"
+                }`}
+              >
+                Retail Pharmacy
               </button>
             </div>
           </div>
