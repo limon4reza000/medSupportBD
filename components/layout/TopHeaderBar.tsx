@@ -20,6 +20,7 @@ import {
   MapPin,
   Grip,
   ScanLine,
+  Smartphone,
 } from "lucide-react";
 import { useApp } from "@/lib/context/AppContext";
 import { UserRole } from "@/types/domain";
@@ -244,6 +245,15 @@ export const TopHeaderBar: React.FC = () => {
               )}
             </div>
 
+            {/* Mobile Prototype Button for Mobile View */}
+            <Link
+              href="/mobile-prototype"
+              className="relative w-8 h-8 rounded-full bg-[#241B52] hover:bg-[#2E236C] text-white flex items-center justify-center transition-all active:scale-95 shadow-none ring-1 ring-indigo-500/30"
+              title="Interactive Mobile Prototype"
+            >
+              <Smartphone className="w-4 h-4 text-[#FB923C]" />
+            </Link>
+
             {/* Notification Bell (Circular button with red badge count 4) */}
             <Link
               href="/notifications"
@@ -444,6 +454,16 @@ export const TopHeaderBar: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Mobile Prototype Simulator Link for Desktop */}
+          <Link
+            href="/mobile-prototype"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#241B52] to-[#4F46E5] text-white text-xs font-black shadow-xs hover:shadow-md transition-all active:scale-95 shrink-0 border border-indigo-400/30"
+            title="Interactive Mobile Prototype Simulator"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-[#FB923C]" />
+            <span className="hidden xl:inline">Mobile Prototype</span>
+          </Link>
 
           {/* Notification Bell for Desktop */}
           <Link
