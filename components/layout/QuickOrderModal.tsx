@@ -83,19 +83,19 @@ export const QuickOrderModal: React.FC = () => {
       <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden z-50 text-slate-900 animate-in fade-in zoom-in-95 duration-150">
         
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-[#014232] to-[#025540] text-white flex items-center justify-between">
+        <div className="px-6 py-4 bg-gradient-to-r from-[#014232] to-[#4338CA] text-white flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-400 text-[#01382a] flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-indigo-400 text-[#241B52] flex items-center justify-center font-bold">
               <Zap className="w-5 h-5 fill-current" />
             </div>
             <div>
               <h2 className="font-black text-lg tracking-tight">Fast Order Matrix</h2>
-              <p className="text-xs text-emerald-200/80">Batch-cut high velocity items directly into cart</p>
+              <p className="text-xs text-indigo-200/80">Batch-cut high velocity items directly into cart</p>
             </div>
           </div>
           <button
             onClick={() => setIsQuickOrderOpen(false)}
-            className="p-1.5 rounded-lg text-emerald-200 hover:text-white hover:bg-[#036b51]/60 transition-colors"
+            className="p-1.5 rounded-lg text-indigo-200 hover:text-white hover:bg-[#4338CA]/60 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -117,7 +117,7 @@ export const QuickOrderModal: React.FC = () => {
             return (
               <div
                 key={med.id}
-                className="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-300 bg-slate-50/50 hover:bg-emerald-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                className="p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 bg-slate-50/50 hover:bg-indigo-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export const QuickOrderModal: React.FC = () => {
                   <div className="text-xs text-slate-500 mt-0.5">
                     {med.genericName} • {med.manufacturer}
                   </div>
-                  <div className="text-[11px] text-emerald-700 font-mono font-medium mt-1">
+                  <div className="text-[11px] text-indigo-700 font-mono font-medium mt-1">
                     Trade Price: ৳{unitPrice.toFixed(2)} / {current.unit}
                   </div>
                 </div>
@@ -140,7 +140,7 @@ export const QuickOrderModal: React.FC = () => {
                   <select
                     value={current.unit}
                     onChange={(e) => handleUnitChange(med.id, e.target.value as PackagingUnit)}
-                    className="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:border-emerald-500"
+                    className="text-xs font-bold bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:border-indigo-500"
                   >
                     <option value={PackagingUnit.BOX}>Box ({med.piecesPerStrip * med.stripsPerBox} pcs)</option>
                     <option value={PackagingUnit.STRIP}>Strip ({med.piecesPerStrip} pcs)</option>
@@ -184,11 +184,11 @@ export const QuickOrderModal: React.FC = () => {
           <button
             onClick={handleAddAllToCart}
             disabled={successMessage}
-            className="px-5 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+            className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
           >
             {successMessage ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+                <CheckCircle2 className="w-4 h-4 text-indigo-300" />
                 <span>Added to Cart!</span>
               </>
             ) : (

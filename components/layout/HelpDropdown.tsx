@@ -80,12 +80,12 @@ export const HelpDropdown: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Help and Support"
         title="Explore & Support"
-        className="p-1.5 sm:p-2 rounded-xl text-emerald-100 hover:text-white hover:bg-white/10 transition-all duration-200 focus:outline-none flex items-center gap-1 group select-none"
+        className="p-1.5 sm:p-2 rounded-xl text-indigo-100 hover:text-white hover:bg-white/10 transition-all duration-200 focus:outline-none flex items-center gap-1 group select-none"
       >
-        <SupportAgentIcon className="w-6 h-6 sm:w-[26px] sm:h-[26px] text-emerald-200 group-hover:text-white transition-colors" />
+        <SupportAgentIcon className="w-6 h-6 sm:w-[26px] sm:h-[26px] text-indigo-200 group-hover:text-white transition-colors" />
         <ChevronDown
           strokeWidth={3}
-          className={`w-4 h-4 text-emerald-200 group-hover:text-white transition-transform duration-200 ${
+          className={`w-4 h-4 text-indigo-200 group-hover:text-white transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -111,9 +111,9 @@ export const HelpDropdown: React.FC = () => {
                   key={idx}
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-900 transition-colors"
                 >
-                  <Icon className="w-4 h-4 text-emerald-700 shrink-0" />
+                  <Icon className="w-4 h-4 text-indigo-700 shrink-0" />
                   <span>{item.label}</span>
                 </Link>
               );

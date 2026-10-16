@@ -74,7 +74,7 @@ export default function SettingsPage() {
   const [smsAlerts, setSmsAlerts] = useState(true);
   const [whatsappAlerts, setWhatsappAlerts] = useState(true);
   const [emailAlerts, setEmailAlerts] = useState(true);
-  const [themeMode, setThemeMode] = useState("surgical-green");
+  const [themeMode, setThemeMode] = useState("royal-indigo");
   const [language, setLanguage] = useState("en");
 
   const handleSave = (msg = "Settings saved successfully!") => {
@@ -180,31 +180,31 @@ export default function SettingsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2.5">
-            <Settings className="w-7 h-7 text-emerald-400" />
+            <Settings className="w-7 h-7 text-indigo-400" />
             <span>MedSupply BD System Settings</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-1">
+          <p className="text-xs text-indigo-100/80 mt-1">
             Enterprise administration control center — Manage account, pharmacy licenses, FEFO rules, AI engines & security.
           </p>
         </div>
 
         {/* Global Settings Search Bar */}
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-emerald-300 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-indigo-300 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search settings (e.g. FEFO, SMS, AI)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#014232] border border-emerald-500/30 text-white placeholder-emerald-200/60 text-xs focus:outline-none focus:border-emerald-400"
+            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#1E1743] border border-indigo-500/30 text-white placeholder-indigo-200/60 text-xs focus:outline-none focus:border-indigo-400"
           />
         </div>
       </div>
 
       {/* Global Toast Alert */}
       {isSaved && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center gap-2.5 shadow-lg animate-in slide-in-from-top">
-          <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-300 text-[#241B52] text-xs font-bold flex items-center gap-2.5 shadow-lg animate-in slide-in-from-top">
+          <CheckCircle2 className="w-5 h-5 text-indigo-700 shrink-0" />
           <span>{savedMessage}</span>
         </div>
       )}
@@ -231,17 +231,17 @@ export default function SettingsPage() {
                   }}
                   className={`w-full text-left p-3 rounded-xl transition-all flex items-start gap-3 group ${
                     isCurrent
-                      ? "bg-[#025540] text-white shadow-md font-bold"
-                      : "hover:bg-emerald-50/70 text-slate-700"
+                      ? "bg-[#4F46E5] text-white shadow-md font-bold"
+                      : "hover:bg-indigo-50/70 text-slate-700"
                   }`}
                 >
-                  <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isCurrent ? "text-emerald-300" : "text-emerald-700"}`} />
+                  <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${isCurrent ? "text-indigo-300" : "text-indigo-700"}`} />
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-bold truncate flex items-center justify-between">
                       <span>{cat.label}</span>
-                      <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isCurrent ? "rotate-90 text-emerald-300" : "opacity-0 group-hover:opacity-100"}`} />
+                      <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isCurrent ? "rotate-90 text-indigo-300" : "opacity-0 group-hover:opacity-100"}`} />
                     </div>
-                    <div className={`text-[10px] truncate mt-0.5 ${isCurrent ? "text-emerald-100/80" : "text-slate-500"}`}>
+                    <div className={`text-[10px] truncate mt-0.5 ${isCurrent ? "text-indigo-100/80" : "text-slate-500"}`}>
                       {cat.description}
                     </div>
                   </div>
@@ -262,7 +262,7 @@ export default function SettingsPage() {
               <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                    <User className="w-5 h-5 text-emerald-700" />
+                    <User className="w-5 h-5 text-indigo-700" />
                     <span>Account & Security Settings</span>
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">Manage user credentials, two-factor authentication, and connected devices.</p>
@@ -278,7 +278,7 @@ export default function SettingsPage() {
                     <input
                       type="text"
                       defaultValue={currentUser.name}
-                      className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-emerald-500"
+                      className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                   <div>
@@ -286,7 +286,7 @@ export default function SettingsPage() {
                     <input
                       type="email"
                       defaultValue={currentUser.email}
-                      className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-emerald-500"
+                      className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold focus:outline-none focus:border-indigo-500"
                     />
                   </div>
                 </div>
@@ -299,7 +299,7 @@ export default function SettingsPage() {
                 <div className="p-4 rounded-xl bg-slate-50 flex items-center justify-between">
                   <div className="space-y-0.5">
                     <div className="font-bold text-xs text-slate-900 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                      <ShieldCheck className="w-4 h-4 text-indigo-700" />
                       <span>Two-Factor Authentication (2FA)</span>
                     </div>
                     <p className="text-[11px] text-slate-500">Require an SMS OTP code on every new login attempt.</p>
@@ -307,7 +307,7 @@ export default function SettingsPage() {
                   <button
                     onClick={() => setTwoFactorAuth(!twoFactorAuth)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                      twoFactorAuth ? "bg-emerald-700 text-white" : "bg-slate-200 text-slate-700"
+                      twoFactorAuth ? "bg-[#4338CA] text-white" : "bg-slate-200 text-slate-700"
                     }`}
                   >
                     {twoFactorAuth ? "ENABLED" : "DISABLED"}
@@ -321,13 +321,13 @@ export default function SettingsPage() {
                 <div className="space-y-2">
                   <div className="p-3 rounded-xl border border-slate-200 bg-white flex items-center justify-between text-xs">
                     <div className="flex items-center gap-3">
-                      <Laptop className="w-5 h-5 text-emerald-700" />
+                      <Laptop className="w-5 h-5 text-indigo-700" />
                       <div>
                         <div className="font-bold text-slate-900">Chrome on Windows (Current Session)</div>
                         <div className="text-[10px] text-slate-500">Dhaka, Bangladesh • IP: 202.181.16.19</div>
                       </div>
                     </div>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
                       ACTIVE NOW
                     </span>
                   </div>
@@ -347,7 +347,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("Account security settings updated!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Account Settings</span>
@@ -362,7 +362,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <Building2 className="w-5 h-5 text-emerald-700" />
+                  <Building2 className="w-5 h-5 text-indigo-700" />
                   <span>Pharmacy & Organization Master Settings</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Manage Drug Licensing, registered pharmacy branches, TIN/BIN certificate, and staff permissions.</p>
@@ -407,7 +407,7 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400">Authorized Staff & Permissions</h3>
-                  <button className="px-3 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1">
+                  <button className="px-3 py-1 rounded-lg bg-indigo-100 text-indigo-800 text-xs font-bold flex items-center gap-1">
                     <Plus className="w-3.5 h-3.5" /> Add Staff Member
                   </button>
                 </div>
@@ -421,22 +421,22 @@ export default function SettingsPage() {
                   </div>
                   <div className="grid grid-cols-4 p-2.5 border-t border-slate-100 items-center">
                     <div className="font-bold text-slate-900">Dr. Rafiqul Islam</div>
-                    <div className="text-emerald-700 font-semibold">Pharmacy Owner</div>
+                    <div className="text-indigo-700 font-semibold">Pharmacy Owner</div>
                     <div>Full Admin Rights</div>
-                    <div><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">ACTIVE</span></div>
+                    <div><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">ACTIVE</span></div>
                   </div>
                   <div className="grid grid-cols-4 p-2.5 border-t border-slate-100 items-center">
                     <div className="font-bold text-slate-900">Kamrul Hasan</div>
                     <div className="text-teal-700 font-semibold">Lead Dispenser</div>
                     <div>Orders & Cart Only</div>
-                    <div><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">ACTIVE</span></div>
+                    <div><span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">ACTIVE</span></div>
                   </div>
                 </div>
               </div>
 
               <button
                 onClick={() => handleSave("Pharmacy organization profile saved!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Organization Details</span>
@@ -451,7 +451,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-emerald-700" />
+                  <ShoppingCart className="w-5 h-5 text-indigo-700" />
                   <span>Orders & Procurement Rules</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Define order cutting rules, preferred delivery schedules, and purchase order approval limits.</p>
@@ -467,7 +467,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={autoReorder}
                     onChange={(e) => setAutoReorder(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-700 cursor-pointer"
+                    className="w-4 h-4 accent-indigo-600 cursor-pointer"
                   />
                 </div>
 
@@ -476,7 +476,7 @@ export default function SettingsPage() {
                     <div className="font-bold text-slate-900">Purchase Order (PO) Approval Threshold</div>
                     <p className="text-[11px] text-slate-500">Require pharmacy owner approval for any order exceeding this limit.</p>
                   </div>
-                  <span className="font-mono font-bold text-xs text-emerald-800 bg-white px-3 py-1 rounded-lg border border-slate-200">
+                  <span className="font-mono font-bold text-xs text-indigo-800 bg-white px-3 py-1 rounded-lg border border-slate-200">
                     ৳50,000.00
                   </span>
                 </div>
@@ -495,7 +495,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("Procurement preferences saved!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Procurement Rules</span>
@@ -510,17 +510,17 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <Layers className="w-5 h-5 text-emerald-700" />
+                  <Layers className="w-5 h-5 text-indigo-700" />
                   <span>FEFO & Batch Inventory Rules</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Configure First-Expiry-First-Out (FEFO) automated allocation horizons and batch visibility.</p>
               </div>
 
               <div className="space-y-4 text-xs">
-                <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 flex items-center justify-between">
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 flex items-center justify-between">
                   <div>
-                    <div className="font-bold text-emerald-950 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                    <div className="font-bold text-[#241B52] flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-indigo-700" />
                       <span>Enforce Strict FEFO Allocation Engine</span>
                     </div>
                     <p className="text-[11px] text-slate-600 mt-0.5">
@@ -531,7 +531,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={strictFefo}
                     onChange={(e) => setStrictFefo(e.target.checked)}
-                    className="w-5 h-5 accent-emerald-700 cursor-pointer"
+                    className="w-5 h-5 accent-indigo-600 cursor-pointer"
                   />
                 </div>
 
@@ -555,7 +555,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("FEFO inventory policies updated!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Inventory Rules</span>
@@ -570,7 +570,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <CreditCard className="w-5 h-5 text-emerald-700" />
+                  <CreditCard className="w-5 h-5 text-indigo-700" />
                   <span>Finance, Credit & Ledger Preferences</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Manage credit limits, automated payment notifications, and tax invoice preferences.</p>
@@ -579,20 +579,20 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 rounded-xl bg-slate-50 space-y-1">
                   <div className="text-slate-500 font-medium">Assigned Credit Limit:</div>
-                  <div className="text-xl font-mono font-black text-emerald-800">৳120,000.00</div>
+                  <div className="text-xl font-mono font-black text-indigo-800">৳120,000.00</div>
                   <div className="text-[10px] text-slate-400">Set by Dhaka Central Depot Finance Committee</div>
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 space-y-1">
                   <div className="text-slate-500 font-medium">Current Payment Terms:</div>
                   <div className="text-xl font-bold text-slate-900">Net 30-Day Credit</div>
-                  <div className="text-[10px] text-emerald-700 font-bold">Standard DGDA Compliant Credit Terms</div>
+                  <div className="text-[10px] text-indigo-700 font-bold">Standard DGDA Compliant Credit Terms</div>
                 </div>
               </div>
 
               <button
                 onClick={() => handleSave("Finance preferences updated!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Finance Settings</span>
@@ -649,7 +649,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("AI Engine configurations updated!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save AI Engine Settings</span>
@@ -664,7 +664,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <Bell className="w-5 h-5 text-emerald-700" />
+                  <Bell className="w-5 h-5 text-indigo-700" />
                   <span>Notification & Dispatch Alerts</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Control SMS, WhatsApp, and email alerts for dispatch, credit, and near-expiry stock.</p>
@@ -680,7 +680,7 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={smsAlerts}
                     onChange={(e) => setSmsAlerts(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-700 cursor-pointer"
+                    className="w-4 h-4 accent-indigo-600 cursor-pointer"
                   />
                 </div>
 
@@ -693,14 +693,14 @@ export default function SettingsPage() {
                     type="checkbox"
                     checked={whatsappAlerts}
                     onChange={(e) => setWhatsappAlerts(e.target.checked)}
-                    className="w-4 h-4 accent-emerald-700 cursor-pointer"
+                    className="w-4 h-4 accent-indigo-600 cursor-pointer"
                   />
                 </div>
               </div>
 
               <button
                 onClick={() => handleSave("Notification alerts preferences saved!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Notification Settings</span>
@@ -715,7 +715,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <Palette className="w-5 h-5 text-emerald-700" />
+                  <Palette className="w-5 h-5 text-indigo-700" />
                   <span>Appearance & Localization</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Customize application color theme, language, and table density.</p>
@@ -729,8 +729,8 @@ export default function SettingsPage() {
                     onChange={(e) => setThemeMode(e.target.value)}
                     className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900"
                   >
-                    <option value="surgical-green">Surgical Green #025540 (Default)</option>
-                    <option value="dark-emerald">Dark Emerald SaaS Mode</option>
+                    <option value="royal-indigo">Royal Indigo & Iris (Default)</option>
+                    <option value="dark-slate">Midnight Slate SaaS Mode</option>
                     <option value="system">System Default Theme</option>
                   </select>
                 </div>
@@ -750,7 +750,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("Appearance settings saved!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Appearance</span>
@@ -765,7 +765,7 @@ export default function SettingsPage() {
             <div className="space-y-6 animate-in fade-in">
               <div className="pb-4 border-b border-slate-100">
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-emerald-700" />
+                  <Cpu className="w-5 h-5 text-indigo-700" />
                   <span>Integrations & Developer API Keys</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">Connect SMS gateways, WhatsApp APIs, accounting ERP software, and webhooks.</p>
@@ -774,13 +774,13 @@ export default function SettingsPage() {
               <div className="space-y-3 text-xs">
                 <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <MessageSquare className="w-5 h-5 text-emerald-700" />
+                    <MessageSquare className="w-5 h-5 text-indigo-700" />
                     <div>
                       <div className="font-bold text-slate-900">Teletalk Enterprise SMS Gateway</div>
                       <div className="text-[11px] text-slate-500">Connected • API Status: 99.99% Uptime</div>
                     </div>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
                     CONNECTED
                   </span>
                 </div>
@@ -801,7 +801,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("Integration configurations saved!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Integrations</span>
@@ -817,14 +817,14 @@ export default function SettingsPage() {
               <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-emerald-700" />
+                    <FileText className="w-5 h-5 text-indigo-700" />
                     <span>Audit Logs & System Activity</span>
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">Immutable system audit trail, user activity logs, and catalog data export.</p>
                 </div>
                 <button
                   onClick={() => handleSave("Medicine catalog export initiated (CSV)!")}
-                  className="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 text-xs font-bold flex items-center gap-1.5 hover:bg-emerald-200"
+                  className="px-3 py-1.5 rounded-xl bg-indigo-100 text-indigo-900 text-xs font-bold flex items-center gap-1.5 hover:bg-indigo-200"
                 >
                   <Download className="w-4 h-4" />
                   <span>Export Catalog (CSV)</span>
@@ -834,26 +834,26 @@ export default function SettingsPage() {
               <div className="space-y-2 text-xs">
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <Activity className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <Activity className="w-4 h-4 text-indigo-700 shrink-0" />
                     <div>
                       <div className="font-bold text-slate-900">Order #ORD-2026-0914-01 Created</div>
                       <div className="text-[10px] text-slate-500">Executed by Dr. Rafiqul Islam • 10 mins ago</div>
                     </div>
                   </div>
-                  <span className="font-mono text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                  <span className="font-mono text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">
                     SUCCESS
                   </span>
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <ShieldCheck className="w-4 h-4 text-indigo-700 shrink-0" />
                     <div>
                       <div className="font-bold text-slate-900">FEFO Batch Lot BN-2024-NAPA-01 Billed</div>
                       <div className="text-[10px] text-slate-500">Automated allocation engine • Expiry: 2026-11-30</div>
                     </div>
                   </div>
-                  <span className="font-mono text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                  <span className="font-mono text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">
                     FEFO ALLOCATED
                   </span>
                 </div>
@@ -874,7 +874,7 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => handleSave("Audit log report generated!")}
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Audit Log Preferences</span>
@@ -890,7 +890,7 @@ export default function SettingsPage() {
               <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                    <Database className="w-5 h-5 text-emerald-700" />
+                    <Database className="w-5 h-5 text-indigo-700" />
                     <span>Database Backup, Restore & Offline Data Synchronization</span>
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">
@@ -905,7 +905,7 @@ export default function SettingsPage() {
                 <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col justify-between space-y-3">
                   <div>
                     <div className="flex items-center gap-2 font-black text-slate-900 text-sm">
-                      <Download className="w-4 h-4 text-emerald-600" />
+                      <Download className="w-4 h-4 text-indigo-600" />
                       <span>Export Full Database Backup</span>
                     </div>
                     <p className="text-slate-500 mt-1">
@@ -925,7 +925,7 @@ export default function SettingsPage() {
                       URL.revokeObjectURL(url);
                       handleSave("Database backup JSON downloaded successfully!");
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center justify-center gap-2 shadow-sm"
+                    className="px-4 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold flex items-center justify-center gap-2 shadow-sm"
                   >
                     <Download className="w-4 h-4" />
                     <span>Download JSON Backup</span>
@@ -982,7 +982,7 @@ export default function SettingsPage() {
                       </div>
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                          isOnline ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
+                          isOnline ? "bg-indigo-100 text-indigo-800" : "bg-amber-100 text-amber-800"
                         }`}
                       >
                         {isOnline ? "ONLINE" : "OFFLINE MODE"}

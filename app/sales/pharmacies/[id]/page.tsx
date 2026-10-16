@@ -35,7 +35,7 @@ export default function SalesPharmacyDetailPage() {
       <div>
         <Link
           href="/sales/pharmacies"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Pharmacies List</span>
@@ -46,7 +46,7 @@ export default function SalesPharmacyDetailPage() {
       <div className="premium-card p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800">
               DGDA Licensed Pharmacy
             </span>
             <span className="text-xs text-slate-400 font-mono">Code: {pharmacy.code}</span>
@@ -56,15 +56,15 @@ export default function SalesPharmacyDetailPage() {
           
           <div className="flex items-center gap-4 mt-3 text-xs text-slate-600 flex-wrap">
             <div className="flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-emerald-700" />
+              <MapPin className="w-3.5 h-3.5 text-indigo-700" />
               <span>{pharmacy.address}, {pharmacy.thana}, {pharmacy.district}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Phone className="w-3.5 h-3.5 text-emerald-700" />
+              <Phone className="w-3.5 h-3.5 text-indigo-700" />
               <span>{pharmacy.phone}</span>
             </div>
             <div className="flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-700" />
               <span>Lic: {pharmacy.drugLicenseNo}</span>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function SalesPharmacyDetailPage() {
 
         <button
           onClick={() => setIsQuickOrderOpen(true)}
-          className="px-5 py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2 self-start md:self-auto hover:scale-105"
+          className="px-5 py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2 self-start md:self-auto hover:scale-105"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>Cut Order for {pharmacy.tradeName.split(" ")[0]}</span>
@@ -89,12 +89,12 @@ export default function SalesPharmacyDetailPage() {
           <div className="text-[11px] text-slate-400 mt-1">Revolving 30-Day terms</div>
         </div>
 
-        <div className="premium-card p-5 border-emerald-300">
-          <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Available Headroom</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+        <div className="premium-card p-5 border-indigo-300">
+          <div className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Available Headroom</div>
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             ৳{availableCredit.toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">Eligible for instant order dispatch</div>
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">Eligible for instant order dispatch</div>
         </div>
 
         <div className="premium-card p-5">
@@ -102,7 +102,7 @@ export default function SalesPharmacyDetailPage() {
           <div className="text-2xl font-black font-mono text-slate-900 mt-1">
             ৳{pharmacy.currentBalance.toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-700 font-semibold mt-1">0 Overdue Invoices</div>
+          <div className="text-[11px] text-indigo-700 font-semibold mt-1">0 Overdue Invoices</div>
         </div>
       </div>
 
@@ -132,10 +132,10 @@ export default function SalesPharmacyDetailPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-mono font-bold text-sm text-emerald-800">
+                  <div className="font-mono font-bold text-sm text-indigo-800">
                     ৳{ord.netPayableAmount.toLocaleString()}
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-700">{ord.status}</span>
+                  <span className="text-[10px] font-bold text-indigo-700">{ord.status}</span>
                 </div>
               </div>
             ))

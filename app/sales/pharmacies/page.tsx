@@ -37,17 +37,17 @@ export default function SalesPharmaciesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-emerald-400" />
+            <Building2 className="w-6 h-6 text-indigo-400" />
             <span>Assigned Territory Pharmacies Directory</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Credit standing, Drug License verification, order frequency, and contact records.
           </p>
         </div>
 
         <Link
           href="/sales"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to SR Dashboard</span>
@@ -63,7 +63,7 @@ export default function SalesPharmaciesPage() {
             placeholder="Search by Pharmacy Name, Owner, or Thana..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 font-medium"
+            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 font-medium"
           />
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function SalesPharmaciesPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold text-slate-400">{pharm.code}</span>
                   <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                    pharm.isCreditBlocked ? "bg-rose-100 text-rose-800" : "bg-emerald-100 text-emerald-800"
+                    pharm.isCreditBlocked ? "bg-rose-100 text-rose-800" : "bg-indigo-100 text-indigo-800"
                   }`}>
                     {pharm.isCreditBlocked ? "Blocked" : "Good Standing"}
                   </span>
@@ -109,7 +109,7 @@ export default function SalesPharmaciesPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Available Headroom:</span>
-                    <strong className="font-mono text-emerald-800">৳{availableCredit.toLocaleString()}</strong>
+                    <strong className="font-mono text-indigo-800">৳{availableCredit.toLocaleString()}</strong>
                   </div>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function SalesPharmaciesPage() {
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                 <Link
                   href={`/sales/pharmacies/${pharm.id}`}
-                  className="text-xs font-bold text-emerald-800 hover:underline flex items-center gap-1"
+                  className="text-xs font-bold text-indigo-800 hover:underline flex items-center gap-1"
                 >
                   <span>Detailed Profile</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -125,7 +125,7 @@ export default function SalesPharmaciesPage() {
 
                 <button
                   onClick={() => setIsQuickOrderOpen(true)}
-                  className="px-3 py-1.5 rounded-lg bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold"
+                  className="px-3 py-1.5 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold"
                 >
                   Cut Order
                 </button>

@@ -70,7 +70,7 @@ export const TopHeaderBar: React.FC = () => {
       label: "Super Admin",
       org: "DGDA Regulatory Authority",
       icon: ShieldCheck,
-      badgeColor: "bg-emerald-600 text-white",
+      badgeColor: "bg-[#4F46E5] text-white",
       description: "DGDA Oversight, Platform Governance & Audit",
     },
     {
@@ -102,7 +102,7 @@ export const TopHeaderBar: React.FC = () => {
       label: "Pharmacy Owner",
       org: currentPharmacy?.tradeName || "Green Care Pharmacy",
       icon: Store,
-      badgeColor: "bg-[#025540] text-white",
+      badgeColor: "bg-[#4F46E5] text-white",
       description: "Wholesale Procurement, Credit & Retail POS",
     },
   ];

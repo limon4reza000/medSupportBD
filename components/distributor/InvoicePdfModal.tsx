@@ -49,14 +49,14 @@ export const InvoicePdfModal: React.FC<InvoicePdfModalProps> = ({ order, onClose
         {/* Top Control Bar (Non-printed) */}
         <div className="p-4 bg-slate-900 text-white flex items-center justify-between shrink-0 print:hidden">
           <div className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-emerald-400" />
+            <FileText className="w-5 h-5 text-indigo-400" />
             <span className="font-bold text-sm">Purchase Order Invoice PDF</span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="px-3.5 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
             >
               <Printer className="w-4 h-4" />
               <span>Print / Download PDF</span>
@@ -85,7 +85,7 @@ export const InvoicePdfModal: React.FC<InvoicePdfModalProps> = ({ order, onClose
           {/* Header */}
           <div className="flex justify-between items-start pb-6 border-b border-slate-300">
             <div>
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 inline-block mb-2">
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-100 text-indigo-800 inline-block mb-2">
                 OFFICIAL B2B PURCHASE ORDER
               </span>
               <h2 className="text-2xl font-black text-slate-900">{currentPharmacy.tradeName}</h2>
@@ -105,7 +105,7 @@ export const InvoicePdfModal: React.FC<InvoicePdfModalProps> = ({ order, onClose
                 <span
                   className={`px-3 py-1 rounded-full text-[11px] font-bold ${
                     order.status === "DELIVERED"
-                      ? "bg-emerald-100 text-emerald-800"
+                      ? "bg-indigo-100 text-indigo-800"
                       : order.status === "CONFIRMED"
                       ? "bg-blue-100 text-blue-800"
                       : "bg-amber-100 text-amber-800"
@@ -185,7 +185,7 @@ export const InvoicePdfModal: React.FC<InvoicePdfModalProps> = ({ order, onClose
               </div>
               <div className="flex justify-between text-slate-600">
                 <span>Amount Paid:</span>
-                <span className="font-mono text-emerald-700 font-bold">৳{order.paidAmount.toFixed(2)}</span>
+                <span className="font-mono text-indigo-700 font-bold">৳{order.paidAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-rose-700 font-bold pt-2 border-t border-slate-200 text-sm">
                 <span>Outstanding Balance:</span>

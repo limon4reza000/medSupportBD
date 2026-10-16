@@ -105,8 +105,8 @@ export const SuperAdminDashboard: React.FC = () => {
       </div>
 
       {actionSuccess && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center gap-2.5 animate-in slide-in-from-top-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-300 text-[#241B52] text-xs font-bold flex items-center gap-2.5 animate-in slide-in-from-top-2">
+          <CheckCircle2 className="w-4 h-4 text-indigo-700 shrink-0" />
           <span>{actionSuccess}</span>
         </div>
       )}
@@ -118,14 +118,14 @@ export const SuperAdminDashboard: React.FC = () => {
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">30-Day Platform GMV</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
               ৳
             </div>
           </div>
           <div className="text-xl sm:text-2xl font-bold text-slate-900">
             ৳{(totalGmv / 10000000).toFixed(2)} Cr
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1 flex items-center gap-1">
             <TrendingUp className="w-3.5 h-3.5" /> +18.4% from last month
           </div>
         </div>
@@ -157,7 +157,7 @@ export const SuperAdminDashboard: React.FC = () => {
           <div className="text-xl sm:text-2xl font-bold text-slate-900">
             {pharmacies.length + 1240}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">
             99.2% Active License Records
           </div>
         </div>
@@ -187,7 +187,7 @@ export const SuperAdminDashboard: React.FC = () => {
         <div className="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
-              <FileCheck className="w-4 h-4 text-[#025540]" />
+              <FileCheck className="w-4 h-4 text-[#4F46E5]" />
               <span>Pharmaceutical Manufacturers & Distributor Directory</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -204,7 +204,7 @@ export const SuperAdminDashboard: React.FC = () => {
                 placeholder="Search organization or license..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+                className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -266,7 +266,7 @@ export const SuperAdminDashboard: React.FC = () => {
                             ? "bg-purple-100 text-purple-800"
                             : isDistributor
                             ? "bg-blue-100 text-blue-800"
-                            : "bg-emerald-100 text-emerald-800"
+                            : "bg-indigo-100 text-indigo-800"
                         }`}
                       >
                         {isCompany ? "Manufacturer" : isDistributor ? "Depot / Distributor" : "Retail Chain"}
@@ -279,7 +279,7 @@ export const SuperAdminDashboard: React.FC = () => {
                         <span>{org.drugLicenseNo}</span>
                         {org.isVerified ? (
                           <span title="DGDA Verified">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
                           </span>
                         ) : (
                           <span title="Pending Verification">
@@ -307,7 +307,7 @@ export const SuperAdminDashboard: React.FC = () => {
                       <span
                         className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
                           org.status === "ACTIVE"
-                            ? "bg-emerald-100 text-emerald-800"
+                            ? "bg-indigo-100 text-indigo-800"
                             : "bg-amber-100 text-amber-800"
                         }`}
                       >
@@ -321,7 +321,7 @@ export const SuperAdminDashboard: React.FC = () => {
                         {!org.isVerified && (
                           <button
                             onClick={() => handleVerify(org.id, org.name)}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                            className="px-2.5 py-1 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
                             title="Verify Drug License with DGDA registry"
                           >
                             <ShieldCheck className="w-3 h-3" /> Verify License
@@ -330,7 +330,7 @@ export const SuperAdminDashboard: React.FC = () => {
                         {org.status !== "ACTIVE" && (
                           <button
                             onClick={() => handleApprove(org.id, org.name)}
-                            className="px-2.5 py-1 rounded-lg bg-[#025540] hover:bg-[#014232] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                            className="px-2.5 py-1 rounded-lg bg-[#4F46E5] hover:bg-[#3730A3] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
                           >
                             <Check className="w-3 h-3" /> Approve
                           </button>

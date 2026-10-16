@@ -97,14 +97,14 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
               disabled={isLoading}
               className="px-3.5 py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-1.5 transition-all shadow-sm"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-[#025540] ${isLoading ? "animate-spin" : ""}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-[#4F46E5] ${isLoading ? "animate-spin" : ""}`} />
               <span>Refresh Forecast</span>
             </button>
 
             {forecast && (
               <button
                 onClick={handleOrderAllReplenishments}
-                className="px-4 py-2 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs shadow-md shadow-[#025540]/20 flex items-center gap-1.5 transition-all active:scale-[0.98]"
+                className="px-4 py-2 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-xs shadow-md shadow-[#4F46E5]/20 flex items-center gap-1.5 transition-all active:scale-[0.98]"
               >
                 <PackageCheck className="w-4 h-4" />
                 <span>Restock All (৳{forecast.total_recommended_investment.toLocaleString()})</span>
@@ -152,7 +152,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
                           ? "bg-red-50 text-red-800 border border-red-200"
                           : rec.risk_level === "LOW_STOCK"
                           ? "bg-amber-50 text-amber-800 border border-amber-200"
-                          : "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                          : "bg-indigo-50 text-indigo-800 border border-indigo-200"
                       }`}
                     >
                       {rec.risk_level.replace("_", " ")}
@@ -161,12 +161,12 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
 
                   {/* Seasonal Surge Multiplier Banner */}
                   {hasSpike && (
-                    <div className="mt-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-between text-[11px] text-emerald-950 font-bold shadow-sm">
-                      <span className="flex items-center gap-1 text-emerald-900">
-                        <Zap className="w-3.5 h-3.5 text-[#025540]" />
+                    <div className="mt-3 p-2.5 rounded-xl bg-indigo-50 border border-indigo-300 flex items-center justify-between text-[11px] text-[#241B52] font-bold shadow-sm">
+                      <span className="flex items-center gap-1 text-indigo-900">
+                        <Zap className="w-3.5 h-3.5 text-[#4F46E5]" />
                         Seasonal Disease Factor:
                       </span>
-                      <strong className="font-mono text-[#025540] font-black">
+                      <strong className="font-mono text-[#4F46E5] font-black">
                         +{Math.round((rec.seasonal_multiplier - 1) * 100)}% Surge ({rec.seasonal_multiplier}x)
                       </strong>
                     </div>
@@ -180,7 +180,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
                     </div>
                     <div>
                       <span className="text-slate-400 text-[10px] block font-sans font-bold">AI Forecasted</span>
-                      <strong className="text-[#025540] font-black">{rec.predicted_30_day_demand} pcs</strong>
+                      <strong className="text-[#4F46E5] font-black">{rec.predicted_30_day_demand} pcs</strong>
                     </div>
                     <div>
                       <span className="text-slate-400 text-[10px] block font-sans font-bold">Current Stock</span>
@@ -222,7 +222,7 @@ export const AiDemandForecaster: React.FC<AiDemandForecasterProps> = ({
                         ]);
                       }
                     }}
-                    className="px-3.5 py-2 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs flex items-center gap-1 transition-all shadow-md active:scale-[0.98]"
+                    className="px-3.5 py-2 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-xs flex items-center gap-1 transition-all shadow-md active:scale-[0.98]"
                   >
                     <span>Restock SKU</span>
                     <ArrowRight className="w-3.5 h-3.5" />

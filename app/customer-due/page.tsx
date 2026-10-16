@@ -157,10 +157,10 @@ export default function CustomerDuePage() {
 
         <div className="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm">
           <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Recovered Collections</div>
-          <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-700 mt-1">
+          <div className="text-2xl sm:text-3xl font-black font-mono text-indigo-700 mt-1">
             ৳{totalCollections.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">
             {customerPayments.length} Payments recorded
           </div>
         </div>
@@ -176,8 +176,8 @@ export default function CustomerDuePage() {
 
       {/* Toast Alert */}
       {successToast && (
-        <div className="p-4 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+        <div className="p-4 rounded-2xl bg-indigo-100 border border-indigo-300 text-indigo-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 className="w-5 h-5 text-indigo-700 shrink-0" />
           <span>{successToast}</span>
         </div>
       )}
@@ -188,7 +188,7 @@ export default function CustomerDuePage() {
           <button
             onClick={() => setFilterType("ALL")}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              filterType === "ALL" ? "bg-[#065F52] text-white" : "bg-slate-100 text-slate-700"
+              filterType === "ALL" ? "bg-[#2E236C] text-white" : "bg-slate-100 text-slate-700"
             }`}
           >
             All Accounts ({customers.length})
@@ -204,7 +204,7 @@ export default function CustomerDuePage() {
           <button
             onClick={() => setFilterType("CLEARED")}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              filterType === "CLEARED" ? "bg-emerald-600 text-white" : "bg-emerald-50 text-emerald-800"
+              filterType === "CLEARED" ? "bg-[#4F46E5] text-white" : "bg-indigo-50 text-indigo-800"
             }`}
           >
             Cleared (0 Due)
@@ -218,7 +218,7 @@ export default function CustomerDuePage() {
             placeholder="Search by customer name, phone, or address..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
       </div>
@@ -258,7 +258,7 @@ export default function CustomerDuePage() {
                     ৳{cust.totalCreditPurchases.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
                   </td>
 
-                  <td className="py-3.5 text-right font-mono text-emerald-700 font-bold">
+                  <td className="py-3.5 text-right font-mono text-indigo-700 font-bold">
                     ৳{cust.totalPaid.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
                   </td>
 
@@ -268,7 +268,7 @@ export default function CustomerDuePage() {
                         ৳{cust.currentDue.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                         Cleared
                       </span>
                     )}
@@ -313,7 +313,7 @@ export default function CustomerDuePage() {
                             setPaymentAmount(Math.min(cust.currentDue, 1000));
                             setIsCollectModalOpen(true);
                           }}
-                          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-all"
+                          className="px-3 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-[11px] shadow-sm transition-all"
                         >
                           Collect
                         </button>
@@ -386,7 +386,7 @@ export default function CustomerDuePage() {
                   required
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -476,7 +476,7 @@ export default function CustomerDuePage() {
                         className="p-3 rounded-xl border border-slate-200 bg-white flex justify-between items-center"
                       >
                         <div>
-                          <strong className="text-emerald-700 font-mono">
+                          <strong className="text-indigo-700 font-mono">
                             +৳{pay.amount.toFixed(2)}
                           </strong>
                           <span className="text-slate-500 block text-[10px] mt-0.5">

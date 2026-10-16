@@ -69,7 +69,7 @@ export default function AiInsightsPage() {
             <TrendingUp className="w-6 h-6 text-teal-300" />
             <span>AI Predictive Demand Forecaster & Reorder Assistant</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             30-day algorithmic consumption forecasting with local epidemic outbreak surge coefficients (Dengue, Monsoon Flu, Asthma).
           </p>
         </div>
@@ -98,12 +98,12 @@ export default function AiInsightsPage() {
           <div className="text-[11px] text-amber-700 font-semibold mt-1">Immediate restock required</div>
         </div>
 
-        <div className="premium-card p-5 border-emerald-300">
-          <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Recommended Restock Value</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+        <div className="premium-card p-5 border-indigo-300">
+          <div className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Recommended Restock Value</div>
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             ৳{totalInvestment.toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">Protects 98.5% service level</div>
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">Protects 98.5% service level</div>
         </div>
       </div>
 
@@ -111,7 +111,7 @@ export default function AiInsightsPage() {
       <div className="space-y-4">
         {isLoading ? (
           <div className="premium-card p-12 text-center space-y-3">
-            <RotateCw className="w-8 h-8 text-emerald-700 animate-spin mx-auto" />
+            <RotateCw className="w-8 h-8 text-indigo-700 animate-spin mx-auto" />
             <div className="text-sm font-bold text-slate-700">Calculating seasonal consumption curves...</div>
           </div>
         ) : (
@@ -122,7 +122,7 @@ export default function AiInsightsPage() {
             return (
               <div
                 key={idx}
-                className="premium-card p-5 transition-all hover:border-emerald-300 flex flex-col lg:flex-row lg:items-center justify-between gap-5"
+                className="premium-card p-5 transition-all hover:border-indigo-300 flex flex-col lg:flex-row lg:items-center justify-between gap-5"
               >
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -135,7 +135,7 @@ export default function AiInsightsPage() {
                         ? "bg-rose-100 text-rose-800 animate-pulse"
                         : isLow
                         ? "bg-amber-100 text-amber-800"
-                        : "bg-emerald-100 text-emerald-800"
+                        : "bg-indigo-100 text-indigo-800"
                     }`}>
                       {item.risk_level.replace(/_/g, " ")}
                     </span>
@@ -165,9 +165,9 @@ export default function AiInsightsPage() {
                       <div className="text-slate-400">Predicted Demand:</div>
                       <div className="font-mono font-bold text-slate-900">{item.predicted_30_day_demand} pcs</div>
                     </div>
-                    <div className="p-2 rounded-lg bg-emerald-50 text-emerald-950 font-semibold">
-                      <div className="text-emerald-700">Recommended Order:</div>
-                      <div className="font-mono font-bold text-emerald-900">{item.recommended_order_boxes} Boxes</div>
+                    <div className="p-2 rounded-lg bg-indigo-50 text-[#241B52] font-semibold">
+                      <div className="text-indigo-700">Recommended Order:</div>
+                      <div className="font-mono font-bold text-indigo-900">{item.recommended_order_boxes} Boxes</div>
                     </div>
                   </div>
                 </div>
@@ -176,7 +176,7 @@ export default function AiInsightsPage() {
                 <div className="shrink-0 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100 flex flex-col items-end justify-center gap-2">
                   <button
                     onClick={() => handleOrderRecommendation(item)}
-                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
                   >
                     <Plus className="w-4 h-4 stroke-[3]" />
                     <span>Order {item.recommended_order_boxes} Boxes</span>

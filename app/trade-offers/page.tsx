@@ -39,10 +39,10 @@ export default function TradeOffersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Tag className="w-6 h-6 text-emerald-400" />
+            <Tag className="w-6 h-6 text-indigo-400" />
             <span>Active Manufacturer Trade Schemes & Bonuses</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Dynamic quantity volume offers (10+1 FREE), tiered slab discounts, and bonus pieces.
           </p>
         </div>
@@ -69,10 +69,10 @@ export default function TradeOffersPage() {
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-100 text-indigo-800">
                     {offer.schemeType.replace(/_/g, " ")}
                   </span>
-                  <span className="text-xs font-mono font-bold text-emerald-700">
+                  <span className="text-xs font-mono font-bold text-indigo-700">
                     Active
                   </span>
                 </div>
@@ -93,7 +93,7 @@ export default function TradeOffersPage() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Minimum Quantity:</span>
-                      <strong className="text-emerald-800 font-mono">
+                      <strong className="text-indigo-800 font-mono">
                         {offer.minQualifyingQty} {offer.qualifyingUnit}(s)
                       </strong>
                     </div>
@@ -101,12 +101,12 @@ export default function TradeOffersPage() {
                 )}
 
                 {/* Scheme Benefit Highlight */}
-                <div className="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-1">
+                <div className="mt-3 p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-900 space-y-1">
                   <div className="font-bold flex items-center gap-1.5">
-                    <Gift className="w-4 h-4 text-emerald-700" />
+                    <Gift className="w-4 h-4 text-indigo-700" />
                     <span>Scheme Benefit:</span>
                   </div>
-                  <p className="text-[11px] text-emerald-800">
+                  <p className="text-[11px] text-indigo-800">
                     {isFreeBoxScheme
                       ? `Buy ${offer.minQualifyingQty} ${offer.qualifyingUnit}(s) and receive ${offer.bonusQty} ${offer.bonusUnit} 100% FREE. Bonus stock is auto-deducted from warehouse.`
                       : offer.discountPercent
@@ -124,7 +124,7 @@ export default function TradeOffersPage() {
 
                 <button
                   onClick={() => handleApplyOffer(offer)}
-                  className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
+                  className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm hover:scale-105"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Apply to Cart</span>

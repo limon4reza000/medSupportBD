@@ -46,7 +46,7 @@ export default function OrderDetailPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <Link
           href="/my-orders"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to My Orders</span>
@@ -57,7 +57,7 @@ export default function OrderDetailPage() {
             onClick={handlePrint}
             className="px-4 py-2 rounded-xl bg-white text-slate-800 hover:bg-slate-100 text-xs font-bold shadow-md transition-all flex items-center gap-1.5"
           >
-            <Printer className="w-4 h-4 text-emerald-700" />
+            <Printer className="w-4 h-4 text-indigo-700" />
             <span>Print Tax Invoice</span>
           </button>
         </div>
@@ -70,10 +70,10 @@ export default function OrderDetailPage() {
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-[#025540] text-white flex items-center justify-center font-bold">
+              <div className="w-8 h-8 rounded-lg bg-[#4F46E5] text-white flex items-center justify-center font-bold">
                 <Package className="w-5 h-5" />
               </div>
-              <span className="font-black text-xl text-slate-900">MedSupply<span className="text-emerald-600">BD</span></span>
+              <span className="font-black text-xl text-slate-900">MedSupply<span className="text-indigo-600">BD</span></span>
             </div>
             <div className="text-xs text-slate-500 mt-1">
               Central Pharmaceutical Distribution Depot • DGDA Lic #DL-DHK-9901
@@ -86,7 +86,7 @@ export default function OrderDetailPage() {
             <div className="text-xs text-slate-500">
               Date: {new Date(order.orderDate).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
             </div>
-            <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+            <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
               Status: {order.status}
             </span>
           </div>
@@ -102,14 +102,14 @@ export default function OrderDetailPage() {
           <div className="sm:text-right">
             <div className="text-[10px] uppercase font-bold text-slate-400">Fulfillment Representative:</div>
             <div className="font-bold text-slate-900 text-sm mt-0.5">{order.assignedSalesRep}</div>
-            <div className="text-emerald-700 font-semibold mt-0.5">Expected Delivery: {order.expectedDelivery}</div>
+            <div className="text-indigo-700 font-semibold mt-0.5">Expected Delivery: {order.expectedDelivery}</div>
           </div>
         </div>
 
         {/* Items & FEFO Allocations Table */}
         <div className="space-y-2">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <Boxes className="w-4 h-4 text-emerald-700" />
+            <Boxes className="w-4 h-4 text-indigo-700" />
             <span>Ordered Items & Batch-Level FEFO Breakdown</span>
           </h3>
 
@@ -137,14 +137,14 @@ export default function OrderDetailPage() {
                     <td className="py-3 px-3">
                       <div className="font-mono text-slate-900">{item.looseUnitsBilled} pcs</div>
                       {item.bonusLooseUnits > 0 && (
-                        <div className="text-[10px] font-bold text-emerald-700">+{item.bonusLooseUnits} bonus pcs</div>
+                        <div className="text-[10px] font-bold text-indigo-700">+{item.bonusLooseUnits} bonus pcs</div>
                       )}
                     </td>
                     <td className="py-3 px-3">
                       <div className="space-y-1">
                         {item.batches.map((b, bIdx) => (
                           <div key={bIdx} className="text-[11px] font-mono text-slate-700">
-                            <span className="font-bold text-emerald-800">{b.batchNumber}</span> ({b.piecesAllocated} pcs) • Exp: {b.expiryDate}
+                            <span className="font-bold text-indigo-800">{b.batchNumber}</span> ({b.piecesAllocated} pcs) • Exp: {b.expiryDate}
                           </div>
                         ))}
                       </div>
@@ -167,7 +167,7 @@ export default function OrderDetailPage() {
               <span className="font-mono font-bold text-slate-900">৳{order.grossAmount.toFixed(2)}</span>
             </div>
             {order.tradeDiscountAmount > 0 && (
-              <div className="flex justify-between text-emerald-700 font-semibold">
+              <div className="flex justify-between text-indigo-700 font-semibold">
                 <span>Trade Scheme Bonus:</span>
                 <span className="font-mono">-৳{order.tradeDiscountAmount.toFixed(2)}</span>
               </div>
@@ -178,7 +178,7 @@ export default function OrderDetailPage() {
             </div>
             <div className="pt-2 border-t border-slate-300 flex justify-between items-baseline">
               <span className="font-black text-sm text-slate-900">Net Payable:</span>
-              <span className="text-xl font-black font-mono text-emerald-800">
+              <span className="text-xl font-black font-mono text-indigo-800">
                 ৳{order.netPayableAmount.toFixed(2)}
               </span>
             </div>
@@ -188,7 +188,7 @@ export default function OrderDetailPage() {
         {/* ORDER FULFILLMENT TIMELINE */}
         <div className="pt-6 border-t border-slate-200 space-y-4">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-emerald-700" />
+            <Clock className="w-4 h-4 text-indigo-700" />
             <span>Authoritative Order Timeline</span>
           </h3>
 
@@ -197,7 +197,7 @@ export default function OrderDetailPage() {
               <div key={idx} className="flex items-start gap-3">
                 <div className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
                   step.status === "COMPLETED"
-                    ? "bg-emerald-100 text-emerald-800"
+                    ? "bg-indigo-100 text-indigo-800"
                     : step.status === "CURRENT"
                     ? "bg-blue-100 text-blue-800 animate-pulse"
                     : "bg-slate-100 text-slate-400"

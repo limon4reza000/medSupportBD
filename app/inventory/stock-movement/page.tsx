@@ -38,17 +38,17 @@ export default function StockMovementPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Activity className="w-6 h-6 text-emerald-400" />
+            <Activity className="w-6 h-6 text-indigo-400" />
             <span>Stock Movement Audit Trail</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Full physical traceability for purchases, sales order deductions, trade bonus issues, and lot returns.
           </p>
         </div>
 
         <Link
           href="/inventory"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Inventory</span>
@@ -79,7 +79,7 @@ export default function StockMovementPage() {
                     <td className="py-3 px-4 text-slate-500 font-mono">{mov.date}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                        isOut ? "bg-rose-100 text-rose-800" : "bg-emerald-100 text-emerald-800"
+                        isOut ? "bg-rose-100 text-rose-800" : "bg-indigo-100 text-indigo-800"
                       }`}>
                         {isOut ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownLeft className="w-3 h-3" />}
                         {mov.type.replace(/_/g, " ")}
@@ -87,7 +87,7 @@ export default function StockMovementPage() {
                     </td>
                     <td className="py-3 px-4 font-bold text-slate-900">{mov.medicine}</td>
                     <td className="py-3 px-4 font-mono text-slate-700">{mov.batch}</td>
-                    <td className={`py-3 px-4 text-right font-mono font-bold ${isOut ? "text-rose-700" : "text-emerald-700"}`}>
+                    <td className={`py-3 px-4 text-right font-mono font-bold ${isOut ? "text-rose-700" : "text-indigo-700"}`}>
                       {mov.qty > 0 ? `+${mov.qty}` : mov.qty} pcs
                     </td>
                     <td className="py-3 px-4 font-mono text-slate-600">{mov.ref}</td>

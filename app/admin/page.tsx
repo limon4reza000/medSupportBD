@@ -46,17 +46,17 @@ export default function AdminSettingsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <ShieldCheck className="w-6 h-6 text-emerald-400" />
+            <ShieldCheck className="w-6 h-6 text-indigo-400" />
             <span>Granular RBAC Security & Permission Matrix</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Defines authoritative functional boundaries for every role in the pharmaceutical supply chain.
           </p>
         </div>
 
         <Link
           href="/users"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Users</span>
@@ -86,7 +86,7 @@ export default function AdminSettingsPage() {
                   
                   {/* ADMIN */}
                   <td className="py-3 px-4 text-center">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                    <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center mx-auto">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
                   </td>
@@ -94,7 +94,7 @@ export default function AdminSettingsPage() {
                   {/* DEPOT_MANAGER */}
                   <td className="py-3 px-4 text-center">
                     {rolePermissionMap[UserRole.DEPOT_MANAGER].includes(perm.key) ? (
-                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                      <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center mx-auto">
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
                     ) : (
@@ -107,7 +107,7 @@ export default function AdminSettingsPage() {
                   {/* SALES_REP */}
                   <td className="py-3 px-4 text-center">
                     {rolePermissionMap[UserRole.SALES_REP].includes(perm.key) ? (
-                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                      <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center mx-auto">
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
                     ) : (
@@ -120,7 +120,7 @@ export default function AdminSettingsPage() {
                   {/* PHARMACY_OWNER */}
                   <td className="py-3 px-4 text-center">
                     {rolePermissionMap[UserRole.PHARMACY_OWNER].includes(perm.key) ? (
-                      <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto">
+                      <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center mx-auto">
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
                       </div>
                     ) : (

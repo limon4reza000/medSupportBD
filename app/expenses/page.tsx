@@ -65,9 +65,9 @@ export default function ExpensesPage() {
     },
     TRANSPORT: {
       label: "Transport & Logistics",
-      icon: <Truck className="w-4 h-4 text-emerald-600" />,
-      color: "#10B981",
-      bg: "bg-emerald-100 text-emerald-900",
+      icon: <Truck className="w-4 h-4 text-indigo-600" />,
+      color: "#4F46E5",
+      bg: "bg-indigo-100 text-indigo-900",
     },
     MAINTENANCE: {
       label: "Store Maintenance",
@@ -134,7 +134,7 @@ export default function ExpensesPage() {
       return "bg-blue-100 text-blue-700 border-blue-200";
     }
     if (m.includes("CASH")) {
-      return "bg-emerald-100 text-emerald-700 border-emerald-200";
+      return "bg-indigo-100 text-indigo-700 border-indigo-200";
     }
     return "bg-slate-100 text-slate-700 border-slate-200";
   };
@@ -195,8 +195,8 @@ export default function ExpensesPage() {
 
       {/* Success Toast */}
       {successToast && (
-        <div className="p-4 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+        <div className="p-4 rounded-2xl bg-indigo-100 border border-indigo-300 text-indigo-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 className="w-5 h-5 text-indigo-700 shrink-0" />
           <span>{successToast}</span>
         </div>
       )}

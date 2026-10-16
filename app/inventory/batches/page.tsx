@@ -35,17 +35,17 @@ export default function BatchesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Calendar className="w-6 h-6 text-emerald-400" />
+            <Calendar className="w-6 h-6 text-indigo-400" />
             <span>FEFO Batch Registry & Expiration Matrix</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Individual batch lot numbers, manufacturing dates, expiry horizons, and available stock units.
           </p>
         </div>
 
         <Link
           href="/inventory"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Inventory</span>
@@ -61,7 +61,7 @@ export default function BatchesPage() {
             placeholder="Search by Batch Number (e.g. BN-2024) or Medicine..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 font-medium"
+            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 font-medium"
           />
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function BatchesPage() {
                       {b.batchNumber}
                     </td>
                     <td className="py-3 px-4">
-                      <Link href={`/products/${med?.id}`} className="font-bold text-slate-900 hover:text-emerald-700">
+                      <Link href={`/products/${med?.id}`} className="font-bold text-slate-900 hover:text-indigo-700">
                         {med?.brandName} ({med?.strength})
                       </Link>
                       <div className="text-[11px] text-slate-500">{med?.genericName}</div>
@@ -103,7 +103,7 @@ export default function BatchesPage() {
                     <td className="py-3 px-4 font-mono font-bold text-slate-900">
                       {typeof b.expiryDate === "string" ? b.expiryDate : "2027-06-30"}
                     </td>
-                    <td className="py-3 px-4 font-mono font-bold text-emerald-800">
+                    <td className="py-3 px-4 font-mono font-bold text-indigo-800">
                       {b.availableLooseUnits} pieces
                     </td>
                     <td className="py-3 px-4 font-mono text-slate-700">
@@ -115,7 +115,7 @@ export default function BatchesPage() {
                           Near Expiry (1st Out)
                         </span>
                       ) : (
-                        <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                           Standard Stock
                         </span>
                       )}

@@ -57,17 +57,17 @@ export default function OrderHistoryPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <FileText className="w-6 h-6 text-emerald-400" />
+            <FileText className="w-6 h-6 text-indigo-400" />
             <span>Historical Order Archive</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Audit trail of all cut orders, ledger reference numbers, and batch fulfillment records.
           </p>
         </div>
 
         <button
           onClick={exportCSV}
-          className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
+          className="px-4 py-2 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
         >
           <Download className="w-4 h-4" />
           <span>Export CSV Report</span>
@@ -87,7 +87,7 @@ export default function OrderHistoryPage() {
               placeholder="Search by Order #, SR/MPO name, or Pharmacy..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 font-medium"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 font-medium"
             />
           </div>
 
@@ -95,7 +95,7 @@ export default function OrderHistoryPage() {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium focus:outline-none focus:border-emerald-500"
+              className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium focus:outline-none focus:border-indigo-500"
             >
               <option value="ALL">All Time Periods</option>
               <option value="THIS_MONTH">This Current Month (Sept 2026)</option>
@@ -125,7 +125,7 @@ export default function OrderHistoryPage() {
               {filteredOrders.map((ord) => (
                 <tr key={ord.id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4">
-                    <Link href={`/orders/${ord.id}`} className="font-mono font-bold text-slate-900 hover:text-emerald-700">
+                    <Link href={`/orders/${ord.id}`} className="font-mono font-bold text-slate-900 hover:text-indigo-700">
                       {ord.orderNumber}
                     </Link>
                     <div className="text-[11px] text-slate-400">
@@ -145,13 +145,13 @@ export default function OrderHistoryPage() {
                   <td className="py-3 px-4">
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                       ord.status === "DELIVERED"
-                        ? "bg-emerald-100 text-emerald-800"
+                        ? "bg-indigo-100 text-indigo-800"
                         : "bg-blue-100 text-blue-800"
                     }`}>
                       {ord.status}
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono font-black text-emerald-800">
+                  <td className="py-3 px-4 font-mono font-black text-indigo-800">
                     ৳{ord.netPayableAmount.toLocaleString()}
                   </td>
                   <td className="py-3 px-4 text-right">

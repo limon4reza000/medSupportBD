@@ -35,7 +35,7 @@ export default function NotificationsPage() {
       case "ORDER":
         return <Package className="w-5 h-5 text-blue-700" />;
       case "CREDIT":
-        return <CreditCard className="w-5 h-5 text-emerald-700" />;
+        return <CreditCard className="w-5 h-5 text-indigo-700" />;
       case "OFFER":
         return <Tag className="w-5 h-5 text-amber-700" />;
       case "AI":
@@ -52,10 +52,10 @@ export default function NotificationsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Bell className="w-6 h-6 text-emerald-400" />
+            <Bell className="w-6 h-6 text-indigo-400" />
             <span>Real-Time Supply Chain Notification Center</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Server-Sent Events (SSE) feed for order packing, dispatch timelines, credit updates, and AI warnings.
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function NotificationsPage() {
             onClick={() => setSelectedCategory(cat)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               selectedCategory === cat
-                ? "bg-[#025540] text-white shadow-sm"
+                ? "bg-[#4F46E5] text-white shadow-sm"
                 : "bg-slate-100 text-slate-700 hover:bg-slate-200"
             }`}
           >
@@ -102,7 +102,7 @@ export default function NotificationsPage() {
                 if (n.link) router.push(n.link);
               }}
               className={`premium-card p-5 cursor-pointer transition-all flex items-start justify-between gap-4 ${
-                !n.isRead ? "border-emerald-300 bg-emerald-50/20" : ""
+                !n.isRead ? "border-indigo-300 bg-indigo-50/20" : ""
               }`}
             >
               <div className="flex items-start gap-3.5">
@@ -113,7 +113,7 @@ export default function NotificationsPage() {
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-sm text-slate-900">{n.title}</span>
                     {!n.isRead && (
-                      <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-[#4F46E5] animate-pulse" />
                     )}
                     <span className="text-[10px] font-mono text-slate-400">{n.timestamp}</span>
                   </div>
@@ -123,7 +123,7 @@ export default function NotificationsPage() {
 
               {n.link && (
                 <div className="shrink-0 pt-1">
-                  <ArrowRight className="w-4 h-4 text-emerald-700" />
+                  <ArrowRight className="w-4 h-4 text-indigo-700" />
                 </div>
               )}
             </div>

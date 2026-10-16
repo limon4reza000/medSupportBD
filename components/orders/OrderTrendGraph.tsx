@@ -456,8 +456,8 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           </div>
 
           <div className="flex items-center gap-2 self-end sm:self-auto">
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase bg-indigo-50 text-indigo-800 border border-indigo-200 flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
               <span>{activeMonthData.totalOrders} Orders in {currentMonthName}</span>
             </span>
           </div>
@@ -470,7 +470,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
           <div className="lg:col-span-4 grid grid-cols-4 gap-1.5 sm:gap-4 w-full justify-items-center">
             {[
               { val: String(activeMonthData.clinicalGauge), color: "border-rose-500 text-rose-600", label: "CLINICAL" },
-              { val: String(activeMonthData.fulfillGauge), color: "border-emerald-500 text-emerald-600", label: "FULFILL" },
+              { val: String(activeMonthData.fulfillGauge), color: "border-indigo-500 text-indigo-600", label: "FULFILL" },
               { val: String(activeMonthData.dispenseGauge), color: "border-purple-500 text-purple-600", label: "DISPENSE" },
               { val: String(activeMonthData.recoveryGauge), color: "border-amber-500 text-amber-600", label: "RECOVERY" },
             ].map((g, idx) => (
@@ -496,7 +496,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </span>
               <div className="flex items-center gap-1 text-slate-900 font-mono text-[11px]">
                 {activeMonthData.brand1.dir === "up" ? (
-                  <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
+                  <ArrowUp className="w-3.5 h-3.5 text-indigo-600" />
                 ) : (
                   <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
                 )}
@@ -508,7 +508,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <div
                   key={i}
                   className={`flex-1 rounded-sm ${
-                    i < activeMonthData.brand1.ratio ? "bg-emerald-500" : "bg-slate-100"
+                    i < activeMonthData.brand1.ratio ? "bg-indigo-600" : "bg-slate-100"
                   }`}
                 />
               ))}
@@ -521,7 +521,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               </span>
               <div className="flex items-center gap-1 text-slate-900 font-mono text-[11px]">
                 {activeMonthData.brand2.dir === "up" ? (
-                  <ArrowUp className="w-3.5 h-3.5 text-emerald-600" />
+                  <ArrowUp className="w-3.5 h-3.5 text-indigo-600" />
                 ) : (
                   <ArrowDown className="w-3.5 h-3.5 text-rose-600" />
                 )}
@@ -581,7 +581,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                   {col.bars.map((h, bIdx) => (
                     <div
                       key={bIdx}
-                      className="w-1 sm:w-1.5 bg-emerald-500 rounded-t-sm"
+                      className="w-1 sm:w-1.5 bg-indigo-600 rounded-t-sm"
                       style={{ height: `${h * 2}px` }}
                     />
                   ))}
@@ -665,7 +665,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
             {/* Total Revenue KPI Pill */}
             <div className="pt-2 w-full flex items-center justify-between border-t border-slate-200">
               <span className="text-base sm:text-xl font-black font-mono text-slate-900">{activeMonthData.totalRevenue}</span>
-              <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase">
+              <span className="text-[9px] sm:text-[10px] font-bold bg-indigo-100 text-indigo-800 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full uppercase">
                 {activeMonthData.growth} Growth
               </span>
             </div>
@@ -769,7 +769,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 {capsuleHeights.map((h, i) => (
                   <div key={i} className="flex flex-col items-center gap-1 h-full justify-end">
                     <div
-                      className="w-2.5 sm:w-3 bg-emerald-500 rounded-full transition-all"
+                      className="w-2.5 sm:w-3 bg-indigo-600 rounded-full transition-all"
                       style={{ height: `${h}%` }}
                     />
                     <span className="text-[8px] sm:text-[9px] font-bold text-slate-400">{String(i + 1).padStart(2, "0")}</span>
@@ -786,7 +786,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                   onClick={() => setActiveCategory(cat)}
                   className={`px-2.5 py-1 rounded-full text-[9px] sm:text-[10px] font-black transition-all ${
                     activeCategory === cat
-                      ? "bg-emerald-600 text-white shadow-sm"
+                      ? "bg-[#4F46E5] text-white shadow-sm"
                       : "bg-slate-200 text-slate-600 hover:bg-slate-300"
                   }`}
                 >
@@ -826,8 +826,8 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
               ].map((item, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-1">
                   <span className="text-[10px] sm:text-xs font-black font-mono text-slate-900">{item.num}</span>
-                  <div className="w-1.5 sm:w-2 bg-emerald-500 rounded-t-sm h-10 sm:h-12 flex items-end">
-                    <div className="w-full bg-emerald-600 rounded-t-sm" style={{ height: `${item.h}%` }} />
+                  <div className="w-1.5 sm:w-2 bg-indigo-600 rounded-t-sm h-10 sm:h-12 flex items-end">
+                    <div className="w-full bg-[#4F46E5] rounded-t-sm" style={{ height: `${item.h}%` }} />
                   </div>
                 </div>
               ))}
@@ -842,7 +842,7 @@ export const OrderTrendGraph: React.FC<{ title?: string }> = ({
                 <span className="mx-1.5 text-slate-300">|</span>
                 <span className="text-base sm:text-lg text-purple-700">{activeMonthData.billedPieces.toLocaleString()}</span>
               </div>
-              <span className="text-xs sm:text-sm font-black font-mono text-emerald-700">
+              <span className="text-xs sm:text-sm font-black font-mono text-indigo-700">
                 {activeMonthData.totalRevenue}
               </span>
             </div>

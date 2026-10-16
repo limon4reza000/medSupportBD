@@ -95,14 +95,14 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
       <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[94vh]">
         
         {/* Header */}
-        <div className="p-5 bg-gradient-to-r from-[#044a40] to-[#065F52] text-white flex items-center justify-between shrink-0 print:hidden">
+        <div className="p-5 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex items-center justify-between shrink-0 print:hidden">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-white/10 text-emerald-300">
+            <div className="p-2 rounded-xl bg-white/10 text-indigo-300">
               <FileText className="w-5 h-5" />
             </div>
             <div>
               <h2 className="font-black text-lg">Daily Closing Z-Report</h2>
-              <p className="text-xs text-emerald-100/80">
+              <p className="text-xs text-indigo-100/80">
                 End-of-day register reconciliation, cash balance audit & revenue breakdown
               </p>
             </div>
@@ -123,7 +123,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
@@ -145,7 +145,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
           <div className="text-center pb-4 border-b border-slate-200 space-y-1">
             <h3 className="font-black text-xl text-slate-900">{currentPharmacy.tradeName}</h3>
             <p className="text-xs text-slate-500">{currentPharmacy.address}</p>
-            <div className="text-xs font-mono text-emerald-800 font-bold">
+            <div className="text-xs font-mono text-indigo-800 font-bold">
               CLOSING REPORT: {selectedDate} • Terminal #01 (Main Counter)
             </div>
           </div>
@@ -157,9 +157,9 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
               <div className="text-xl font-black font-mono text-slate-900 mt-0.5">{totalBills}</div>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200">
-              <span className="text-[10px] font-bold text-emerald-700 uppercase">Net Revenue</span>
-              <div className="text-xl font-black font-mono text-emerald-800 mt-0.5">
+            <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-200">
+              <span className="text-[10px] font-bold text-indigo-700 uppercase">Net Revenue</span>
+              <div className="text-xl font-black font-mono text-indigo-800 mt-0.5">
                 ৳{netRevenue.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
               </div>
             </div>
@@ -183,7 +183,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
           {/* Payment Method Collection Breakdown */}
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
             <h4 className="font-bold text-xs uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <CreditCard className="w-4 h-4 text-emerald-600" />
+              <CreditCard className="w-4 h-4 text-indigo-600" />
               <span>Payment Channel Collections</span>
             </h4>
 
@@ -211,9 +211,9 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
           </div>
 
           {/* Cash Drawer Reconciliation */}
-          <div className="p-5 rounded-2xl border border-emerald-300 bg-emerald-50/40 space-y-4">
-            <h4 className="font-bold text-xs uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
-              <DollarSign className="w-4 h-4 text-emerald-700" />
+          <div className="p-5 rounded-2xl border border-indigo-300 bg-indigo-50/40 space-y-4">
+            <h4 className="font-bold text-xs uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
+              <DollarSign className="w-4 h-4 text-indigo-700" />
               <span>Physical Cash Drawer Reconciliation</span>
             </h4>
 
@@ -226,7 +226,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
                   type="number"
                   value={openingCash}
                   onChange={(e) => setOpeningCash(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -248,7 +248,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
                   type="number"
                   value={actualDrawerCash}
                   onChange={(e) => setActualDrawerCash(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
               <div
                 className={`text-sm font-mono font-black ${
                   cashDifference === 0
-                    ? "text-emerald-700"
+                    ? "text-indigo-700"
                     : cashDifference > 0
                     ? "text-blue-700"
                     : "text-rose-700"
@@ -282,7 +282,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
                 onChange={(e) => setClosingNotes(e.target.value)}
                 placeholder="e.g. Verified by Pharmacist Tariqul, deposit scheduled for tomorrow morning."
                 rows={2}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -314,7 +314,7 @@ export const DailyClosingModal: React.FC<DailyClosingModalProps> = ({ onClose })
             className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md transition-all ${
               isSaved
                 ? "bg-slate-400 text-white cursor-not-allowed"
-                : "bg-emerald-600 hover:bg-emerald-700 text-white active:scale-98"
+                : "bg-[#4F46E5] hover:bg-[#4338CA] text-white active:scale-98"
             }`}
           >
             {isSaved ? <CheckCircle2 className="w-4 h-4" /> : <Lock className="w-4 h-4" />}

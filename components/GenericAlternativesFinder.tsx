@@ -110,7 +110,7 @@ export const GenericAlternativesFinder: React.FC<GenericAlternativesFinderProps>
                 className={`text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider ${
                   data.requested_out_of_stock
                     ? "bg-red-100 text-red-800 border border-red-200"
-                    : "bg-emerald-100 text-emerald-900 border border-emerald-200"
+                    : "bg-indigo-100 text-indigo-900 border border-indigo-200"
                 }`}
               >
                 {data.requested_out_of_stock ? "Low Stock / Critical" : "Adequate Warehouse Stock"}
@@ -142,7 +142,7 @@ export const GenericAlternativesFinder: React.FC<GenericAlternativesFinderProps>
                         </p>
                       </div>
 
-                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">
+                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200 font-bold">
                         {alt.available_loose_units.toLocaleString()} Pcs
                       </span>
                     </div>
@@ -154,12 +154,12 @@ export const GenericAlternativesFinder: React.FC<GenericAlternativesFinderProps>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-500">Price Variance:</span>
-                        <span className={alt.price_difference_percent <= 0 ? "text-[#025540] font-black" : "text-amber-700 font-bold"}>
+                        <span className={alt.price_difference_percent <= 0 ? "text-[#4F46E5] font-black" : "text-amber-700 font-bold"}>
                           {alt.price_difference_percent > 0 ? `+${alt.price_difference_percent}%` : `${alt.price_difference_percent}%`}
                         </span>
                       </div>
                       <div className="pt-2 border-t border-slate-200 text-[10px] text-slate-700 font-sans flex items-center gap-1 font-semibold">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#025540]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#4F46E5]" />
                         <span>{alt.bioequivalence_rating}</span>
                       </div>
                     </div>
@@ -178,7 +178,7 @@ export const GenericAlternativesFinder: React.FC<GenericAlternativesFinderProps>
                         ]);
                       }
                     }}
-                    className="w-full py-2.5 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-[0.98]"
+                    className="w-full py-2.5 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-[0.98]"
                   >
                     <span>Swap & Add to Order Cart</span>
                     <ArrowRight className="w-3.5 h-3.5" />

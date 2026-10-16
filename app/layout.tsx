@@ -8,7 +8,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   viewportFit: "cover",
-  themeColor: "#025540",
+  themeColor: "#4F46E5",
 };
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
-      <body className="bg-[#025540] text-white min-h-screen selection:bg-[#34d399] selection:text-black">
+      <body className="bg-[#4F46E5] text-white min-h-screen selection:bg-[#34d399] selection:text-black">
         <RootLayoutWrapper>{children}</RootLayoutWrapper>
       </body>
     </html>

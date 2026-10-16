@@ -66,10 +66,10 @@ export default function CreditDashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <CreditCard className="w-6 h-6 text-emerald-400" />
+            <CreditCard className="w-6 h-6 text-indigo-400" />
             <span>Pharmacy Credit & Risk Dashboard</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Credit limits, revolving headroom, overdue invoice aging, and instant electronic repayment.
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function CreditDashboardPage() {
           <div>
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Approved Credit Limit</span>
-              <span className="p-1.5 rounded-lg bg-emerald-100 text-emerald-800">
+              <span className="p-1.5 rounded-lg bg-indigo-100 text-indigo-800">
                 <ShieldCheck className="w-4 h-4" />
               </span>
             </div>
@@ -105,15 +105,15 @@ export default function CreditDashboardPage() {
         </div>
 
         {/* Card 2: Available Headroom */}
-        <div className="premium-card p-6 flex flex-col justify-between border-emerald-300">
+        <div className="premium-card p-6 flex flex-col justify-between border-indigo-300">
           <div>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Available Headroom</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+              <span className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Available Headroom</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
                 Active Order Headroom
               </span>
             </div>
-            <div className="text-3xl font-black font-mono text-emerald-700 mt-2">
+            <div className="text-3xl font-black font-mono text-indigo-700 mt-2">
               ৳{availableCredit.toLocaleString()}
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function CreditDashboardPage() {
             </div>
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-600 rounded-full transition-all duration-500"
+                className="h-full bg-[#4F46E5] rounded-full transition-all duration-500"
                 style={{ width: `${creditUtilizationPercent}%` }}
               />
             </div>
@@ -145,7 +145,7 @@ export default function CreditDashboardPage() {
               ৳{currentPharmacy.currentBalance.toLocaleString()}
             </div>
           </div>
-          <div className="text-xs text-emerald-700 font-semibold mt-4 pt-3 border-t border-slate-100 flex items-center gap-1">
+          <div className="text-xs text-indigo-700 font-semibold mt-4 pt-3 border-t border-slate-100 flex items-center gap-1">
             <CheckCircle2 className="w-4 h-4" /> 0 Days Overdue • No Penalty
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function CreditDashboardPage() {
             <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide">
               Invoice Aging & Risk Gating Analysis
             </h2>
-            <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full">
               Healthy
             </span>
           </div>
@@ -174,7 +174,7 @@ export default function CreditDashboardPage() {
               </div>
               <div className="text-right">
                 <div className="font-mono font-bold text-slate-900">৳{currentPharmacy.currentBalance.toLocaleString()}</div>
-                <span className="text-[10px] text-emerald-700 font-semibold">100% in good standing</span>
+                <span className="text-[10px] text-indigo-700 font-semibold">100% in good standing</span>
               </div>
             </div>
 
@@ -212,8 +212,8 @@ export default function CreditDashboardPage() {
           </div>
 
           {settlementSuccess && (
-            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+            <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-indigo-900 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-indigo-700" />
               <span>Payment settled! Outstanding balance and credit headroom updated.</span>
             </div>
           )}
@@ -227,7 +227,7 @@ export default function CreditDashboardPage() {
                 step="500"
                 value={paymentAmount}
                 onChange={(e) => setPaymentAmount(parseFloat(e.target.value) || 0)}
-                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-emerald-500"
+                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -240,7 +240,7 @@ export default function CreditDashboardPage() {
                     onClick={() => setPaymentMethod(m)}
                     className={`py-2 px-1 rounded-xl text-xs font-bold border transition-all ${
                       paymentMethod === m
-                        ? "bg-[#025540] text-white border-[#025540]"
+                        ? "bg-[#4F46E5] text-white border-[#4F46E5]"
                         : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -253,7 +253,7 @@ export default function CreditDashboardPage() {
             <button
               onClick={handleSettlePayment}
               disabled={isSettling || paymentAmount <= 0}
-              className="w-full py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2"
             >
               {isSettling ? (
                 <>

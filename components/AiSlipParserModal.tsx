@@ -197,7 +197,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
             <div>
               <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
                 <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#025540]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#4F46E5]" />
                   Structured Catalog Output ({parseResult?.parsed_items?.length || 0} Entities Found)
                 </h3>
 
@@ -205,7 +205,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                   <div className="flex items-center gap-2">
                     <span className="text-[11px] text-slate-500 font-bold">
                       Confidence:{" "}
-                      <strong className="text-[#025540] font-mono">
+                      <strong className="text-[#4F46E5] font-mono">
                         {Math.round(parseResult.overall_confidence * 100)}%
                       </strong>
                     </span>
@@ -257,7 +257,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                               <span className="font-extrabold text-slate-900 text-sm">
                                 {item.brand_name}
                               </span>
-                              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#025540] text-white font-bold">
+                              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#4F46E5] text-white font-bold">
                                 {item.qty} {item.packaging_type}
                               </span>
                             </div>
@@ -270,14 +270,14 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
                             <span
                               className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-bold ${
                                 confidencePercent > 80
-                                  ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
+                                  ? "bg-indigo-100 text-indigo-900 border border-indigo-300"
                                   : "bg-amber-100 text-amber-900 border border-amber-300"
                               }`}
                             >
                               {confidencePercent}% OCR Match
                             </span>
                             {item.unit_price ? (
-                              <p className="text-[10px] text-[#025540] font-mono font-black mt-0.5">
+                              <p className="text-[10px] text-[#4F46E5] font-mono font-black mt-0.5">
                                 ৳{item.unit_price}/pc
                               </p>
                             ) : null}
@@ -308,7 +308,7 @@ export const AiSlipParserModal: React.FC<AiSlipParserModalProps> = ({
 
                 <button
                   onClick={handleTransferToCart}
-                  className="px-4 py-2.5 rounded-2xl bg-[#025540] hover:bg-[#036b51] text-white font-extrabold text-xs shadow-md shadow-[#025540]/20 flex items-center gap-1.5 transition-all active:scale-[0.98]"
+                  className="px-4 py-2.5 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-extrabold text-xs shadow-md shadow-[#4F46E5]/20 flex items-center gap-1.5 transition-all active:scale-[0.98]"
                 >
                   <span>Import to Order Cutting POS</span>
                   <ArrowRight className="w-3.5 h-3.5" />

@@ -238,7 +238,7 @@ export default function EmployeesPage() {
           onClick={() => setActiveTab("EMPLOYEES")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === "EMPLOYEES"
-              ? "bg-[#065F52] text-white shadow-sm"
+              ? "bg-[#2E236C] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -250,7 +250,7 @@ export default function EmployeesPage() {
           onClick={() => setActiveTab("ATTENDANCE")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === "ATTENDANCE"
-              ? "bg-[#065F52] text-white shadow-sm"
+              ? "bg-[#2E236C] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -262,7 +262,7 @@ export default function EmployeesPage() {
           onClick={() => setActiveTab("PAYROLL")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === "PAYROLL"
-              ? "bg-[#065F52] text-white shadow-sm"
+              ? "bg-[#2E236C] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -274,7 +274,7 @@ export default function EmployeesPage() {
           onClick={() => setActiveTab("LEAVE")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === "LEAVE"
-              ? "bg-[#065F52] text-white shadow-sm"
+              ? "bg-[#2E236C] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -292,17 +292,17 @@ export default function EmployeesPage() {
             {employees.map((emp) => (
               <div
                 key={emp.id}
-                className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:border-emerald-500 transition-all group"
+                className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-4 hover:border-indigo-500 transition-all group"
               >
                 <div>
                   <div className="flex items-center gap-3">
                     <img
                       src={emp.photo}
                       alt={emp.name}
-                      className="w-14 h-14 rounded-2xl object-cover border-2 border-emerald-100 shadow-sm shrink-0"
+                      className="w-14 h-14 rounded-2xl object-cover border-2 border-indigo-100 shadow-sm shrink-0"
                     />
                     <div className="min-w-0">
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800 uppercase">
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-100 text-indigo-800 uppercase">
                         {emp.status}
                       </span>
                       <h3 className="font-black text-sm text-slate-900 mt-1 truncate">{emp.name}</h3>
@@ -325,7 +325,7 @@ export default function EmployeesPage() {
                     </div>
                     <div className="flex items-center justify-between pt-1 border-t border-slate-200">
                       <span className="font-bold text-slate-700">Base Salary:</span>
-                      <strong className="font-mono text-emerald-800 font-black">
+                      <strong className="font-mono text-indigo-800 font-black">
                         ৳{emp.baseSalary.toLocaleString()}/mo
                       </strong>
                     </div>
@@ -338,7 +338,7 @@ export default function EmployeesPage() {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleQuickMarkToday(emp.id, "PRESENT")}
-                      className="px-2 py-1 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-[10px] font-bold"
+                      className="px-2 py-1 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-[10px] font-bold"
                       title="Present"
                     >
                       P
@@ -403,7 +403,7 @@ export default function EmployeesPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
               <div>
                 <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-emerald-600" />
+                  <Calendar className="w-5 h-5 text-indigo-600" />
                   <span>
                     Monthly Attendance Calendar: {activeEmployee.name} ({selectedMonth})
                   </span>
@@ -415,8 +415,8 @@ export default function EmployeesPage() {
 
               {/* Status Legend */}
               <div className="flex items-center gap-3 text-xs font-semibold">
-                <span className="flex items-center gap-1.5 text-emerald-700">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                <span className="flex items-center gap-1.5 text-indigo-700">
+                  <span className="w-2.5 h-2.5 rounded-full bg-indigo-600" />
                   <span>Present</span>
                 </span>
                 <span className="flex items-center gap-1.5 text-rose-700">
@@ -454,18 +454,18 @@ export default function EmployeesPage() {
                     }}
                     className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col justify-between min-h-[85px] hover:scale-102 ${
                       cd.status === "PRESENT"
-                        ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
+                        ? "bg-indigo-50/70 border-indigo-300 text-[#241B52]"
                         : cd.status === "ABSENT"
                         ? "bg-rose-50/70 border-rose-300 text-rose-950"
                         : cd.status === "LEAVE"
                         ? "bg-amber-50/70 border-amber-300 text-amber-950"
                         : "bg-slate-50 border-slate-200 text-slate-400"
-                    } ${isToday ? "ring-2 ring-emerald-600" : ""}`}
+                    } ${isToday ? "ring-2 ring-indigo-600" : ""}`}
                   >
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-mono font-bold text-slate-700">Day {cd.dayNumber}</span>
                       {isToday && (
-                        <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-emerald-600 text-white uppercase">
+                        <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-[#4F46E5] text-white uppercase">
                           Today
                         </span>
                       )}
@@ -473,7 +473,7 @@ export default function EmployeesPage() {
 
                     <div className="my-1">
                       {cd.status === "PRESENT" && (
-                        <span className="px-2 py-0.5 rounded-md bg-emerald-200/80 text-emerald-900 font-bold text-[10px]">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-200/80 text-indigo-900 font-bold text-[10px]">
                           ✓ Present
                         </span>
                       )}
@@ -508,7 +508,7 @@ export default function EmployeesPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div>
                 <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-emerald-600" />
+                  <DollarSign className="w-5 h-5 text-indigo-600" />
                   <span>Monthly Payroll & Automated Salary Sheet ({selectedMonth})</span>
                 </h3>
                 <p className="text-xs text-slate-500">
@@ -556,7 +556,7 @@ export default function EmployeesPage() {
                           className={`px-2.5 py-0.5 rounded-full font-bold text-[10px] ${
                             sum.absentCount > 0
                               ? "bg-rose-100 text-rose-800"
-                              : "bg-emerald-100 text-emerald-800"
+                              : "bg-indigo-100 text-indigo-800"
                           }`}
                         >
                           {sum.absentCount} Days Absent
@@ -578,7 +578,7 @@ export default function EmployeesPage() {
                               [sum.employee.id]: Number(e.target.value),
                             })
                           }
-                          className="w-20 px-2 py-1 rounded-lg border border-slate-200 text-right font-mono text-xs font-bold text-emerald-700"
+                          className="w-20 px-2 py-1 rounded-lg border border-slate-200 text-right font-mono text-xs font-bold text-indigo-700"
                         />
                       </td>
 
@@ -605,7 +605,7 @@ export default function EmployeesPage() {
                         <span
                           className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
                             sum.isPaid
-                              ? "bg-emerald-100 text-emerald-800"
+                              ? "bg-indigo-100 text-indigo-800"
                               : "bg-amber-100 text-amber-800"
                           }`}
                         >
@@ -633,7 +633,7 @@ export default function EmployeesPage() {
                           className={`px-3 py-1.5 rounded-xl text-[11px] font-bold shadow-sm transition-all ml-auto ${
                             sum.isPaid
                               ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                              : "bg-emerald-600 hover:bg-emerald-700 text-white"
+                              : "bg-[#4F46E5] hover:bg-[#4338CA] text-white"
                           }`}
                         >
                           {sum.isPaid ? "Disbursed" : "Pay Salary"}
@@ -656,7 +656,7 @@ export default function EmployeesPage() {
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
               <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-emerald-600" />
+                <Clock className="w-5 h-5 text-indigo-600" />
                 <span>Employee Leave Requests & Owner Approval</span>
               </h3>
               <p className="text-xs text-slate-500">
@@ -696,7 +696,7 @@ export default function EmployeesPage() {
                       <span
                         className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                           lr.status === "APPROVED"
-                            ? "bg-emerald-100 text-emerald-800"
+                            ? "bg-indigo-100 text-indigo-800"
                             : lr.status === "REJECTED"
                             ? "bg-rose-100 text-rose-800"
                             : "bg-amber-100 text-amber-800"
@@ -710,7 +710,7 @@ export default function EmployeesPage() {
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => updateLeaveRequestStatus(lr.id, "APPROVED", "Approved by owner")}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] flex items-center gap-1 shadow-sm"
+                            className="px-2.5 py-1 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-[10px] flex items-center gap-1 shadow-sm"
                           >
                             <Check className="w-3 h-3" />
                             <span>Approve</span>

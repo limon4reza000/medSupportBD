@@ -52,10 +52,10 @@ export default function MyOrdersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Clock className="w-6 h-6 text-emerald-400" />
+            <Clock className="w-6 h-6 text-indigo-400" />
             <span>My Active & Historical Orders</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Track batch allocations, dispatch timelines, and invoice status in real-time.
           </p>
         </div>
@@ -84,7 +84,7 @@ export default function MyOrdersPage() {
                 onClick={() => setSelectedTab(tab.id)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   selectedTab === tab.id
-                    ? "bg-[#025540] text-white shadow-sm"
+                    ? "bg-[#4F46E5] text-white shadow-sm"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                 }`}
               >
@@ -106,7 +106,7 @@ export default function MyOrdersPage() {
               placeholder="Search by Order # or Medicine..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 font-medium"
+              className="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500 font-medium"
             />
           </div>
 
@@ -129,7 +129,7 @@ export default function MyOrdersPage() {
             return (
               <div
                 key={order.id}
-                className="premium-card p-5 transition-all hover:border-emerald-300"
+                className="premium-card p-5 transition-all hover:border-indigo-300"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
                   
@@ -139,7 +139,7 @@ export default function MyOrdersPage() {
                       <span className="font-black text-sm text-slate-900">{order.orderNumber}</span>
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         isDelivered
-                          ? "bg-emerald-100 text-emerald-800"
+                          ? "bg-indigo-100 text-indigo-800"
                           : isProcessing
                           ? "bg-blue-100 text-blue-800"
                           : "bg-amber-100 text-amber-800"
@@ -160,7 +160,7 @@ export default function MyOrdersPage() {
                     <div className="text-xs text-slate-500 flex items-center gap-2 flex-wrap">
                       <span>Assigned SR: <strong className="text-slate-800">{order.assignedSalesRep}</strong></span>
                       <span className="text-slate-300">•</span>
-                      <span>Expected: <strong className="text-emerald-700">{order.expectedDelivery}</strong></span>
+                      <span>Expected: <strong className="text-indigo-700">{order.expectedDelivery}</strong></span>
                     </div>
                   </div>
 
@@ -168,14 +168,14 @@ export default function MyOrdersPage() {
                   <div className="flex items-center justify-between lg:justify-end gap-5">
                     <div className="text-left lg:text-right">
                       <div className="text-[10px] text-slate-400 font-semibold uppercase">Total Payable</div>
-                      <div className="text-lg font-black font-mono text-emerald-800">
+                      <div className="text-lg font-black font-mono text-indigo-800">
                         ৳{order.netPayableAmount.toLocaleString()}
                       </div>
                     </div>
 
                     <Link
                       href={`/orders/${order.id}`}
-                      className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                      className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
                     >
                       <span>Order Timeline & Batches</span>
                       <ChevronRight className="w-4 h-4" />
@@ -200,7 +200,7 @@ export default function MyOrdersPage() {
                       <div className="text-right">
                         <div className="font-mono font-bold text-slate-900">৳{item.netItemTotal.toFixed(0)}</div>
                         {item.bonusLooseUnits > 0 && (
-                          <div className="text-[10px] font-bold text-emerald-700">+{item.bonusLooseUnits} bonus</div>
+                          <div className="text-[10px] font-bold text-indigo-700">+{item.bonusLooseUnits} bonus</div>
                         )}
                       </div>
                     </div>

@@ -166,7 +166,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       pharmacy: "City Pharmacy",
       amount: "BDT 12,450",
       status: "Delivered",
-      statusColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      statusColor: "bg-indigo-50 text-indigo-700 border-indigo-200",
       icon: Building2,
       iconBg: "bg-blue-50 text-blue-600",
     },
@@ -184,7 +184,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       pharmacy: "Medico Plus",
       amount: "BDT 15,230",
       status: "Delivered",
-      statusColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      statusColor: "bg-indigo-50 text-indigo-700 border-indigo-200",
       icon: Briefcase,
       iconBg: "bg-blue-50 text-blue-600",
     },
@@ -202,7 +202,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
       pharmacy: "Care & Cure",
       amount: "BDT 11,400",
       status: "Delivered",
-      statusColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      statusColor: "bg-indigo-50 text-indigo-700 border-indigo-200",
       icon: Truck,
       iconBg: "bg-blue-50 text-blue-600",
     },
@@ -228,7 +228,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 25,430
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
-                <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +12%</span>
+                <span className="text-indigo-600 font-bold flex items-center shrink-0">↗ +12%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">vs last month</span>
               </div>
             </div>
@@ -238,7 +238,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         {/* Card 2: Total Suppliers */}
         <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between hover:shadow-md transition-shadow">
           <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
-            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-emerald-50 border border-emerald-100/80 flex items-center justify-center text-emerald-600 shrink-0 shadow-2xs">
+            <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-indigo-50 border border-indigo-100/80 flex items-center justify-center text-indigo-600 shrink-0 shadow-2xs">
               <Users className="w-4.5 h-4.5 sm:w-6 sm:h-6 stroke-[2.2]" />
             </div>
             <div className="min-w-0 flex-1">
@@ -247,7 +247,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 350+
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
-                <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +8%</span>
+                <span className="text-indigo-600 font-bold flex items-center shrink-0">↗ +8%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">Active suppliers</span>
               </div>
             </div>
@@ -266,7 +266,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 1,200+
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
-                <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +18%</span>
+                <span className="text-indigo-600 font-bold flex items-center shrink-0">↗ +18%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">This month</span>
               </div>
             </div>
@@ -285,7 +285,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 99%
               </div>
               <div className="flex flex-wrap items-center gap-x-1 sm:gap-x-1.5 text-[10px] sm:text-[13px] mt-0.5 sm:mt-1 font-semibold leading-tight">
-                <span className="text-emerald-600 font-bold flex items-center shrink-0">↗ +2%</span>
+                <span className="text-indigo-600 font-bold flex items-center shrink-0">↗ +2%</span>
                 <span className="text-slate-500 text-[10px] sm:text-[12px] truncate">Delivery success</span>
               </div>
             </div>
@@ -353,7 +353,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     <span className="text-slate-700 font-semibold">Online Orders</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3.5 h-3.5 rounded-2xs bg-[#b2dc87]" />
+                    <span className="w-3.5 h-3.5 rounded-2xs bg-[#FB923C]" />
                     <span className="text-slate-700 font-semibold">Wholesale Orders</span>
                   </div>
                 </div>
@@ -448,7 +448,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                       // Colors matching reference image
                       const bar1Fill = isSelected ? "#f87171" : "#729df2";
-                      const bar2Fill = isSelected ? "#fbbf24" : "#b2dc87";
+                      const bar2Fill = isSelected ? "#fbbf24" : "#818CF8";
 
                       return (
                         <g
@@ -569,7 +569,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                             <span>Online: {selItem.online} orders</span>
                           </div>
                           <div className="text-xs text-[#4d7c0f] font-bold flex items-center gap-2 mt-1">
-                            <span className="w-2.5 h-2.5 rounded-xs bg-[#b2dc87] shrink-0" />
+                            <span className="w-2.5 h-2.5 rounded-xs bg-[#FB923C] shrink-0" />
                             <span>Wholesale: {selItem.wholesale} orders</span>
                           </div>
                           <div className="text-[11px] text-slate-500 font-semibold mt-2 pt-2 border-t border-slate-100">
@@ -593,7 +593,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <span className="text-xs text-slate-600 font-semibold">Online Orders</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#b2dc87]" />
+                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#FB923C]" />
                 <span className="text-xs text-slate-600 font-semibold">Wholesale Orders</span>
               </div>
             </div>
@@ -912,7 +912,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                             className="w-8 h-8 rounded-lg object-contain p-0.5 border border-slate-200/80 bg-white shrink-0 shadow-2xs"
                           />
                           <div className="min-w-0">
-                            <div className="font-bold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                            <div className="font-bold text-sm text-slate-900 group-hover:text-indigo-700 transition-colors truncate">
                               {p.name}
                             </div>
                             <div className="text-xs text-slate-500 font-medium truncate">
@@ -928,7 +928,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                         <div className="font-black text-slate-900 text-sm">{p.revenue}</div>
                         <div className="w-16 h-1.5 bg-slate-100 rounded-full ml-auto mt-1 overflow-hidden">
                           <div
-                            className="h-full bg-emerald-500 rounded-full"
+                            className="h-full bg-indigo-600 rounded-full"
                             style={{ width: `${p.progress}%` }}
                           />
                         </div>
@@ -1015,12 +1015,12 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               {/* 1. Add Product */}
               <button
                 onClick={() => router.push("/inventory")}
-                className="p-3 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/70 border border-emerald-200/80 text-left transition-all active:scale-95 group flex items-center gap-2.5 cursor-pointer"
+                className="p-3 rounded-xl bg-indigo-50/70 hover:bg-indigo-100/70 border border-indigo-200/80 text-left transition-all active:scale-95 group flex items-center gap-2.5 cursor-pointer"
               >
-                <div className="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
                   <Box className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <div className="text-sm font-bold text-slate-800 group-hover:text-emerald-950 transition-colors leading-tight">
+                <div className="text-sm font-bold text-slate-800 group-hover:text-[#241B52] transition-colors leading-tight">
                   Add Product
                 </div>
               </button>
@@ -1103,7 +1103,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
         {/* Header */}
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm px-1">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#00c48c] text-white flex items-center justify-center shrink-0 shadow-2xs">
+            <div className="w-7 h-7 rounded-lg bg-[#4F46E5] text-white flex items-center justify-center shrink-0 shadow-2xs">
               <ShieldCheck className="w-4 h-4" />
             </div>
             <div>
@@ -1117,8 +1117,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-800 border border-indigo-200 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-indigo-600" />
               8 Enterprise Modules Active
             </span>
             <Link
@@ -1140,8 +1140,8 @@ export const PharmacyOwnerDashboard: React.FC = () => {
               href: "/pos",
               btnText: "Open POS",
               image: "/images/module-pos.png",
-              iconBg: "bg-[#00c48c]",
-              cardBg: "bg-[#ebfbf3] border-[#cbf0dd] hover:border-emerald-400 hover:shadow-emerald-100/50",
+              iconBg: "bg-[#4F46E5]",
+              cardBg: "bg-[#EEF2FF] border-[#E0E7FF] hover:border-indigo-400 hover:shadow-indigo-100/50",
               icon: ShoppingCart,
             },
             {
@@ -1226,15 +1226,15 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     <mod.icon className="w-4 h-4 stroke-[2.2]" />
                   </div>
                 </div>
-                <h3 className="font-bold text-base text-slate-900 group-hover:text-emerald-700 transition-colors pt-1 truncate">
+                <h3 className="font-bold text-base text-slate-900 group-hover:text-indigo-700 transition-colors pt-1 truncate">
                   {mod.title}
                 </h3>
                 <p className="text-xs sm:text-[13px] text-slate-600 line-clamp-2 leading-relaxed">
                   {mod.desc}
                 </p>
-                <div className="pt-2 flex items-center gap-1 text-xs sm:text-sm font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">
+                <div className="pt-2 flex items-center gap-1 text-xs sm:text-sm font-bold text-slate-800 group-hover:text-indigo-700 transition-colors">
                   <span>{mod.btnText}</span>
-                  <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-700 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-indigo-700 group-hover:translate-x-0.5 transition-all" />
                 </div>
               </div>
 

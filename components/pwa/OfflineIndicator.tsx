@@ -42,8 +42,8 @@ export const OfflineIndicator: React.FC = () => {
   if (showRestoredNotice && isOnline) {
     return (
       <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-3 duration-300">
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-emerald-600 text-white shadow-xl text-xs font-bold border border-emerald-400">
-          <CheckCircle2 className="w-4 h-4 text-emerald-200" />
+        <div className="flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-[#4F46E5] text-white shadow-xl text-xs font-bold border border-indigo-400">
+          <CheckCircle2 className="w-4 h-4 text-indigo-200" />
           <span>Connection restored! Central sync complete.</span>
         </div>
       </div>

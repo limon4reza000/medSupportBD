@@ -136,19 +136,19 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                   <span>DGDA Verified Depot</span>
                 </span>
               </div>
-              <p className="text-xs text-emerald-200 mt-1 flex items-center gap-1.5 flex-wrap">
+              <p className="text-xs text-indigo-200 mt-1 flex items-center gap-1.5 flex-wrap">
                 <span className="font-bold text-white">{distributor.companyName}</span>
                 <span>&bull;</span>
                 <span>Code: {distributor.code}</span>
                 <span>&bull;</span>
-                <span className="text-emerald-300">⭐ {distributor.rating} ({distributor.onTimeDeliveryRate}% On-Time)</span>
+                <span className="text-indigo-300">⭐ {distributor.rating} ({distributor.onTimeDeliveryRate}% On-Time)</span>
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-emerald-200 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-xl text-indigo-200 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Close dialog"
           >
             <X className="w-5 h-5" />
@@ -161,11 +161,11 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
             onClick={() => setActiveTab("overview")}
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all ${
               activeTab === "overview"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            <Building2 className="w-4 h-4 text-emerald-600" />
+            <Building2 className="w-4 h-4 text-indigo-600" />
             <span>Depot Profile &amp; Route</span>
           </button>
 
@@ -173,14 +173,14 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
             onClick={() => setActiveTab("inventory")}
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all ${
               activeTab === "inventory"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            <Package className="w-4 h-4 text-emerald-600" />
+            <Package className="w-4 h-4 text-indigo-600" />
             <span>Medicine Inventory &amp; Trade Prices</span>
             {inventory.length > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+              <span className="px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                 {inventory.length}
               </span>
             )}
@@ -195,9 +195,9 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
             <div className="space-y-4">
               
               {/* Distance & Travel Metrics Banner */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-slate-50 border border-emerald-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-50 via-teal-50 to-slate-50 border border-indigo-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <div className="w-10 h-10 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center shrink-0 shadow-md">
                     <Navigation className="w-5 h-5" />
                   </div>
                   <div>
@@ -219,9 +219,9 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                       onRequestRoute();
                       onClose();
                     }}
-                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-bold text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
+                    className="flex-1 sm:flex-none px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#1E1743] text-white font-bold text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-95"
                   >
-                    <Navigation className="w-3.5 h-3.5 text-emerald-300" />
+                    <Navigation className="w-3.5 h-3.5 text-indigo-300" />
                     <span>Show Map Route</span>
                   </button>
                 </div>
@@ -229,25 +229,25 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
 
               {/* Target Searched Medicine Card if searched */}
               {distributorData.targetMedicineStock && (
-                <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-300/80 space-y-3">
+                <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-300/80 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black uppercase">
+                      <span className="px-2 py-0.5 rounded-md bg-[#4F46E5] text-white text-[10px] font-black uppercase">
                         Matched Medicine Search
                       </span>
-                      <span className="font-black text-sm text-emerald-950">
+                      <span className="font-black text-sm text-[#241B52]">
                         {distributorData.targetMedicineStock.brandName} ({distributorData.targetMedicineStock.strength})
                       </span>
                     </div>
-                    <span className="text-xs font-bold text-emerald-800">
+                    <span className="text-xs font-bold text-indigo-800">
                       {distributorData.targetMedicineStock.manufacturer}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    <div className="p-2.5 rounded-xl bg-white border border-emerald-200">
+                    <div className="p-2.5 rounded-xl bg-white border border-indigo-200">
                       <span className="text-[10px] text-slate-500 block">Available Stock</span>
-                      <span className="font-black text-emerald-800 text-sm">
+                      <span className="font-black text-indigo-800 text-sm">
                         {distributorData.targetMedicineStock.availableStockBoxes} Boxes
                       </span>
                       <span className="text-[10px] text-slate-500 block">
@@ -255,7 +255,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white border border-emerald-200">
+                    <div className="p-2.5 rounded-xl bg-white border border-indigo-200">
                       <span className="text-[10px] text-slate-500 block">B2B Trade Price</span>
                       <span className="font-black text-slate-900 text-sm">
                         ৳{distributorData.targetMedicineStock.tradePricePerBox}
@@ -265,20 +265,20 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white border border-emerald-200">
+                    <div className="p-2.5 rounded-xl bg-white border border-indigo-200">
                       <span className="text-[10px] text-slate-500 block">Maximum Retail (MRP)</span>
                       <span className="font-bold text-slate-700 text-sm">
                         ৳{distributorData.targetMedicineStock.mrpPerBox}
                       </span>
-                      <span className="text-[10px] text-emerald-700 font-bold block">
+                      <span className="text-[10px] text-indigo-700 font-bold block">
                         Save ৳{(distributorData.targetMedicineStock.mrpPerBox - distributorData.targetMedicineStock.tradePricePerBox).toFixed(1)}/box
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-white border border-emerald-200 flex flex-col justify-center">
+                    <div className="p-2.5 rounded-xl bg-white border border-indigo-200 flex flex-col justify-center">
                       <span className="text-[10px] text-slate-500 block">Trade Bonus</span>
                       {distributorData.targetMedicineStock.activeOffer ? (
-                        <span className="text-[11px] font-bold text-emerald-800 flex items-center gap-1">
+                        <span className="text-[11px] font-bold text-indigo-800 flex items-center gap-1">
                           🎁 {distributorData.targetMedicineStock.activeOffer.title}
                         </span>
                       ) : (
@@ -313,7 +313,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleAddToCart(distributorData.targetMedicineStock!)}
-                        className="px-4 py-2 rounded-xl bg-white border border-emerald-600 text-emerald-900 font-bold text-xs hover:bg-emerald-50 transition-all flex items-center gap-1.5 shadow-xs"
+                        className="px-4 py-2 rounded-xl bg-white border border-indigo-600 text-indigo-900 font-bold text-xs hover:bg-indigo-50 transition-all flex items-center gap-1.5 shadow-xs"
                       >
                         <ShoppingCart className="w-3.5 h-3.5" />
                         <span>
@@ -325,7 +325,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
 
                       <button
                         onClick={() => handleOrderAndCheckout(distributorData.targetMedicineStock!)}
-                        className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs transition-all shadow-md flex items-center gap-1.5 active:scale-95"
+                        className="px-5 py-2 rounded-xl bg-[#4F46E5] hover:bg-indigo-600 text-white font-black text-xs transition-all shadow-md flex items-center gap-1.5 active:scale-95"
                       >
                         <span>Place B2B Order Now</span>
                         <ArrowRight className="w-3.5 h-3.5" />
@@ -339,7 +339,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-2">
                   <h4 className="font-bold text-xs text-slate-900 flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-emerald-700" />
+                    <MapPin className="w-4 h-4 text-indigo-700" />
                     <span>Verified Warehouse Address</span>
                   </h4>
                   <p className="text-slate-700 font-medium">{distributor.address}</p>
@@ -362,13 +362,13 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
 
                 <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-2">
                   <h4 className="font-bold text-xs text-slate-900 flex items-center gap-2">
-                    <Truck className="w-4 h-4 text-emerald-700" />
+                    <Truck className="w-4 h-4 text-indigo-700" />
                     <span>Delivery Policies &amp; Service Coverage</span>
                   </h4>
                   <ul className="space-y-1.5 text-slate-700 text-[11px]">
                     <li className="flex items-center justify-between">
                       <span className="text-slate-500">Same-Day Order Cutoff:</span>
-                      <span className="font-bold text-emerald-800">{distributor.sameDayCutoffTime}</span>
+                      <span className="font-bold text-indigo-800">{distributor.sameDayCutoffTime}</span>
                     </li>
                     <li className="flex items-center justify-between">
                       <span className="text-slate-500">Operating Hours:</span>
@@ -380,7 +380,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                     </li>
                     <li className="flex items-center justify-between">
                       <span className="text-slate-500">Cold-Chain Storage Available:</span>
-                      <span className="font-bold text-emerald-700 flex items-center gap-1">
+                      <span className="font-bold text-indigo-700 flex items-center gap-1">
                         <Snowflake className="w-3 h-3" /> Yes (2°C - 8°C)
                       </span>
                     </li>
@@ -425,13 +425,13 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                   placeholder="Search medicines, generics, or strengths in this depot..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs text-slate-800 bg-slate-50/50"
+                  className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs text-slate-800 bg-slate-50/50"
                 />
               </div>
 
               {isLoadingInventory ? (
                 <div className="py-12 flex flex-col items-center justify-center text-slate-500 text-xs">
-                  <div className="w-6 h-6 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin mb-2"></div>
+                  <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mb-2"></div>
                   <span>Loading distributor inventory...</span>
                 </div>
               ) : inventory.length === 0 ? (
@@ -457,7 +457,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                             {item.dosageForm}
                           </span>
                           {item.activeOffer && (
-                            <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800">
+                            <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-indigo-100 text-indigo-800">
                               🎁 Offer
                             </span>
                           )}
@@ -478,14 +478,14 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                           <div className="text-[10px] text-slate-500">
                             MRP ৳{item.mrpPerBox}
                           </div>
-                          <div className="text-[10px] font-bold text-emerald-700">
+                          <div className="text-[10px] font-bold text-indigo-700">
                             {item.availableStockBoxes} Boxes In Stock
                           </div>
                         </div>
 
                         <button
                           onClick={() => handleAddToCart(item)}
-                          className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1 active:scale-95"
+                          className="px-3 py-1.5 rounded-lg bg-[#4F46E5] hover:bg-indigo-600 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1 active:scale-95"
                         >
                           <ShoppingCart className="w-3.5 h-3.5" />
                           <span>
@@ -505,7 +505,7 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
         {/* Footer */}
         <div className="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <ShieldCheck className="w-4 h-4 text-indigo-700" />
             <span className="font-medium text-[11px]">
               Authorized B2B Trade Pricing &bull; Batch FEFO Allocation
             </span>
@@ -524,9 +524,9 @@ export const DistributorDetailModal: React.FC<DistributorDetailModalProps> = ({
                 onClose();
                 router.push("/cart");
               }}
-              className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-bold transition-all shadow-sm flex items-center gap-1.5"
+              className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#1E1743] text-white font-bold transition-all shadow-sm flex items-center gap-1.5"
             >
-              <ShoppingCart className="w-3.5 h-3.5 text-emerald-300" />
+              <ShoppingCart className="w-3.5 h-3.5 text-indigo-300" />
               <span>Go to Checkout</span>
             </button>
           </div>

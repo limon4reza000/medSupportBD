@@ -101,8 +101,8 @@ export const PharmaCompanyDashboard: React.FC = () => {
       </div>
 
       {schemeCreatedSuccess && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center gap-2.5 animate-in slide-in-from-top-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-300 text-[#241B52] text-xs font-bold flex items-center gap-2.5 animate-in slide-in-from-top-2">
+          <CheckCircle2 className="w-4 h-4 text-indigo-700 shrink-0" />
           <span>New Trade Scheme broadcasted successfully to all authorized depots and MPOs nationwide!</span>
         </div>
       )}
@@ -114,14 +114,14 @@ export const PharmaCompanyDashboard: React.FC = () => {
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Registered Catalog SKUs</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center">
               <Boxes className="w-4 h-4" />
             </div>
           </div>
           <div className="text-xl sm:text-2xl font-bold text-slate-900">
             41,302
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">
             DGDA Approved DAR Formulations
           </div>
         </div>
@@ -182,7 +182,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
           onClick={() => setActiveTab("OVERVIEW")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "OVERVIEW"
-              ? "bg-[#025540] text-white shadow-sm"
+              ? "bg-[#4F46E5] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -192,7 +192,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
           onClick={() => setActiveTab("SCHEMES")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "SCHEMES"
-              ? "bg-[#025540] text-white shadow-sm"
+              ? "bg-[#4F46E5] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -202,7 +202,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
           onClick={() => setActiveTab("DISTRIBUTORS")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "DISTRIBUTORS"
-              ? "bg-[#025540] text-white shadow-sm"
+              ? "bg-[#4F46E5] text-white shadow-sm"
               : "text-slate-600 hover:bg-slate-100"
           }`}
         >
@@ -234,7 +234,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
             </div>
             <Link
               href="/inventory"
-              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+              className="text-xs font-bold text-indigo-700 hover:text-indigo-800 flex items-center gap-1"
             >
               <span>View Full 41,302 Catalog</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -271,7 +271,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                       <td className="px-4 py-3.5 font-mono text-slate-700">
                         {med.stripsPerBox} Strips × {med.piecesPerStrip} Pcs ({piecesPerBox} Pcs/Box)
                       </td>
-                      <td className="px-4 py-3.5 font-mono font-bold text-emerald-800">
+                      <td className="px-4 py-3.5 font-mono font-bold text-indigo-800">
                         ৳{med.tradePricePerPiece.toFixed(2)}
                       </td>
                       <td className="px-4 py-3.5 font-mono font-bold text-slate-900">
@@ -301,7 +301,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                 className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-shadow space-y-3"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-900">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-indigo-100 text-indigo-900">
                     {offer.schemeType.replace(/_/g, " ")}
                   </span>
                   <span className="text-[10px] text-slate-400 font-semibold">Active Campaign</span>
@@ -315,7 +315,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                     <span className="font-bold text-slate-900">{offer.minQualifyingQty} {offer.qualifyingUnit}</span>
                   </div>
                   {offer.bonusQty > 0 && (
-                    <div className="flex justify-between text-emerald-700 font-bold">
+                    <div className="flex justify-between text-indigo-700 font-bold">
                       <span>Free Bonus:</span>
                       <span>+{offer.bonusQty} {offer.bonusUnit}</span>
                     </div>
@@ -346,7 +346,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {authorizedDistributors.map((dist) => (
               <div key={dist.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center shrink-0">
                   <Building2 className="w-5 h-5" />
                 </div>
                 <div className="space-y-1 flex-1">
@@ -354,7 +354,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                   <div className="text-xs text-slate-600 font-mono">{dist.code} • {dist.address}</div>
                   <div className="text-[11px] text-slate-500">Contact: {dist.contactPhone}</div>
                   <div className="pt-2 flex items-center gap-2">
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800">
                       Authorized Depot
                     </span>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
@@ -422,7 +422,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                     className={`px-3 py-1 rounded-xl text-xs font-bold ${
                       recall.status === "ACTIVE_RECALL"
                         ? "bg-rose-600 text-white"
-                        : "bg-emerald-600 text-white"
+                        : "bg-[#4F46E5] text-white"
                     }`}
                   >
                     {recall.status.replace(/_/g, " ")}
@@ -440,7 +440,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4">
             <div className="flex items-center justify-between border-b pb-3">
               <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
-                <Gift className="w-5 h-5 text-emerald-700" />
+                <Gift className="w-5 h-5 text-indigo-700" />
                 <span>Create Trade Scheme (e.g. 10+1)</span>
               </h3>
               <button
@@ -512,7 +512,7 @@ export const PharmaCompanyDashboard: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#014030] text-white font-bold text-xs shadow-md"
+                  className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#3730A3] text-white font-bold text-xs shadow-md"
                 >
                   Broadcast Scheme
                 </button>

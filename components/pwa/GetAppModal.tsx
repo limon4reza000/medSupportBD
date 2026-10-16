@@ -109,9 +109,9 @@ export const GetAppModal: React.FC = () => {
       <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="relative bg-[#01382a] text-white p-4 sm:p-6 flex items-start justify-between">
+        <div className="relative bg-[#241B52] text-white p-4 sm:p-6 flex items-start justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white text-[#01382a] flex items-center justify-center shadow-lg shrink-0 p-1">
+            <div className="w-12 h-12 rounded-2xl bg-white text-[#241B52] flex items-center justify-center shadow-lg shrink-0 p-1">
               <img
                 src="/images/sidebar-logo.png"
                 alt="MedSupplyBD App"
@@ -123,11 +123,11 @@ export const GetAppModal: React.FC = () => {
                 <h3 className="text-base sm:text-lg font-black text-white">
                   Get MedSupplyBD Mobile App
                 </h3>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-full bg-indigo-400 text-[#241B52] text-[10px] font-black uppercase tracking-wider">
                   Android APK &bull; iOS &bull; Web
                 </span>
               </div>
-              <p className="text-xs text-emerald-200/90 mt-0.5">
+              <p className="text-xs text-indigo-200/90 mt-0.5">
                 Native order cutting, 41,300+ SKU medicine catalog &amp; offline field POS
               </p>
             </div>
@@ -135,7 +135,7 @@ export const GetAppModal: React.FC = () => {
 
           <button
             onClick={() => setIsGetAppOpen(false)}
-            className="p-2 rounded-xl text-emerald-200 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-xl text-indigo-200 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Close dialog"
             id="close-get-app-modal-btn"
           >
@@ -150,11 +150,11 @@ export const GetAppModal: React.FC = () => {
             id="tab-quick-download"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "all"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            <Download className="w-4 h-4 text-emerald-600" />
+            <Download className="w-4 h-4 text-indigo-600" />
             <span>Quick Download</span>
           </button>
 
@@ -163,7 +163,7 @@ export const GetAppModal: React.FC = () => {
             id="tab-android-apk"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "android"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -176,7 +176,7 @@ export const GetAppModal: React.FC = () => {
             id="tab-ios"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "ios"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
@@ -189,11 +189,11 @@ export const GetAppModal: React.FC = () => {
             id="tab-browser-pwa"
             className={`pb-3 px-3 text-xs sm:text-sm font-bold flex items-center gap-1.5 border-b-2 transition-all whitespace-nowrap ${
               activeTab === "pwa"
-                ? "border-emerald-700 text-emerald-950 font-black"
+                ? "border-indigo-700 text-[#241B52] font-black"
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            <Zap className="w-4 h-4 text-emerald-600" />
+            <Zap className="w-4 h-4 text-indigo-600" />
             <span>Browser PWA</span>
           </button>
         </div>
@@ -231,10 +231,10 @@ export const GetAppModal: React.FC = () => {
                 <a
                   href="/downloads/medsupplybd-v1.0.apk"
                   download="medsupplybd-v1.0.apk"
-                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] font-black text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
                   id="direct-apk-download-btn"
                 >
-                  <Download className="w-4 h-4 text-[#01382a]" />
+                  <Download className="w-4 h-4 text-[#241B52]" />
                   <span>Download APK (17.3 MB)</span>
                 </a>
               </div>
@@ -272,7 +272,7 @@ export const GetAppModal: React.FC = () => {
                     id="direct-ipa-download-btn"
                     title="Download native iOS .ipa package for AltStore, Sideloadly or TestFlight"
                   >
-                    <div className="flex items-center gap-1.5 font-black text-xs text-white group-hover:text-emerald-300">
+                    <div className="flex items-center gap-1.5 font-black text-xs text-white group-hover:text-indigo-300">
                       <Download className="w-3.5 h-3.5 text-sky-400" />
                       <span>Download iOS IPA</span>
                     </div>
@@ -283,15 +283,15 @@ export const GetAppModal: React.FC = () => {
                   <a
                     href="/downloads/medsupplybd-ios.mobileconfig"
                     download="medsupplybd-ios.mobileconfig"
-                    className="p-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 flex flex-col items-center justify-center text-center transition-all group active:scale-95"
+                    className="p-3 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-400/40 flex flex-col items-center justify-center text-center transition-all group active:scale-95"
                     id="direct-mobileconfig-download-btn"
                     title="1-Click iOS Configuration Profile for instant Home Screen install"
                   >
-                    <div className="flex items-center gap-1.5 font-black text-xs text-emerald-300 group-hover:text-emerald-200">
-                      <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                    <div className="flex items-center gap-1.5 font-black text-xs text-indigo-300 group-hover:text-indigo-200">
+                      <Zap className="w-3.5 h-3.5 text-indigo-400" />
                       <span>1-Click iOS Profile</span>
                     </div>
-                    <span className="text-[10px] text-emerald-200/70 mt-0.5">Direct iPhone Settings</span>
+                    <span className="text-[10px] text-indigo-200/70 mt-0.5">Direct iPhone Settings</span>
                   </a>
 
                   {/* Option 2C: Safari Web App */}
@@ -303,8 +303,8 @@ export const GetAppModal: React.FC = () => {
                     <div className="flex items-center gap-1.5 font-bold text-xs text-slate-200 group-hover:text-white">
                       {copied ? (
                         <>
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="text-emerald-300">Link Copied!</span>
+                          <Check className="w-3.5 h-3.5 text-indigo-400" />
+                          <span className="text-indigo-300">Link Copied!</span>
                         </>
                       ) : (
                         <>
@@ -321,8 +321,8 @@ export const GetAppModal: React.FC = () => {
               {/* PRIMARY ACTION 3: BROWSER 1-CLICK INSTALL */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
-                    <Zap className="w-5 h-5 text-emerald-700" />
+                  <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-indigo-700" />
                   </div>
                   <div>
                     <div className="font-bold text-xs text-slate-900">
@@ -361,8 +361,8 @@ export const GetAppModal: React.FC = () => {
               {/* QR Code Scan Section */}
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
                 <div className="bg-white p-2.5 rounded-xl border border-slate-200 shadow-xs shrink-0 flex flex-col items-center">
-                  <div className="w-24 h-24 relative bg-emerald-50 rounded-lg p-1.5 flex items-center justify-center border border-emerald-200/60">
-                    <svg viewBox="0 0 100 100" className="w-full h-full text-[#01382a]" fill="currentColor">
+                  <div className="w-24 h-24 relative bg-indigo-50 rounded-lg p-1.5 flex items-center justify-center border border-indigo-200/60">
+                    <svg viewBox="0 0 100 100" className="w-full h-full text-[#241B52]" fill="currentColor">
                       <rect x="0" y="0" width="30" height="30" rx="4" />
                       <rect x="5" y="5" width="20" height="20" rx="2" fill="white" />
                       <rect x="10" y="10" width="10" height="10" />
@@ -376,7 +376,7 @@ export const GetAppModal: React.FC = () => {
                       <circle cx="55" cy="15" r="3" />
                       <circle cx="15" cy="45" r="3" />
                       <circle cx="15" cy="55" r="3" />
-                      <rect x="38" y="38" width="24" height="24" rx="3" fill="#10b981" />
+                      <rect x="38" y="38" width="24" height="24" rx="3" fill="#4F46E5" />
                       <circle cx="50" cy="50" r="6" fill="white" />
                       <circle cx="75" cy="45" r="3" />
                       <circle cx="75" cy="55" r="3" />
@@ -433,10 +433,10 @@ export const GetAppModal: React.FC = () => {
                 <a
                   href="/downloads/medsupplybd-v1.0.apk"
                   download="medsupplybd-v1.0.apk"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] font-black text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] font-black text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-95 shrink-0"
                   id="tab-android-download-btn"
                 >
-                  <Download className="w-5 h-5 text-[#01382a]" />
+                  <Download className="w-5 h-5 text-[#241B52]" />
                   <span>Download APK (17.3 MB)</span>
                 </a>
               </div>
@@ -444,7 +444,7 @@ export const GetAppModal: React.FC = () => {
               {/* Technical Specifications */}
               <div className="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-2.5">
                 <h4 className="font-bold text-xs text-slate-900 flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <ShieldCheck className="w-4 h-4 text-indigo-700" />
                   <span>APK Specifications &amp; Build Metadata</span>
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
@@ -462,7 +462,7 @@ export const GetAppModal: React.FC = () => {
                   </div>
                   <div className="p-2.5 rounded-xl bg-white border border-slate-200">
                     <span className="text-[10px] text-slate-500 block">File Size</span>
-                    <span className="font-bold text-emerald-700">17.3 MB</span>
+                    <span className="font-bold text-indigo-700">17.3 MB</span>
                   </div>
                 </div>
               </div>
@@ -474,7 +474,7 @@ export const GetAppModal: React.FC = () => {
                 </h4>
                 <ol className="text-xs text-slate-700 space-y-2 list-decimal list-inside pl-1">
                   <li>
-                    Tap <strong>Download APK (17.3 MB)</strong> above. The file <code className="font-mono text-emerald-800 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">medsupplybd-v1.0.apk</code> will download to your phone.
+                    Tap <strong>Download APK (17.3 MB)</strong> above. The file <code className="font-mono text-indigo-800 font-bold bg-indigo-50 px-1.5 py-0.5 rounded">medsupplybd-v1.0.apk</code> will download to your phone.
                   </li>
                   <li>
                     When download finishes, tap the notification or open your phone&apos;s <strong>Files / Downloads</strong> app.
@@ -509,7 +509,7 @@ export const GetAppModal: React.FC = () => {
                         <h4 className="font-black text-base text-white">
                           MedSupplyBD for Apple iPhone &amp; iPad
                         </h4>
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-[#01382a] text-[10px] font-black uppercase">
+                        <span className="px-2 py-0.5 rounded-full bg-indigo-400 text-[#241B52] text-[10px] font-black uppercase">
                           iOS 15 to 18+
                         </span>
                       </div>
@@ -537,7 +537,7 @@ export const GetAppModal: React.FC = () => {
                         <div className="text-[10px] font-normal text-slate-500">Native bundle (12.8 MB)</div>
                       </div>
                     </div>
-                    <Download className="w-4 h-4 text-emerald-700" />
+                    <Download className="w-4 h-4 text-indigo-700" />
                   </a>
 
                   {/* BUTTON 2: 1-CLICK CONFIGURATION PROFILE */}
@@ -561,22 +561,22 @@ export const GetAppModal: React.FC = () => {
               </div>
 
               {/* METHOD 1: 1-CLICK PROFILE INSTALL GUIDE */}
-              <div className="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 space-y-2.5">
+              <div className="p-4 rounded-2xl border border-indigo-200 bg-indigo-50/70 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-black text-xs text-emerald-950 flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-emerald-700 text-white flex items-center justify-center text-[11px] font-black">
+                  <h4 className="font-black text-xs text-[#241B52] flex items-center gap-2">
+                    <span className="w-5 h-5 rounded-md bg-[#4338CA] text-white flex items-center justify-center text-[11px] font-black">
                       A
                     </span>
                     Method 1: Instant Install via iOS Profile (Fastest &bull; No Computer Required)
                   </h4>
-                  <span className="text-[10px] font-bold text-emerald-800 bg-emerald-200/60 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-bold text-indigo-800 bg-indigo-200/60 px-2 py-0.5 rounded-full">
                     Recommended
                   </span>
                 </div>
-                <p className="text-xs text-emerald-900/90 leading-relaxed">
+                <p className="text-xs text-indigo-900/90 leading-relaxed">
                   Apple allows certified WebClip profiles to install the MedSupplyBD app icon directly onto your iPhone home screen:
                 </p>
-                <ol className="text-xs text-emerald-950 space-y-1.5 list-decimal list-inside pl-1 font-medium">
+                <ol className="text-xs text-[#241B52] space-y-1.5 list-decimal list-inside pl-1 font-medium">
                   <li>Tap <strong>1-Click iOS Profile</strong> above while browsing in <strong>Apple Safari</strong>.</li>
                   <li>Tap <strong>Allow</strong> when prompted: <em>&quot;This website is trying to download a configuration profile&quot;</em>.</li>
                   <li>Open iPhone <strong>Settings ⚙️</strong> &rarr; tap <strong>&quot;Profile Downloaded&quot;</strong> near the top &rarr; tap <strong>Install</strong>.</li>
@@ -614,12 +614,12 @@ export const GetAppModal: React.FC = () => {
                     onClick={handleCopyUrl}
                     className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold flex items-center gap-1 transition-colors"
                   >
-                    {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
+                    {copied ? <Check className="w-3 h-3 text-indigo-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
                     <span>{copied ? "Copied" : "Copy Safari Link"}</span>
                   </button>
                 </div>
                 <ol className="text-xs text-slate-600 space-y-1.5 list-decimal list-inside pl-1">
-                  <li>Open <code className="font-mono text-emerald-800 font-bold">{currentUrl}</code> in <strong>Apple Safari</strong>.</li>
+                  <li>Open <code className="font-mono text-indigo-800 font-bold">{currentUrl}</code> in <strong>Apple Safari</strong>.</li>
                   <li>Tap the <strong>Share button (⎋)</strong> at the bottom center of the Safari toolbar.</li>
                   <li>Scroll down and tap <strong>&quot;Add to Home Screen&quot; (⊞)</strong>.</li>
                   <li>Tap <strong>&quot;Add&quot;</strong> in the top-right corner.</li>
@@ -627,16 +627,16 @@ export const GetAppModal: React.FC = () => {
               </div>
 
               {/* Developer & GitHub Actions Cloud Builder */}
-              <div className="p-4 rounded-2xl bg-slate-900 text-emerald-300 font-mono text-xs space-y-2 border border-slate-800">
+              <div className="p-4 rounded-2xl bg-slate-900 text-indigo-300 font-mono text-xs space-y-2 border border-slate-800">
                 <div className="flex items-center justify-between text-slate-400 text-[11px] pb-1 border-b border-slate-800">
                   <span className="flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                    <Terminal className="w-3.5 h-3.5 text-indigo-400" />
                     Xcode &amp; GitHub Actions Cloud Build
                   </span>
-                  <span className="text-emerald-400 font-bold">bd.medsupply.b2b</span>
+                  <span className="text-indigo-400 font-bold">bd.medsupply.b2b</span>
                 </div>
                 <p className="text-slate-300 font-sans text-xs">
-                  Native iOS Xcode project is located at <code className="text-emerald-400">/ios/App/App.xcodeproj</code>. Automated cloud IPA builds run on every Git push via <code className="text-emerald-400">.github/workflows/ios-build.yml</code> on GitHub macOS runners!
+                  Native iOS Xcode project is located at <code className="text-indigo-400">/ios/App/App.xcodeproj</code>. Automated cloud IPA builds run on every Git push via <code className="text-indigo-400">.github/workflows/ios-build.yml</code> on GitHub macOS runners!
                 </p>
               </div>
 
@@ -650,18 +650,18 @@ export const GetAppModal: React.FC = () => {
             <div className="space-y-4">
               
               <div className="grid grid-cols-3 gap-2.5 text-center">
-                <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-100 flex flex-col items-center">
-                  <HardDrive className="w-5 h-5 text-emerald-700 mb-1" />
+                <div className="p-3 rounded-2xl bg-indigo-50 border border-indigo-100 flex flex-col items-center">
+                  <HardDrive className="w-5 h-5 text-indigo-700 mb-1" />
                   <span className="font-bold text-slate-900 text-xs">Lightweight</span>
                   <span className="text-[10px] text-slate-500">&lt;3MB footprint</span>
                 </div>
-                <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-100 flex flex-col items-center">
-                  <Zap className="w-5 h-5 text-emerald-700 mb-1" />
+                <div className="p-3 rounded-2xl bg-indigo-50 border border-indigo-100 flex flex-col items-center">
+                  <Zap className="w-5 h-5 text-indigo-700 mb-1" />
                   <span className="font-bold text-slate-900 text-xs">Instant Setup</span>
                   <span className="text-[10px] text-slate-500">Zero App Store wait</span>
                 </div>
-                <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-100 flex flex-col items-center">
-                  <ShieldCheck className="w-5 h-5 text-emerald-700 mb-1" />
+                <div className="p-3 rounded-2xl bg-indigo-50 border border-indigo-100 flex flex-col items-center">
+                  <ShieldCheck className="w-5 h-5 text-indigo-700 mb-1" />
                   <span className="font-bold text-slate-900 text-xs">Works Offline</span>
                   <span className="text-[10px] text-slate-500">Local DB caching</span>
                 </div>
@@ -691,7 +691,7 @@ export const GetAppModal: React.FC = () => {
         {/* Footer */}
         <div className="p-4 bg-slate-100 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <ShieldCheck className="w-4 h-4 text-indigo-700" />
             <span className="font-medium">DGDA Digital Distribution Standard &bull; Android &amp; iOS Verified</span>
           </div>
 

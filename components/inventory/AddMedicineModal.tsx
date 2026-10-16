@@ -54,9 +54,9 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
       <div className="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="p-5 bg-gradient-to-r from-[#044a40] to-[#065F52] text-white flex items-center justify-between">
+        <div className="p-5 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Boxes className="w-5 h-5 text-emerald-300" />
+            <Boxes className="w-5 h-5 text-indigo-300" />
             <h3 className="font-black text-base">Add New Medicine to Database</h3>
           </div>
           <button
@@ -78,7 +78,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 placeholder="e.g. Napa Extra"
                 value={brandName}
                 onChange={(e) => setBrandName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
 
@@ -90,7 +90,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 placeholder="e.g. Paracetamol + Caffeine"
                 value={genericName}
                 onChange={(e) => setGenericName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -101,7 +101,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
               <select
                 value={dosageForm}
                 onChange={(e) => setDosageForm(e.target.value as DosageForm)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value={DosageForm.TABLET}>TABLET</option>
                 <option value={DosageForm.CAPSULE}>CAPSULE</option>
@@ -119,7 +119,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 placeholder="e.g. 500mg + 65mg"
                 value={strength}
                 onChange={(e) => setStrength(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
 
@@ -130,7 +130,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 placeholder="e.g. Square / Beximco"
                 value={manufacturer}
                 onChange={(e) => setManufacturer(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 min="0"
                 value={tradePricePerPiece}
                 onChange={(e) => setTradePricePerPiece(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
 
@@ -189,7 +189,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
                 min="0"
                 value={mrpPerPiece}
                 onChange={(e) => setMrpPerPiece(Number(e.target.value))}
-                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
           </div>
@@ -201,7 +201,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
               placeholder="e.g. Analgesic and antipyretic for fever and headache."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
@@ -216,7 +216,7 @@ export const AddMedicineModal: React.FC<AddMedicineModalProps> = ({ onClose }) =
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md flex items-center gap-1.5"
+              className="px-5 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold shadow-md flex items-center gap-1.5"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>Save Medicine</span>

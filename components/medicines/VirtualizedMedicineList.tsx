@@ -102,7 +102,7 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
 
   const getFormBadgeStyle = (form: string) => {
     const upper = form?.toUpperCase() || "";
-    if (upper === "TABLET") return "bg-emerald-50 text-emerald-800 border-emerald-200";
+    if (upper === "TABLET") return "bg-indigo-50 text-indigo-800 border-indigo-200";
     if (upper === "CAPSULE") return "bg-blue-50 text-blue-800 border-blue-200";
     if (upper === "INJECTION") return "bg-purple-50 text-purple-800 border-purple-200";
     if (upper === "SYRUP") return "bg-amber-50 text-amber-800 border-amber-200";
@@ -138,19 +138,19 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
               <Link
                 href={`/products/${item.id}`}
                 onClick={() => onSelectMedicine?.(item)}
-                className="w-full h-full bg-white hover:bg-emerald-50/50 rounded-2xl border border-slate-200/90 hover:border-emerald-400 p-3 sm:px-4 sm:py-3 transition-all flex items-center justify-between gap-3 group shadow-xs hover:shadow-md cursor-pointer"
+                className="w-full h-full bg-white hover:bg-indigo-50/50 rounded-2xl border border-slate-200/90 hover:border-indigo-400 p-3 sm:px-4 sm:py-3 transition-all flex items-center justify-between gap-3 group shadow-xs hover:shadow-md cursor-pointer"
               >
                 {/* Left: Brand, Generic, Company */}
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   {/* Icon Indicator */}
-                  <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-center text-emerald-700 shrink-0 group-hover:scale-105 group-hover:bg-emerald-100/60 transition-all">
+                  <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-center text-indigo-700 shrink-0 group-hover:scale-105 group-hover:bg-indigo-100/60 transition-all">
                     <Pill className="w-5 h-5" />
                   </div>
 
                   <div className="min-w-0 flex-1 space-y-0.5">
                     {/* Brand Name & Form & Strength Badges */}
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="font-black text-sm text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
+                      <h4 className="font-black text-sm text-slate-900 group-hover:text-indigo-700 transition-colors truncate">
                         {item.brandName}
                       </h4>
 
@@ -219,10 +219,10 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
                             : mfg;
                           onSelectManufacturer(normalized);
                         }}
-                        className="text-[11px] text-emerald-700 hover:text-emerald-900 font-semibold hover:underline flex items-center gap-1 truncate cursor-pointer text-left group/mfg"
+                        className="text-[11px] text-indigo-700 hover:text-indigo-900 font-semibold hover:underline flex items-center gap-1 truncate cursor-pointer text-left group/mfg"
                         title={`Filter all medicines by ${item.manufacturer}`}
                       >
-                        <Building2 className="w-3 h-3 text-emerald-600 shrink-0 group-hover/mfg:scale-110 transition-transform" />
+                        <Building2 className="w-3 h-3 text-indigo-600 shrink-0 group-hover/mfg:scale-110 transition-transform" />
                         <span className="truncate">{item.manufacturer}</span>
                       </button>
                     ) : (
@@ -245,13 +245,13 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
                       <span className="text-[10px] font-normal text-slate-600"> /pc</span>
                     </div>
                     {item.tradePricePerPiece && (
-                      <div className="text-[10px] font-semibold text-emerald-800 font-mono">
+                      <div className="text-[10px] font-semibold text-indigo-800 font-mono">
                         TP: ৳{Number(item.tradePricePerPiece).toFixed(2)}
                       </div>
                     )}
                   </div>
 
-                  <div className="w-8 h-8 rounded-xl bg-slate-50 group-hover:bg-emerald-600 group-hover:text-white text-slate-600 flex items-center justify-center border border-slate-200 group-hover:border-emerald-600 transition-all shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-slate-50 group-hover:bg-[#4F46E5] group-hover:text-white text-slate-600 flex items-center justify-center border border-slate-200 group-hover:border-indigo-600 transition-all shrink-0">
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
@@ -262,8 +262,8 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
 
         {/* Loading More Spinner at Bottom */}
         {isLoadingMore && (
-          <div className="p-4 flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50/50 border-t border-emerald-100">
-            <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+          <div className="p-4 flex items-center justify-center gap-2 text-xs font-semibold text-indigo-700 bg-indigo-50/50 border-t border-indigo-100">
+            <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
             <span>Loading next 50 medicines from database...</span>
           </div>
         )}
@@ -279,7 +279,7 @@ export const VirtualizedMedicineList: React.FC<VirtualizedMedicineListProps> = (
       {/* Footer Status Bar */}
       <div className="px-4 py-3 bg-slate-50 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-700">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
           <span>
             Loaded <strong>{medicines.length.toLocaleString()}</strong> of{" "}
             <strong>{totalFiltered.toLocaleString()}</strong> rows (50 per lazy-load)

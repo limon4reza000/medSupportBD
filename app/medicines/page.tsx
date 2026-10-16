@@ -187,7 +187,7 @@ export default function MedicineListPage() {
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
             {isSearching ? (
-              <Loader2 className="w-5 h-5 text-emerald-600 animate-spin" />
+              <Loader2 className="w-5 h-5 text-indigo-600 animate-spin" />
             ) : (
               <Search className="w-5 h-5 text-slate-400" />
             )}
@@ -198,7 +198,7 @@ export default function MedicineListPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by brand name, generic name, or company (e.g. Napa, Paracetamol, Square, Seclo)..."
-            className="w-full pl-12 pr-12 py-3.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-500 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all shadow-inner"
+            className="w-full pl-12 pr-12 py-3.5 bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-500 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all shadow-inner"
           />
 
           {searchQuery && (
@@ -228,7 +228,7 @@ export default function MedicineListPage() {
                 onClick={() => setSelectedForm(form)}
                 className={`px-3 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all ${
                   selectedForm === form
-                    ? "bg-emerald-600 text-white shadow-xs"
+                    ? "bg-[#4F46E5] text-white shadow-xs"
                     : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
                 }`}
               >
@@ -247,7 +247,7 @@ export default function MedicineListPage() {
             <select
               value={selectedManufacturer}
               onChange={(e) => setSelectedManufacturer(e.target.value)}
-              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-800 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer"
             >
               {topManufacturers.map((mfg) => (
                 <option key={mfg.id} value={mfg.id}>
@@ -262,14 +262,14 @@ export default function MedicineListPage() {
         <div className="pt-2 border-t border-slate-100 space-y-2">
           <div className="flex items-center justify-between text-xs">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+              <Building2 className="w-3.5 h-3.5 text-indigo-600" />
               <span>Pharmaceutical Manufacturer:</span>
             </span>
 
             {selectedManufacturer !== "ALL" && (
               <button
                 onClick={() => setSelectedManufacturer("ALL")}
-                className="text-[11px] font-bold text-emerald-600 hover:text-emerald-800 transition-colors flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200"
+                className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200"
               >
                 <X className="w-3 h-3" />
                 <span>Show All Companies</span>
@@ -286,7 +286,7 @@ export default function MedicineListPage() {
                   onClick={() => setSelectedManufacturer(comp.id)}
                   className={`px-3 py-1.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
                     isSelected
-                      ? "bg-[#025540] text-white shadow-xs scale-102 ring-2 ring-[#025540]/20"
+                      ? "bg-[#4F46E5] text-white shadow-xs scale-102 ring-2 ring-[#4F46E5]/20"
                       : "bg-slate-100 hover:bg-slate-200/80 text-slate-600"
                   }`}
                 >
@@ -308,7 +308,7 @@ export default function MedicineListPage() {
         <div className="flex items-center justify-between text-xs font-semibold pt-1 border-t border-slate-100">
           <div className="flex items-center gap-2">
             {debouncedQuery ? (
-              <span className="text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">
+              <span className="text-indigo-800 bg-indigo-50 border border-indigo-200 px-2.5 py-1 rounded-lg">
                 Found <strong>{totalFiltered.toLocaleString()}</strong> results for &ldquo;{debouncedQuery}&rdquo;{" "}
                 <span className="text-slate-500 font-normal">
                   (out of {totalDatabase.toLocaleString()} medicines in database)
@@ -319,7 +319,7 @@ export default function MedicineListPage() {
                 Displaying <strong>{totalFiltered.toLocaleString()}</strong> medicines in database
                 {selectedForm !== "ALL" && ` · Form: ${selectedForm}`}
                 {selectedManufacturer !== "ALL" && (
-                  <span className="text-emerald-700 font-bold ml-1">
+                  <span className="text-indigo-700 font-bold ml-1">
                     · Company: {topManufacturers.find((c) => c.id === selectedManufacturer)?.label || selectedManufacturer}
                   </span>
                 )}
@@ -328,7 +328,7 @@ export default function MedicineListPage() {
           </div>
 
           {isSearching && (
-            <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
+            <div className="flex items-center gap-1.5 text-indigo-700 font-medium">
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
               <span>Searching...</span>
             </div>
@@ -338,19 +338,19 @@ export default function MedicineListPage() {
 
       {/* Active Company Filter Alert Banner */}
       {selectedManufacturer !== "ALL" && (
-        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3 text-emerald-950 animate-in fade-in slide-in-from-top-2 shadow-xs">
+        <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-between gap-3 text-[#241B52] animate-in fade-in slide-in-from-top-2 shadow-xs">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-[#025540] text-white flex items-center justify-center shrink-0 shadow-xs font-black">
+            <div className="w-10 h-10 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center shrink-0 shadow-xs font-black">
               <Building2 className="w-5 h-5 text-white" />
             </div>
             <div className="min-w-0">
               <div className="text-sm font-black truncate">
                 Displaying all {totalFiltered.toLocaleString()} products manufactured by{" "}
-                <span className="text-[#025540] underline underline-offset-2">
+                <span className="text-[#4F46E5] underline underline-offset-2">
                   {topManufacturers.find((c) => c.id === selectedManufacturer)?.label || selectedManufacturer}
                 </span>
               </div>
-              <div className="text-xs text-emerald-700">
+              <div className="text-xs text-indigo-700">
                 Official DGDA registered master catalog list with wholesale trade price (TP) & retail MRP
               </div>
             </div>
@@ -358,9 +358,9 @@ export default function MedicineListPage() {
 
           <button
             onClick={() => setSelectedManufacturer("ALL")}
-            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
+            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-indigo-100 border border-indigo-300 text-indigo-900 text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-2xs"
           >
-            <X className="w-3.5 h-3.5 text-emerald-600" />
+            <X className="w-3.5 h-3.5 text-indigo-600" />
             <span>Clear Company</span>
           </button>
         </div>
@@ -371,7 +371,7 @@ export default function MedicineListPage() {
       {/* =================================================================== */}
       {isInitialLoading ? (
         <div className="p-16 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex flex-col items-center justify-center text-center space-y-3">
-          <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+          <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
           <h3 className="font-extrabold text-slate-800 text-base">
             Connecting to Medicine Database...
           </h3>
@@ -397,7 +397,7 @@ export default function MedicineListPage() {
 
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs text-slate-600 text-left max-w-md space-y-1">
             <div className="font-bold text-slate-700 flex items-center gap-1.5">
-              <AlertCircle className="w-4 h-4 text-emerald-600" />
+              <AlertCircle className="w-4 h-4 text-indigo-600" />
               <span>Helpful Search Tips:</span>
             </div>
             <ul className="list-disc pl-5 space-y-0.5 text-[11px] text-slate-500">
@@ -415,7 +415,7 @@ export default function MedicineListPage() {
               setSelectedForm("ALL");
               setSelectedManufacturer("ALL");
             }}
-            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-xs"
+            className="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold text-xs transition-all shadow-xs"
           >
             Reset Filters & View All Medicines
           </button>

@@ -69,10 +69,10 @@ export default function CartPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <ShoppingCart className="w-6 h-6 text-emerald-400" />
+            <ShoppingCart className="w-6 h-6 text-indigo-400" />
             <span>Active Order Cart</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Normalized packaging quantities, calculated trade bonuses, and real-time credit gating.
           </p>
         </div>
@@ -90,9 +90,9 @@ export default function CartPage() {
 
       {/* SUCCESS CHECKOUT MODAL / BANNER */}
       {successOrder && (
-        <div className="premium-card p-6 border-emerald-400 bg-emerald-50/50 animate-in zoom-in-95">
+        <div className="premium-card p-6 border-indigo-400 bg-indigo-50/50 animate-in zoom-in-95">
           <div className="flex items-start gap-4">
-            <div className="p-2 rounded-full bg-emerald-100 text-emerald-800">
+            <div className="p-2 rounded-full bg-indigo-100 text-indigo-800">
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div className="flex-1 space-y-2">
@@ -100,7 +100,7 @@ export default function CartPage() {
                 <h3 className="text-lg font-black text-slate-900">
                   Order Successfully Placed & Batches Allocated!
                 </h3>
-                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800">
+                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-indigo-100 text-indigo-800">
                   {successOrder.orderNumber}
                 </span>
               </div>
@@ -110,7 +110,7 @@ export default function CartPage() {
               <div className="pt-3 flex items-center gap-3">
                 <Link
                   href={`/orders/${successOrder.id}`}
-                  className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
                 >
                   <FileText className="w-4 h-4" />
                   <span>View Order & Invoice</span>
@@ -149,7 +149,7 @@ export default function CartPage() {
           <div className="flex justify-center gap-3 pt-2">
             <Link
               href="/products"
-              className="px-4 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md"
+              className="px-4 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md"
             >
               Browse Medicine Catalog
             </Link>
@@ -179,7 +179,7 @@ export default function CartPage() {
                     <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
                       {item.medicine.strength}
                     </span>
-                    <span className="text-[10px] uppercase font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                    <span className="text-[10px] uppercase font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">
                       {item.orderedUnit}
                     </span>
                   </div>
@@ -194,13 +194,13 @@ export default function CartPage() {
                       {item.totalLoosePieces} loose pieces billed
                     </span>
                     {item.bonusLooseUnits > 0 && (
-                      <span className="text-emerald-800 font-bold bg-emerald-100 px-2 py-0.5 rounded text-[11px] flex items-center gap-1">
+                      <span className="text-indigo-800 font-bold bg-indigo-100 px-2 py-0.5 rounded text-[11px] flex items-center gap-1">
                         <Tag className="w-3 h-3" />
                         +{item.bonusLooseUnits} bonus pieces FREE
                       </span>
                     )}
                     {item.discountAmount > 0 && (
-                      <span className="text-emerald-700 font-semibold">
+                      <span className="text-indigo-700 font-semibold">
                         -{item.discountPercentage}% trade discount
                       </span>
                     )}
@@ -252,7 +252,7 @@ export default function CartPage() {
             {/* Delivery Instructions */}
             <div className="premium-card p-4 space-y-2">
               <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                <Building2 className="w-4 h-4 text-emerald-700" />
+                <Building2 className="w-4 h-4 text-indigo-700" />
                 <span>Depot Dispatch & Delivery Instructions:</span>
               </label>
               <textarea
@@ -260,7 +260,7 @@ export default function CartPage() {
                 placeholder="e.g. Urgent morning delivery before 11 AM; deliver to Back Counter entrance."
                 value={deliveryNotes}
                 onChange={(e) => setDeliveryNotes(e.target.value)}
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
               />
             </div>
           </div>
@@ -280,13 +280,13 @@ export default function CartPage() {
                   <span className="font-mono font-bold text-slate-900">৳{totalGross.toFixed(2)}</span>
                 </div>
                 {totalDiscount > 0 && (
-                  <div className="flex justify-between text-emerald-700 font-semibold">
+                  <div className="flex justify-between text-indigo-700 font-semibold">
                     <span>Trade Schemes Discount:</span>
                     <span className="font-mono">-৳{totalDiscount.toFixed(2)}</span>
                   </div>
                 )}
                 {cartTotalBonusPieces > 0 && (
-                  <div className="flex justify-between text-emerald-800 font-bold bg-emerald-50 p-2 rounded-lg">
+                  <div className="flex justify-between text-indigo-800 font-bold bg-indigo-50 p-2 rounded-lg">
                     <span>Total Free Bonus Pieces:</span>
                     <span className="font-mono">+{cartTotalBonusPieces} pieces</span>
                   </div>
@@ -298,7 +298,7 @@ export default function CartPage() {
                 
                 <div className="pt-3 border-t border-slate-200 flex justify-between items-baseline">
                   <span className="font-black text-sm text-slate-900">Total Payable:</span>
-                  <span className="text-2xl font-black font-mono text-emerald-800">
+                  <span className="text-2xl font-black font-mono text-indigo-800">
                     ৳{cartTotalAmount.toFixed(2)}
                   </span>
                 </div>
@@ -308,11 +308,11 @@ export default function CartPage() {
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-700 flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                    <ShieldCheck className="w-4 h-4 text-indigo-700" />
                     <span>Credit Gating Audit</span>
                   </span>
                   {isCreditSufficient ? (
-                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full">
                       Approved
                     </span>
                   ) : (
@@ -329,7 +329,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between">
                     <span>Remaining After Order:</span>
-                    <strong className={`font-mono ${remainingCreditAfterCart >= 0 ? "text-emerald-700" : "text-rose-600"}`}>
+                    <strong className={`font-mono ${remainingCreditAfterCart >= 0 ? "text-indigo-700" : "text-rose-600"}`}>
                       ৳{remainingCreditAfterCart.toFixed(2)}
                     </strong>
                   </div>
@@ -347,7 +347,7 @@ export default function CartPage() {
                     ? "bg-slate-300 text-slate-600 cursor-not-allowed"
                     : !isCreditSufficient
                     ? "bg-rose-600 text-white cursor-not-allowed opacity-90"
-                    : "bg-[#025540] hover:bg-[#036b51] text-white hover:scale-105 active:scale-95"
+                    : "bg-[#4F46E5] hover:bg-[#4338CA] text-white hover:scale-105 active:scale-95"
                 }`}
               >
                 {isProcessing ? (

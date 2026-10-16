@@ -30,7 +30,7 @@ export const NotificationMenu: React.FC = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Notifications"
-        className="relative p-2 rounded-xl text-emerald-100 hover:text-white hover:bg-white/10 transition-colors"
+        className="relative p-2 rounded-xl text-indigo-100 hover:text-white hover:bg-white/10 transition-colors"
       >
         <Bell className="w-5 h-5 stroke-[2]" />
         {unreadCount > 0 && (
@@ -46,10 +46,10 @@ export const NotificationMenu: React.FC = () => {
           
           <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
             <div className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
-              <Bell className="w-4 h-4 text-emerald-700" />
+              <Bell className="w-4 h-4 text-indigo-700" />
               <span>Notifications</span>
               {unreadCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                <span className="px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                   {unreadCount} new
                 </span>
               )}
@@ -57,7 +57,7 @@ export const NotificationMenu: React.FC = () => {
             {unreadCount > 0 && (
               <button
                 onClick={markAllNotificationsRead}
-                className="text-[11px] text-emerald-700 hover:underline font-semibold"
+                className="text-[11px] text-indigo-700 hover:underline font-semibold"
               >
                 Mark all read
               </button>
@@ -82,7 +82,7 @@ export const NotificationMenu: React.FC = () => {
                   }}
                   className={`p-2.5 rounded-xl text-xs cursor-pointer transition-colors border ${
                     !n.isRead
-                      ? "bg-emerald-50/80 border-emerald-200 font-semibold"
+                      ? "bg-indigo-50/80 border-indigo-200 font-semibold"
                       : "bg-slate-50 border-slate-100 opacity-80 hover:opacity-100"
                   }`}
                 >
@@ -100,7 +100,7 @@ export const NotificationMenu: React.FC = () => {
             <Link
               href="/notifications"
               onClick={() => setIsOpen(false)}
-              className="text-xs font-semibold text-emerald-700 hover:text-emerald-900 inline-flex items-center gap-1"
+              className="text-xs font-semibold text-indigo-700 hover:text-indigo-900 inline-flex items-center gap-1"
             >
               <span>View All Notifications</span>
               <ArrowRight className="w-3 h-3" />

@@ -77,7 +77,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
           <div className="premium-card p-6 space-y-4">
             <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
               <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-[#025540]" />
+                <Calendar className="w-4 h-4 text-[#4F46E5]" />
                 Warehouse Batch Inventory for {selectedMed.brandName} (Sorted by Expiry ASC)
               </h3>
               <span className="text-xs text-slate-400 font-mono font-bold">
@@ -103,14 +103,14 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
                       key={batch.id}
                       className={`p-4 rounded-2xl border transition-all space-y-3 ${
                         allocatedInSim > 0
-                          ? "bg-emerald-50/60 border-emerald-300 shadow-sm"
+                          ? "bg-indigo-50/60 border-indigo-300 shadow-sm"
                           : "bg-slate-50/70 border-slate-200/80"
                       }`}
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#025540] text-white font-mono font-bold">
+                            <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#4F46E5] text-white font-mono font-bold">
                               Priority #{idx + 1}
                             </span>
                             <span className="font-extrabold text-slate-900 text-sm font-mono">
@@ -129,7 +129,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
                                 ? "bg-red-100 text-red-800 border border-red-200"
                                 : isNearExpiry
                                 ? "bg-amber-100 text-amber-800 border border-amber-200"
-                                : "bg-emerald-100 text-emerald-900 border border-emerald-200"
+                                : "bg-indigo-100 text-indigo-900 border border-indigo-200"
                             }`}
                           >
                             <Clock className="w-3 h-3" />
@@ -158,7 +158,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
                             className={`h-full transition-all duration-500 ${
                               allocatedInSim === batch.availableLooseUnits
                                 ? "bg-amber-500"
-                                : "bg-[#025540]"
+                                : "bg-[#4F46E5]"
                             }`}
                             style={{
                               width: `${Math.min(
@@ -180,7 +180,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
         <div className="lg:col-span-4 space-y-4">
           <div className="premium-panel p-6 space-y-4">
             <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-2 pb-3 border-b border-slate-100">
-              <RefreshCw className="w-4 h-4 text-[#025540]" />
+              <RefreshCw className="w-4 h-4 text-[#4F46E5]" />
               FIFO Order Allocation Simulator
             </h3>
 
@@ -196,9 +196,9 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
                   step="50"
                   value={simulationQty}
                   onChange={(e) => setSimulationQty(parseInt(e.target.value, 10))}
-                  className="w-full accent-[#025540] bg-slate-200 h-2.5 rounded-lg cursor-pointer"
+                  className="w-full accent-[#4F46E5] bg-slate-200 h-2.5 rounded-lg cursor-pointer"
                 />
-                <span className="font-mono font-black text-[#025540] text-sm w-16 text-right">
+                <span className="font-mono font-black text-[#4F46E5] text-sm w-16 text-right">
                   {simulationQty} pcs
                 </span>
               </div>
@@ -212,7 +212,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
               </div>
               <div className="flex justify-between text-slate-600">
                 <span>Total Allocated:</span>
-                <strong className="text-[#025540] font-black">{fifoResult.allocatedLooseUnits} pcs</strong>
+                <strong className="text-[#4F46E5] font-black">{fifoResult.allocatedLooseUnits} pcs</strong>
               </div>
               <div className="flex justify-between text-slate-600">
                 <span>Batches Utilized:</span>
@@ -242,7 +242,7 @@ export const FifoBatchInspector: React.FC<FifoBatchInspectorProps> = ({
                       {a.daysUntilExpiry} days before expiry
                     </span>
                   </div>
-                  <strong className="text-[#025540] font-mono font-extrabold text-xs bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200">
+                  <strong className="text-[#4F46E5] font-mono font-extrabold text-xs bg-indigo-50 px-2.5 py-1 rounded-xl border border-indigo-200">
                     +{a.piecesAllocated} pcs
                   </strong>
                 </div>

@@ -32,15 +32,15 @@ export default function SalesRepPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-400/20 text-indigo-300 border border-indigo-400/30">
               Field MPO Workspace
             </span>
-            <span className="text-xs text-emerald-200 font-mono">SR-104 (Dhaka Central Territory)</span>
+            <span className="text-xs text-indigo-200 font-mono">SR-104 (Dhaka Central Territory)</span>
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white mt-1">
             Sales Representative Dashboard
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Assigned pharmacy routes, target achievement, field visit schedules, and proxy order cutting.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function SalesRepPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsQuickOrderOpen(true)}
-            className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105"
+            className="px-4 py-2 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Book Order for Pharmacy</span>
@@ -66,12 +66,12 @@ export default function SalesRepPage() {
           <div className="text-[11px] text-slate-400 mt-1">September 2026 Target</div>
         </div>
 
-        <div className="premium-card p-5 border-emerald-300">
-          <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Achieved Sales</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+        <div className="premium-card p-5 border-indigo-300">
+          <div className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Achieved Sales</div>
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             ৳{achievedSales.toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">
             {targetPercent}% Target Completed
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function SalesRepPage() {
           <div className="text-2xl font-black font-mono text-slate-900 mt-1">
             3 Pharmacies
           </div>
-          <div className="text-[11px] text-emerald-700 font-semibold mt-1">2 Restock Orders Pending</div>
+          <div className="text-[11px] text-indigo-700 font-semibold mt-1">2 Restock Orders Pending</div>
         </div>
       </div>
 
@@ -97,11 +97,11 @@ export default function SalesRepPage() {
       <div className="premium-card p-5 space-y-2">
         <div className="flex justify-between text-xs font-bold text-slate-700">
           <span>Monthly Sales Target Achievement</span>
-          <span className="text-emerald-800 font-mono font-black">{targetPercent}%</span>
+          <span className="text-indigo-800 font-mono font-black">{targetPercent}%</span>
         </div>
         <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-emerald-600 rounded-full transition-all duration-500"
+            className="h-full bg-[#4F46E5] rounded-full transition-all duration-500"
             style={{ width: `${targetPercent}%` }}
           />
         </div>
@@ -111,12 +111,12 @@ export default function SalesRepPage() {
       <div className="premium-card p-6 space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-emerald-700" />
+            <Building2 className="w-4 h-4 text-indigo-700" />
             <h2 className="font-bold text-sm text-slate-900">Assigned Route Pharmacies</h2>
           </div>
           <Link
             href="/sales/pharmacies"
-            className="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1"
+            className="text-xs font-bold text-indigo-700 hover:text-indigo-900 flex items-center gap-1"
           >
             Detailed Directory <ArrowRight className="w-3.5 h-3.5" />
           </Link>
@@ -126,13 +126,13 @@ export default function SalesRepPage() {
           {pharmacies.map((pharm) => (
             <div
               key={pharm.id}
-              className="p-4 rounded-xl border border-slate-200 hover:border-emerald-300 bg-slate-50 hover:bg-emerald-50/20 transition-all flex flex-col justify-between"
+              className="p-4 rounded-xl border border-slate-200 hover:border-indigo-300 bg-slate-50 hover:bg-indigo-50/20 transition-all flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold text-slate-400">{pharm.code}</span>
                   <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                    pharm.isCreditBlocked ? "bg-rose-100 text-rose-800" : "bg-emerald-100 text-emerald-800"
+                    pharm.isCreditBlocked ? "bg-rose-100 text-rose-800" : "bg-indigo-100 text-indigo-800"
                   }`}>
                     {pharm.isCreditBlocked ? "Blocked" : "Active Credit"}
                   </span>
@@ -147,7 +147,7 @@ export default function SalesRepPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Outstanding:</span>
-                    <strong className="font-mono text-emerald-800">৳{pharm.currentBalance.toLocaleString()}</strong>
+                    <strong className="font-mono text-indigo-800">৳{pharm.currentBalance.toLocaleString()}</strong>
                   </div>
                 </div>
               </div>
@@ -155,13 +155,13 @@ export default function SalesRepPage() {
               <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
                 <Link
                   href={`/sales/pharmacies/${pharm.id}`}
-                  className="text-xs font-bold text-emerald-800 hover:underline"
+                  className="text-xs font-bold text-indigo-800 hover:underline"
                 >
                   View Details
                 </Link>
                 <button
                   onClick={() => setIsQuickOrderOpen(true)}
-                  className="px-3 py-1.5 rounded-lg bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold"
+                  className="px-3 py-1.5 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold"
                 >
                   Cut Order
                 </button>

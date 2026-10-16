@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
       <div>
         <Link
           href="/products"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Product Catalog</span>
@@ -136,7 +136,7 @@ export default function ProductDetailPage() {
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b border-slate-100">
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800">
                   {medicine.dosageForm}
                 </span>
                 <span className="text-xs text-slate-400 font-mono">SKU: {medicine.code}</span>
@@ -144,7 +144,7 @@ export default function ProductDetailPage() {
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
                 {medicine.brandName}
               </h1>
-              <div className="text-sm font-bold text-emerald-800 mt-0.5">
+              <div className="text-sm font-bold text-indigo-800 mt-0.5">
                 {medicine.strength}
               </div>
               <div className="text-xs text-slate-500 mt-0.5">
@@ -155,7 +155,7 @@ export default function ProductDetailPage() {
             <div className="text-left sm:text-right">
               <div className="text-xs text-slate-400 font-semibold uppercase">Manufacturer</div>
               <div className="text-xs font-bold text-slate-900 mt-0.5 flex items-center sm:justify-end gap-1">
-                <Building2 className="w-3.5 h-3.5 text-emerald-700" />
+                <Building2 className="w-3.5 h-3.5 text-indigo-700" />
                 <span>{medicine.manufacturer}</span>
               </div>
             </div>
@@ -171,7 +171,7 @@ export default function ProductDetailPage() {
           {/* Packaging Hierarchy Specification */}
           <div className="space-y-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <Layers className="w-4 h-4 text-emerald-700" />
+              <Layers className="w-4 h-4 text-indigo-700" />
               <span>Packaging Hierarchy & Stock Unit Specification</span>
             </h3>
             
@@ -186,10 +186,10 @@ export default function ProductDetailPage() {
                 <div className="text-sm font-black text-slate-900 mt-0.5">{medicine.piecesPerStrip} Pieces</div>
                 <div className="text-[10px] text-slate-500 font-mono">(Tablets/Capsules)</div>
               </div>
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
-                <div className="text-[10px] uppercase font-bold text-emerald-800">Available Stock</div>
-                <div className="text-sm font-black text-emerald-900 mt-0.5">{availableBoxes} Boxes</div>
-                <div className="text-[10px] text-emerald-700 font-mono font-bold">({totalStockPieces} pcs in depot)</div>
+              <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-200">
+                <div className="text-[10px] uppercase font-bold text-indigo-800">Available Stock</div>
+                <div className="text-sm font-black text-indigo-900 mt-0.5">{availableBoxes} Boxes</div>
+                <div className="text-[10px] text-indigo-700 font-mono font-bold">({totalStockPieces} pcs in depot)</div>
               </div>
             </div>
           </div>
@@ -198,10 +198,10 @@ export default function ProductDetailPage() {
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-                <Boxes className="w-4 h-4 text-emerald-700" />
+                <Boxes className="w-4 h-4 text-indigo-700" />
                 <span>Multi-tier Loose Normalization Engine</span>
               </span>
-              <span className="text-[10px] font-mono text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded font-bold">
+              <span className="text-[10px] font-mono text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded font-bold">
                 Auto-Pack Normalizer
               </span>
             </div>
@@ -213,10 +213,10 @@ export default function ProductDetailPage() {
                 min="1"
                 value={customStripInput}
                 onChange={(e) => setCustomStripInput(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-24 px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-mono font-bold text-slate-900 outline-none focus:border-emerald-600"
+                className="w-24 px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-mono font-bold text-slate-900 outline-none focus:border-indigo-600"
               />
               <div className="text-xs text-slate-700">
-                Normalizes to: <strong className="text-emerald-800 font-mono">{stripConversion.boxes} Boxes + {stripConversion.strips} Strips</strong> ({stripConversion.totalLoosePieces} total pcs)
+                Normalizes to: <strong className="text-indigo-800 font-mono">{stripConversion.boxes} Boxes + {stripConversion.strips} Strips</strong> ({stripConversion.totalLoosePieces} total pcs)
               </div>
             </div>
           </div>
@@ -224,7 +224,7 @@ export default function ProductDetailPage() {
           {/* FEFO Batches Table */}
           <div className="space-y-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-              <Calendar className="w-4 h-4 text-emerald-700" />
+              <Calendar className="w-4 h-4 text-indigo-700" />
               <span>Authoritative FEFO Batch Stock Allocation (First Expiry First Out)</span>
             </h3>
 
@@ -244,18 +244,18 @@ export default function ProductDetailPage() {
                     const isFirst = idx === 0;
                     const isNearExp = new Date(b.expiryDate).getFullYear() === 2026;
                     return (
-                      <tr key={b.id} className={isFirst ? "bg-emerald-50/50" : ""}>
+                      <tr key={b.id} className={isFirst ? "bg-indigo-50/50" : ""}>
                         <td className="py-2.5 px-3 font-mono font-bold text-slate-900">{b.batchNumber}</td>
                         <td className="py-2.5 px-3 text-slate-500">{typeof b.manufacturingDate === "string" ? b.manufacturingDate : "2025-01-15"}</td>
                         <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                           {typeof b.expiryDate === "string" ? b.expiryDate : "2027-06-30"}
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-emerald-800 font-bold">
+                        <td className="py-2.5 px-3 font-mono text-indigo-800 font-bold">
                           {b.availableLooseUnits} pieces
                         </td>
                         <td className="py-2.5 px-3">
                           {isFirst ? (
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                            <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                               1st FEFO Priority
                             </span>
                           ) : isNearExp ? (
@@ -282,17 +282,17 @@ export default function ProductDetailPage() {
           <div className="space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 pb-2 border-b border-slate-100 flex items-center justify-between">
               <span>Order Configuration</span>
-              <span className="text-emerald-700 text-xs font-mono font-bold">Trade Terminal</span>
+              <span className="text-indigo-700 text-xs font-mono font-bold">Trade Terminal</span>
             </h2>
 
             {/* Active Offer Banner */}
             {activeOffer && (
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-xs space-y-1">
-                <div className="font-bold text-emerald-900 flex items-center gap-1.5">
-                  <Tag className="w-3.5 h-3.5 text-emerald-700" />
+              <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-xs space-y-1">
+                <div className="font-bold text-indigo-900 flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-indigo-700" />
                   <span>{activeOffer.title}</span>
                 </div>
-                <p className="text-[11px] text-emerald-800">
+                <p className="text-[11px] text-indigo-800">
                   {calcResult.bonusLooseUnits > 0
                     ? `Bonus Unlocked: +${calcResult.bonusLooseUnits} loose pieces FREE!`
                     : `Order at least ${activeOffer.minQualifyingQty} ${activeOffer.qualifyingUnit}s to unlock bonus scheme.`}
@@ -310,7 +310,7 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedUnit(unit)}
                     className={`py-2 px-1 rounded-xl text-xs font-bold border transition-all ${
                       selectedUnit === unit
-                        ? "bg-[#025540] text-white border-[#025540] shadow-sm"
+                        ? "bg-[#4F46E5] text-white border-[#4F46E5] shadow-sm"
                         : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -350,13 +350,13 @@ export default function ProductDetailPage() {
                 <span className="font-mono font-bold text-slate-900">৳{calcResult.grossPrice.toFixed(2)}</span>
               </div>
               {calcResult.discountAmount > 0 && (
-                <div className="flex justify-between text-emerald-700 font-semibold">
+                <div className="flex justify-between text-indigo-700 font-semibold">
                   <span>Trade Scheme Discount ({calcResult.discountPercentage}%):</span>
                   <span className="font-mono">-৳{calcResult.discountAmount.toFixed(2)}</span>
                 </div>
               )}
               {calcResult.bonusLooseUnits > 0 && (
-                <div className="flex justify-between text-emerald-800 font-bold bg-emerald-100/70 p-1.5 rounded-lg">
+                <div className="flex justify-between text-indigo-800 font-bold bg-indigo-100/70 p-1.5 rounded-lg">
                   <span>Trade Bonus Pieces:</span>
                   <span className="font-mono">+{calcResult.bonusLooseUnits} pieces FREE</span>
                 </div>
@@ -367,7 +367,7 @@ export default function ProductDetailPage() {
               </div>
               <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline">
                 <span className="font-black text-sm text-slate-900">Net Payable:</span>
-                <span className="text-xl font-black font-mono text-emerald-800">
+                <span className="text-xl font-black font-mono text-indigo-800">
                   ৳{calcResult.netItemTotal.toFixed(2)}
                 </span>
               </div>
@@ -380,8 +380,8 @@ export default function ProductDetailPage() {
             disabled={isAdded}
             className={`w-full py-3.5 rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 ${
               isAdded
-                ? "bg-emerald-600 text-white"
-                : "bg-[#025540] hover:bg-[#036b51] text-white hover:scale-105 active:scale-95"
+                ? "bg-[#4F46E5] text-white"
+                : "bg-[#4F46E5] hover:bg-[#4338CA] text-white hover:scale-105 active:scale-95"
             }`}
           >
             {isAdded ? (
@@ -422,17 +422,17 @@ export default function ProductDetailPage() {
               return (
                 <div
                   key={alt.id}
-                  className="p-3.5 rounded-xl border border-slate-200 hover:border-emerald-300 bg-slate-50 hover:bg-emerald-50/20 transition-all flex items-center justify-between"
+                  className="p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 bg-slate-50 hover:bg-indigo-50/20 transition-all flex items-center justify-between"
                 >
                   <div>
                     <Link
                       href={`/products/${alt.id}`}
-                      className="font-bold text-xs text-slate-900 hover:text-emerald-700"
+                      className="font-bold text-xs text-slate-900 hover:text-indigo-700"
                     >
                       {alt.brandName} ({alt.strength})
                     </Link>
                     <div className="text-[11px] text-slate-500">{alt.manufacturer}</div>
-                    <div className="text-[10px] text-emerald-700 font-mono font-semibold mt-0.5">
+                    <div className="text-[10px] text-indigo-700 font-mono font-semibold mt-0.5">
                       Stock: {(altStock / altBoxPieces).toFixed(1)} Boxes • ৳{(alt.tradePricePerPiece * altBoxPieces).toFixed(0)}/Box
                     </div>
                   </div>

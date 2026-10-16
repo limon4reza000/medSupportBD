@@ -36,22 +36,22 @@ export default function DepotDashboardPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-400/20 text-indigo-300 border border-indigo-400/30">
               Depot Operations Command
             </span>
-            <span className="text-xs text-emerald-200 font-mono">Dhaka Central Hub (#DEPOT-DHK-01)</span>
+            <span className="text-xs text-indigo-200 font-mono">Dhaka Central Hub (#DEPOT-DHK-01)</span>
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white mt-1">
             Depot Inventory & Dispatch Center
           </h1>
-          <p className="text-xs text-emerald-100/80">
+          <p className="text-xs text-indigo-100/80">
             Real-time batch stock valuations, dispatch queues, FEFO lot integrity, and field collection logs.
           </p>
         </div>
 
         <Link
           href="/inventory/batches"
-          className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
+          className="px-4 py-2 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
         >
           <Layers className="w-4 h-4" />
           <span>Inspect All FEFO Batches</span>
@@ -85,12 +85,12 @@ export default function DepotDashboardPage() {
           <div className="text-[11px] text-amber-700 font-semibold mt-1">Expiring within 90 days</div>
         </div>
 
-        <div className="premium-card p-5 border-emerald-300">
-          <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Active Catalog SKUs</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+        <div className="premium-card p-5 border-indigo-300">
+          <div className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Active Catalog SKUs</div>
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             {medicines.length} SKUs
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">100% DGDA Compliant</div>
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">100% DGDA Compliant</div>
         </div>
 
       </div>
@@ -102,12 +102,12 @@ export default function DepotDashboardPage() {
         <div className="premium-card p-6 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 text-emerald-700" />
+              <Truck className="w-4 h-4 text-indigo-700" />
               <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide">
                 Dispatch & Courier Queue
               </h2>
             </div>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full">
               {pendingOrders.length} Pending
             </span>
           </div>

@@ -53,10 +53,10 @@ export default function TransactionsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <Receipt className="w-6 h-6 text-emerald-400" />
+            <Receipt className="w-6 h-6 text-indigo-400" />
             <span>Financial Transaction Ledger</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Real-time double-entry audit trail for invoice debits, payment settlements, and credit adjustments.
           </p>
         </div>
@@ -71,7 +71,7 @@ export default function TransactionsPage() {
           </Link>
           <button
             onClick={exportLedgerCSV}
-            className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105"
+            className="px-4 py-2 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105"
           >
             <Download className="w-4 h-4" />
             <span>Export Statement</span>
@@ -89,12 +89,12 @@ export default function TransactionsPage() {
           <div className="text-[11px] text-slate-400 mt-1">Updated after every cut order</div>
         </div>
 
-        <div className="premium-card p-5 border-emerald-300">
-          <div className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Available Credit Limit</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+        <div className="premium-card p-5 border-indigo-300">
+          <div className="text-xs font-bold text-indigo-800 uppercase tracking-wider">Available Credit Limit</div>
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             ৳{(currentPharmacy.creditLimit - currentPharmacy.currentBalance).toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">Total Limit: ৳{currentPharmacy.creditLimit.toLocaleString()}</div>
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">Total Limit: ৳{currentPharmacy.creditLimit.toLocaleString()}</div>
         </div>
 
         <div className="premium-card p-5">
@@ -102,7 +102,7 @@ export default function TransactionsPage() {
           <div className="text-2xl font-black font-mono text-slate-900 mt-1">
             {currentPharmacy.creditDaysLimit} Days
           </div>
-          <div className="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+          <div className="text-[11px] text-indigo-700 font-semibold mt-1 flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5" /> Good Standing (0 Overdue)
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function TransactionsPage() {
               onClick={() => setSelectedType(type)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedType === type
-                  ? "bg-[#025540] text-white shadow-sm"
+                  ? "bg-[#4F46E5] text-white shadow-sm"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
@@ -169,7 +169,7 @@ export default function TransactionsPage() {
                       <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
                         isDebit
                           ? "bg-rose-100 text-rose-800"
-                          : "bg-emerald-100 text-emerald-800"
+                          : "bg-indigo-100 text-indigo-800"
                       }`}>
                         {isDebit ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownLeft className="w-3 h-3" />}
                         {entry.transactionType.replace("_", " ")}
@@ -178,7 +178,7 @@ export default function TransactionsPage() {
                     <td className="py-3 px-4 text-right font-mono font-bold text-rose-700">
                       {isDebit ? `+৳${entry.amount.toLocaleString()}` : "-"}
                     </td>
-                    <td className="py-3 px-4 text-right font-mono font-bold text-emerald-700">
+                    <td className="py-3 px-4 text-right font-mono font-bold text-indigo-700">
                       {!isDebit ? `-৳${entry.amount.toLocaleString()}` : "-"}
                     </td>
                     <td className="py-3 px-4 text-right font-mono font-black text-slate-900">

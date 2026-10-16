@@ -77,8 +77,8 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
       className: "custom-user-marker",
       html: `
         <div class="relative flex items-center justify-center">
-          <div class="absolute -inset-3 rounded-full bg-emerald-500/25 animate-ping"></div>
-          <div class="w-10 h-10 rounded-full bg-[#01382a] border-2 border-white shadow-xl flex items-center justify-center text-white text-lg font-black ring-4 ring-emerald-400/40">
+          <div class="absolute -inset-3 rounded-full bg-indigo-500/25 animate-ping"></div>
+          <div class="w-10 h-10 rounded-full bg-[#241B52] border-2 border-white shadow-xl flex items-center justify-center text-white text-lg font-black ring-4 ring-[#4F46E5]/40">
             🏥
           </div>
           <div class="absolute -bottom-6 bg-slate-900 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-md whitespace-nowrap border border-slate-700">
@@ -97,9 +97,9 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
 
     userMarkerRef.current.bindPopup(`
       <div class="p-2 text-slate-900 text-xs font-sans">
-        <div class="font-bold text-sm text-[#01382a]">🏥 ${userLocation.label || "Your Registered Pharmacy"}</div>
+        <div class="font-bold text-sm text-[#241B52]">🏥 ${userLocation.label || "Your Registered Pharmacy"}</div>
         <div class="text-slate-500 text-[11px] mt-0.5">Lat: ${userLocation.latitude.toFixed(4)}, Lng: ${userLocation.longitude.toFixed(4)}</div>
-        <div class="text-[10px] text-emerald-700 font-bold mt-1">Active Geo-Center for Radius Search</div>
+        <div class="text-[10px] text-indigo-700 font-bold mt-1">Active Geo-Center for Radius Search</div>
       </div>
     `);
   }, [userLocation]);
@@ -118,7 +118,7 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
       const stock = item.targetMedicineStock;
 
       // Color coding per manufacturer company
-      let badgeColor = "#025540";
+      let badgeColor = "#4F46E5";
       if (dist.companyName.includes("Beximco")) badgeColor = "#1e40af";
       else if (dist.companyName.includes("Incepta")) badgeColor = "#7c3aed";
       else if (dist.companyName.includes("Renata")) badgeColor = "#b45309";
@@ -127,7 +127,7 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
 
       const stockBadge = stock
         ? stock.inStockStatus === "IN_STOCK"
-          ? `<span class="bg-emerald-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs">৳${stock.tradePricePerBox} • In Stock</span>`
+          ? `<span class="bg-indigo-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs">৳${stock.tradePricePerBox} • In Stock</span>`
           : stock.inStockStatus === "LOW_STOCK"
           ? `<span class="bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs">Low Stock</span>`
           : `<span class="bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-xs">Out of Stock</span>`
@@ -135,9 +135,9 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
 
       const markerHtml = `
         <div class="relative flex flex-col items-center group cursor-pointer ${isSelected ? "scale-110 z-50" : "hover:scale-105"} transition-transform">
-          <div class="relative w-9 h-9 rounded-2xl flex items-center justify-center text-white text-base shadow-lg border-2 border-white" style="background-color: ${badgeColor}; ${isSelected ? "box-shadow: 0 0 0 4px #10b981, 0 10px 15px -3px rgba(0,0,0,0.3);" : ""}">
+          <div class="relative w-9 h-9 rounded-2xl flex items-center justify-center text-white text-base shadow-lg border-2 border-white" style="background-color: ${badgeColor}; ${isSelected ? "box-shadow: 0 0 0 4px #4F46E5, 0 10px 15px -3px rgba(0,0,0,0.3);" : ""}">
             🏢
-            ${isSelected ? '<span class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white animate-ping"></span>' : ""}
+            ${isSelected ? '<span class="absolute -top-1 -right-1 w-3 h-3 bg-indigo-400 rounded-full border-2 border-white animate-ping"></span>' : ""}
           </div>
           <div class="mt-1 flex flex-col items-center">
             <span class="bg-white/95 backdrop-blur-xs text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-md shadow-md border border-slate-200 whitespace-nowrap">
@@ -194,8 +194,8 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
           [selected.distributor.latitude, selected.distributor.longitude],
           {
             radius: selected.distributor.coverageRadiusKm * 1000,
-            color: "#059669",
-            fillColor: "#10b981",
+            color: "#4338CA",
+            fillColor: "#4F46E5",
             fillOpacity: 0.08,
             weight: 1.5,
             dashArray: "4, 6",
@@ -206,7 +206,7 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
       // Draw road route line
       if (routeCoordinates && routeCoordinates.length > 0) {
         routePolylineRef.current = L.polyline(routeCoordinates, {
-          color: "#025540",
+          color: "#4F46E5",
           weight: 5,
           opacity: 0.85,
           lineJoin: "round",
@@ -269,7 +269,7 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
           <div class="font-mono text-xs text-slate-800 mt-1">${activeLiveVehicle.vehicleNumber}</div>
           <div class="text-[11px] text-slate-600 mt-0.5">Driver: <strong>${activeLiveVehicle.driverName}</strong> (${activeLiveVehicle.driverPhone})</div>
           <div class="text-[11px] text-slate-600">Speed: <strong>${activeLiveVehicle.speedKmh} km/h</strong></div>
-          <div class="text-[11px] text-emerald-700 font-bold mt-1">Est. Arrival: ~${activeLiveVehicle.estimatedArrivalMinutes || 12} mins</div>
+          <div class="text-[11px] text-indigo-700 font-bold mt-1">Est. Arrival: ~${activeLiveVehicle.estimatedArrivalMinutes || 12} mins</div>
         </div>
       `);
     }
@@ -304,11 +304,11 @@ export const DistributorMap: React.FC<DistributorMapProps> = ({
       {/* Map Legend Overlay */}
       <div className="absolute bottom-3 left-3 z-[400] bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl shadow-lg border border-slate-200 text-[11px] text-slate-700 hidden sm:flex items-center gap-4">
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-full bg-[#01382a] border border-white"></span>
+          <span className="w-3 h-3 rounded-full bg-[#241B52] border border-white"></span>
           <span>Your Pharmacy</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-3 h-3 rounded-md bg-[#025540]"></span>
+          <span className="w-3 h-3 rounded-md bg-[#4F46E5]"></span>
           <span>Distributor Depot</span>
         </div>
         <div className="flex items-center gap-1.5">

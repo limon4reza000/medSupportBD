@@ -108,7 +108,7 @@ export default function MrPortalPage() {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200/80 p-8 text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
-          <div className="w-16 h-16 rounded-3xl bg-slate-900 text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-slate-950/20">
+          <div className="w-16 h-16 rounded-3xl bg-slate-900 text-indigo-400 flex items-center justify-center mx-auto shadow-lg shadow-slate-950/20">
             <Lock className="w-8 h-8 stroke-[2.2]" />
           </div>
 
@@ -131,7 +131,7 @@ export default function MrPortalPage() {
                 placeholder="Enter 4-Digit MR PIN (Default: 1234)"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-300 font-mono text-center text-base tracking-widest text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-300 font-mono text-center text-base tracking-widest text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 autoFocus
               />
               {passcodeError && (
@@ -143,7 +143,7 @@ export default function MrPortalPage() {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-2xl bg-[#065F52] hover:bg-[#044a40] text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 rounded-2xl bg-[#2E236C] hover:bg-[#044a40] text-white font-black text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Unlock className="w-4 h-4" />
               <span>Verify & Unlock Portal</span>
@@ -153,7 +153,7 @@ export default function MrPortalPage() {
           <div className="pt-2 border-t border-slate-100">
             <button
               onClick={handleQuickDemoUnlock}
-              className="text-xs font-bold text-emerald-700 hover:text-emerald-900 underline"
+              className="text-xs font-bold text-indigo-700 hover:text-indigo-900 underline"
             >
               1-Click Instant Demo Unlock (PIN: 1234)
             </button>
@@ -176,7 +176,7 @@ export default function MrPortalPage() {
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30">
               🔒 Private MR Mode Active
             </span>
-            <span className="text-xs text-emerald-200 font-mono">Territory MPO: Tariqul Anam (SR-104)</span>
+            <span className="text-xs text-indigo-200 font-mono">Territory MPO: Tariqul Anam (SR-104)</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white mt-1">
             MR & Territory Field Manager Portal
@@ -189,7 +189,7 @@ export default function MrPortalPage() {
         <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={() => setIsLogVisitOpen(true)}
-            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
+            className="px-4 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center gap-2 hover:scale-102"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Log Pharmacy Visit</span>
@@ -221,15 +221,15 @@ export default function MrPortalPage() {
         </div>
 
         {/* Achieved Orders */}
-        <div className="bg-white rounded-3xl p-5 border border-emerald-300 shadow-sm">
-          <div className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="bg-white rounded-3xl p-5 border border-indigo-300 shadow-sm">
+          <div className="text-[10px] font-bold text-indigo-800 uppercase tracking-wider flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
             <span>Achieved Orders Cut</span>
           </div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">
+          <div className="text-2xl font-black font-mono text-indigo-700 mt-1">
             ৳{achieved.toLocaleString()}
           </div>
-          <div className="text-[11px] text-emerald-600 font-bold mt-1">
+          <div className="text-[11px] text-indigo-600 font-bold mt-1">
             {percentAchieved}% Quota Completed
           </div>
         </div>
@@ -263,12 +263,12 @@ export default function MrPortalPage() {
       <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-3">
         <div className="flex justify-between items-baseline text-xs font-bold">
           <span className="text-slate-700">Monthly Target Fulfillment Gauge</span>
-          <span className="font-mono text-emerald-700 text-sm">{percentAchieved}% of Quota</span>
+          <span className="font-mono text-indigo-700 text-sm">{percentAchieved}% of Quota</span>
         </div>
 
         <div className="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-indigo-600 via-teal-500 to-[#4F46E5] transition-all duration-500"
             style={{ width: `${percentAchieved}%` }}
           />
         </div>
@@ -285,7 +285,7 @@ export default function MrPortalPage() {
         <button
           onClick={() => setActiveTab("VISITS")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === "VISITS" ? "bg-[#065F52] text-white shadow-sm" : "text-slate-600 hover:bg-slate-100"
+            activeTab === "VISITS" ? "bg-[#2E236C] text-white shadow-sm" : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           <Calendar className="w-4 h-4" />
@@ -295,7 +295,7 @@ export default function MrPortalPage() {
         <button
           onClick={() => setActiveTab("ORDERS")}
           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-            activeTab === "ORDERS" ? "bg-[#065F52] text-white shadow-sm" : "text-slate-600 hover:bg-slate-100"
+            activeTab === "ORDERS" ? "bg-[#2E236C] text-white shadow-sm" : "text-slate-600 hover:bg-slate-100"
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -311,7 +311,7 @@ export default function MrPortalPage() {
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
               <h3 className="font-black text-sm text-slate-900 flex items-center gap-2">
-                <Briefcase className="w-4 h-4 text-emerald-600" />
+                <Briefcase className="w-4 h-4 text-indigo-600" />
                 <span>Field Visits & Discussion Log</span>
               </h3>
               <p className="text-xs text-slate-500">
@@ -332,7 +332,7 @@ export default function MrPortalPage() {
                     <span
                       className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                         v.status === "COMPLETED"
-                          ? "bg-emerald-100 text-emerald-800"
+                          ? "bg-indigo-100 text-indigo-800"
                           : "bg-blue-100 text-blue-800"
                       }`}
                     >
@@ -353,7 +353,7 @@ export default function MrPortalPage() {
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">
                     Order Booked
                   </span>
-                  <strong className="text-base font-mono font-black text-emerald-700">
+                  <strong className="text-base font-mono font-black text-indigo-700">
                     ৳{v.ordersCollectedAmount.toLocaleString()}
                   </strong>
                 </div>
@@ -396,11 +396,11 @@ export default function MrPortalPage() {
                       <td className="py-3 text-right font-mono font-black text-slate-900">
                         ৳{ord.netPayableAmount.toLocaleString("en-BD", { minimumFractionDigits: 2 })}
                       </td>
-                      <td className="py-3 text-right font-mono font-bold text-emerald-700">
+                      <td className="py-3 text-right font-mono font-bold text-indigo-700">
                         +৳{comm.toLocaleString()}
                       </td>
                       <td className="py-3">
-                        <span className="px-2 py-0.5 rounded-md font-bold text-[10px] bg-emerald-100 text-emerald-800">
+                        <span className="px-2 py-0.5 rounded-md font-bold text-[10px] bg-indigo-100 text-indigo-800">
                           {ord.status}
                         </span>
                       </td>
@@ -502,7 +502,7 @@ export default function MrPortalPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                  className="px-5 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold"
                 >
                   Save Visit Log
                 </button>

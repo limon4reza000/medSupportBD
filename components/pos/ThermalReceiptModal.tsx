@@ -90,7 +90,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({ sale, 
         {/* Top Control Bar (Non-printed) */}
         <div className="p-4 bg-slate-900 text-white flex items-center justify-between shrink-0 print:hidden">
           <div className="flex items-center gap-2">
-            <Printer className="w-5 h-5 text-emerald-400" />
+            <Printer className="w-5 h-5 text-indigo-400" />
             <span className="font-bold text-sm">Thermal POS Receipt</span>
           </div>
           <button
@@ -105,7 +105,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({ sale, 
         <div className="p-3 bg-slate-100 border-b border-slate-200 flex items-center justify-between gap-2 shrink-0 print:hidden">
           <button
             onClick={handlePrint}
-            className="flex-1 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all"
+            className="flex-1 py-2 px-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all"
           >
             <Printer className="w-4 h-4" />
             <span>Print Receipt</span>
@@ -123,7 +123,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({ sale, 
             onClick={handleCopyText}
             className="py-2 px-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1 transition-all"
           >
-            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+            {copied ? <Check className="w-4 h-4 text-indigo-600" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? "Copied" : "Copy"}</span>
           </button>
         </div>
@@ -143,7 +143,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({ sale, 
               <p className="text-[10px] text-slate-500">
                 Hotline: <strong className="text-slate-800">{currentPharmacy.phone}</strong>
               </p>
-              <div className="text-[9px] text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded inline-block border border-emerald-200">
+              <div className="text-[9px] text-indigo-800 font-bold bg-indigo-50 px-2 py-0.5 rounded inline-block border border-indigo-200">
                 Drug Lic: {currentPharmacy.drugLicenseNo}
               </div>
             </div>
@@ -247,7 +247,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({ sale, 
                 </div>
               )}
               {sale.changeGiven > 0 && (
-                <div className="flex justify-between text-emerald-700 font-bold">
+                <div className="flex justify-between text-indigo-700 font-bold">
                   <span>Change Given:</span>
                   <span>৳{sale.changeGiven.toFixed(2)}</span>
                 </div>

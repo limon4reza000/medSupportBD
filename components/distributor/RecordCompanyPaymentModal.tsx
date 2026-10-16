@@ -34,9 +34,9 @@ export const RecordCompanyPaymentModal: React.FC<RecordCompanyPaymentModalProps>
       <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="p-5 bg-gradient-to-r from-[#044a40] to-[#065F52] text-white flex items-center justify-between">
+        <div className="p-5 bg-gradient-to-r from-[#241B52] via-[#2E236C] to-[#4338CA] text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-emerald-300" />
+            <DollarSign className="w-5 h-5 text-indigo-300" />
             <h3 className="font-black text-base">Record Payment to Distributor</h3>
           </div>
           <button
@@ -54,7 +54,7 @@ export const RecordCompanyPaymentModal: React.FC<RecordCompanyPaymentModalProps>
             <select
               value={companyId}
               onChange={(e) => setCompanyId(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               {companies.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -81,7 +81,7 @@ export const RecordCompanyPaymentModal: React.FC<RecordCompanyPaymentModalProps>
               required
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono font-black text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
@@ -119,7 +119,7 @@ export const RecordCompanyPaymentModal: React.FC<RecordCompanyPaymentModalProps>
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md"
+              className="px-5 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold shadow-md"
             >
               Confirm Payment
             </button>

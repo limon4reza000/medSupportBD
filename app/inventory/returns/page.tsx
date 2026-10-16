@@ -28,17 +28,17 @@ export default function ReturnsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <RotateCw className="w-6 h-6 text-emerald-400" />
+            <RotateCw className="w-6 h-6 text-indigo-400" />
             <span>Pharma Returns & Credit Notes Management</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Log damaged items, expired batch recalls, and issue automated financial credit notes.
           </p>
         </div>
 
         <Link
           href="/inventory"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Inventory</span>
@@ -71,9 +71,9 @@ export default function ReturnsPage() {
                   </td>
                   <td className="py-3 px-4 font-mono font-bold text-rose-700">{ret.qty} pieces</td>
                   <td className="py-3 px-4 text-slate-600">{ret.reason}</td>
-                  <td className="py-3 px-4 font-mono font-bold text-emerald-800">{ret.creditNote}</td>
+                  <td className="py-3 px-4 font-mono font-bold text-indigo-800">{ret.creditNote}</td>
                   <td className="py-3 px-4 text-right">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                    <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                       {ret.status}
                     </span>
                   </td>

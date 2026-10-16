@@ -57,14 +57,14 @@ export const LiveTrackingModal: React.FC<LiveTrackingModalProps> = ({
           <div className="flex items-center gap-3.5">
             <div className="relative w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center font-bold text-2xl shrink-0 shadow-inner border border-white/30">
               🚚
-              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-white animate-ping"></span>
+              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-indigo-400 rounded-full border-2 border-white animate-ping"></span>
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-black text-base text-white">
                   Live Courier Tracking
                 </h3>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 text-[10px] font-black uppercase">
+                <span className="px-2 py-0.5 rounded-full bg-indigo-400 text-slate-950 text-[10px] font-black uppercase">
                   Active GPS
                 </span>
               </div>
@@ -105,7 +105,7 @@ export const LiveTrackingModal: React.FC<LiveTrackingModalProps> = ({
           {/* Courier Driver Details */}
           <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-3">
             <h4 className="font-bold text-slate-900 text-xs flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-indigo-600" />
               <span>Assigned Delivery Personnel</span>
             </h4>
 
@@ -117,7 +117,7 @@ export const LiveTrackingModal: React.FC<LiveTrackingModalProps> = ({
 
               <a
                 href={`tel:${vehicle.driverPhone}`}
-                className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-indigo-600 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1.5"
               >
                 <Phone className="w-3.5 h-3.5" />
                 <span>Call Driver</span>
@@ -131,7 +131,7 @@ export const LiveTrackingModal: React.FC<LiveTrackingModalProps> = ({
               </div>
               <div>
                 <span className="text-slate-400 block">Active Dispatch Order:</span>
-                <span className="font-mono font-bold text-emerald-800">{vehicle.activeOrderId || "In Transit"}</span>
+                <span className="font-mono font-bold text-indigo-800">{vehicle.activeOrderId || "In Transit"}</span>
               </div>
             </div>
           </div>
@@ -150,9 +150,9 @@ export const LiveTrackingModal: React.FC<LiveTrackingModalProps> = ({
                 onFocusOnMap(vehicle.currentLatitude, vehicle.currentLongitude);
                 onClose();
               }}
-              className="px-3 py-1.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-bold text-xs flex items-center gap-1.5 shadow-xs"
+              className="px-3 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-[#1E1743] text-white font-bold text-xs flex items-center gap-1.5 shadow-xs"
             >
-              <Navigation className="w-3 h-3 text-emerald-300" />
+              <Navigation className="w-3 h-3 text-indigo-300" />
               <span>Locate on Map</span>
             </button>
           </div>

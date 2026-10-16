@@ -220,7 +220,7 @@ export default function InventoryPage() {
           onClick={() => setActiveTab("ALL")}
           className={`p-5 rounded-3xl border transition-all cursor-pointer ${
             activeTab === "ALL"
-              ? "bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/20"
+              ? "bg-white border-indigo-500 shadow-md ring-2 ring-indigo-500/20"
               : "bg-white border-slate-200/80 hover:border-slate-300"
           }`}
         >
@@ -292,8 +292,8 @@ export default function InventoryPage() {
 
       {/* Success Notification */}
       {reorderSuccessMsg && (
-        <div className="p-4 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
-          <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+        <div className="p-4 rounded-2xl bg-indigo-100 border border-indigo-300 text-indigo-900 text-xs font-bold flex items-center gap-2 animate-in fade-in">
+          <CheckCircle2 className="w-5 h-5 text-indigo-700 shrink-0" />
           <span>{reorderSuccessMsg}</span>
         </div>
       )}
@@ -308,7 +308,7 @@ export default function InventoryPage() {
               onClick={() => setActiveTab("ALL")}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 activeTab === "ALL"
-                  ? "bg-[#065F52] text-white shadow-sm"
+                  ? "bg-[#2E236C] text-white shadow-sm"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
@@ -378,7 +378,7 @@ export default function InventoryPage() {
             placeholder="Search catalog by Brand, Generic, Formulation, or Manufacturer..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
       </div>
@@ -442,7 +442,7 @@ export default function InventoryPage() {
                               ? "bg-rose-100 text-rose-800"
                               : isModerate
                               ? "bg-amber-100 text-amber-800"
-                              : "bg-emerald-100 text-emerald-800"
+                              : "bg-indigo-100 text-indigo-800"
                           }`}
                         >
                           {sug.daysOfSupply} Days Left
@@ -517,7 +517,7 @@ export default function InventoryPage() {
                     <tr key={med.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="py-3">
                         <span className="font-bold text-slate-900 block">{med.brandName}</span>
-                        <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded inline-block mt-0.5">
+                        <span className="text-[10px] font-mono text-indigo-800 bg-indigo-50 px-1.5 py-0.5 rounded inline-block mt-0.5">
                           {med.strength}
                         </span>
                       </td>
@@ -539,7 +539,7 @@ export default function InventoryPage() {
                         <span className="text-[10px] text-slate-400 font-normal"> / pcs</span>
                       </td>
 
-                      <td className="py-3 font-mono font-bold text-emerald-700">
+                      <td className="py-3 font-mono font-bold text-indigo-700">
                         ৳{med.mrpPerPiece.toFixed(2)}
                         <span className="text-[10px] text-slate-400 font-normal"> / pcs</span>
                       </td>
@@ -590,7 +590,7 @@ export default function InventoryPage() {
 
                           <Link
                             href={`/pos`}
-                            className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shadow-sm transition-all"
+                            className="px-2.5 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-[11px] font-bold shadow-sm transition-all"
                             title="Sell in POS"
                           >
                             POS

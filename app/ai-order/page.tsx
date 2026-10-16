@@ -94,7 +94,7 @@ export default function AiOrderPage() {
             <Sparkles className="w-6 h-6 text-teal-300 animate-pulse" />
             <span>AI Prescription & Order Slip Parser</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Convert handwritten pharmacy slips, printed prescriptions, and clinic memos into structured verified catalog orders.
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function AiOrderPage() {
         <div className="premium-card p-6 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide flex items-center gap-2">
-              <FileText className="w-4 h-4 text-emerald-700" />
+              <FileText className="w-4 h-4 text-indigo-700" />
               <span>Input Prescription / Memo Text</span>
             </h2>
             <span className="text-[10px] text-slate-400 font-mono">OCR Engine v2.4</span>
@@ -127,7 +127,7 @@ export default function AiOrderPage() {
                 <button
                   key={idx}
                   onClick={() => setRawText(preset.text)}
-                  className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-emerald-50 hover:text-emerald-900 text-slate-700 text-xs font-medium border border-slate-200 transition-colors"
+                  className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-900 text-slate-700 text-xs font-medium border border-slate-200 transition-colors"
                 >
                   {preset.title}
                 </button>
@@ -142,7 +142,7 @@ export default function AiOrderPage() {
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Paste or type handwritten prescription lines..."
-              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-900 focus:outline-none focus:border-emerald-500 leading-relaxed"
+              className="w-full p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-900 focus:outline-none focus:border-indigo-500 leading-relaxed"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function AiOrderPage() {
           <button
             onClick={handleParseSlip}
             disabled={isParsing || !rawText.trim()}
-            className="w-full py-3.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+            className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
           >
             {isParsing ? (
               <>
@@ -171,19 +171,19 @@ export default function AiOrderPage() {
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide flex items-center gap-2">
-                <Boxes className="w-4 h-4 text-emerald-700" />
+                <Boxes className="w-4 h-4 text-indigo-700" />
                 <span>Structured Catalog Matches</span>
               </h2>
               {parsedResults && (
-                <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                <span className="text-xs font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full">
                   {parsedResults.length} Items Extracted
                 </span>
               )}
             </div>
 
             {exportSuccess && (
-              <div className="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+              <div className="mt-3 p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-indigo-900 text-xs flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-indigo-700" />
                 <span>All parsed items successfully imported into your shopping cart!</span>
               </div>
             )}
@@ -199,7 +199,7 @@ export default function AiOrderPage() {
 
               {isParsing && (
                 <div className="text-center py-12 space-y-3">
-                  <RotateCw className="w-8 h-8 text-emerald-700 animate-spin mx-auto" />
+                  <RotateCw className="w-8 h-8 text-indigo-700 animate-spin mx-auto" />
                   <div className="text-xs font-bold text-slate-700">Analyzing brand names, strengths & quantities...</div>
                   <div className="text-[11px] text-slate-400">Verifying fuzzy match against authoritative DGDA catalog</div>
                 </div>
@@ -212,7 +212,7 @@ export default function AiOrderPage() {
                   return (
                     <div
                       key={idx}
-                      className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-emerald-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-indigo-50/20 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div>
                         <div className="flex items-center gap-2">
@@ -220,7 +220,7 @@ export default function AiOrderPage() {
                             {item.matched_brand_name || item.brand_name}
                           </span>
                           <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold ${
-                            isHighConfidence ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
+                            isHighConfidence ? "bg-indigo-100 text-indigo-800" : "bg-amber-100 text-amber-800"
                           }`}>
                             {(item.confidence_score * 100).toFixed(0)}% Confidence
                           </span>
@@ -231,7 +231,7 @@ export default function AiOrderPage() {
                       </div>
 
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-bold text-emerald-800">
+                        <span className="text-xs font-mono font-bold text-indigo-800">
                           {item.qty} {item.packaging_type}
                         </span>
                       </div>
@@ -245,7 +245,7 @@ export default function AiOrderPage() {
             <div className="pt-4 border-t border-slate-100">
               <button
                 onClick={handleExportAllToCart}
-                className="w-full py-3.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+                className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>Export All {parsedResults.length} Items Directly to Cart</span>

@@ -69,10 +69,10 @@ export default function CollectionsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-emerald-400" />
+            <DollarSign className="w-6 h-6 text-indigo-400" />
             <span>Field Collections & Payment Reconciliation</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Log SR/MPO field cash, bKash payments, and bank deposit slips with immediate ledger settlement.
           </p>
         </div>
@@ -98,8 +98,8 @@ export default function CollectionsPage() {
           </div>
 
           {success && (
-            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+            <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-indigo-900 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-indigo-700" />
               <span>Collection recorded and reconciled!</span>
             </div>
           )}
@@ -110,7 +110,7 @@ export default function CollectionsPage() {
               <select
                 value={selectedPharmacyId}
                 onChange={(e) => setSelectedPharmacyId(e.target.value)}
-                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
               >
                 {pharmacies.map((p) => (
                   <option key={p.id} value={p.id}>
@@ -127,7 +127,7 @@ export default function CollectionsPage() {
                 min="100"
                 value={amount}
                 onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
-                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-emerald-500"
+                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
@@ -136,7 +136,7 @@ export default function CollectionsPage() {
               <select
                 value={paymentMode}
                 onChange={(e) => setPaymentMode(e.target.value)}
-                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
               >
                 <option value="BANK_TRANSFER">Bank Cheque / EFT</option>
                 <option value="BKASH">bKash Merchant</option>
@@ -151,14 +151,14 @@ export default function CollectionsPage() {
                 type="text"
                 value={refNumber}
                 onChange={(e) => setRefNumber(e.target.value)}
-                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting || amount <= 0}
-              className="w-full py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -181,7 +181,7 @@ export default function CollectionsPage() {
             <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide">
               Recent Field Collections Queue
             </h2>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded-full">
               Reconciled
             </span>
           </div>
@@ -207,11 +207,11 @@ export default function CollectionsPage() {
                       <div className="text-[10px] font-mono text-slate-400">{col.ref}</div>
                     </td>
                     <td className="py-3 px-3">
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                      <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold">
                         {col.status}
                       </span>
                     </td>
-                    <td className="py-3 px-3 text-right font-mono font-black text-emerald-800">
+                    <td className="py-3 px-3 text-right font-mono font-black text-indigo-800">
                       ৳{col.amount.toLocaleString()}
                     </td>
                   </tr>

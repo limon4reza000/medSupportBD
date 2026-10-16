@@ -18,7 +18,7 @@ import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <AppProvider>
-      <div className="min-h-screen flex bg-[#f1f5f3] text-[#0F172A] selection:bg-[#10B981] selection:text-white font-sans antialiased">
+      <div className="min-h-screen flex bg-[#F5F6FC] text-[#0F172A] selection:bg-[#4F46E5] selection:text-white font-sans antialiased">
         
         {/* Desktop Fixed Left Sidebar */}
         <AppSidebar />

@@ -98,17 +98,17 @@ export const MpoTerminalDashboard: React.FC = () => {
       </div>
 
       {orderCutSuccess && (
-        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center justify-between animate-in slide-in-from-top-2">
+        <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-300 text-[#241B52] text-xs font-bold flex items-center justify-between animate-in slide-in-from-top-2">
           <div className="flex items-center gap-2.5">
-            <CheckCircle2 className="w-5 h-5 text-emerald-700 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 text-indigo-700 shrink-0" />
             <div>
               <div>Order #{orderCutSuccess.orderNumber || "CUT-SUCCESS"} submitted successfully to Depot!</div>
-              <div className="text-[11px] font-normal text-emerald-800">
+              <div className="text-[11px] font-normal text-indigo-800">
                 Net Payable: ৳{orderCutSuccess.netPayableAmount || "Calculated"} • Total Bonus Pieces: {orderCutSuccess.totalBonusPieces || 0} pcs
               </div>
             </div>
           </div>
-          <span className="px-2.5 py-1 rounded-xl bg-emerald-700 text-white text-[10px] font-black uppercase">
+          <span className="px-2.5 py-1 rounded-xl bg-[#4338CA] text-white text-[10px] font-black uppercase">
             Sent to Depot
           </span>
         </div>
@@ -121,14 +121,14 @@ export const MpoTerminalDashboard: React.FC = () => {
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Today&apos;s Cuts</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
               ৳
             </div>
           </div>
           <div className="text-xl sm:text-2xl font-bold text-slate-900">
             ৳84,200
           </div>
-          <div className="text-[11px] text-emerald-600 font-semibold mt-1">
+          <div className="text-[11px] text-indigo-600 font-semibold mt-1">
             6 Orders Cut Across 4 Pharmacies
           </div>
         </div>
@@ -186,7 +186,7 @@ export const MpoTerminalDashboard: React.FC = () => {
       {/* Pharmacy Selector Strip */}
       <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#025540] text-white flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center shrink-0">
             <Building2 className="w-5 h-5" />
           </div>
           <div>
@@ -200,7 +200,7 @@ export const MpoTerminalDashboard: React.FC = () => {
           <select
             value={selectedPharmacyId}
             onChange={(e) => setSelectedPharmacyId(e.target.value)}
-            className="p-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:border-emerald-600"
+            className="p-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:border-indigo-600"
           >
             {pharmacies.map((p) => (
               <option key={p.id} value={p.id}>

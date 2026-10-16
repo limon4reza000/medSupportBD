@@ -107,10 +107,10 @@ export default function ProfilePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <User className="w-6 h-6 text-emerald-400" />
+            <User className="w-6 h-6 text-indigo-400" />
             <span>User & Profile Settings</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Manage your personal profile, profile image upload, and registered pharmacy credentials.
           </p>
         </div>
@@ -140,7 +140,7 @@ export default function ProfilePage() {
               }}
               aria-label="Upload photo"
               title="Click to upload profile photo"
-              className="absolute -bottom-2 -right-2 p-2.5 bg-[#014232] hover:bg-[#025540] text-white rounded-2xl shadow-xl border-4 border-white transition-transform hover:scale-110 flex items-center justify-center"
+              className="absolute -bottom-2 -right-2 p-2.5 bg-[#014232] hover:bg-[#4F46E5] text-white rounded-2xl shadow-xl border-4 border-white transition-transform hover:scale-110 flex items-center justify-center"
             >
               <Camera className="w-5 h-5 stroke-[2.2]" />
             </button>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
           <div>
             <h2 className="text-lg font-black text-slate-900">{currentUser.name}</h2>
             <p className="text-xs text-slate-500">{currentUser.email}</p>
-            <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800">
+            <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800">
               {currentUser.role.replace("_", " ")}
             </span>
           </div>
@@ -158,7 +158,7 @@ export default function ProfilePage() {
           <div className="w-full pt-2 flex items-center justify-center gap-2">
             <button
               onClick={triggerFileInput}
-              className="flex-1 px-3 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
+              className="flex-1 px-3 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm"
             >
               <Upload className="w-3.5 h-3.5" />
               <span>Upload Photo</span>
@@ -177,12 +177,12 @@ export default function ProfilePage() {
             <div
               className={`w-full p-2.5 rounded-xl text-xs font-medium flex items-center gap-2 ${
                 uploadMessage.type === "success"
-                  ? "bg-emerald-50 text-emerald-900 border border-emerald-300"
+                  ? "bg-indigo-50 text-indigo-900 border border-indigo-300"
                   : "bg-rose-50 text-rose-900 border border-rose-300"
               }`}
             >
               {uploadMessage.type === "success" ? (
-                <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-indigo-700 shrink-0" />
               ) : (
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
               )}
@@ -202,7 +202,7 @@ export default function ProfilePage() {
                   key={idx}
                   onClick={() => handleSelectPreset(url)}
                   className={`w-9 h-9 rounded-xl overflow-hidden ring-2 transition-all hover:scale-110 ${
-                    currentUser.avatar === url ? "ring-emerald-600 scale-105" : "ring-transparent hover:ring-slate-300"
+                    currentUser.avatar === url ? "ring-indigo-600 scale-105" : "ring-transparent hover:ring-slate-300"
                   }`}
                 >
                   <img src={url} alt={`Preset ${idx + 1}`} className="w-full h-full object-cover" />
@@ -214,7 +214,7 @@ export default function ProfilePage() {
           <div className="w-full pt-3 border-t border-slate-100 text-left text-xs space-y-2">
             <div className="flex justify-between">
               <span className="text-slate-500">Security Status:</span>
-              <strong className="text-emerald-700 flex items-center gap-1">
+              <strong className="text-indigo-700 flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5" /> 2FA Verified
               </strong>
             </div>
@@ -229,17 +229,17 @@ export default function ProfilePage() {
         <div className="lg:col-span-2 premium-card p-6 space-y-5">
           <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
             <h2 className="font-bold text-sm text-slate-900 uppercase tracking-wide flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-emerald-700" />
+              <Building2 className="w-4 h-4 text-indigo-700" />
               <span>Personal Information & Pharmacy Master Record</span>
             </h2>
-            <span className="text-xs font-mono font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+            <span className="text-xs font-mono font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">
               {currentPharmacy.code}
             </span>
           </div>
 
           {isSaved && (
-            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+            <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-indigo-900 text-xs flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-indigo-700" />
               <span>Profile information successfully saved!</span>
             </div>
           )}
@@ -252,7 +252,7 @@ export default function ProfilePage() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -262,7 +262,7 @@ export default function ProfilePage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -271,7 +271,7 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   defaultValue={currentPharmacy.tradeName}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -280,7 +280,7 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   defaultValue={currentPharmacy.drugLicenseNo}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -289,7 +289,7 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   defaultValue={currentPharmacy.phone}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -308,7 +308,7 @@ export default function ProfilePage() {
                 <input
                   type="text"
                   defaultValue={`${currentPharmacy.address}, ${currentPharmacy.thana}, ${currentPharmacy.district}`}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
             </div>
@@ -316,7 +316,7 @@ export default function ProfilePage() {
             <div className="pt-2 flex items-center gap-3">
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold transition-all shadow-md flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold transition-all shadow-md flex items-center gap-2"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Save Profile Changes</span>

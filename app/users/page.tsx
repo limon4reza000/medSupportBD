@@ -31,17 +31,17 @@ export default function UsersRbacPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <UserCheck className="w-6 h-6 text-emerald-400" />
+            <UserCheck className="w-6 h-6 text-indigo-400" />
             <span>User Management & RBAC Permissions</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Role-Based Access Control matrix for Admins, Depot Managers, Sales Reps, and Pharmacy Owners.
           </p>
         </div>
 
         <Link
           href="/admin"
-          className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-[#01382a] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
+          className="px-4 py-2 rounded-xl bg-indigo-400 hover:bg-indigo-300 text-[#241B52] text-xs font-bold shadow-md transition-all flex items-center gap-1.5 self-start sm:self-auto hover:scale-105"
         >
           <ShieldCheck className="w-4 h-4" />
           <span>Security Permissions Matrix</span>
@@ -69,13 +69,13 @@ export default function UsersRbacPage() {
                     <div className="text-[11px] text-slate-500">{u.email}</div>
                   </td>
                   <td className="py-3 px-4">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
                       {u.role.replace("_", " ")}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-slate-700">{u.organization}</td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold">
                       {u.status}
                     </span>
                   </td>
@@ -84,7 +84,7 @@ export default function UsersRbacPage() {
                       onClick={() => setCurrentUserRole(u.role)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                         currentUser.role === u.role
-                          ? "bg-emerald-700 text-white"
+                          ? "bg-[#4338CA] text-white"
                           : "border border-slate-200 text-slate-700 hover:bg-slate-100"
                       }`}
                     >

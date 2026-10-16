@@ -73,8 +73,8 @@ export default function WholesaleOrdersQueuePage() {
       </div>
 
       {toastMessage && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-xs font-bold flex items-center gap-2 animate-in slide-in-from-top-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+        <div className="p-3.5 rounded-2xl bg-indigo-50 border border-indigo-300 text-[#241B52] text-xs font-bold flex items-center gap-2 animate-in slide-in-from-top-2">
+          <CheckCircle2 className="w-4 h-4 text-indigo-700 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -88,7 +88,7 @@ export default function WholesaleOrdersQueuePage() {
             placeholder="Search order number, pharmacy, or sales rep..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
           />
         </div>
 
@@ -99,7 +99,7 @@ export default function WholesaleOrdersQueuePage() {
               onClick={() => setSelectedStatus(st)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 selectedStatus === st
-                  ? "bg-[#025540] text-white shadow-xs"
+                  ? "bg-[#4F46E5] text-white shadow-xs"
                   : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200"
               }`}
             >
@@ -137,7 +137,7 @@ export default function WholesaleOrdersQueuePage() {
                   <td className="px-4 py-4 font-mono">
                     <div className="text-slate-800 font-semibold">{order.totalLoosePieces.toLocaleString()} pcs ({order.totalItems} SKUs)</div>
                     {order.totalBonusPieces > 0 && (
-                      <div className="text-emerald-700 font-bold text-[11px]">
+                      <div className="text-indigo-700 font-bold text-[11px]">
                         +{order.totalBonusPieces.toLocaleString()} trade bonus pcs
                       </div>
                     )}
@@ -154,7 +154,7 @@ export default function WholesaleOrdersQueuePage() {
                     <span
                       className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold ${
                         order.status === OrderStatus.DELIVERED
-                          ? "bg-emerald-100 text-emerald-800"
+                          ? "bg-indigo-100 text-indigo-800"
                           : "bg-blue-100 text-blue-800"
                       }`}
                     >
@@ -167,13 +167,13 @@ export default function WholesaleOrdersQueuePage() {
                         <>
                           <button
                             onClick={() => handleAction(`Order ${order.orderNumber} approved!`)}
-                            className="px-2.5 py-1 rounded-lg bg-[#025540] hover:bg-[#014232] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                            className="px-2.5 py-1 rounded-lg bg-[#4F46E5] hover:bg-[#3730A3] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
                           >
                             <Check className="w-3 h-3" /> Approve
                           </button>
                           <button
                             onClick={() => handleAction(`Order ${order.orderNumber} packed and assigned to delivery van!`)}
-                            className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
+                            className="px-2.5 py-1 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white text-[11px] font-bold shadow-xs transition-all flex items-center gap-1"
                           >
                             <Send className="w-3 h-3" /> Dispatch
                           </button>

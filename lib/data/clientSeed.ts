@@ -510,7 +510,7 @@ export const initialCompanies: ICompany[] = [
     email: "tanvir.bex@beximco-pharma.com",
     territory: "Dhaka South & Central",
     dueBalance: 28400.00,
-    logoColor: "from-emerald-600 to-teal-700",
+    logoColor: "from-[#4F46E5] to-teal-700",
   },
   {
     id: "comp-inc",

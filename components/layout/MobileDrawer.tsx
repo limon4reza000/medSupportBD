@@ -153,17 +153,17 @@ export const MobileDrawer: React.FC = () => {
       <div className="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-50 text-slate-900 animate-in slide-in-from-left duration-250">
         
         {/* Header with User and Pharmacy Info */}
-        <div className="p-4 bg-gradient-to-b from-[#014232] to-[#025540] text-white">
-          <div className="flex items-center justify-between pb-3 border-b border-emerald-600/30">
+        <div className="p-4 bg-gradient-to-b from-[#014232] to-[#4338CA] text-white">
+          <div className="flex items-center justify-between pb-3 border-b border-indigo-600/30">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-400 flex items-center justify-center text-[#01382a] font-bold">
+              <div className="w-8 h-8 rounded-lg bg-indigo-400 flex items-center justify-center text-[#241B52] font-bold">
                 <Package className="w-5 h-5" />
               </div>
-              <span className="font-black text-lg tracking-tight">MedSupply<span className="text-emerald-300">BD</span></span>
+              <span className="font-black text-lg tracking-tight">MedSupply<span className="text-indigo-300">BD</span></span>
             </div>
             <button
               onClick={closeDrawer}
-              className="p-1.5 rounded-lg text-emerald-200 hover:text-white hover:bg-[#036b51]/60 transition-colors"
+              className="p-1.5 rounded-lg text-indigo-200 hover:text-white hover:bg-[#4338CA]/60 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -173,15 +173,15 @@ export const MobileDrawer: React.FC = () => {
             <img
               src={currentUser.avatar}
               alt={currentUser.name}
-              className="w-11 h-11 rounded-xl object-cover ring-2 ring-emerald-300"
+              className="w-11 h-11 rounded-xl object-cover ring-2 ring-indigo-300"
             />
             <div className="truncate flex-1">
               <div className="font-bold text-sm truncate">{currentUser.name}</div>
-              <div className="text-[11px] text-emerald-200 truncate flex items-center gap-1">
-                <Building2 className="w-3 h-3 text-emerald-300" />
+              <div className="text-[11px] text-indigo-200 truncate flex items-center gap-1">
+                <Building2 className="w-3 h-3 text-indigo-300" />
                 <span className="truncate">{currentPharmacy.tradeName}</span>
               </div>
-              <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">
+              <span className="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-indigo-400/20 text-indigo-200 border border-indigo-400/30">
                 {currentUser.role.replace("_", " ")}
               </span>
             </div>
@@ -206,7 +206,7 @@ export const MobileDrawer: React.FC = () => {
                       onClick={closeDrawer}
                       className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                         isActive
-                          ? "bg-emerald-50 text-emerald-950 font-bold border border-emerald-200 shadow-sm"
+                          ? "bg-indigo-50 text-[#241B52] font-bold border border-indigo-200 shadow-sm"
                           : item.highlight
                           ? "bg-teal-50/70 text-teal-900 hover:bg-teal-100/70 border border-teal-200/60"
                           : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
@@ -216,7 +216,7 @@ export const MobileDrawer: React.FC = () => {
                         <Icon
                           className={`w-4 h-4 ${
                             isActive
-                              ? "text-emerald-700"
+                              ? "text-indigo-700"
                               : item.highlight
                               ? "text-teal-600"
                               : "text-slate-500"
@@ -226,7 +226,7 @@ export const MobileDrawer: React.FC = () => {
                       </div>
                       <div className="flex items-center gap-1.5">
                         {item.badge && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-600 text-white">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#4F46E5] text-white">
                             {item.badge}
                           </span>
                         )}
@@ -245,14 +245,14 @@ export const MobileDrawer: React.FC = () => {
           {/* Language Toggle Button */}
           <button
             onClick={toggleLanguage}
-            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-950 text-xs font-bold transition-all border border-slate-200 hover:border-emerald-300 shadow-sm group"
+            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl bg-white hover:bg-indigo-50 text-slate-700 hover:text-[#241B52] text-xs font-bold transition-all border border-slate-200 hover:border-indigo-300 shadow-sm group"
             title={`Switch to ${language === "en" ? "Bangla" : "English"}`}
           >
             <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-emerald-600 group-hover:rotate-12 transition-transform" />
+              <Globe className="w-4 h-4 text-indigo-600 group-hover:rotate-12 transition-transform" />
               <span>Language / ভাষা</span>
             </div>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-[11px] font-black border border-emerald-200">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 text-[11px] font-black border border-indigo-200">
               <span>{language === "en" ? "বাং BN" : "Eng EN"}</span>
             </div>
           </button>

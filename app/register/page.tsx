@@ -30,7 +30,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-xl premium-card p-8 space-y-6">
         
         <div className="text-center space-y-1.5">
-          <div className="w-12 h-12 rounded-2xl bg-[#025540] text-white flex items-center justify-center mx-auto shadow-md">
+          <div className="w-12 h-12 rounded-2xl bg-[#4F46E5] text-white flex items-center justify-center mx-auto shadow-md">
             <Building2 className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-black tracking-tight text-slate-900">
@@ -42,8 +42,8 @@ export default function RegisterPage() {
         </div>
 
         {isSuccess ? (
-          <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-300 text-center space-y-2">
-            <CheckCircle2 className="w-10 h-10 text-emerald-700 mx-auto" />
+          <div className="p-6 rounded-2xl bg-indigo-50 border border-indigo-300 text-center space-y-2">
+            <CheckCircle2 className="w-10 h-10 text-indigo-700 mx-auto" />
             <h3 className="font-bold text-base text-slate-900">Application Submitted!</h3>
             <p className="text-xs text-slate-600">
               Your Drug License & TIN are being verified with DGDA records. Redirecting to terminal...
@@ -58,7 +58,7 @@ export default function RegisterPage() {
                   type="text"
                   required
                   placeholder="e.g. Al-Madina Med Care"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -68,7 +68,7 @@ export default function RegisterPage() {
                   type="text"
                   required
                   placeholder="e.g. Dr. M. A. Karim"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                   type="text"
                   required
                   placeholder="DL-DHK-2024-XXXXX"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -88,7 +88,7 @@ export default function RegisterPage() {
                   type="tel"
                   required
                   placeholder="+880 17XX-XXXXXX"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -98,7 +98,7 @@ export default function RegisterPage() {
                   type="text"
                   required
                   placeholder="Shop #, Road #, Thana, District"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -108,7 +108,7 @@ export default function RegisterPage() {
                   type="number"
                   defaultValue={50000}
                   step={10000}
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -118,14 +118,14 @@ export default function RegisterPage() {
                   type="email"
                   required
                   placeholder="pharmacy@gmail.com"
-                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95 mt-4"
+              className="w-full py-3.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105 active:scale-95 mt-4"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>Submit for Verification & Onboarding</span>
@@ -135,7 +135,7 @@ export default function RegisterPage() {
 
         <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
           Already registered?{" "}
-          <Link href="/login" className="font-bold text-emerald-700 hover:underline">
+          <Link href="/login" className="font-bold text-indigo-700 hover:underline">
             Sign In to your Account
           </Link>
         </div>

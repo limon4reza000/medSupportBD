@@ -29,14 +29,14 @@ export default function NearExpiryPage() {
             <AlertTriangle className="w-6 h-6 text-amber-400" />
             <span>Near-Expiry Lot Priority Dashboard</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Lots expiring within 90 days prioritized for FEFO allocation or clearance trade discounts.
           </p>
         </div>
 
         <Link
           href="/inventory"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Inventory</span>
@@ -82,7 +82,7 @@ export default function NearExpiryPage() {
 
                 <Link
                   href={`/products/${med?.id}`}
-                  className="px-4 py-2 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all"
+                  className="px-4 py-2 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all"
                 >
                   View Product
                 </Link>

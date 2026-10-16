@@ -34,17 +34,17 @@ export default function StockAdjustmentsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-            <SlidersHorizontal className="w-6 h-6 text-emerald-400" />
+            <SlidersHorizontal className="w-6 h-6 text-indigo-400" />
             <span>Physical Stock Reconciliation & Adjustments</span>
           </h1>
-          <p className="text-xs text-emerald-100/80 mt-0.5">
+          <p className="text-xs text-indigo-100/80 mt-0.5">
             Log lot count corrections, damaged inventory write-offs, and store room audits.
           </p>
         </div>
 
         <Link
           href="/inventory"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-emerald-500/20 self-start sm:self-auto"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-200 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-xl border border-indigo-500/20 self-start sm:self-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Inventory</span>
@@ -60,8 +60,8 @@ export default function StockAdjustmentsPage() {
         </div>
 
         {success && (
-          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+          <div className="p-3 rounded-xl bg-indigo-50 border border-indigo-300 text-indigo-900 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-indigo-700" />
             <span>Stock adjustment committed to warehouse ledger and audit log!</span>
           </div>
         )}
@@ -72,7 +72,7 @@ export default function StockAdjustmentsPage() {
             <select
               value={selectedBatchId}
               onChange={(e) => setSelectedBatchId(e.target.value)}
-              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
             >
               {batches.map((b) => {
                 const med = medicines.find((m) => m.id === b.medicineId);
@@ -91,7 +91,7 @@ export default function StockAdjustmentsPage() {
               type="number"
               value={adjustmentQty}
               onChange={(e) => setAdjustmentQty(parseInt(e.target.value) || 0)}
-              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-emerald-500"
+              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
@@ -100,7 +100,7 @@ export default function StockAdjustmentsPage() {
             <select
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-emerald-500"
+              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:border-indigo-500"
             >
               <option value="PHYSICAL_COUNT_DISCREPANCY">Physical Count Discrepancy</option>
               <option value="DAMAGED_IN_TRANSIT">Damaged in Transit</option>
@@ -116,13 +116,13 @@ export default function StockAdjustmentsPage() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. Verified by Storekeeper M. Rahman after physical stock audit on Rack B-12."
-              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-emerald-500"
+              className="w-full mt-1 p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold transition-all shadow-md flex items-center justify-center gap-2"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>Commit Inventory Adjustment</span>

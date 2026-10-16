@@ -47,7 +47,7 @@ const DistributorMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="w-full h-full min-h-[450px] rounded-2xl bg-slate-100 flex flex-col items-center justify-center text-slate-500 gap-3 border border-slate-200">
-        <div className="w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
         <span className="text-xs font-bold text-slate-600">Initializing Interactive Leaflet Map...</span>
       </div>
     ),
@@ -284,8 +284,8 @@ export default function DistributorsMapPage() {
             onClick={() => setViewMode("split")}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               viewMode === "split"
-                ? "bg-white text-[#01382a] shadow-md"
-                : "text-emerald-200 hover:text-white"
+                ? "bg-white text-[#241B52] shadow-md"
+                : "text-indigo-200 hover:text-white"
             }`}
           >
             <Columns className="w-3.5 h-3.5" />
@@ -295,8 +295,8 @@ export default function DistributorsMapPage() {
             onClick={() => setViewMode("map")}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               viewMode === "map"
-                ? "bg-white text-[#01382a] shadow-md"
-                : "text-emerald-200 hover:text-white"
+                ? "bg-white text-[#241B52] shadow-md"
+                : "text-indigo-200 hover:text-white"
             }`}
           >
             <MapIcon className="w-3.5 h-3.5" />
@@ -306,8 +306,8 @@ export default function DistributorsMapPage() {
             onClick={() => setViewMode("list")}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
               viewMode === "list"
-                ? "bg-white text-[#01382a] shadow-md"
-                : "text-emerald-200 hover:text-white"
+                ? "bg-white text-[#241B52] shadow-md"
+                : "text-indigo-200 hover:text-white"
             }`}
           >
             <List className="w-3.5 h-3.5" />
@@ -337,7 +337,7 @@ export default function DistributorsMapPage() {
                 onFocus={() => {
                   if (medicineSuggestions.length > 0) setShowSuggestionsDropdown(true);
                 }}
-                className="w-full pl-10 pr-10 py-2.5 rounded-2xl border border-slate-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50/50"
+                className="w-full pl-10 pr-10 py-2.5 rounded-2xl border border-slate-200 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50/50"
               />
               {(searchQuery || selectedMedicineId) && (
                 <button
@@ -353,7 +353,7 @@ export default function DistributorsMapPage() {
             {selectedMedicineName && (
               <div className="mt-1.5 flex items-center gap-1.5 text-xs">
                 <span className="text-[11px] text-slate-500">Searching Stock For:</span>
-                <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-bold text-[11px] flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-900 font-bold text-[11px] flex items-center gap-1">
                   <span>{selectedMedicineName}</span>
                   <X className="w-3 h-3 cursor-pointer" onClick={handleClearMedicineFilter} />
                 </span>
@@ -367,7 +367,7 @@ export default function DistributorsMapPage() {
                   <button
                     key={med.id}
                     onClick={() => handleSelectMedicineSuggestion(med)}
-                    className="w-full p-2.5 text-left hover:bg-emerald-50/70 flex items-center justify-between transition-colors"
+                    className="w-full p-2.5 text-left hover:bg-indigo-50/70 flex items-center justify-between transition-colors"
                   >
                     <div>
                       <div className="font-bold text-slate-900 flex items-center gap-1.5">
@@ -382,7 +382,7 @@ export default function DistributorsMapPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-emerald-700">৳{med.tradePricePerPiece}/pc</div>
+                      <div className="font-bold text-indigo-700">৳{med.tradePricePerPiece}/pc</div>
                       <div className="text-[10px] text-slate-400">MRP ৳{med.mrpPerPiece}</div>
                     </div>
                   </button>
@@ -394,7 +394,7 @@ export default function DistributorsMapPage() {
           {/* 2B. Location Selector Dropdown & GPS Detect */}
           <div className="md:col-span-4 flex items-center gap-2">
             <div className="relative flex-1 min-w-0">
-              <MapPin className="w-4 h-4 absolute left-3 top-3 text-emerald-700 pointer-events-none" />
+              <MapPin className="w-4 h-4 absolute left-3 top-3 text-indigo-700 pointer-events-none" />
               <select
                 value={
                   PRESET_LOCATIONS.find(
@@ -414,7 +414,7 @@ export default function DistributorsMapPage() {
                     setRouteCoordinates(undefined);
                   }
                 }}
-                className="w-full pl-9 pr-7 py-2.5 rounded-2xl border border-slate-200 text-xs text-slate-800 bg-slate-50/50 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 truncate"
+                className="w-full pl-9 pr-7 py-2.5 rounded-2xl border border-slate-200 text-xs text-slate-800 bg-slate-50/50 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 truncate"
               >
                 {PRESET_LOCATIONS.map((preset) => (
                   <option key={preset.id} value={preset.id}>
@@ -430,7 +430,7 @@ export default function DistributorsMapPage() {
               className="px-3 py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 active:scale-95 disabled:opacity-50"
               title="Detect current GPS coordinates from browser"
             >
-              <LocateFixed className={`w-3.5 h-3.5 text-emerald-700 ${isDetectingGps ? "animate-spin" : ""}`} />
+              <LocateFixed className={`w-3.5 h-3.5 text-indigo-700 ${isDetectingGps ? "animate-spin" : ""}`} />
               <span className="hidden sm:inline">{isDetectingGps ? "Locating..." : "GPS"}</span>
             </button>
           </div>
@@ -440,7 +440,7 @@ export default function DistributorsMapPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="w-full py-2.5 px-3 rounded-2xl border border-slate-200 text-xs text-slate-800 bg-slate-50/50 font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full py-2.5 px-3 rounded-2xl border border-slate-200 text-xs text-slate-800 bg-slate-50/50 font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="distance">⚡ Nearest (Road)</option>
               <option value="price">💰 Lowest Trade Price</option>
@@ -477,7 +477,7 @@ export default function DistributorsMapPage() {
                 onClick={() => setSelectedRadius(opt.value)}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                   selectedRadius === opt.value
-                    ? "bg-[#025540] text-white shadow-xs"
+                    ? "bg-[#4F46E5] text-white shadow-xs"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
@@ -492,7 +492,7 @@ export default function DistributorsMapPage() {
                 type="checkbox"
                 checked={inStockOnly}
                 onChange={(e) => setInStockOnly(e.target.checked)}
-                className="w-3.5 h-3.5 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300"
+                className="w-3.5 h-3.5 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
               />
               <span>In-Stock Only</span>
             </label>
@@ -518,7 +518,7 @@ export default function DistributorsMapPage() {
           >
             {isLoadingDistributors ? (
               <div className="py-20 flex flex-col items-center justify-center text-slate-500 gap-2">
-                <div className="w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
                 <span className="text-xs font-bold">Scanning nearby authorized pharmaceutical depots...</span>
               </div>
             ) : distributors.length === 0 ? (
@@ -530,7 +530,7 @@ export default function DistributorsMapPage() {
                 </p>
                 <button
                   onClick={() => setSelectedRadius(50)}
-                  className="px-4 py-1.5 rounded-xl bg-emerald-600 text-white font-bold text-xs"
+                  className="px-4 py-1.5 rounded-xl bg-[#4F46E5] text-white font-bold text-xs"
                 >
                   Expand to 50 km
                 </button>
@@ -550,7 +550,7 @@ export default function DistributorsMapPage() {
                     }}
                     className={`p-4 rounded-3xl border transition-all cursor-pointer bg-white ${
                       isSelected
-                        ? "border-emerald-600 ring-2 ring-emerald-500/30 shadow-md"
+                        ? "border-indigo-600 ring-2 ring-indigo-500/30 shadow-md"
                         : "border-slate-200/90 hover:border-slate-300 hover:shadow-sm"
                     }`}
                   >
@@ -559,7 +559,7 @@ export default function DistributorsMapPage() {
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <h4 className="font-black text-sm text-slate-900">{dist.name}</h4>
-                          <span className="px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold">
+                          <span className="px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 text-[9px] font-bold">
                             Verified
                           </span>
                         </div>
@@ -569,7 +569,7 @@ export default function DistributorsMapPage() {
                       </div>
 
                       <div className="text-right shrink-0">
-                        <div className="font-black text-xs text-emerald-800">
+                        <div className="font-black text-xs text-indigo-800">
                           {item.distanceRoadKm} km by Road
                         </div>
                         <div className="text-[10px] text-slate-400">
@@ -580,7 +580,7 @@ export default function DistributorsMapPage() {
 
                     {/* Target Medicine Stock Card if searching */}
                     {stock ? (
-                      <div className="mt-3 p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
+                      <div className="mt-3 p-3 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-2">
                         <div className="flex items-center justify-between text-xs">
                           <div>
                             <span className="font-bold text-slate-900 block">
@@ -592,7 +592,7 @@ export default function DistributorsMapPage() {
                           <span
                             className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                               stock.inStockStatus === "IN_STOCK"
-                                ? "bg-emerald-200 text-emerald-900"
+                                ? "bg-indigo-200 text-indigo-900"
                                 : stock.inStockStatus === "LOW_STOCK"
                                 ? "bg-amber-200 text-amber-900"
                                 : "bg-rose-200 text-rose-900"
@@ -602,7 +602,7 @@ export default function DistributorsMapPage() {
                           </span>
                         </div>
 
-                        <div className="flex items-center justify-between pt-1 border-t border-emerald-200/60 text-xs">
+                        <div className="flex items-center justify-between pt-1 border-t border-indigo-200/60 text-xs">
                           <div>
                             <span className="font-black text-slate-900">৳{stock.tradePricePerBox} / Box</span>
                             <span className="text-[10px] text-slate-400 ml-1.5">(MRP ৳{stock.mrpPerBox})</span>
@@ -610,7 +610,7 @@ export default function DistributorsMapPage() {
 
                           <button
                             onClick={(e) => handleQuickAddToCart(item, e)}
-                            className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1 active:scale-95"
+                            className="px-3 py-1 rounded-lg bg-[#4F46E5] hover:bg-indigo-600 text-white font-bold text-xs transition-all shadow-xs flex items-center gap-1 active:scale-95"
                           >
                             <ShoppingCart className="w-3 h-3" />
                             <span>{addedItemIds[dist.id] ? "Added!" : "Quick Order"}</span>
@@ -656,7 +656,7 @@ export default function DistributorsMapPage() {
                           }}
                           className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-all flex items-center gap-1"
                         >
-                          <Navigation className="w-3 h-3 text-emerald-700" />
+                          <Navigation className="w-3 h-3 text-indigo-700" />
                           <span>Road Route</span>
                         </button>
 
@@ -677,7 +677,7 @@ export default function DistributorsMapPage() {
                           e.stopPropagation();
                           setActiveModalDistributor(item);
                         }}
-                        className="px-3.5 py-1.5 rounded-xl bg-[#025540] hover:bg-[#01382a] text-white font-black transition-all flex items-center gap-1 active:scale-95 shadow-xs"
+                        className="px-3.5 py-1.5 rounded-xl bg-[#4F46E5] hover:bg-[#1E1743] text-white font-black transition-all flex items-center gap-1 active:scale-95 shadow-xs"
                       >
                         <span>Select Depot</span>
                         <ArrowRight className="w-3.5 h-3.5" />

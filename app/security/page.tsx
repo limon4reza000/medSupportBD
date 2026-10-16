@@ -217,7 +217,7 @@ export default function SecurityCenterPage() {
     if (newPassword.length === 0) return { label: "Not Entered", color: "bg-slate-200 text-slate-500" };
     if (reqCount <= 2) return { label: "Weak", color: "bg-rose-500 text-white" };
     if (reqCount === 3 || reqCount === 4) return { label: "Medium", color: "bg-amber-500 text-white" };
-    return { label: "Strong & Secure", color: "bg-emerald-600 text-white" };
+    return { label: "Strong & Secure", color: "bg-[#4F46E5] text-white" };
   };
 
   // Actions
@@ -269,13 +269,13 @@ export default function SecurityCenterPage() {
         <div
           className={`p-4 rounded-2xl text-xs font-bold flex items-center justify-between shadow-2xl border transition-all animate-in slide-in-from-top ${
             toastMessage.type === "success"
-              ? "bg-emerald-900 text-white border-emerald-500"
+              ? "bg-[#241B52] text-white border-indigo-500"
               : "bg-rose-900 text-white border-rose-500"
           }`}
         >
           <div className="flex items-center gap-2.5">
             {toastMessage.type === "success" ? (
-              <CheckCircle2 className="w-5 h-5 text-emerald-300 shrink-0" />
+              <CheckCircle2 className="w-5 h-5 text-indigo-300 shrink-0" />
             ) : (
               <AlertCircle className="w-5 h-5 text-rose-300 shrink-0" />
             )}
@@ -293,10 +293,10 @@ export default function SecurityCenterPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
-            <ShieldCheck className="w-8 h-8 text-emerald-400" />
+            <ShieldCheck className="w-8 h-8 text-indigo-400" />
             <span>Security & Login Center</span>
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100/80 mt-1">
+          <p className="text-xs sm:text-sm text-indigo-100/80 mt-1">
             Manage your password, multi-factor authentication, active devices, and account protection.
           </p>
         </div>
@@ -304,7 +304,7 @@ export default function SecurityCenterPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/settings"
-            className="px-4 py-2 rounded-xl bg-[#014232] hover:bg-[#025540] border border-emerald-500/30 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl bg-[#014232] hover:bg-[#4F46E5] border border-indigo-500/30 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1.5"
           >
             <Sliders className="w-4 h-4" />
             <span>System Settings</span>
@@ -316,22 +316,22 @@ export default function SecurityCenterPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         
         {/* Card 1: Password Status */}
-        <div className="premium-card p-5 flex flex-col justify-between space-y-4 text-slate-900 border-l-4 border-l-emerald-600">
+        <div className="premium-card p-5 flex flex-col justify-between space-y-4 text-slate-900 border-l-4 border-l-indigo-600">
           <div className="flex items-center justify-between">
             <div className="font-bold text-xs uppercase tracking-wider text-slate-500">Password Protection</div>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-800">
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-800">
               <Lock className="w-5 h-5" />
             </div>
           </div>
 
           <div>
-            <div className="text-sm font-bold text-slate-900">Password Status: <span className="text-emerald-700">Healthy</span></div>
+            <div className="text-sm font-bold text-slate-900">Password Status: <span className="text-indigo-700">Healthy</span></div>
             <div className="text-xs text-slate-500 mt-1">Last changed 45 days ago (Sep 2026)</div>
           </div>
 
           <a
             href="#change-password"
-            className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-800 hover:text-emerald-950 text-xs font-bold transition-colors text-center block"
+            className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-indigo-50 text-slate-800 hover:text-[#241B52] text-xs font-bold transition-colors text-center block"
           >
             Change Password
           </a>
@@ -364,10 +364,10 @@ export default function SecurityCenterPage() {
         </div>
 
         {/* Card 3: Two-Factor Authentication */}
-        <div className="premium-card p-5 flex flex-col justify-between space-y-4 text-slate-900 border-l-4 border-l-emerald-600">
+        <div className="premium-card p-5 flex flex-col justify-between space-y-4 text-slate-900 border-l-4 border-l-indigo-600">
           <div className="flex items-center justify-between">
             <div className="font-bold text-xs uppercase tracking-wider text-slate-500">Two-Factor Authentication</div>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-800">
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-800">
               <ShieldCheck className="w-5 h-5" />
             </div>
           </div>
@@ -376,7 +376,7 @@ export default function SecurityCenterPage() {
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-slate-900">2FA Status:</span>
               <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                is2FAEnabled ? "bg-emerald-100 text-emerald-800 border border-emerald-300" : "bg-rose-100 text-rose-800"
+                is2FAEnabled ? "bg-indigo-100 text-indigo-800 border border-indigo-300" : "bg-rose-100 text-rose-800"
               }`}>
                 {is2FAEnabled ? "ENABLED (SMS OTP)" : "DISABLED"}
               </span>
@@ -386,7 +386,7 @@ export default function SecurityCenterPage() {
 
           <a
             href="#two-factor-auth"
-            className="w-full py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-colors text-center block"
+            className="w-full py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-colors text-center block"
           >
             {is2FAEnabled ? "Configure 2FA" : "Setup 2FA Now"}
           </a>
@@ -400,7 +400,7 @@ export default function SecurityCenterPage() {
       <div id="change-password" className="premium-card p-6 text-slate-900 space-y-6">
         <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800">
+            <div className="p-2 rounded-xl bg-indigo-100 text-indigo-800">
               <Key className="w-5 h-5" />
             </div>
             <div>
@@ -422,7 +422,7 @@ export default function SecurityCenterPage() {
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   placeholder="Enter current password..."
-                  className="w-full p-3 pr-10 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full p-3 pr-10 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
                 <button
                   type="button"
@@ -443,7 +443,7 @@ export default function SecurityCenterPage() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Create new password..."
-                  className="w-full p-3 pr-10 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full p-3 pr-10 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
                 <button
                   type="button"
@@ -464,7 +464,7 @@ export default function SecurityCenterPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password..."
-                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-emerald-500"
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-indigo-500"
                 />
               </div>
             </div>
@@ -489,7 +489,7 @@ export default function SecurityCenterPage() {
                       ? "bg-rose-500"
                       : passwordStrengthScore <= 80
                       ? "bg-amber-500"
-                      : "bg-emerald-600"
+                      : "bg-[#4F46E5]"
                   }`}
                   style={{ width: `${passwordStrengthScore}%` }}
                 />
@@ -497,27 +497,27 @@ export default function SecurityCenterPage() {
 
               {/* Requirements List Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 pt-1 text-[11px]">
-                <div className={`flex items-center gap-1 font-semibold ${hasMinLen ? "text-emerald-700" : "text-slate-400"}`}>
+                <div className={`flex items-center gap-1 font-semibold ${hasMinLen ? "text-indigo-700" : "text-slate-400"}`}>
                   {hasMinLen ? <Check className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                   <span>Min 8 chars</span>
                 </div>
 
-                <div className={`flex items-center gap-1 font-semibold ${hasUpper ? "text-emerald-700" : "text-slate-400"}`}>
+                <div className={`flex items-center gap-1 font-semibold ${hasUpper ? "text-indigo-700" : "text-slate-400"}`}>
                   {hasUpper ? <Check className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                   <span>Uppercase (A-Z)</span>
                 </div>
 
-                <div className={`flex items-center gap-1 font-semibold ${hasLower ? "text-emerald-700" : "text-slate-400"}`}>
+                <div className={`flex items-center gap-1 font-semibold ${hasLower ? "text-indigo-700" : "text-slate-400"}`}>
                   {hasLower ? <Check className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                   <span>Lowercase (a-z)</span>
                 </div>
 
-                <div className={`flex items-center gap-1 font-semibold ${hasNumber ? "text-emerald-700" : "text-slate-400"}`}>
+                <div className={`flex items-center gap-1 font-semibold ${hasNumber ? "text-indigo-700" : "text-slate-400"}`}>
                   {hasNumber ? <Check className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                   <span>Number (0-9)</span>
                 </div>
 
-                <div className={`flex items-center gap-1 font-semibold ${hasSpecial ? "text-emerald-700" : "text-slate-400"}`}>
+                <div className={`flex items-center gap-1 font-semibold ${hasSpecial ? "text-indigo-700" : "text-slate-400"}`}>
                   {hasSpecial ? <Check className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                   <span>Special (!@#$)</span>
                 </div>
@@ -526,18 +526,18 @@ export default function SecurityCenterPage() {
           )}
 
           {/* Post-Change Security Behavior Options */}
-          <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <div>
-              <div className="font-bold text-emerald-950">Security Action After Password Update:</div>
+              <div className="font-bold text-[#241B52]">Security Action After Password Update:</div>
               <p className="text-[11px] text-slate-600">Automatically logout all other devices and send instant Email & SMS notifications.</p>
             </div>
 
-            <label className="flex items-center gap-2 cursor-pointer font-bold text-emerald-900 shrink-0">
+            <label className="flex items-center gap-2 cursor-pointer font-bold text-indigo-900 shrink-0">
               <input
                 type="checkbox"
                 checked={logoutOtherDevicesOnPassChange}
                 onChange={(e) => setLogoutOtherDevicesOnPassChange(e.target.checked)}
-                className="w-4 h-4 accent-emerald-700 cursor-pointer"
+                className="w-4 h-4 accent-indigo-600 cursor-pointer"
               />
               <span>Logout All Other Devices</span>
             </label>
@@ -547,7 +547,7 @@ export default function SecurityCenterPage() {
           <div className="flex items-center gap-3">
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>Save New Password</span>
@@ -576,7 +576,7 @@ export default function SecurityCenterPage() {
         <div className="pb-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-              <Laptop className="w-5 h-5 text-emerald-700" />
+              <Laptop className="w-5 h-5 text-indigo-700" />
               <span>Where You're Logged In</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -607,13 +607,13 @@ export default function SecurityCenterPage() {
                 key={device.id}
                 className={`p-4 rounded-2xl border transition-all flex flex-col justify-between space-y-3 ${
                   device.isCurrent
-                    ? "bg-emerald-50/60 border-emerald-300 ring-2 ring-emerald-500/20 shadow-sm"
+                    ? "bg-indigo-50/60 border-indigo-300 ring-2 ring-indigo-500/20 shadow-sm"
                     : "bg-white border-slate-200 hover:border-slate-300 shadow-sm"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <div className={`p-2.5 rounded-xl shrink-0 ${device.isCurrent ? "bg-emerald-700 text-white" : "bg-slate-100 text-slate-700"}`}>
+                    <div className={`p-2.5 rounded-xl shrink-0 ${device.isCurrent ? "bg-[#4338CA] text-white" : "bg-slate-100 text-slate-700"}`}>
                       <DeviceIcon className="w-5 h-5" />
                     </div>
 
@@ -621,7 +621,7 @@ export default function SecurityCenterPage() {
                       <div className="font-bold text-sm text-slate-900 flex items-center gap-2">
                         <span>{device.name}</span>
                         {device.isCurrent && (
-                          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-700 text-white uppercase tracking-wider">
+                          <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#4338CA] text-white uppercase tracking-wider">
                             CURRENT DEVICE
                           </span>
                         )}
@@ -650,7 +650,7 @@ export default function SecurityCenterPage() {
 
                   <div>
                     <span className="text-slate-400 text-[10px] font-bold uppercase">Last Active</span>
-                    <div className="font-semibold text-emerald-800 truncate">{device.lastActive}</div>
+                    <div className="font-semibold text-indigo-800 truncate">{device.lastActive}</div>
                   </div>
                 </div>
 
@@ -679,7 +679,7 @@ export default function SecurityCenterPage() {
         <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-emerald-700" />
+              <Activity className="w-5 h-5 text-indigo-700" />
               <span>Login & Security Activity Log</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">Recent account security events, logins, failed attempts, and password changes.</p>
@@ -712,7 +712,7 @@ export default function SecurityCenterPage() {
                         ? "bg-rose-100 text-rose-700"
                         : isInfo
                         ? "bg-teal-100 text-teal-800"
-                        : "bg-emerald-100 text-emerald-800"
+                        : "bg-indigo-100 text-indigo-800"
                     }`}
                   >
                     {isDanger ? (
@@ -731,7 +731,7 @@ export default function SecurityCenterPage() {
                             ? "bg-rose-100 text-rose-800 border border-rose-200"
                             : isInfo
                             ? "bg-teal-100 text-teal-800 border border-teal-200"
-                            : "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                            : "bg-indigo-100 text-indigo-800 border border-indigo-200"
                         }`}
                       >
                         {log.type}
@@ -760,7 +760,7 @@ export default function SecurityCenterPage() {
         <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-700" />
+              <ShieldCheck className="w-5 h-5 text-indigo-700" />
               <span>Two-Factor Authentication (2FA)</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">Add an extra layer of defense by requiring an OTP code in addition to your password.</p>
@@ -773,7 +773,7 @@ export default function SecurityCenterPage() {
             }}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
               is2FAEnabled
-                ? "bg-emerald-800 text-white hover:bg-emerald-900"
+                ? "bg-[#2E236C] text-white hover:bg-[#241B52]"
                 : "bg-rose-600 text-white hover:bg-rose-700"
             }`}
           >
@@ -789,13 +789,13 @@ export default function SecurityCenterPage() {
             onClick={() => setSelected2FAMethod("SMS")}
             className={`p-4 rounded-2xl border cursor-pointer transition-all ${
               selected2FAMethod === "SMS"
-                ? "bg-emerald-50/70 border-emerald-400 ring-2 ring-emerald-500/20"
+                ? "bg-indigo-50/70 border-indigo-400 ring-2 ring-indigo-500/20"
                 : "bg-white border-slate-200 hover:border-slate-300"
             }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <Phone className="w-5 h-5 text-emerald-700" />
-              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-100 text-emerald-800">PRIMARY</span>
+              <Phone className="w-5 h-5 text-indigo-700" />
+              <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-100 text-indigo-800">PRIMARY</span>
             </div>
             <div className="font-bold text-slate-900">SMS OTP Verification</div>
             <div className="text-[11px] text-slate-500 mt-1">Receive 6-digit passcode via SMS to {currentPharmacy.phone}</div>
@@ -806,7 +806,7 @@ export default function SecurityCenterPage() {
             onClick={() => setSelected2FAMethod("AUTHENTICATOR")}
             className={`p-4 rounded-2xl border cursor-pointer transition-all ${
               selected2FAMethod === "AUTHENTICATOR"
-                ? "bg-emerald-50/70 border-emerald-400 ring-2 ring-emerald-500/20"
+                ? "bg-indigo-50/70 border-indigo-400 ring-2 ring-indigo-500/20"
                 : "bg-white border-slate-200 hover:border-slate-300"
             }`}
           >
@@ -823,7 +823,7 @@ export default function SecurityCenterPage() {
             onClick={() => setSelected2FAMethod("EMAIL")}
             className={`p-4 rounded-2xl border cursor-pointer transition-all ${
               selected2FAMethod === "EMAIL"
-                ? "bg-emerald-50/70 border-emerald-400 ring-2 ring-emerald-500/20"
+                ? "bg-indigo-50/70 border-indigo-400 ring-2 ring-indigo-500/20"
                 : "bg-white border-slate-200 hover:border-slate-300"
             }`}
           >
@@ -858,10 +858,10 @@ export default function SecurityCenterPage() {
 
         {showBackupCodes && (
           <div className="p-4 rounded-2xl bg-slate-900 text-white font-mono text-xs space-y-2 animate-in fade-in">
-            <div className="text-emerald-400 font-bold text-[11px] uppercase tracking-wider">
+            <div className="text-indigo-400 font-bold text-[11px] uppercase tracking-wider">
               10 One-Time Emergency Backup Codes (Keep Secret):
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-emerald-200 font-bold pt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-indigo-200 font-bold pt-1">
               <div className="p-2 bg-slate-800 rounded-lg">8941-2093</div>
               <div className="p-2 bg-slate-800 rounded-lg">4410-9821</div>
               <div className="p-2 bg-slate-800 rounded-lg">7712-4091</div>
@@ -883,7 +883,7 @@ export default function SecurityCenterPage() {
       <div className="premium-card p-6 text-slate-900 space-y-5">
         <div className="pb-4 border-b border-slate-100">
           <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-emerald-700" />
+            <ShieldAlert className="w-5 h-5 text-indigo-700" />
             <span>Security Alerts & Notifications</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">Control when and how MedSupply alerts you of security events.</p>
@@ -900,7 +900,7 @@ export default function SecurityCenterPage() {
               type="checkbox"
               checked={alerts.newDeviceLogin}
               onChange={(e) => setAlerts({ ...alerts, newDeviceLogin: e.target.checked })}
-              className="w-4 h-4 accent-emerald-700 cursor-pointer"
+              className="w-4 h-4 accent-indigo-600 cursor-pointer"
             />
           </div>
 
@@ -913,7 +913,7 @@ export default function SecurityCenterPage() {
               type="checkbox"
               checked={alerts.passwordChange}
               onChange={(e) => setAlerts({ ...alerts, passwordChange: e.target.checked })}
-              className="w-4 h-4 accent-emerald-700 cursor-pointer"
+              className="w-4 h-4 accent-indigo-600 cursor-pointer"
             />
           </div>
 
@@ -926,7 +926,7 @@ export default function SecurityCenterPage() {
               type="checkbox"
               checked={alerts.suspiciousActivity}
               onChange={(e) => setAlerts({ ...alerts, suspiciousActivity: e.target.checked })}
-              className="w-4 h-4 accent-emerald-700 cursor-pointer"
+              className="w-4 h-4 accent-indigo-600 cursor-pointer"
             />
           </div>
 
@@ -939,7 +939,7 @@ export default function SecurityCenterPage() {
               type="checkbox"
               checked={alerts.multipleFailedLogins}
               onChange={(e) => setAlerts({ ...alerts, multipleFailedLogins: e.target.checked })}
-              className="w-4 h-4 accent-emerald-700 cursor-pointer"
+              className="w-4 h-4 accent-indigo-600 cursor-pointer"
             />
           </div>
 
@@ -947,7 +947,7 @@ export default function SecurityCenterPage() {
 
         <button
           onClick={() => showToast("Security alert preferences saved!")}
-          className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
+          className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
         >
           <CheckCircle2 className="w-4 h-4" />
           <span>Save Alert Preferences</span>
@@ -961,7 +961,7 @@ export default function SecurityCenterPage() {
         <div className="pb-4 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-              <Cpu className="w-5 h-5 text-emerald-700" />
+              <Cpu className="w-5 h-5 text-indigo-700" />
               <span>Connected Integrations & API Access</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">Third-party ERP software, SMS gateways, and webhook connectors.</p>
@@ -975,7 +975,7 @@ export default function SecurityCenterPage() {
               className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 flex items-center justify-between text-xs"
             >
               <div className="flex items-center gap-3">
-                <Cpu className="w-5 h-5 text-emerald-700 shrink-0" />
+                <Cpu className="w-5 h-5 text-indigo-700 shrink-0" />
                 <div>
                   <div className="font-bold text-slate-900">{app.name}</div>
                   <div className="text-[11px] text-slate-500">{app.type} • Connected since {app.connectedDate}</div>
@@ -983,7 +983,7 @@ export default function SecurityCenterPage() {
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-800">
                   {app.status}
                 </span>
                 <button
@@ -1004,7 +1004,7 @@ export default function SecurityCenterPage() {
       <div className="premium-card p-6 text-slate-900 space-y-5">
         <div className="pb-4 border-b border-slate-100">
           <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-            <Key className="w-5 h-5 text-emerald-700" />
+            <Key className="w-5 h-5 text-indigo-700" />
             <span>Account Emergency Recovery</span>
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">Configure emergency email and phone number for password recovery.</p>
@@ -1032,7 +1032,7 @@ export default function SecurityCenterPage() {
 
         <button
           onClick={() => showToast("Emergency recovery contact information saved!")}
-          className="px-6 py-2.5 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
+          className="px-6 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center gap-2"
         >
           <CheckCircle2 className="w-4 h-4" />
           <span>Save Recovery Information</span>

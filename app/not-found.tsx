@@ -42,7 +42,7 @@ export default function NotFound() {
           <span className="text-slate-600 font-medium">Looking for a specific medicine?</span>
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="px-3 py-1.5 rounded-lg bg-[#025540] hover:bg-[#036b51] text-white font-bold flex items-center gap-1.5 transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold flex items-center gap-1.5 transition-colors"
           >
             <Search className="w-3.5 h-3.5" />
             <span>Search (⌘K)</span>
@@ -53,7 +53,7 @@ export default function NotFound() {
         <div className="grid grid-cols-2 gap-3 pt-2">
           <Link
             href="/dashboard"
-            className="px-4 py-3 rounded-xl bg-[#025540] hover:bg-[#036b51] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105"
+            className="px-4 py-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 hover:scale-105"
           >
             <Home className="w-4 h-4" />
             <span>Pharmacy Dashboard</span>
@@ -63,7 +63,7 @@ export default function NotFound() {
             href="/products"
             className="px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all flex items-center justify-center gap-2"
           >
-            <Boxes className="w-4 h-4 text-emerald-700" />
+            <Boxes className="w-4 h-4 text-indigo-700" />
             <span>Medicine Catalog</span>
           </Link>
         </div>

@@ -82,7 +82,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
         {/* Header */}
         <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Scan className="w-5 h-5 text-emerald-400" />
+            <Scan className="w-5 h-5 text-indigo-400" />
             <h3 className="font-bold text-sm">Optical Barcode Scanner & Rapid Stock Adjuster</h3>
           </div>
           <button
@@ -95,12 +95,12 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
         {/* Video Camera Viewfinder Simulation */}
         <div className="p-5 bg-slate-950 text-white relative flex flex-col items-center justify-center min-h-[190px] overflow-hidden">
-          <div className="absolute inset-x-8 inset-y-6 border-2 border-dashed border-emerald-400/80 rounded-2xl flex items-center justify-center">
+          <div className="absolute inset-x-8 inset-y-6 border-2 border-dashed border-indigo-400/80 rounded-2xl flex items-center justify-center">
             <div className="w-full h-0.5 bg-rose-500 shadow-[0_0_12px_#f43f5e] animate-pulse" />
           </div>
 
-          <Camera className="w-10 h-10 text-emerald-400/30 mb-2" />
-          <span className="text-xs font-mono text-emerald-300 font-semibold relative z-10">
+          <Camera className="w-10 h-10 text-indigo-400/30 mb-2" />
+          <span className="text-xs font-mono text-indigo-300 font-semibold relative z-10">
             [CAMERA LASER ACTIVE: Align medicine barcode inside frame]
           </span>
           <span className="text-[10px] text-slate-400 mt-1 relative z-10">
@@ -120,7 +120,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 placeholder="Scan or enter barcode numbers..."
                 value={barcodeInput}
                 onChange={(e) => handleLookup(e.target.value)}
-                className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-mono text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 autoFocus
               />
               <button
@@ -142,7 +142,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 <button
                   key={s.code}
                   onClick={() => handleLookup(s.code)}
-                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-emerald-100 hover:text-emerald-900 text-slate-700 text-[11px] font-semibold border border-slate-200 transition-colors"
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-100 hover:text-indigo-900 text-slate-700 text-[11px] font-semibold border border-slate-200 transition-colors"
                 >
                   {s.label}
                 </button>
@@ -152,10 +152,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
           {/* Scanned Medicine Result Card */}
           {scannedMedicine && (
-            <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-3 animate-in fade-in">
+            <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200 space-y-3 animate-in fade-in">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="px-2 py-0.5 rounded-md bg-emerald-200 text-emerald-900 font-bold text-[10px]">
+                  <span className="px-2 py-0.5 rounded-md bg-indigo-200 text-indigo-900 font-bold text-[10px]">
                     Matched SKU
                   </span>
                   <h4 className="font-black text-sm text-slate-900 mt-1">
@@ -177,14 +177,14 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
               </div>
 
               {scannedBatch && (
-                <div className="p-2.5 rounded-xl bg-white border border-emerald-200/80 text-xs space-y-1">
+                <div className="p-2.5 rounded-xl bg-white border border-indigo-200/80 text-xs space-y-1">
                   <div className="flex justify-between">
                     <span className="text-slate-500">Active Batch:</span>
                     <strong className="font-mono text-slate-900">{scannedBatch.batchNumber}</strong>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500">Available Stock:</span>
-                    <strong className="text-emerald-700 font-bold">
+                    <strong className="text-indigo-700 font-bold">
                       {scannedBatch.availableLooseUnits} pieces
                     </strong>
                   </div>
@@ -198,7 +198,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
               )}
 
               {/* Quick Stock Adjustment */}
-              <div className="space-y-2 pt-1 border-t border-emerald-200">
+              <div className="space-y-2 pt-1 border-t border-indigo-200">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-700">Quick Stock Adjustment:</span>
                   <div className="flex items-center gap-1.5">
@@ -216,7 +216,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleApplyStockUpdate("ADD")}
-                    className="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1"
+                    className="py-2 px-3 rounded-xl bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-bold transition-colors flex items-center justify-center gap-1"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Inward +{adjustmentAmount}</span>
@@ -235,8 +235,8 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
           )}
 
           {successMsg && (
-            <div className="p-3 rounded-2xl bg-emerald-100 text-emerald-900 text-xs font-bold flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+            <div className="p-3 rounded-2xl bg-indigo-100 text-indigo-900 text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-indigo-700 shrink-0" />
               <span>{successMsg}</span>
             </div>
           )}

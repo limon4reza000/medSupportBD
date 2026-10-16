@@ -104,7 +104,7 @@ export function getMedicineTypeBadge(med: {
   ) {
     return {
       label: "Ointment",
-      badgeClass: "bg-emerald-50 text-emerald-700 border-emerald-200/90",
+      badgeClass: "bg-indigo-50 text-indigo-700 border-indigo-200/90",
       btnClass: "bg-[#059669] hover:bg-[#047857]",
     };
   }
