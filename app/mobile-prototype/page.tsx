@@ -705,46 +705,46 @@ export default function MobilePrototypePage() {
                     </div>
                   </div>
 
-                  {/* 4 Quick Action Buttons */}
-                  <div className="grid grid-cols-4 gap-2">
+                  {/* Quick Action Icons (Clean standalone icons, no outer card box) */}
+                  <div className="grid grid-cols-4 gap-2 py-1">
                     <button
                       onClick={() => setActiveScreen("MEDICINES")}
-                      className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-[#1A56DB] transition-all active:scale-95"
+                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#1A56DB] flex items-center justify-center">
-                        <Search className="w-4 h-4" />
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50/90 text-[#1A56DB] flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                        <Search className="w-5 h-5 stroke-[2.2]" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-700">Search</span>
+                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#1A56DB] transition-colors">Search</span>
                     </button>
 
                     <button
                       onClick={() => setActiveScreen("MAP")}
-                      className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-[#059669] transition-all active:scale-95"
+                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-emerald-50 text-[#059669] flex items-center justify-center">
-                        <MapPin className="w-4 h-4" />
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-50/90 text-[#059669] flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                        <MapPin className="w-5 h-5 stroke-[2.2]" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-700">Depots</span>
+                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#059669] transition-colors">Depots</span>
                     </button>
 
                     <button
                       onClick={() => setActiveScreen("ORDERS")}
-                      className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-[#1A56DB] transition-all active:scale-95"
+                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                        <Truck className="w-4 h-4" />
+                      <div className="w-12 h-12 rounded-2xl bg-indigo-50/90 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
+                        <Truck className="w-5 h-5 stroke-[2.2]" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-700">Orders</span>
+                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Orders</span>
                     </button>
 
                     <button
                       onClick={() => setActiveScreen("INVENTORY")}
-                      className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-amber-500 transition-all active:scale-95"
+                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
                     >
-                      <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                        <Boxes className="w-4 h-4" />
+                      <div className="w-12 h-12 rounded-2xl bg-amber-50/90 text-amber-600 flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+                        <Boxes className="w-5 h-5 stroke-[2.2]" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-700">Stock</span>
+                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-amber-600 transition-colors">Stock</span>
                     </button>
                   </div>
 
