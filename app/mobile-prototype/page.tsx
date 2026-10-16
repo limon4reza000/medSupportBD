@@ -572,7 +572,7 @@ export default function MobilePrototypePage() {
           >
             
             {/* Top Android Status Bar */}
-            <div className="bg-slate-900 text-white px-6 pt-3 pb-2 flex items-center justify-between text-xs select-none shrink-0 relative z-30">
+            <div className="bg-[#241B52] text-white px-6 pt-3 pb-2 flex items-center justify-between text-xs select-none shrink-0 relative z-30">
               <span className="font-semibold text-[11px] tracking-tight">10:30</span>
               
               {/* Android Center Punch-Hole Camera */}
@@ -596,31 +596,31 @@ export default function MobilePrototypePage() {
               </div>
             </div>
 
-            {/* Android Application Top App Bar */}
-            <div className="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center justify-between shrink-0 shadow-2xs">
+            {/* Android Application Top App Bar with Rich Brand Background */}
+            <div className="bg-[#2E236C] border-b border-indigo-900/50 px-4 py-2.5 flex items-center justify-between shrink-0 shadow-md">
               <div className="flex items-center gap-2">
                 <img
                   src="/images/png-final.png"
                   alt="MedGo"
-                  className="h-7 w-auto object-contain"
+                  className="h-8 w-auto object-contain drop-shadow-md"
                 />
               </div>
 
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => setActiveScreen("NOTIFICATIONS")}
-                  className="relative p-1.5 rounded-xl hover:bg-slate-100 text-slate-700 transition-colors"
+                  className="relative p-1.5 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-colors"
                   title="Notifications"
                 >
-                  <Bell className="w-4 h-4 text-slate-700" />
-                  <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
+                  <Bell className="w-4 h-4 text-white" />
+                  <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#2E236C]" />
                 </button>
 
                 <button
                   onClick={() => setActiveScreen("REGISTRATION")}
-                  className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#1A56DB] text-xs font-black border border-blue-200 transition-colors"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-black border border-white/20 transition-all shadow-xs active:scale-95"
                 >
-                  <UserCheck className="w-3.5 h-3.5" />
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-300" />
                   <span>Register</span>
                 </button>
               </div>
