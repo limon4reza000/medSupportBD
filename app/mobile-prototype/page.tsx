@@ -604,13 +604,6 @@ export default function MobilePrototypePage() {
                   alt="MedGo"
                   className="h-7 w-auto object-contain"
                 />
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-50 text-[#059669] border border-emerald-200">
-                  {activeRole === UserRole.PHARMACY_OWNER && "Pharmacy"}
-                  {activeRole === UserRole.RETAIL_PHARMACY && "Retail"}
-                  {activeRole === UserRole.PHARMA_COMPANY && "Pharma Co"}
-                  {activeRole === UserRole.DISTRIBUTOR && "Depot"}
-                  {activeRole === UserRole.SALES_REP && "MPO / SR"}
-                </span>
               </div>
 
               <div className="flex items-center gap-1.5">
