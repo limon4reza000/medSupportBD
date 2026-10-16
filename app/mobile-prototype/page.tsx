@@ -643,26 +643,6 @@ export default function MobilePrototypePage() {
               {/* ------------------------------------------------------------- */}
               {activeScreen === "DASHBOARD" && (
                 <div className="p-4 space-y-4 animate-in fade-in duration-200">
-                  
-                  {/* Greetings Header */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h1 className="text-lg font-black text-slate-900 leading-tight">
-                        {activeRole === UserRole.PHARMACY_OWNER && "Good Morning, Mahfuzul"}
-                        {activeRole === UserRole.RETAIL_PHARMACY && "Welcome, Green Valley Pharmacy"}
-                        {activeRole === UserRole.PHARMA_COMPANY && "Square Pharma Operations"}
-                        {activeRole === UserRole.DISTRIBUTOR && "Tejgaon Regional Depot"}
-                        {activeRole === UserRole.SALES_REP && "Dr. & Chemist Route Calls"}
-                      </h1>
-                      <p className="text-xs text-slate-500 font-medium">
-                        {userProfile.pharmacyName}
-                      </p>
-                    </div>
-                    <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#1A56DB] to-[#059669] text-white flex items-center justify-center font-black text-sm shadow-md">
-                      MI
-                    </div>
-                  </div>
-
                   {/* Operational Quick Stats Card (Blue & Green Healthcare Design) */}
                   <div className="bg-gradient-to-br from-[#1A56DB] to-[#059669] text-white p-4 rounded-3xl shadow-lg relative overflow-hidden">
                     <div className="relative z-10 space-y-2">
