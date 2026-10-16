@@ -353,7 +353,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                     <span className="text-slate-700 font-semibold">Online Orders</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3.5 h-3.5 rounded-2xs bg-[#FB923C]" />
+                    <span className="w-3.5 h-3.5 rounded-2xs bg-[#b2dc87]" />
                     <span className="text-slate-700 font-semibold">Wholesale Orders</span>
                   </div>
                 </div>
@@ -448,7 +448,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
 
                       // Colors matching reference image
                       const bar1Fill = isSelected ? "#f87171" : "#729df2";
-                      const bar2Fill = isSelected ? "#fbbf24" : "#818CF8";
+                      const bar2Fill = isSelected ? "#fbbf24" : "#b2dc87";
 
                       return (
                         <g
@@ -569,7 +569,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                             <span>Online: {selItem.online} orders</span>
                           </div>
                           <div className="text-xs text-[#4d7c0f] font-bold flex items-center gap-2 mt-1">
-                            <span className="w-2.5 h-2.5 rounded-xs bg-[#FB923C] shrink-0" />
+                            <span className="w-2.5 h-2.5 rounded-xs bg-[#b2dc87] shrink-0" />
                             <span>Wholesale: {selItem.wholesale} orders</span>
                           </div>
                           <div className="text-[11px] text-slate-500 font-semibold mt-2 pt-2 border-t border-slate-100">
@@ -593,7 +593,7 @@ export const PharmacyOwnerDashboard: React.FC = () => {
                 <span className="text-xs text-slate-600 font-semibold">Online Orders</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#FB923C]" />
+                <span className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-2xs bg-[#b2dc87]" />
                 <span className="text-xs text-slate-600 font-semibold">Wholesale Orders</span>
               </div>
             </div>
