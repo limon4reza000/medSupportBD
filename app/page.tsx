@@ -591,48 +591,6 @@ export default function MobileAppPage() {
         {activeScreen === "DASHBOARD" && (
           <div className="p-4 space-y-4 animate-in fade-in duration-150">
             
-            {/* Operational KPI Hero Card */}
-            <div className="bg-gradient-to-br from-[#1A56DB] to-[#059669] text-white p-4 rounded-3xl shadow-lg relative overflow-hidden">
-              <div className="relative z-10 space-y-2">
-                <div className="flex items-center justify-between text-xs text-blue-100 font-semibold">
-                  <span>
-                    {activeRole === UserRole.PHARMACY_OWNER && "Available Credit Ceiling"}
-                    {activeRole === UserRole.RETAIL_PHARMACY && "Counter Sales Today"}
-                    {activeRole === UserRole.PHARMA_COMPANY && "National Sales Target"}
-                    {activeRole === UserRole.DISTRIBUTOR && "Cold-Chain Temperature"}
-                    {activeRole === UserRole.SALES_REP && "Today's Order Booking"}
-                  </span>
-                  <span className="flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-full text-[10px]">
-                    <Activity className="w-3 h-3 text-emerald-200" /> Live
-                  </span>
-                </div>
-
-                <div className="text-2xl font-black tracking-tight">
-                  {activeRole === UserRole.PHARMACY_OWNER && "৳35,750"}
-                  {activeRole === UserRole.RETAIL_PHARMACY && "৳24,900"}
-                  {activeRole === UserRole.PHARMA_COMPANY && "৳1,48,90,000"}
-                  {activeRole === UserRole.DISTRIBUTOR && "3.8°C (Optimal)"}
-                  {activeRole === UserRole.SALES_REP && "৳68,400"}
-                </div>
-
-                <div className="pt-2 border-t border-white/20 flex items-center justify-between text-xs text-blue-100">
-                  <span>
-                    {activeRole === UserRole.PHARMACY_OWNER && "Outstanding Due: ৳14,250"}
-                    {activeRole === UserRole.RETAIL_PHARMACY && "18 Cash & 12 bKash Memos"}
-                    {activeRole === UserRole.PHARMA_COMPANY && "Achievement: 92.4%"}
-                    {activeRole === UserRole.DISTRIBUTOR && "4 Active Delivery Vans"}
-                    {activeRole === UserRole.SALES_REP && "8 / 10 Calls Completed"}
-                  </span>
-                  <button
-                    onClick={() => setActiveScreen("ORDERS")}
-                    className="bg-white text-slate-900 px-2.5 py-1 rounded-xl font-black text-[11px] shadow-xs active:scale-95 transition-transform"
-                  >
-                    View Details
-                  </button>
-                </div>
-              </div>
-            </div>
-
             {/* Quick Search & AI Scanner Bar */}
             <div
               onClick={() => setActiveScreen("MEDICINES")}
