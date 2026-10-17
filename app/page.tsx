@@ -31,6 +31,8 @@ import {
   CreditCard,
   ThermometerSnowflake,
   ExternalLink,
+  Menu,
+  X,
 } from "lucide-react";
 import { UserRole } from "@/types/domain";
 
@@ -74,6 +76,7 @@ interface DepotItem {
 export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
@@ -425,6 +428,86 @@ export default function MobileAppPage() {
         {/* Mobile Device Screen Viewport */}
         <div className="w-full h-full sm:rounded-[42px] overflow-hidden flex flex-col relative bg-slate-50">
           
+          {/* Slide-in Mobile Drawer (Triggered by Hamburger Menu) */}
+          {isDrawerOpen && (
+            <div className="absolute inset-0 z-50 flex">
+              {/* Backdrop */}
+              <div
+                onClick={() => setIsDrawerOpen(false)}
+                className="absolute inset-0 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+              />
+
+              {/* Drawer Content */}
+              <div className="relative ml-auto w-64 h-full bg-white shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-200">
+                {/* Drawer Header */}
+                <div className="bg-[#2E236C] p-3.5 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <img src="/images/png-final.png" alt="MedGo" className="h-6 w-auto" />
+                  </div>
+                  <button
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="p-1 rounded-lg hover:bg-white/10 text-white/80 hover:text-white transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Pharmacy Info Card */}
+                <div className="p-3 bg-slate-50 border-b border-slate-200">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1A56DB] to-[#059669] text-white flex items-center justify-center font-bold text-xs">
+                      MI
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-slate-900 truncate">{userProfile.name}</div>
+                      <div className="text-[10px] text-slate-500 truncate">{userProfile.pharmacyName}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Links */}
+                <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700">
+                  {[
+                    { screen: "MEDICINES", label: "Counter Sale (+Sell)", icon: ShoppingCart },
+                    { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
+                    { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
+                    { screen: "ORDERS", label: "Orders & Van GPS", icon: Truck },
+                    { screen: "INVENTORY", label: "FEFO Stock Manager", icon: Boxes },
+                    { screen: "NOTIFICATIONS", label: "Notifications", icon: Bell },
+                    { screen: "REGISTRATION", label: "Role Registration", icon: UserCheck },
+                    { screen: "PROFILE", label: "Pharmacy Profile & DGDA", icon: User },
+                  ].map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeScreen === item.screen;
+                    return (
+                      <button
+                        key={item.screen}
+                        onClick={() => {
+                          setActiveScreen(item.screen as MobileScreen);
+                          setIsDrawerOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-colors ${
+                          isActive
+                            ? "bg-blue-50 text-[#1A56DB] font-bold"
+                            : "hover:bg-slate-100 text-slate-700"
+                        }`}
+                      >
+                        <Icon className={`w-4 h-4 ${isActive ? "text-[#1A56DB]" : "text-slate-500"}`} />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Drawer Footer */}
+                <div className="p-3 border-t border-slate-200 text-center">
+                  <div className="text-[11px] text-slate-500">24/7 Helpline: <strong className="text-[#1A56DB]">16263</strong></div>
+                  <div className="text-[9px] text-slate-400 mt-0.5">MedGo Mobile Prototype v2.4</div>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* Top Status Bar with Dynamic Island & Signal */}
           <div className="h-8 px-5 bg-[#2E236C] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
             <span>9:41</span>
@@ -463,8 +546,8 @@ export default function MobileAppPage() {
           />
         </button>
 
-        {/* Right: Notification Bell & Register Button */}
-        <div className="flex items-center gap-2">
+        {/* Right: Notification Bell, +Sell Button & Hamburger Menu Icon */}
+        <div className="flex items-center gap-1.5">
           {/* Notifications Bell */}
           <button
             onClick={() => setActiveScreen("NOTIFICATIONS")}
@@ -475,14 +558,23 @@ export default function MobileAppPage() {
             <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#2E236C]" />
           </button>
 
-          {/* Register Action */}
+          {/* +Sell Action */}
           <button
-            onClick={() => setActiveScreen("REGISTRATION")}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-black border border-white/20 transition-all active:scale-95"
-            title="Role Registration"
+            onClick={() => setActiveScreen("MEDICINES")}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-black shadow-xs active:scale-95 transition-all"
+            title="Counter Sale / POS (+Sell)"
           >
-            <UserCheck className="w-3.5 h-3.5 text-emerald-300" />
-            <span>Register</span>
+            <Plus className="w-3.5 h-3.5 stroke-[3]" />
+            <span>Sell</span>
+          </button>
+
+          {/* Hamburger Menu Icon */}
+          <button
+            onClick={() => setIsDrawerOpen(true)}
+            className="p-1.5 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-colors active:scale-95"
+            title="Navigation Menu"
+          >
+            <Menu className="w-5 h-5" />
           </button>
         </div>
 
