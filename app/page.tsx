@@ -633,47 +633,123 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            {/* Quick Action Icons (Clean standalone icons, no outer card box) */}
-            <div className="grid grid-cols-4 gap-2 py-1">
+            {/* Quick Search & AI Scanner Bar */}
+            <div
+              onClick={() => setActiveScreen("MEDICINES")}
+              className="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-2 cursor-pointer hover:border-[#1A56DB] transition-colors"
+            >
+              <Search className="w-4 h-4 text-slate-400" />
+              <span className="text-xs text-slate-400 flex-1 truncate">
+                Search 41,000+ medicines, generics, brands...
+              </span>
               <button
-                onClick={() => setActiveScreen("DASHBOARD")}
-                className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveScreen("MEDICINES");
+                }}
+                className="flex items-center gap-1 px-2 py-1 rounded-xl bg-blue-50 text-[#1A56DB] text-[10px] font-bold hover:bg-blue-100"
               >
-                <div className="w-12 h-12 rounded-2xl bg-blue-50/90 text-[#1A56DB] flex items-center justify-center group-hover:bg-blue-100 transition-colors shadow-2xs">
-                  <LayoutDashboard className="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#1A56DB] transition-colors">Dashboard</span>
+                <Camera className="w-3.5 h-3.5" />
+                <span>Scan Slip</span>
               </button>
+            </div>
 
-              <button
-                onClick={() => setActiveScreen("MAP")}
-                className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50/90 text-[#059669] flex items-center justify-center group-hover:bg-emerald-100 transition-colors shadow-2xs">
-                  <MapPin className="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#059669] transition-colors">Depots</span>
-              </button>
+            {/* All Platform Services (12 Interactive Modules) */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  All Platform Services (সব ফিচার)
+                </span>
+                <span className="text-[10px] font-bold text-slate-400">12 Modules</span>
+              </div>
 
-              <button
-                onClick={() => setActiveScreen("ORDERS")}
-                className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50/90 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-100 transition-colors shadow-2xs">
-                  <Truck className="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span className="text-[11px] font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">Orders</span>
-              </button>
+              <div className="grid grid-cols-4 gap-y-3 gap-x-2 py-1">
+                {[
+                  { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard, bg: "bg-blue-50/90 text-[#1A56DB] group-hover:bg-blue-100" },
+                  { screen: "MEDICINES", label: "Medicines", icon: Search, bg: "bg-emerald-50/90 text-[#059669] group-hover:bg-emerald-100" },
+                  { screen: "MEDICINES", label: "+Borrow", icon: Plus, bg: "bg-cyan-50/90 text-cyan-600 group-hover:bg-cyan-100" },
+                  { screen: "MAP", label: "Depots", icon: MapPin, bg: "bg-purple-50/90 text-purple-600 group-hover:bg-purple-100" },
+                  { screen: "ORDERS", label: "Van GPS", icon: Truck, bg: "bg-indigo-50/90 text-indigo-600 group-hover:bg-indigo-100" },
+                  { screen: "INVENTORY", label: "FEFO Stock", icon: Boxes, bg: "bg-amber-50/90 text-amber-600 group-hover:bg-amber-100" },
+                  { screen: "MEDICINES", label: "AI Scanner", icon: Camera, bg: "bg-rose-50/90 text-rose-600 group-hover:bg-rose-100" },
+                  { screen: "ORDERS", label: "Pay Dues", icon: CreditCard, bg: "bg-emerald-50/90 text-emerald-600 group-hover:bg-emerald-100" },
+                  { screen: "PROFILE", label: "DGDA Audit", icon: ShieldCheck, bg: "bg-teal-50/90 text-teal-600 group-hover:bg-teal-100" },
+                  { screen: "REGISTRATION", label: "Role Portal", icon: UserCheck, bg: "bg-violet-50/90 text-violet-600 group-hover:bg-violet-100" },
+                  { screen: "NOTIFICATIONS", label: "Alerts", icon: Bell, bg: "bg-rose-50/90 text-rose-500 group-hover:bg-rose-100" },
+                  { screen: "PROFILE", label: "Hotline", icon: Phone, bg: "bg-slate-100 text-slate-700 group-hover:bg-slate-200" },
+                ].map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveScreen(item.screen as MobileScreen)}
+                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group text-center"
+                    >
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-2xs ${item.bg}`}>
+                        <Icon className="w-5 h-5 stroke-[2.2]" />
+                      </div>
+                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-slate-900 transition-colors">
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-              <button
-                onClick={() => setActiveScreen("INVENTORY")}
-                className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-amber-50/90 text-amber-600 flex items-center justify-center group-hover:bg-amber-100 transition-colors shadow-2xs">
-                  <Boxes className="w-5 h-5 stroke-[2.2]" />
-                </div>
-                <span className="text-[11px] font-bold text-slate-700 group-hover:text-amber-600 transition-colors">Stock</span>
-              </button>
+            {/* Quick 1-Tap Reorder (জনপ্রিয় দ্রুত রি-অর্ডার) */}
+            <div className="space-y-2 pt-1">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  Quick 1-Tap Reorder (দ্রুত রি-অর্ডার)
+                </span>
+                <button
+                  onClick={() => setActiveScreen("MEDICINES")}
+                  className="text-[11px] font-bold text-[#1A56DB] hover:underline"
+                >
+                  View All
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { id: "med-1", name: "Napa Extra", strength: "500mg+65mg", price: 500, comp: "Beximco" },
+                  { id: "med-2", name: "Seclo", strength: "20mg Capsule", price: 600, comp: "Square" },
+                  { id: "med-3", name: "Sergel", strength: "20mg Tablet", price: 700, comp: "Healthcare" },
+                  { id: "med-4", name: "Ceevit", strength: "250mg Chewable", price: 420, comp: "Square" },
+                ].map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-2.5 bg-white rounded-2xl border border-slate-200 shadow-2xs flex items-center justify-between"
+                  >
+                    <div className="min-w-0 pr-1">
+                      <div className="text-xs font-black text-slate-900 truncate">{item.name}</div>
+                      <div className="text-[10px] text-slate-500 truncate">{item.comp} • {item.strength}</div>
+                      <div className="text-[11px] font-black text-slate-900 mt-0.5">৳{item.price}/box</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => addToCart(item.id)}
+                      className="w-7 h-7 rounded-xl bg-blue-50 hover:bg-[#1A56DB] text-[#1A56DB] hover:text-white flex items-center justify-center font-bold shadow-2xs active:scale-90 transition-all shrink-0"
+                      title="Add to Cart"
+                    >
+                      <Plus className="w-4 h-4 stroke-[2.5]" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Live Regulatory & Express Hub Guarantee */}
+            <div className="p-3 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-between text-[11px]">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-slate-600 font-bold">Cold Chain 3.8°C Active</span>
+              </div>
+              <span className="text-[10px] font-mono font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                2-Hr Express Dispatch
+              </span>
             </div>
 
           </div>
