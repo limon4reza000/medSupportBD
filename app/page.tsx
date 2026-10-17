@@ -444,14 +444,26 @@ export default function MobileAppPage() {
                   </button>
                 </div>
 
-                {/* Pharmacy Info Card */}
-                <div className="p-3 bg-slate-50 border-b border-slate-200">
+                {/* Pharmacy Info Card (Click to View Profile) */}
+                <div
+                  onClick={() => {
+                    setActiveScreen("PROFILE");
+                    setIsDrawerOpen(false);
+                  }}
+                  className="p-3 bg-slate-50 border-b border-slate-200 cursor-pointer hover:bg-slate-100 transition-colors"
+                  title="View Pharmacy Profile & DGDA Credentials"
+                >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-bold text-xs">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                       MI
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-slate-900 truncate">{userProfile.name}</div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-900 truncate">{userProfile.name}</span>
+                        <span className="text-[10px] font-bold text-[#00ac92] bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200 hover:bg-teal-100 transition-colors">
+                          Profile &rarr;
+                        </span>
+                      </div>
                       <div className="text-[10px] text-slate-500 truncate">{userProfile.pharmacyName}</div>
                     </div>
                   </div>
@@ -1601,10 +1613,10 @@ export default function MobileAppPage() {
                 { tab: "MEDICINES", label: "Medicines", icon: Search, badge: totalCartCount > 0 ? totalCartCount : undefined },
                 { tab: "MAP", label: "Depots", icon: MapPin },
                 { tab: "ORDERS", label: "Orders", icon: Truck },
-                { tab: "PROFILE", label: "Profile", icon: User },
+                { tab: "MENU", label: "Menu", icon: Menu },
               ].map((item) => {
                 const Icon = item.icon;
-                const isCurrent = activeScreen === item.tab;
+                const isCurrent = activeScreen === item.tab || (item.tab === "MENU" && (isDrawerOpen || activeScreen === "PROFILE"));
 
                 if (item.tab === "MAP") {
                   return (
@@ -1634,6 +1646,30 @@ export default function MobileAppPage() {
                       >
                         {item.label}
                       </span>
+                    </button>
+                  );
+                }
+
+                if (item.tab === "MENU") {
+                  return (
+                    <button
+                      key={item.tab}
+                      type="button"
+                      onClick={() => setIsDrawerOpen(true)}
+                      className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
+                        isCurrent
+                          ? "text-[#00ac92] font-extrabold"
+                          : "text-slate-500 hover:text-slate-900"
+                      }`}
+                      title="Open Menu & Profile"
+                    >
+                      <div className="relative">
+                        <Menu className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
+                        {isCurrent && (
+                          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#00ac92]" />
+                        )}
+                      </div>
+                      <span className="text-[10px] tracking-tight">{item.label}</span>
                     </button>
                   );
                 }
