@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { AppProvider } from "@/lib/context/AppContext";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { TopHeaderBar } from "@/components/layout/TopHeaderBar";
@@ -16,6 +17,20 @@ import { ShieldCheck, Headphones } from "lucide-react";
 import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const pathname = usePathname();
+  const isDedicatedMobileRoute = pathname === "/mobile-prototype" || pathname === "/mobile";
+
+  // Dedicated full-screen mobile app experience (No desktop sidebar, no desktop footer)
+  if (isDedicatedMobileRoute) {
+    return (
+      <AppProvider>
+        <div className="min-h-screen bg-slate-900/5 sm:bg-slate-100 text-[#0F172A] font-sans antialiased selection:bg-[#1A56DB] selection:text-white">
+          {children}
+        </div>
+      </AppProvider>
+    );
+  }
+
   return (
     <AppProvider>
       <div className="min-h-screen flex bg-[#F5F6FC] text-[#0F172A] selection:bg-[#4F46E5] selection:text-white font-sans antialiased">
