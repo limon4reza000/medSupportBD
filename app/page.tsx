@@ -77,6 +77,8 @@ export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedHub, setSelectedHub] = useState("All Hubs & Depots");
+  const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
@@ -591,26 +593,90 @@ export default function MobileAppPage() {
         {activeScreen === "DASHBOARD" && (
           <div className="p-4 space-y-4 animate-in fade-in duration-150">
             
-            {/* Quick Search & AI Scanner Bar */}
-            <div
-              onClick={() => setActiveScreen("MEDICINES")}
-              className="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-2 cursor-pointer hover:border-[#00ac92] transition-colors"
-            >
-              <Search className="w-4 h-4 text-slate-400" />
-              <span className="text-xs text-slate-400 flex-1 truncate">
-                Search 41,000+ medicines, generics, brands...
-              </span>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveScreen("MEDICINES");
-                }}
-                className="flex items-center gap-1 px-2 py-1 rounded-xl bg-teal-50 text-[#00ac92] text-[10px] font-bold hover:bg-blue-100"
-              >
-                <Camera className="w-3.5 h-3.5" />
-                <span>Scan Slip</span>
-              </button>
+            {/* Marketplace Search & Hub Location Card (Matching User Reference) */}
+            <div className="-mx-4 -mt-4 px-4 pt-4 pb-4 bg-gradient-to-b from-[#00ac92]/15 via-[#00ac92]/8 to-transparent rounded-b-3xl space-y-2.5">
+              {/* Header Title */}
+              <div className="text-center">
+                <h1 className="text-sm font-extrabold text-[#00826e] tracking-tight">
+                  Explore the healthcare marketplace
+                </h1>
+              </div>
+
+              {/* Floating Filter & Search Card */}
+              <div className="bg-white rounded-2xl p-3 shadow-md border border-slate-200/90 relative">
+                {/* Top Row: Location / Depot Hub Selector */}
+                <div className="relative">
+                  <div
+                    onClick={() => setIsHubDropdownOpen(!isHubDropdownOpen)}
+                    className="flex items-center justify-between cursor-pointer py-0.5 group"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-[#00ac92]/15 flex items-center justify-center text-[#00ac92] shrink-0">
+                        <MapPin className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="text-xs font-bold text-slate-800 group-hover:text-[#00ac92] transition-colors truncate">
+                        {selectedHub}
+                      </span>
+                    </div>
+                    <ChevronDown className={`w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-transform ${isHubDropdownOpen ? "rotate-180" : ""}`} />
+                  </div>
+
+                  {/* Hub Selection Dropdown */}
+                  {isHubDropdownOpen && (
+                    <div className="absolute top-8 left-0 right-0 z-30 bg-white rounded-xl shadow-xl border border-slate-200 p-1.5 animate-in fade-in zoom-in-95 text-xs">
+                      {[
+                        "All Hubs & Depots",
+                        "Tejgaon Central Depot (1.2 km)",
+                        "Dhanmondi Express Hub (0.8 km)",
+                        "Bogura Regional Depot",
+                        "Sylhet Logistics Hub",
+                        "Chattogram Port Depot",
+                      ].map((hub) => (
+                        <button
+                          key={hub}
+                          type="button"
+                          onClick={() => {
+                            setSelectedHub(hub);
+                            setIsHubDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-2.5 py-1.5 rounded-lg font-semibold transition-colors ${
+                            selectedHub === hub
+                              ? "bg-teal-50 text-[#00ac92] font-bold"
+                              : "hover:bg-slate-50 text-slate-700"
+                          }`}
+                        >
+                          {hub}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Divider Line */}
+                <div className="h-px bg-slate-100 my-2" />
+
+                {/* Bottom Row: Search Input + Teal Magnifying Search Button */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    placeholder="Search medicines, generics, brands..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") setActiveScreen("MEDICINES");
+                    }}
+                    className="flex-1 text-xs text-slate-800 placeholder-slate-400 bg-transparent focus:outline-none min-w-0"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setActiveScreen("MEDICINES")}
+                    className="w-8 h-8 rounded-xl bg-[#00ac92] hover:bg-[#00927c] text-white flex items-center justify-center shadow-xs active:scale-95 transition-all shrink-0"
+                    title="Search Catalog"
+                  >
+                    <Search className="w-4 h-4 stroke-[2.4]" />
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* All Platform Services (12 Interactive Modules) */}
