@@ -681,13 +681,6 @@ export default function MobileAppPage() {
 
             {/* All Platform Services (12 Interactive Modules) */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between px-1">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
-                  All Platform Services (সব ফিচার)
-                </span>
-                <span className="text-[10px] font-bold text-slate-400">12 Modules</span>
-              </div>
-
               <div className="grid grid-cols-4 gap-y-3 gap-x-2 py-1">
                 {[
                   { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard, bg: "bg-teal-50/90 text-[#00ac92] group-hover:bg-blue-100" },
