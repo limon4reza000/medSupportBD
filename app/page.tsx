@@ -8,6 +8,7 @@ import {
   MapPin,
   Clock,
   ShieldCheck,
+  LayoutDashboard,
   Building2,
   Store,
   Factory,
@@ -596,13 +597,13 @@ export default function MobileAppPage() {
             {/* Quick Action Icons (Clean standalone icons, no outer card box) */}
             <div className="grid grid-cols-4 gap-2 py-1">
               <button
-                onClick={() => setActiveScreen("MEDICINES")}
+                onClick={() => setActiveScreen("DASHBOARD")}
                 className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group"
               >
                 <div className="w-12 h-12 rounded-2xl bg-blue-50/90 text-[#1A56DB] flex items-center justify-center group-hover:bg-blue-100 transition-colors shadow-2xs">
-                  <Search className="w-5 h-5 stroke-[2.2]" />
+                  <LayoutDashboard className="w-5 h-5 stroke-[2.2]" />
                 </div>
-                <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#1A56DB] transition-colors">Search</span>
+                <span className="text-[11px] font-bold text-slate-700 group-hover:text-[#1A56DB] transition-colors">Dashboard</span>
               </button>
 
               <button
