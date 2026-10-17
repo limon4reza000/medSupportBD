@@ -468,7 +468,7 @@ export default function MobileAppPage() {
                 {/* Navigation Links */}
                 <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700">
                   {[
-                    { screen: "MEDICINES", label: "Counter Sale (+Sell)", icon: ShoppingCart },
+                    { screen: "MEDICINES", label: "Stock Borrow (+Borrow)", icon: ShoppingCart },
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
                     { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
                     { screen: "ORDERS", label: "Orders & Van GPS", icon: Truck },
@@ -558,14 +558,14 @@ export default function MobileAppPage() {
             <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#2E236C]" />
           </button>
 
-          {/* +Sell Action */}
+          {/* +Borrow Action */}
           <button
             onClick={() => setActiveScreen("MEDICINES")}
             className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all border border-white/20"
-            title="Counter Sale / POS (+Sell)"
+            title="Emergency Stock Borrow (+Borrow)"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3] text-emerald-600" />
-            <span>Sell</span>
+            <span>Borrow</span>
           </button>
 
           {/* Hamburger Menu Icon */}
