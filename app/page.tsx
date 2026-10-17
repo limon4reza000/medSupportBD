@@ -1605,6 +1605,39 @@ export default function MobileAppPage() {
               ].map((item) => {
                 const Icon = item.icon;
                 const isCurrent = activeScreen === item.tab;
+
+                if (item.tab === "MAP") {
+                  return (
+                    <button
+                      key={item.tab}
+                      type="button"
+                      onClick={() => setActiveScreen("MAP")}
+                      className="flex flex-col items-center relative px-2 active:scale-95 transition-all group"
+                    >
+                      <div className="relative -mt-6 mb-0.5">
+                        <div
+                          className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg border-[3.5px] border-white transition-all ${
+                            isCurrent
+                              ? "bg-[#00ac92] shadow-[#00ac92]/45 ring-2 ring-[#00ac92]/30 scale-105"
+                              : "bg-[#00ac92] hover:bg-[#00927c] shadow-[#00ac92]/35"
+                          }`}
+                        >
+                          <Icon className="w-5 h-5 stroke-[2.4]" />
+                        </div>
+                      </div>
+                      <span
+                        className={`text-[10px] tracking-tight transition-colors ${
+                          isCurrent
+                            ? "text-[#00ac92] font-black"
+                            : "text-slate-600 font-bold group-hover:text-slate-900"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                }
+
                 return (
                   <button
                     key={item.tab}
