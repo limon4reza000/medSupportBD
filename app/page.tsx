@@ -398,12 +398,57 @@ export default function MobileAppPage() {
   };
 
   return (
-    <div className="min-h-screen w-full max-w-md mx-auto bg-slate-50 flex flex-col relative sm:shadow-2xl sm:border-x sm:border-slate-200 font-sans selection:bg-[#1A56DB] selection:text-white">
+    <div className="min-h-screen w-full bg-slate-950 sm:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(46,35,108,0.5),rgba(15,23,42,1))] py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#1A56DB] selection:text-white">
       
+      {/* Desktop Prototype Header Bar (Hidden on Mobile) */}
+      <div className="hidden sm:flex items-center justify-between w-[412px] mb-2.5 px-3">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-xs font-bold text-slate-300">MedGo Mobile App Prototype</span>
+        </div>
+        <span className="text-[10px] font-mono font-medium text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md">
+          Android / iOS Frame
+        </span>
+      </div>
+
       {/* =================================================================== */}
-      {/* 1. NATIVE MOBILE APP TOP BAR                                        */}
+      {/* REALISTIC MOBILE PHONE FRAME CONTAINER                              */}
       {/* =================================================================== */}
-      <header className="sticky top-0 z-40 bg-[#2E236C] border-b border-indigo-900/50 px-4 py-3 flex items-center justify-between shadow-md">
+      <div className="relative w-full sm:w-[412px] h-[100dvh] sm:h-[860px] bg-slate-900 sm:rounded-[52px] sm:p-3 sm:shadow-[0_25px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.1),0_0_40px_rgba(46,35,108,0.35)] sm:border-[4px] sm:border-slate-800 flex flex-col overflow-hidden">
+        
+        {/* Physical Side Buttons (Visible on Desktop) */}
+        <div className="hidden sm:block absolute -left-[7px] top-[120px] w-[3px] h-8 bg-slate-600 rounded-l" />
+        <div className="hidden sm:block absolute -left-[7px] top-[165px] w-[3px] h-12 bg-slate-600 rounded-l" />
+        <div className="hidden sm:block absolute -left-[7px] top-[225px] w-[3px] h-12 bg-slate-600 rounded-l" />
+        <div className="hidden sm:block absolute -right-[7px] top-[180px] w-[3px] h-16 bg-slate-600 rounded-r" />
+
+        {/* Mobile Device Screen Viewport */}
+        <div className="w-full h-full sm:rounded-[42px] overflow-hidden flex flex-col relative bg-slate-50">
+          
+          {/* Top Status Bar with Dynamic Island & Signal */}
+          <div className="h-8 px-5 bg-[#2E236C] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
+            <span>9:41</span>
+            
+            {/* Dynamic Island / Camera Notch */}
+            <div className="w-24 h-4 bg-black rounded-full flex items-center justify-center gap-1.5 px-2 shadow-inner">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#111] ring-1 ring-white/20" />
+              <div className="w-6 h-1 bg-white/20 rounded-full" />
+            </div>
+
+            {/* Network / Battery Icons */}
+            <div className="flex items-center gap-1.5 text-white/90">
+              <span className="text-[10px] font-bold">5G</span>
+              {/* Battery */}
+              <div className="w-5 h-2.5 rounded-sm border border-white/80 p-0.5 flex items-center">
+                <div className="w-full h-full bg-emerald-400 rounded-2xs" />
+              </div>
+            </div>
+          </div>
+
+          {/* =================================================================== */}
+          {/* 1. NATIVE MOBILE APP TOP BAR                                        */}
+          {/* =================================================================== */}
+          <header className="sticky top-0 z-40 bg-[#2E236C] border-b border-indigo-900/50 px-4 py-2.5 flex items-center justify-between shadow-md shrink-0">
         
         {/* Left: Brand Logo from Asset */}
         <button
@@ -1526,47 +1571,54 @@ export default function MobileAppPage() {
 
       </main>
 
-      {/* =================================================================== */}
-      {/* 3. NATIVE MOBILE APP BOTTOM NAVIGATION BAR (Fixed)                  */}
-      {/* =================================================================== */}
-      <nav className="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))] flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
-        {[
-          { tab: "DASHBOARD", label: "Home", icon: Store },
-          { tab: "MEDICINES", label: "Medicines", icon: Search, badge: totalCartCount > 0 ? totalCartCount : undefined },
-          { tab: "MAP", label: "Depots", icon: MapPin },
-          { tab: "ORDERS", label: "Orders", icon: Truck },
-          { tab: "PROFILE", label: "Profile", icon: User },
-        ].map((item) => {
-          const Icon = item.icon;
-          const isCurrent = activeScreen === item.tab;
-          return (
-            <button
-              key={item.tab}
-              type="button"
-              onClick={() => setActiveScreen(item.tab as MobileScreen)}
-              className={`flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl transition-all relative ${
-                isCurrent
-                  ? "text-[#1A56DB] font-extrabold"
-                  : "text-slate-500 hover:text-slate-900"
-              }`}
-            >
-              <div className="relative">
-                <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
-                {item.badge !== undefined && (
-                  <span className="absolute -top-1.5 -right-2 px-1 rounded-full bg-[#059669] text-white text-[8px] font-black">
-                    {item.badge}
-                  </span>
-                )}
-                {isCurrent && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#059669]" />
-                )}
-              </div>
-              <span className="text-[10px] tracking-tight">{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
+          {/* =================================================================== */}
+          {/* 3. NATIVE MOBILE APP BOTTOM NAVIGATION BAR                          */}
+          {/* =================================================================== */}
+          <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 pt-2 pb-1.5 flex flex-col shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+            <div className="flex items-center justify-around w-full">
+              {[
+                { tab: "DASHBOARD", label: "Home", icon: Store },
+                { tab: "MEDICINES", label: "Medicines", icon: Search, badge: totalCartCount > 0 ? totalCartCount : undefined },
+                { tab: "MAP", label: "Depots", icon: MapPin },
+                { tab: "ORDERS", label: "Orders", icon: Truck },
+                { tab: "PROFILE", label: "Profile", icon: User },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isCurrent = activeScreen === item.tab;
+                return (
+                  <button
+                    key={item.tab}
+                    type="button"
+                    onClick={() => setActiveScreen(item.tab as MobileScreen)}
+                    className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
+                      isCurrent
+                        ? "text-[#1A56DB] font-extrabold"
+                        : "text-slate-500 hover:text-slate-900"
+                    }`}
+                  >
+                    <div className="relative">
+                      <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
+                      {item.badge !== undefined && (
+                        <span className="absolute -top-1.5 -right-2 px-1 rounded-full bg-[#059669] text-white text-[8px] font-black">
+                          {item.badge}
+                        </span>
+                      )}
+                      {isCurrent && (
+                        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#059669]" />
+                      )}
+                    </div>
+                    <span className="text-[10px] tracking-tight">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
 
+            {/* Android / iPhone Bottom Gesture Pill */}
+            <div className="w-28 h-1 bg-slate-300 rounded-full mx-auto mt-2 mb-0.5" />
+          </nav>
+
+        </div>
+      </div>
     </div>
   );
 }
