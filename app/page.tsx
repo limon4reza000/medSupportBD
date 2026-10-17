@@ -74,7 +74,6 @@ interface DepotItem {
 export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
-  const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false);
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
@@ -464,60 +463,8 @@ export default function MobileAppPage() {
           />
         </button>
 
-        {/* Right: Quick Role Selector, Notification Bell & Register Button */}
+        {/* Right: Notification Bell & Register Button */}
         <div className="flex items-center gap-2">
-          
-          {/* Quick Role Chip (Click to switch operational role) */}
-          <div className="relative">
-            <button
-              onClick={() => setIsRoleMenuOpen(!isRoleMenuOpen)}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold border border-white/20 transition-all active:scale-95"
-              title="Change Active Role"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="truncate max-w-[85px]">
-                {activeRole === UserRole.PHARMACY_OWNER && "Pharmacy"}
-                {activeRole === UserRole.RETAIL_PHARMACY && "Retail"}
-                {activeRole === UserRole.PHARMA_COMPANY && "Pharma Co"}
-                {activeRole === UserRole.DISTRIBUTOR && "Depot"}
-                {activeRole === UserRole.SALES_REP && "MPO"}
-              </span>
-              <ChevronDown className="w-3 h-3 text-white/70" />
-            </button>
-
-            {/* Role Menu Dropdown */}
-            {isRoleMenuOpen && (
-              <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in-95 text-slate-800">
-                <div className="px-2 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
-                  Switch Operational Role:
-                </div>
-                {[
-                  { role: UserRole.PHARMACY_OWNER, label: "Pharmacy Owner" },
-                  { role: UserRole.RETAIL_PHARMACY, label: "Retail Pharmacy" },
-                  { role: UserRole.PHARMA_COMPANY, label: "Pharma Company" },
-                  { role: UserRole.DISTRIBUTOR, label: "Depot Logistics" },
-                  { role: UserRole.SALES_REP, label: "Medical Rep (MPO)" },
-                ].map((r) => (
-                  <button
-                    key={r.role}
-                    onClick={() => {
-                      setActiveRole(r.role);
-                      setIsRoleMenuOpen(false);
-                      setActiveScreen("DASHBOARD");
-                    }}
-                    className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-                      activeRole === r.role
-                        ? "bg-[#1A56DB] text-white"
-                        : "hover:bg-slate-100 text-slate-700"
-                    }`}
-                  >
-                    {r.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Notifications Bell */}
           <button
             onClick={() => setActiveScreen("NOTIFICATIONS")}
