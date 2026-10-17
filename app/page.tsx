@@ -405,16 +405,6 @@ export default function MobileAppPage() {
   return (
     <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#00ac92] selection:text-white">
       
-      {/* Desktop Prototype Header Bar (Hidden on Mobile) */}
-      <div className="hidden sm:flex items-center justify-between w-[412px] mb-2.5 px-3">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-bold text-slate-700">MedGo Mobile App Prototype</span>
-        </div>
-        <span className="text-[10px] font-mono font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md">
-          Android / iOS Frame
-        </span>
-      </div>
 
       {/* =================================================================== */}
       {/* REALISTIC MOBILE PHONE FRAME CONTAINER                              */}
