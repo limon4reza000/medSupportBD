@@ -24,7 +24,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
   if (isDedicatedMobileRoute) {
     return (
       <AppProvider>
-        <div className="min-h-screen bg-slate-950 text-[#0F172A] font-sans antialiased selection:bg-[#1A56DB] selection:text-white">
+        <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#1A56DB] selection:text-white">
           {children}
         </div>
       </AppProvider>

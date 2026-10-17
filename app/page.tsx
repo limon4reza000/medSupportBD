@@ -398,15 +398,15 @@ export default function MobileAppPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 sm:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(46,35,108,0.5),rgba(15,23,42,1))] py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#1A56DB] selection:text-white">
+    <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#1A56DB] selection:text-white">
       
       {/* Desktop Prototype Header Bar (Hidden on Mobile) */}
       <div className="hidden sm:flex items-center justify-between w-[412px] mb-2.5 px-3">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs font-bold text-slate-300">MedGo Mobile App Prototype</span>
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs font-bold text-slate-700">MedGo Mobile App Prototype</span>
         </div>
-        <span className="text-[10px] font-mono font-medium text-slate-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md">
+        <span className="text-[10px] font-mono font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md">
           Android / iOS Frame
         </span>
       </div>
@@ -414,7 +414,7 @@ export default function MobileAppPage() {
       {/* =================================================================== */}
       {/* REALISTIC MOBILE PHONE FRAME CONTAINER                              */}
       {/* =================================================================== */}
-      <div className="relative w-full sm:w-[412px] h-[100dvh] sm:h-[860px] bg-slate-900 sm:rounded-[52px] sm:p-3 sm:shadow-[0_25px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.1),0_0_40px_rgba(46,35,108,0.35)] sm:border-[4px] sm:border-slate-800 flex flex-col overflow-hidden">
+      <div className="relative w-full sm:w-[412px] h-[100dvh] sm:h-[860px] bg-slate-900 sm:rounded-[52px] sm:p-3 sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3),0_10px_25px_rgba(0,0,0,0.12),0_0_0_1px_rgba(0,0,0,0.08)] sm:border-[4px] sm:border-slate-800 flex flex-col overflow-hidden">
         
         {/* Physical Side Buttons (Visible on Desktop) */}
         <div className="hidden sm:block absolute -left-[7px] top-[120px] w-[3px] h-8 bg-slate-600 rounded-l" />
