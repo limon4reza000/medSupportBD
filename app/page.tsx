@@ -401,7 +401,7 @@ export default function MobileAppPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#1A56DB] selection:text-white">
+    <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#00ac92] selection:text-white">
       
       {/* Desktop Prototype Header Bar (Hidden on Mobile) */}
       <div className="hidden sm:flex items-center justify-between w-[412px] mb-2.5 px-3">
@@ -440,7 +440,7 @@ export default function MobileAppPage() {
               {/* Drawer Content */}
               <div className="relative ml-auto w-64 h-full bg-white shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-200">
                 {/* Drawer Header */}
-                <div className="bg-[#2E236C] p-3.5 text-white flex items-center justify-between">
+                <div className="bg-[#00ac92] p-3.5 text-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <img src="/images/png-final.png" alt="MedGo" className="h-6 w-auto" />
                   </div>
@@ -455,7 +455,7 @@ export default function MobileAppPage() {
                 {/* Pharmacy Info Card */}
                 <div className="p-3 bg-slate-50 border-b border-slate-200">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1A56DB] to-[#059669] text-white flex items-center justify-center font-bold text-xs">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-bold text-xs">
                       MI
                     </div>
                     <div className="min-w-0 flex-1">
@@ -488,11 +488,11 @@ export default function MobileAppPage() {
                         }}
                         className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-colors ${
                           isActive
-                            ? "bg-blue-50 text-[#1A56DB] font-bold"
+                            ? "bg-teal-50 text-[#00ac92] font-bold"
                             : "hover:bg-slate-100 text-slate-700"
                         }`}
                       >
-                        <Icon className={`w-4 h-4 ${isActive ? "text-[#1A56DB]" : "text-slate-500"}`} />
+                        <Icon className={`w-4 h-4 ${isActive ? "text-[#00ac92]" : "text-slate-500"}`} />
                         <span>{item.label}</span>
                       </button>
                     );
@@ -501,7 +501,7 @@ export default function MobileAppPage() {
 
                 {/* Drawer Footer */}
                 <div className="p-3 border-t border-slate-200 text-center">
-                  <div className="text-[11px] text-slate-500">24/7 Helpline: <strong className="text-[#1A56DB]">16263</strong></div>
+                  <div className="text-[11px] text-slate-500">24/7 Helpline: <strong className="text-[#00ac92]">16263</strong></div>
                   <div className="text-[9px] text-slate-400 mt-0.5">MedGo Mobile Prototype v2.4</div>
                 </div>
               </div>
@@ -509,7 +509,7 @@ export default function MobileAppPage() {
           )}
           
           {/* Top Status Bar with Dynamic Island & Signal */}
-          <div className="h-8 px-5 bg-[#2E236C] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
+          <div className="h-8 px-5 bg-[#00ac92] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
             <span>9:41</span>
             
             {/* Dynamic Island / Camera Notch */}
@@ -531,7 +531,7 @@ export default function MobileAppPage() {
           {/* =================================================================== */}
           {/* 1. NATIVE MOBILE APP TOP BAR                                        */}
           {/* =================================================================== */}
-          <header className="sticky top-0 z-40 bg-[#2E236C] border-b border-indigo-900/50 px-4 py-2.5 flex items-center justify-between shadow-md shrink-0">
+          <header className="sticky top-0 z-40 bg-[#00ac92] border-b border-teal-700/30 px-4 py-2.5 flex items-center justify-between shadow-md shrink-0">
         
         {/* Left: Brand Logo from Asset */}
         <button
@@ -555,7 +555,7 @@ export default function MobileAppPage() {
             title="Notifications"
           >
             <Bell className="w-4 h-4 text-white" />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#2E236C]" />
+            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#00ac92]" />
           </button>
 
           {/* +Borrow Action */}
@@ -594,7 +594,7 @@ export default function MobileAppPage() {
             {/* Quick Search & AI Scanner Bar */}
             <div
               onClick={() => setActiveScreen("MEDICINES")}
-              className="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-2 cursor-pointer hover:border-[#1A56DB] transition-colors"
+              className="bg-white p-2.5 rounded-2xl border border-slate-200 shadow-2xs flex items-center gap-2 cursor-pointer hover:border-[#00ac92] transition-colors"
             >
               <Search className="w-4 h-4 text-slate-400" />
               <span className="text-xs text-slate-400 flex-1 truncate">
@@ -606,7 +606,7 @@ export default function MobileAppPage() {
                   e.stopPropagation();
                   setActiveScreen("MEDICINES");
                 }}
-                className="flex items-center gap-1 px-2 py-1 rounded-xl bg-blue-50 text-[#1A56DB] text-[10px] font-bold hover:bg-blue-100"
+                className="flex items-center gap-1 px-2 py-1 rounded-xl bg-teal-50 text-[#00ac92] text-[10px] font-bold hover:bg-blue-100"
               >
                 <Camera className="w-3.5 h-3.5" />
                 <span>Scan Slip</span>
@@ -624,7 +624,7 @@ export default function MobileAppPage() {
 
               <div className="grid grid-cols-4 gap-y-3 gap-x-2 py-1">
                 {[
-                  { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard, bg: "bg-blue-50/90 text-[#1A56DB] group-hover:bg-blue-100" },
+                  { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard, bg: "bg-teal-50/90 text-[#00ac92] group-hover:bg-blue-100" },
                   { screen: "MEDICINES", label: "Medicines", icon: Search, bg: "bg-emerald-50/90 text-[#059669] group-hover:bg-emerald-100" },
                   { screen: "MEDICINES", label: "+Borrow", icon: Plus, bg: "bg-cyan-50/90 text-cyan-600 group-hover:bg-cyan-100" },
                   { screen: "MAP", label: "Depots", icon: MapPin, bg: "bg-purple-50/90 text-purple-600 group-hover:bg-purple-100" },
@@ -664,7 +664,7 @@ export default function MobileAppPage() {
                 </span>
                 <button
                   onClick={() => setActiveScreen("MEDICINES")}
-                  className="text-[11px] font-bold text-[#1A56DB] hover:underline"
+                  className="text-[11px] font-bold text-[#00ac92] hover:underline"
                 >
                   View All
                 </button>
@@ -689,7 +689,7 @@ export default function MobileAppPage() {
                     <button
                       type="button"
                       onClick={() => addToCart(item.id)}
-                      className="w-7 h-7 rounded-xl bg-blue-50 hover:bg-[#1A56DB] text-[#1A56DB] hover:text-white flex items-center justify-center font-bold shadow-2xs active:scale-90 transition-all shrink-0"
+                      className="w-7 h-7 rounded-xl bg-blue-50 hover:bg-[#00ac92] text-[#00ac92] hover:text-white flex items-center justify-center font-bold shadow-2xs active:scale-90 transition-all shrink-0"
                       title="Add to Cart"
                     >
                       <Plus className="w-4 h-4 stroke-[2.5]" />
@@ -727,7 +727,7 @@ export default function MobileAppPage() {
                 placeholder="Search Napa, Seclo, Esomeprazole, Square..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-xs rounded-2xl bg-white border border-slate-200/90 shadow-2xs focus:border-[#1A56DB] focus:outline-none"
+                className="w-full pl-9 pr-4 py-2.5 text-xs rounded-2xl bg-white border border-slate-200/90 shadow-2xs focus:border-[#00ac92] focus:outline-none"
               />
             </div>
 
@@ -739,7 +739,7 @@ export default function MobileAppPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-colors ${
                     selectedCategory === cat
-                      ? "bg-[#1A56DB] text-white shadow-2xs"
+                      ? "bg-[#00ac92] text-white shadow-2xs"
                       : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
                   }`}
                 >
@@ -764,7 +764,7 @@ export default function MobileAppPage() {
                           <span className="text-[10px] text-slate-500 font-semibold">({med.form})</span>
                         </div>
                         <div className="text-[11px] text-slate-500 leading-tight">{med.generic}</div>
-                        <div className="text-[10px] text-[#1A56DB] font-bold mt-0.5">{med.company}</div>
+                        <div className="text-[10px] text-[#00ac92] font-bold mt-0.5">{med.company}</div>
                       </div>
 
                       {med.tradeOffer && (
@@ -794,7 +794,7 @@ export default function MobileAppPage() {
                           </span>
                           <button
                             onClick={() => addToCart(med.id)}
-                            className="w-5 h-5 rounded-md bg-[#1A56DB] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
+                            className="w-5 h-5 rounded-md bg-[#00ac92] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
                           >
                             +
                           </button>
@@ -802,7 +802,7 @@ export default function MobileAppPage() {
                       ) : (
                         <button
                           onClick={() => addToCart(med.id)}
-                          className="px-3 py-1 rounded-xl bg-[#1A56DB] hover:bg-[#1E40AF] text-white text-[11px] font-black flex items-center gap-1 shadow-xs transition-colors active:scale-95"
+                          className="px-3 py-1 rounded-xl bg-[#00ac92] hover:bg-[#00927c] text-white text-[11px] font-black flex items-center gap-1 shadow-xs transition-colors active:scale-95"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add</span>
@@ -827,7 +827,7 @@ export default function MobileAppPage() {
                 </div>
                 <button
                   onClick={() => setActiveScreen("ORDERS")}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 transition-transform"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 transition-transform"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span>Checkout (10+1)</span>
@@ -851,7 +851,7 @@ export default function MobileAppPage() {
 
             {/* Mobile Interactive Map Graphics Container */}
             <div className="relative h-48 w-full rounded-3xl bg-slate-200 overflow-hidden border border-slate-300 shadow-inner">
-              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#1A56DB_1px,transparent_1px)] [background-size:16px_16px]" />
+              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#00ac92_1px,transparent_1px)] [background-size:16px_16px]" />
               
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 200">
                 <path d="M10,40 Q150,80 290,40" stroke="#94A3B8" strokeWidth="6" fill="none" />
@@ -859,7 +859,7 @@ export default function MobileAppPage() {
                 <path d="M40,180 Q150,120 280,180" stroke="#CBD5E1" strokeWidth="4" fill="none" />
                 <path
                   d="M60,60 Q150,80 220,130"
-                  stroke="#1A56DB"
+                  stroke="#00ac92"
                   strokeWidth="4"
                   strokeDasharray="6,4"
                   fill="none"
@@ -868,7 +868,7 @@ export default function MobileAppPage() {
 
               {/* User Pharmacy Pin */}
               <div className="absolute top-[40px] left-[50px] -translate-x-1/2 -translate-y-1/2 text-center">
-                <div className="w-7 h-7 rounded-full bg-[#1A56DB] text-white flex items-center justify-center shadow-lg ring-4 ring-blue-200/80 animate-pulse">
+                <div className="w-7 h-7 rounded-full bg-[#00ac92] text-white flex items-center justify-center shadow-lg ring-4 ring-blue-200/80 animate-pulse">
                   <Store className="w-4 h-4" />
                 </div>
                 <span className="text-[9px] font-black bg-white px-1.5 py-0.5 rounded shadow-xs mt-1 block">
@@ -915,7 +915,7 @@ export default function MobileAppPage() {
                     <span>📍 {depot.distance}</span>
                     <span>📦 {depot.stockCoverage}% Stock Match</span>
                     {depot.coldChain && (
-                      <span className="flex items-center gap-1 text-[#1A56DB] font-bold">
+                      <span className="flex items-center gap-1 text-[#00ac92] font-bold">
                         <ThermometerSnowflake className="w-3.5 h-3.5" /> Cold-Chain
                       </span>
                     )}
@@ -933,7 +933,7 @@ export default function MobileAppPage() {
                     <button
                       type="button"
                       onClick={() => setActiveScreen("MEDICINES")}
-                      className="flex-1 py-1.5 rounded-xl bg-[#1A56DB] text-white font-black text-xs flex items-center justify-center gap-1 shadow-xs active:scale-95"
+                      className="flex-1 py-1.5 rounded-xl bg-[#00ac92] text-white font-black text-xs flex items-center justify-center gap-1 shadow-xs active:scale-95"
                     >
                       <Package className="w-3.5 h-3.5" />
                       <span>Order Directly</span>
@@ -970,7 +970,7 @@ export default function MobileAppPage() {
                     </span>
                     <div className="text-sm font-black text-slate-900">{order.id}</div>
                   </div>
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full border bg-blue-50 text-[#1A56DB] border-blue-200 animate-pulse">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full border bg-teal-50 text-[#00ac92] border-teal-200 animate-pulse">
                     In Transit
                   </span>
                 </div>
@@ -1038,14 +1038,14 @@ export default function MobileAppPage() {
                   <h2 className="text-xs font-black text-slate-900 uppercase">Pay Wholesale Dues</h2>
                   <p className="text-[11px] text-slate-500">Instant bKash, Nagad or Bank settlement</p>
                 </div>
-                <CreditCard className="w-5 h-5 text-[#1A56DB]" />
+                <CreditCard className="w-5 h-5 text-[#00ac92]" />
               </div>
 
               <div className="grid grid-cols-4 gap-2">
                 {[
                   { mode: "BKASH", label: "bKash", color: "bg-[#D12053] text-white" },
                   { mode: "NAGAD", label: "Nagad", color: "bg-[#F7941D] text-white" },
-                  { mode: "BANK", label: "Bank", color: "bg-[#1A56DB] text-white" },
+                  { mode: "BANK", label: "Bank", color: "bg-[#00ac92] text-white" },
                   { mode: "CASH", label: "Cash", color: "bg-emerald-600 text-white" },
                 ].map((p) => (
                   <button
@@ -1065,7 +1065,7 @@ export default function MobileAppPage() {
               <button
                 type="button"
                 onClick={() => alert(`Paid ৳9,850 via ${paymentMethod} to Tejgaon Depot!`)}
-                className="w-full py-2.5 rounded-xl bg-[#1A56DB] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
+                className="w-full py-2.5 rounded-xl bg-[#00ac92] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
               >
                 Pay ৳9,850 Due via {paymentMethod}
               </button>
@@ -1107,10 +1107,10 @@ export default function MobileAppPage() {
                   </div>
 
                   <div className="flex items-center justify-between pt-1 text-[11px]">
-                    <span className="text-[#1A56DB] font-bold">FEFO Priority Rank #{item.fefoRank}</span>
+                    <span className="text-[#00ac92] font-bold">FEFO Priority Rank #{item.fefoRank}</span>
                     <button
                       onClick={() => setActiveScreen("MEDICINES")}
-                      className="text-xs font-bold text-[#1A56DB] hover:underline"
+                      className="text-xs font-bold text-[#00ac92] hover:underline"
                     >
                       Reorder SKU
                     </button>
@@ -1133,7 +1133,7 @@ export default function MobileAppPage() {
                 <h1 className="text-base font-black text-slate-900">Alerts & Notifications</h1>
                 <p className="text-xs text-slate-500">Regulatory, dispatch and scheme updates</p>
               </div>
-              <span className="text-[10px] font-bold text-[#1A56DB] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+              <span className="text-[10px] font-bold text-[#00ac92] bg-blue-50 px-2 py-0.5 rounded-full border border-teal-200">
                 2 Unread
               </span>
             </div>
@@ -1144,7 +1144,7 @@ export default function MobileAppPage() {
                   key={n.id}
                   className={`p-3.5 rounded-2xl border transition-all ${
                     n.unread
-                      ? "bg-white border-blue-300 ring-1 ring-blue-100 shadow-xs"
+                      ? "bg-white border-teal-300 ring-1 ring-teal-100 shadow-xs"
                       : "bg-white border-slate-200"
                   }`}
                 >
@@ -1184,7 +1184,7 @@ export default function MobileAppPage() {
                   {regStep === 4 && "Track your pending review status"}
                 </p>
               </div>
-              <span className="text-xs font-black text-[#1A56DB] bg-blue-50 px-2 py-1 rounded-full border border-blue-200">
+              <span className="text-xs font-black text-[#00ac92] bg-blue-50 px-2 py-1 rounded-full border border-teal-200">
                 Step {regStep} of 4
               </span>
             </div>
@@ -1237,7 +1237,7 @@ export default function MobileAppPage() {
                       onClick={() => setRegRole(item.role)}
                       className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 ${
                         isSelected
-                          ? "bg-white border-[#1A56DB] ring-2 ring-blue-100 shadow-md"
+                          ? "bg-white border-[#00ac92] ring-2 ring-teal-100 shadow-md"
                           : "bg-white border-slate-200 hover:border-slate-300"
                       }`}
                     >
@@ -1247,7 +1247,7 @@ export default function MobileAppPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <span className="font-black text-xs text-slate-900">{item.title}</span>
-                          {isSelected && <CheckCircle2 className="w-4 h-4 text-[#1A56DB]" />}
+                          {isSelected && <CheckCircle2 className="w-4 h-4 text-[#00ac92]" />}
                         </div>
                         <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
                           {item.desc}
@@ -1259,7 +1259,7 @@ export default function MobileAppPage() {
 
                 <button
                   onClick={() => setRegStep(2)}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white font-black text-xs shadow-md shadow-blue-500/20 active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white font-black text-xs shadow-md shadow-teal-500/20 active:scale-98 transition-transform"
                 >
                   Proceed to Role Form
                 </button>
@@ -1270,7 +1270,7 @@ export default function MobileAppPage() {
             {regStep === 2 && (
               <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-3">
                 <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700">
-                  <Building2 className="w-4 h-4 text-[#1A56DB]" />
+                  <Building2 className="w-4 h-4 text-[#00ac92]" />
                   <span>Applying as: <strong>{regRole}</strong></span>
                 </div>
 
@@ -1281,7 +1281,7 @@ export default function MobileAppPage() {
                     placeholder="Mahfuzul Islam"
                     value={regFormData.fullName}
                     onChange={(e) => setRegFormData({ ...regFormData, fullName: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
                   />
                 </div>
 
@@ -1292,7 +1292,7 @@ export default function MobileAppPage() {
                     placeholder="01711-223344"
                     value={regFormData.phone}
                     onChange={(e) => setRegFormData({ ...regFormData, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
                   />
                 </div>
 
@@ -1305,7 +1305,7 @@ export default function MobileAppPage() {
                         placeholder="Popular Model Pharmacy"
                         value={regFormData.shopName}
                         onChange={(e) => setRegFormData({ ...regFormData, shopName: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -1316,7 +1316,7 @@ export default function MobileAppPage() {
                           placeholder="NID Number"
                           value={regFormData.nidNumber}
                           onChange={(e) => setRegFormData({ ...regFormData, nidNumber: e.target.value })}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1">
@@ -1326,7 +1326,7 @@ export default function MobileAppPage() {
                           placeholder="TRAD-XXXX"
                           value={regFormData.tradeLicense}
                           onChange={(e) => setRegFormData({ ...regFormData, tradeLicense: e.target.value })}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1342,7 +1342,7 @@ export default function MobileAppPage() {
                       <button
                         type="button"
                         onClick={() => setRegFormData({ ...regFormData, hasCameraPhoto: true })}
-                        className="w-full py-2.5 rounded-xl border-2 border-dashed border-blue-300 bg-white hover:bg-blue-50 text-[#1A56DB] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                        className="w-full py-2.5 rounded-xl border-2 border-dashed border-teal-300 bg-white hover:bg-teal-50 text-[#00ac92] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
                       >
                         <Camera className="w-4 h-4" />
                         <span>{regFormData.hasCameraPhoto ? "Retake Photo" : "Take Live Photo with Camera"}</span>
@@ -1362,7 +1362,7 @@ export default function MobileAppPage() {
                   <button
                     type="button"
                     onClick={() => setRegStep(3)}
-                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
+                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
                   >
                     Verify with OTP
                   </button>
@@ -1373,7 +1373,7 @@ export default function MobileAppPage() {
             {/* Step 3: OTP */}
             {regStep === 3 && (
               <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-4 text-center">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1A56DB] flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#00ac92] flex items-center justify-center mx-auto">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
@@ -1401,7 +1401,7 @@ export default function MobileAppPage() {
                           if (next) next.focus();
                         }
                       }}
-                      className="w-10 h-12 text-center text-lg font-black rounded-xl border-2 border-slate-200 focus:border-[#1A56DB] focus:outline-none"
+                      className="w-10 h-12 text-center text-lg font-black rounded-xl border-2 border-slate-200 focus:border-[#00ac92] focus:outline-none"
                     />
                   ))}
                 </div>
@@ -1409,7 +1409,7 @@ export default function MobileAppPage() {
                 <button
                   type="button"
                   onClick={() => setOtpCode(["2", "5", "9", "9", "5", "3"])}
-                  className="text-[11px] font-bold text-[#1A56DB] hover:underline block mx-auto"
+                  className="text-[11px] font-bold text-[#00ac92] hover:underline block mx-auto"
                 >
                   Auto-fill Demo Code (259953)
                 </button>
@@ -1417,7 +1417,7 @@ export default function MobileAppPage() {
                 <button
                   type="button"
                   onClick={handleCompleteRegistration}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
                 >
                   Confirm & Submit Registration
                 </button>
@@ -1450,7 +1450,7 @@ export default function MobileAppPage() {
 
                 <button
                   onClick={() => setActiveScreen("DASHBOARD")}
-                  className="w-full py-3 rounded-2xl bg-[#1A56DB] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-[#00ac92] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
                 >
                   Enter Mobile Dashboard as {regRole}
                 </button>
@@ -1468,7 +1468,7 @@ export default function MobileAppPage() {
             
             {/* Profile Header */}
             <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#1A56DB] to-[#059669] text-white flex items-center justify-center font-black text-lg shadow-md">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-black text-lg shadow-md">
                 MI
               </div>
               <div className="flex-1 min-w-0">
@@ -1479,7 +1479,7 @@ export default function MobileAppPage() {
                   </span>
                 </div>
                 <div className="text-xs text-slate-500">{userProfile.pharmacyName}</div>
-                <div className="text-[11px] text-[#1A56DB] font-bold">{userProfile.phone}</div>
+                <div className="text-[11px] text-[#00ac92] font-bold">{userProfile.phone}</div>
               </div>
             </div>
 
@@ -1521,7 +1521,7 @@ export default function MobileAppPage() {
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50">
                   <span>MedGo 24/7 B2B Dispatch Helpline</span>
-                  <span className="font-black text-[#1A56DB]">16263</span>
+                  <span className="font-black text-[#00ac92]">16263</span>
                 </div>
                 <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50">
                   <span>DGDA Central Regulatory Cell</span>
@@ -1563,7 +1563,7 @@ export default function MobileAppPage() {
                     onClick={() => setActiveScreen(item.tab as MobileScreen)}
                     className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
                       isCurrent
-                        ? "text-[#1A56DB] font-extrabold"
+                        ? "text-[#00ac92] font-extrabold"
                         : "text-slate-500 hover:text-slate-900"
                     }`}
                   >
