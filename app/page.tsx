@@ -553,7 +553,7 @@ export default function MobileAppPage() {
           {/* +Borrow Action */}
           <button
             onClick={() => setActiveScreen("MEDICINES")}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all border border-white/20"
+            className="flex items-center gap-0.5 px-1.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all border border-white/20"
             title="Emergency Stock Borrow (+Borrow)"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3] text-emerald-600" />
