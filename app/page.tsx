@@ -561,10 +561,10 @@ export default function MobileAppPage() {
           {/* +Sell Action */}
           <button
             onClick={() => setActiveScreen("MEDICINES")}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-black shadow-xs active:scale-95 transition-all"
+            className="flex items-center gap-1 px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all border border-white/20"
             title="Counter Sale / POS (+Sell)"
           >
-            <Plus className="w-3.5 h-3.5 stroke-[3]" />
+            <Plus className="w-3.5 h-3.5 stroke-[3] text-emerald-600" />
             <span>Sell</span>
           </button>
 
