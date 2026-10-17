@@ -584,16 +584,16 @@ export default function MobileAppPage() {
           <div className="p-4 space-y-4 animate-in fade-in duration-150">
             
             {/* Marketplace Search & Hub Location Card (Matching User Reference) */}
-            <div className="-mx-4 -mt-4 px-4 pt-4 pb-4 bg-gradient-to-b from-[#00ac92]/15 via-[#00ac92]/8 to-transparent rounded-b-3xl space-y-2.5">
+            <div className="-mx-4 -mt-4 px-4 pt-4 pb-5 bg-gradient-to-b from-[#d8f4ef] via-[#e2f7f3] to-[#ebf9f6] rounded-b-[32px] border-b border-[#00ac92]/15 shadow-xs space-y-3">
               {/* Header Title */}
               <div className="text-center">
-                <h1 className="text-sm font-extrabold text-[#00826e] tracking-tight">
+                <h1 className="text-sm font-extrabold text-[#007d6b] tracking-tight">
                   Explore the healthcare marketplace
                 </h1>
               </div>
 
               {/* Floating Filter & Search Card */}
-              <div className="bg-white rounded-2xl p-3 shadow-md border border-slate-200/90 relative">
+              <div className="bg-white rounded-2xl p-3 shadow-md shadow-[#00ac92]/10 border border-teal-100/80 relative">
                 {/* Top Row: Location / Depot Hub Selector */}
                 <div className="relative">
                   <div
