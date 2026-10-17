@@ -550,8 +550,8 @@ export default function MobileAppPage() {
           />
         </button>
 
-        {/* Right: Notification Bell, +Sell Button & Hamburger Menu Icon */}
-        <div className="flex items-center gap-1.5">
+        {/* Right: Notification Bell & +Borrow Action Button */}
+        <div className="flex items-center gap-2">
           {/* Notifications Bell */}
           <button
             onClick={() => setActiveScreen("NOTIFICATIONS")}
@@ -570,15 +570,6 @@ export default function MobileAppPage() {
           >
             <Plus className="w-3.5 h-3.5 stroke-[3] text-emerald-600" />
             <span>Borrow</span>
-          </button>
-
-          {/* Hamburger Menu Icon */}
-          <button
-            onClick={() => setIsDrawerOpen(true)}
-            className="p-1.5 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-colors active:scale-95"
-            title="Navigation Menu"
-          >
-            <Menu className="w-5 h-5" />
           </button>
         </div>
 
