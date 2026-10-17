@@ -156,15 +156,6 @@ export const TopHeaderBar: React.FC = () => {
               </span>
             </Link>
 
-            {/* Android Mobile Prototype Button */}
-            <Link
-              href="/mobile-prototype"
-              className="relative w-8 h-8 rounded-full bg-[#1A56DB] hover:bg-[#1E40AF] text-white flex items-center justify-center transition-all active:scale-95 shadow-xs"
-              title="Interactive Android Mobile Prototype"
-            >
-              <Smartphone className="w-4 h-4 text-emerald-300" />
-            </Link>
-
             {/* Notification Bell (Circular button with red badge count 4) */}
             <Link
               href="/notifications"
@@ -299,16 +290,6 @@ export const TopHeaderBar: React.FC = () => {
                 {currentUser.organizationName || currentRoleConfig.org}
               </span>
             </div>
-          </Link>
-
-          {/* Android Mobile Prototype Link for Desktop */}
-          <Link
-            href="/mobile-prototype"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#1A56DB] to-[#059669] text-white text-xs font-black shadow-xs hover:shadow-md transition-all active:scale-95 shrink-0"
-            title="Interactive Android Mobile Prototype Simulator"
-          >
-            <Smartphone className="w-3.5 h-3.5 text-emerald-200" />
-            <span className="hidden xl:inline">Android Prototype</span>
           </Link>
 
           {/* Notification Bell for Desktop */}

@@ -1,1 +1,5 @@
-export { default } from "../mobile-prototype/page";
+import { redirect } from "next/navigation";
+
+export default function MobileRedirectPage() {
+  redirect("/");
+}

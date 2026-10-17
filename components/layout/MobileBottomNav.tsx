@@ -16,8 +16,8 @@ export const MobileBottomNav: React.FC = () => {
   const pathname = usePathname();
   const { cart, currentUser } = useApp();
 
-  // If user is currently on the standalone mobile prototype simulator page, don't show double bottom nav
-  if (pathname === "/mobile-prototype") {
+  // If user is on the mobile app home, don't show double bottom nav
+  if (pathname === "/" || pathname === "/mobile-prototype" || pathname === "/mobile") {
     return null;
   }
 

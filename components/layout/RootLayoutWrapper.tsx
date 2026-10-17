@@ -18,7 +18,7 @@ import { MedSupportLogo } from "@/components/common/MedSupportLogo";
 
 export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const pathname = usePathname();
-  const isDedicatedMobileRoute = pathname === "/mobile-prototype" || pathname === "/mobile";
+  const isDedicatedMobileRoute = pathname === "/" || pathname === "/mobile-prototype" || pathname === "/mobile";
 
   // Dedicated full-screen mobile app experience (No desktop sidebar, no desktop footer)
   if (isDedicatedMobileRoute) {

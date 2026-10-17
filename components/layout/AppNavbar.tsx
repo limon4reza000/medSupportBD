@@ -77,17 +77,6 @@ export const AppNavbar: React.FC = () => {
               <span className="hidden sm:inline">POS Sales</span>
             </Link>
 
-            {/* Android Mobile Prototype Simulator */}
-            <Link
-              href="/mobile-prototype"
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-[#1A56DB] hover:bg-[#1E40AF] text-white font-black text-xs shadow-md flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95"
-              title="Interactive Android Mobile Prototype"
-            >
-              <Smartphone className="w-3.5 h-3.5 text-emerald-300" />
-              <span className="hidden sm:inline">Android Prototype</span>
-            </Link>
-
-
             {/* Offline / Online Status Badge & Toggle */}
             <button
               onClick={toggleOfflineSimulation}
