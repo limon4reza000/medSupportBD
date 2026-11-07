@@ -433,8 +433,11 @@ export default function MobileAppPage() {
               <div className="relative ml-auto w-64 h-full bg-white shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-200">
                 {/* Drawer Header */}
                 <div className="bg-[#00ac92] p-3.5 text-white flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <img src="/images/png-final.png" alt="MedGo" className="h-6 w-auto" />
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <img src="/logo.png" alt="MedGo" className="h-5 max-h-5 w-auto object-contain shrink-0" />
+                    <span className="text-base font-normal tracking-tight text-white whitespace-nowrap">
+                      MedGo
+                    </span>
                   </div>
                   <button
                     onClick={() => setIsDrawerOpen(false)}
@@ -470,7 +473,7 @@ export default function MobileAppPage() {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700">
+                <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700 scrollbar-none">
                   {[
                     { screen: "MEDICINES", label: "Stock Borrow (+Borrow)", icon: ShoppingCart },
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
@@ -540,14 +543,17 @@ export default function MobileAppPage() {
         {/* Left: Brand Logo from Asset */}
         <button
           onClick={() => setActiveScreen("DASHBOARD")}
-          className="flex items-center gap-2 active:scale-95 transition-transform"
+          className="flex items-center gap-1.5 shrink-0 active:scale-95 transition-transform group"
           title="MedGo Home"
         >
           <img
-            src="/images/png-final.png"
+            src="/logo.png"
             alt="MedGo"
-            className="h-8 w-auto object-contain drop-shadow-md"
+            className="h-7 max-h-7 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
           />
+          <span className="text-lg font-normal tracking-tight text-white whitespace-nowrap">
+            MedGo
+          </span>
         </button>
 
         {/* Right: Notification Bell & +Borrow Action Button */}
@@ -578,7 +584,7 @@ export default function MobileAppPage() {
       {/* =================================================================== */}
       {/* 2. SCROLLABLE SCREEN CONTENT AREA                                   */}
       {/* =================================================================== */}
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-24 scrollbar-none">
         
         {/* ----------------------------------------------------------------- */}
         {/* TAB 1: DASHBOARD (HOME)                                           */}
@@ -784,7 +790,7 @@ export default function MobileAppPage() {
             </div>
 
             {/* Horizontal Category Filters */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
               {["ALL", "Pain & Fever", "Gastric Care", "Respiratory", "Vitamins", "Antibiotics"].map((cat) => (
                 <button
                   key={cat}

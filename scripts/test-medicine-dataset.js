@@ -6,7 +6,7 @@ const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 async function verifyDataset() {
   console.log("==================================================================");
-  console.log("🧪 TESTING CONNECTED MEDICINE DATASET IN MEDSUPPLY BD");
+  console.log("TESTING CONNECTED MEDICINE DATASET IN MEDSUPPLY BD");
   console.log("==================================================================\n");
 
   let passed = 0;
@@ -15,11 +15,11 @@ async function verifyDataset() {
   function assert(condition, name, details = "") {
     total++;
     if (condition) {
-      console.log(`✅ [PASS] ${name}`);
+      console.log(`[PASS] ${name}`);
       if (details) console.log(`   └─ ${details}`);
       passed++;
     } else {
-      console.error(`❌ [FAIL] ${name}`);
+      console.error(`[FAIL] ${name}`);
       if (details) console.error(`   └─ ${details}`);
     }
   }

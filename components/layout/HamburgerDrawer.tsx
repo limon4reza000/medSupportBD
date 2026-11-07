@@ -223,12 +223,15 @@ export const HamburgerDrawer: React.FC = () => {
         {/* Header with MedSupplyBD Brand Logo & User Profile Section */}
         <div className="p-4 sm:p-5 bg-white text-slate-800 border-b border-slate-200/80 relative">
           <div className="flex items-center justify-between pb-3.5 border-b border-slate-100">
-            <Link href="/" onClick={closeDrawer} className="flex items-center group" title="MedGo Home">
+            <Link href="/" onClick={closeDrawer} className="flex items-center gap-2 group" title="MedGo Home">
               <img
-                src="/images/png-final.png"
+                src="/logo.png"
                 alt="MedGo"
-                className="h-10 sm:h-12 w-auto max-w-[210px] object-contain group-hover:scale-105 transition-transform drop-shadow-xs"
+                className="h-7 sm:h-8 max-h-7 sm:max-h-8 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs shrink-0"
               />
+              <span className="text-lg sm:text-xl font-normal tracking-tight text-slate-900 group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
+                Med<span className="text-[#00ac92]">Go</span>
+              </span>
             </Link>
             <button
               onClick={closeDrawer}

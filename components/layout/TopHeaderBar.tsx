@@ -132,12 +132,15 @@ export const TopHeaderBar: React.FC = () => {
               <Menu className="w-5.5 h-5.5 stroke-[2.4]" />
             </button>
 
-            <Link href="/" className="flex items-center group" title="MedGo Home">
+            <Link href="/" className="flex items-center gap-1.5 group shrink-0" title="MedGo Home">
               <img
-                src="/images/png-final.png"
+                src="/logo.png"
                 alt="MedGo"
-                className="h-8 sm:h-9 w-auto max-w-[130px] sm:max-w-[160px] object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
+                className="h-7 sm:h-8 max-h-7 sm:max-h-8 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
               />
+              <span className="text-base sm:text-lg font-normal tracking-tight text-slate-900 group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
+                Med<span className="text-[#00ac92]">Go</span>
+              </span>
             </Link>
           </div>
 

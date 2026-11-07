@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/MedGo%20logo.png" alt="MedGo Logo" width="380" />
+  <img src="assets/logo.png" alt="MedGo Logo" width="380" />
 </p>
 
 # MedGo (MedSupplyBD) — B2B Pharmaceutical Supply Chain, Order Cutting & Distribution Platform

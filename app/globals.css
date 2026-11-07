@@ -23,24 +23,33 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Global Hidden Scrollbar - Seamless Clean UI */
+html,
+body,
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none !important; /* Chrome, Safari, Edge, Opera */
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #F5F6FC;
+/* Explicit Utility Classes */
+.scrollbar-none,
+.no-scrollbar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #3B2D7E;
-  border-radius: 6px;
-  border: 2px solid #F5F6FC;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #4F46E5;
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* Custom Visible Chart Scrollbar */
