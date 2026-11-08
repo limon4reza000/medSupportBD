@@ -12,6 +12,7 @@ import {
   Building2,
   Store,
   Home,
+  Compass,
   Factory,
   Truck,
   UserCheck,
@@ -51,7 +52,8 @@ type MobileScreen =
   | "ORDERS"
   | "INVENTORY"
   | "NOTIFICATIONS"
-  | "PROFILE";
+  | "PROFILE"
+  | "BORROW";
 
 interface MedicineItem {
   id: string;
@@ -136,6 +138,7 @@ export default function MobileAppPage() {
   const [brandSearchModalQuery, setBrandSearchModalQuery] = useState("");
   const [selectedHub, setSelectedHub] = useState("All Hubs & Depots");
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
+  const [borrowBroadcastSent, setBorrowBroadcastSent] = useState(false);
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
@@ -559,7 +562,7 @@ export default function MobileAppPage() {
                 {/* Navigation Links */}
                 <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700 scrollbar-none">
                   {[
-                    { screen: "MEDICINES", label: "Stock Borrow (+Borrow)", icon: Plus },
+                    { screen: "BORROW", label: "Stock Borrow (+Borrow)", icon: Plus },
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
                     { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
                     { screen: "ORDERS", label: "Orders & Truck GPS", icon: Truck },
@@ -654,7 +657,7 @@ export default function MobileAppPage() {
 
           {/* +Borrow Action */}
           <button
-            onClick={() => setActiveScreen("MEDICINES")}
+            onClick={() => setActiveScreen("BORROW")}
             className="flex items-center gap-0.5 px-1.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all border border-white/20"
             title="Emergency Stock Borrow (+Borrow)"
           >
@@ -1169,6 +1172,221 @@ export default function MobileAppPage() {
               ))}
             </div>
 
+          </div>
+        )}
+
+        {/* ----------------------------------------------------------------- */}
+        {/* TAB 3B: EMERGENCY STOCK BORROW (+BORROW)                          */}
+        {/* ----------------------------------------------------------------- */}
+        {activeScreen === "BORROW" && (
+          <div className="p-4 space-y-4 animate-in fade-in duration-150">
+            {/* Header Badge & Title */}
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#139485] text-[10px] font-black uppercase tracking-wider mb-1 border border-emerald-200/60">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#139485] animate-ping" />
+                  B2B Emergency Network
+                </div>
+                <h1 className="text-base font-black text-slate-900">Emergency Stock Borrow</h1>
+                <p className="text-xs text-slate-500">
+                  ইমার্জেন্সি ওষুধ ধার নিন • ১৫–৩০ মিনিটে ডেলিভারি
+                </p>
+              </div>
+              <div className="w-10 h-10 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#139485] shadow-xs">
+                <Plus className="w-6 h-6 stroke-[3]" />
+              </div>
+            </div>
+
+            {/* Quick Broadcast / Request Bar */}
+            <div className="p-3.5 bg-gradient-to-br from-[#139485] to-[#007464] rounded-3xl text-white shadow-md relative overflow-hidden">
+              <div className="relative z-10 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black tracking-tight flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-amber-300" />
+                    Urgent Lifesaving Item Need?
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/20 font-bold">
+                    34 Hubs Active
+                  </span>
+                </div>
+                <p className="text-[11px] text-white/90 leading-tight">
+                  পেশেন্টের জন্য জরুরি ওষুধ শেষ? নিকটস্থ ২৪টি রেজিস্টার্ড ফার্মেসি ও এক্সপ্রেস হাবকে সরাসরি রিকোয়েস্ট পাঠান।
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setBorrowBroadcastSent(!borrowBroadcastSent)}
+                  className="w-full py-2 px-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-900 text-xs font-black shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4 stroke-[3] text-[#139485]" />
+                  <span>{borrowBroadcastSent ? "✓ Request Broadcast Sent (24 Notified)" : "Broadcast Emergency Need Now"}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Active Emergency Borrow Tracking */}
+            <div className="p-3.5 bg-white rounded-3xl border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-black text-slate-900">Active Borrow #EB-9281</span>
+                </div>
+                <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-teal-50 text-[#139485] border border-teal-100">
+                  Rider 6 mins away
+                </span>
+              </div>
+
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-xs font-extrabold text-slate-900">Clexane 40mg Inj (Enoxaparin)</div>
+                  <div className="text-[11px] text-slate-500 font-medium">Quantity: 2 PFS • Sanofi Aventis</div>
+                  <div className="text-[11px] text-[#139485] font-bold mt-0.5">Lender: Popular Pharmacy Dhanmondi-2</div>
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] text-slate-400 block font-medium">Handover OTP</span>
+                  <span className="text-xs font-black font-mono tracking-widest bg-slate-100 px-2 py-0.5 rounded-md text-slate-900">
+                    4 8 2 1
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-1 border-t border-slate-100">
+                <a
+                  href="tel:01712000000"
+                  className="flex-1 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95"
+                >
+                  <Phone className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Call Rider</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setActiveScreen("ORDERS")}
+                  className="flex-1 py-1.5 rounded-xl bg-[#139485] text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs active:scale-95"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Live GPS</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Nearby Verified Pharmacies Ready to Lend */}
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#139485]" />
+                  Nearby Verified Hubs (Instant Borrow)
+                </h2>
+                <span className="text-[10px] text-slate-500 font-bold">Dhanmondi Radius</span>
+              </div>
+
+              {[
+                {
+                  id: "pharm-1",
+                  name: "Popular Pharmacy Dhanmondi",
+                  distance: "350m away",
+                  eta: "12 mins",
+                  items: [
+                    { name: "Insulin Glargine 100IU", qty: "2 units" },
+                    { name: "Meropenem 1g IV", qty: "4 vials" },
+                  ],
+                  rating: 4.9,
+                  phone: "01711-223344",
+                },
+                {
+                  id: "pharm-2",
+                  name: "Labaid Drug Point",
+                  distance: "600m away",
+                  eta: "16 mins",
+                  items: [
+                    { name: "Albumin 20% 50ml", qty: "1 vial" },
+                    { name: "Rabies Vaccine (Rabipur)", qty: "3 doses" },
+                  ],
+                  rating: 4.8,
+                  phone: "01722-334455",
+                },
+                {
+                  id: "pharm-3",
+                  name: "Green Life Pharma Care",
+                  distance: "850m away",
+                  eta: "20 mins",
+                  items: [
+                    { name: "Streptokinase 1.5M IU", qty: "1 vial" },
+                    { name: "Hydrocortisone 100mg", qty: "10 vials" },
+                  ],
+                  rating: 4.9,
+                  phone: "01733-445566",
+                },
+              ].map((hub) => (
+                <div
+                  key={hub.id}
+                  className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="text-xs font-black text-slate-900">{hub.name}</div>
+                      <div className="flex items-center gap-2 text-[10px] text-slate-500 mt-0.5">
+                        <span className="flex items-center gap-0.5">
+                          <MapPin className="w-3 h-3 text-[#139485]" />
+                          {hub.distance}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-0.5 font-bold text-slate-700">
+                          <Clock className="w-3 h-3 text-amber-500" />
+                          {hub.eta}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-black border border-emerald-100">
+                      ★ {hub.rating}
+                    </span>
+                  </div>
+
+                  {/* Available Urgent Items */}
+                  <div className="flex flex-wrap gap-1.5 pt-1 border-t border-slate-100">
+                    {hub.items.map((it, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-[10px] font-bold"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#139485]" />
+                        {it.name} ({it.qty})
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory("ALL");
+                        setActiveScreen("MEDICINES");
+                      }}
+                      className="flex-1 py-1.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#139485] font-black text-xs flex items-center justify-center gap-1 active:scale-95 transition-all"
+                    >
+                      <Plus className="w-3.5 h-3.5 stroke-[3]" />
+                      <span>Instant Borrow</span>
+                    </button>
+                    <a
+                      href={`tel:${hub.phone}`}
+                      className="p-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 active:scale-95"
+                      title="Call Pharmacy"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* How Inter-Pharmacy Stock Borrow Works */}
+            <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 text-[11px] text-slate-600 space-y-1">
+              <div className="font-black text-slate-800 text-xs flex items-center gap-1">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#139485]" />
+                How MedSupplyBD Stock Borrow Works:
+              </div>
+              <p>১. রোগীর জরুরি প্রেসক্রিপশনের ওষুধ আপনার স্টকে না থাকলে আশপাশের ফার্মেসি থেকে ধার নিন।</p>
+              <p>২. মেডেলির এক্সপ্রেস রাইডার ১৫-৩০ মিনিটে ডেলিভারি দিয়ে যাবে।</p>
+              <p>৩. আগামীকাল ডিস্ট্রিবিউটর ডেলিভারি আসলে ওষুধ ফেরত দিন অথবা ওয়ালেটে স্বয়ংক্রিয় সমন্বয় করুন।</p>
+            </div>
           </div>
         )}
 
@@ -1775,21 +1993,22 @@ export default function MobileAppPage() {
             <div className="flex items-center justify-around w-full">
               {[
                 { tab: "DASHBOARD", label: "Home", icon: Home },
-                { tab: "MEDICINES", label: "Medicines", icon: Search, badge: totalCartCount > 0 ? totalCartCount : undefined },
-                { tab: "MAP", label: "Depots", icon: MapPin },
+                { tab: "MEDICINES", label: "Explore", icon: Compass, badge: totalCartCount > 0 ? totalCartCount : undefined },
+                { tab: "BORROW", label: "Borrow", icon: Plus },
                 { tab: "ORDERS", label: "Orders", icon: Truck },
-                { tab: "MENU", label: "Menu", icon: Menu },
+                { tab: "PROFILE", label: "Profile", icon: User },
               ].map((item) => {
                 const Icon = item.icon;
-                const isCurrent = activeScreen === item.tab || (item.tab === "MENU" && (isDrawerOpen || activeScreen === "PROFILE"));
+                const isCurrent = activeScreen === item.tab;
 
-                if (item.tab === "MAP") {
+                if (item.tab === "BORROW") {
                   return (
                     <button
                       key={item.tab}
                       type="button"
-                      onClick={() => setActiveScreen("MAP")}
+                      onClick={() => setActiveScreen("BORROW")}
                       className="flex flex-col items-center relative px-2 active:scale-95 transition-all group"
+                      title="Emergency Stock Borrow (+Borrow)"
                     >
                       <div className="relative -mt-7.5 sm:-mt-8 mb-1">
                         <div
@@ -1799,7 +2018,7 @@ export default function MobileAppPage() {
                               : "bg-[#139485] hover:bg-[#00927c] shadow-[#139485]/35"
                           }`}
                         >
-                          <Icon className="w-5 h-5 stroke-[2.4]" />
+                          <Icon className="w-6 h-6 stroke-[3]" />
                         </div>
                       </div>
                       <span
@@ -1811,27 +2030,6 @@ export default function MobileAppPage() {
                       >
                         {item.label}
                       </span>
-                    </button>
-                  );
-                }
-
-                if (item.tab === "MENU") {
-                  return (
-                    <button
-                      key={item.tab}
-                      type="button"
-                      onClick={() => setIsDrawerOpen(true)}
-                      className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
-                        isCurrent
-                          ? "text-[#139485] font-extrabold"
-                          : "text-slate-500 hover:text-slate-900"
-                      }`}
-                      title="Open Menu & Profile"
-                    >
-                      <div className="relative">
-                        <Menu className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
-                      </div>
-                      <span className="text-[10px] tracking-tight">{item.label}</span>
                     </button>
                   );
                 }
