@@ -789,7 +789,7 @@ export default function MobileAppPage() {
               </div>
 
               {/* Top Brands Moving Marquee (Animated to the Left) */}
-              <div className="-mx-4 overflow-hidden pt-1 pb-2.5 relative select-none">
+              <div className="-mx-4 overflow-hidden pt-0.5 pb-1.5 relative select-none">
                 {/* Soft Gradient Fade on Left & Right Edges */}
                 <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
                 <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
@@ -838,7 +838,7 @@ export default function MobileAppPage() {
             </div>
 
             {/* All Platform Services (4 columns per row) */}
-            <div className="pt-2.5 sm:pt-3.5">
+            <div className="-mt-1 sm:-mt-1.5">
               <div className="grid grid-cols-4 gap-y-3 gap-x-1.5 py-0.5">
                 {[
                   {
