@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   Building2,
   Store,
+  Home,
   Factory,
   Truck,
   UserCheck,
@@ -31,10 +32,16 @@ import {
   CreditCard,
   ThermometerSnowflake,
   ExternalLink,
+  Tag,
+  FileText,
+  Receipt,
+  RotateCcw,
+  ClipboardList,
   Menu,
   X,
 } from "lucide-react";
 import { UserRole } from "@/types/domain";
+import { BrandLogo } from "@/components/common/BrandLogo";
 
 type MobileScreen =
   | "DASHBOARD"
@@ -72,6 +79,54 @@ interface DepotItem {
   stockCoverage: number;
   status: "OPEN" | "DISPATCHING" | "BUSY";
 }
+
+const OfferTagIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/offers-tag.png"
+    alt="Offers"
+    className="w-[27px] h-[27px] object-contain select-none pointer-events-none"
+  />
+);
+
+const StockStatusIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/stock-status.png"
+    alt="Stock Status"
+    className="w-[27px] h-[27px] object-contain select-none pointer-events-none"
+  />
+);
+
+const OrderStatusIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/order-status.png"
+    alt="Order Status"
+    className="w-[25px] h-[25px] object-contain select-none pointer-events-none"
+  />
+);
+
+const CreditLimitIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/credit-limit.png"
+    alt="Credit Limit"
+    className="w-[27px] h-[27px] object-contain select-none pointer-events-none"
+  />
+);
+
+const InvoiceIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/invoice.png"
+    alt="Invoice"
+    className="w-[25px] h-[25px] object-contain select-none pointer-events-none"
+  />
+);
+
+const ReturnsIcon: React.FC<{ className?: string }> = () => (
+  <img
+    src="/icons/returns.png"
+    alt="Returns"
+    className="w-[26px] h-[26px] object-contain select-none pointer-events-none"
+  />
+);
 
 export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
@@ -234,6 +289,30 @@ export default function MobileAppPage() {
       stock: 1250,
       category: "Antihistamine",
     },
+  ];
+
+  // Top Pharmaceutical Company Brands for Home Marquee (Only Brands & Logos, No Medicines)
+  const topBrandList = [
+    { name: "Square", query: "Square" },
+    { name: "Beximco", query: "Beximco" },
+    { name: "Incepta", query: "Incepta" },
+    { name: "Renata", query: "Renata" },
+    { name: "ACI Limited", query: "ACI" },
+    { name: "Eskayef", query: "Eskayef" },
+    { name: "The ACME", query: "ACME" },
+    { name: "Healthcare", query: "Healthcare" },
+    { name: "Popular", query: "Popular" },
+    { name: "Aristopharma", query: "Aristopharma" },
+    { name: "Opsonin", query: "Opsonin" },
+    { name: "Radiant", query: "Radiant" },
+    { name: "Beacon", query: "Beacon" },
+    { name: "Ibn Sina", query: "Ibn Sina" },
+    { name: "Drug Int.", query: "Drug International" },
+    { name: "Orion", query: "Orion" },
+    { name: "Delta", query: "Delta" },
+    { name: "General", query: "General" },
+    { name: "UniMed", query: "UniMed" },
+    { name: "Globe", query: "Globe" },
   ];
 
   // Nearby Depots Dataset
@@ -403,7 +482,7 @@ export default function MobileAppPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#00ac92] selection:text-white">
+    <div className="min-h-screen w-full bg-white py-0 sm:py-6 flex flex-col items-center justify-center font-sans antialiased text-slate-800 selection:bg-[#139485] selection:text-white">
       
 
       {/* =================================================================== */}
@@ -432,7 +511,7 @@ export default function MobileAppPage() {
               {/* Drawer Content */}
               <div className="relative ml-auto w-64 h-full bg-white shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-200">
                 {/* Drawer Header */}
-                <div className="bg-[#00ac92] p-3.5 text-white flex items-center justify-between">
+                <div className="bg-[#139485] p-3.5 text-white flex items-center justify-between">
                   <div className="flex items-center gap-1.5 shrink-0">
                     <img src="/logo.png" alt="MedGo" className="h-5 max-h-5 w-auto object-contain shrink-0" />
                     <span className="text-base font-normal tracking-tight text-white whitespace-nowrap">
@@ -457,13 +536,13 @@ export default function MobileAppPage() {
                   title="View Pharmacy Profile & DGDA Credentials"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#139485] to-[#059669] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                       MI
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-900 truncate">{userProfile.name}</span>
-                        <span className="text-[10px] font-bold text-[#00ac92] bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200 hover:bg-teal-100 transition-colors">
+                        <span className="text-[10px] font-bold text-[#139485] bg-teal-50 px-1.5 py-0.5 rounded border border-teal-200 hover:bg-teal-100 transition-colors">
                           Profile &rarr;
                         </span>
                       </div>
@@ -475,11 +554,11 @@ export default function MobileAppPage() {
                 {/* Navigation Links */}
                 <div className="flex-1 overflow-y-auto p-3 space-y-1 text-xs font-semibold text-slate-700 scrollbar-none">
                   {[
-                    { screen: "MEDICINES", label: "Stock Borrow (+Borrow)", icon: ShoppingCart },
+                    { screen: "MEDICINES", label: "Stock Borrow (+Borrow)", icon: Plus },
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
                     { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
-                    { screen: "ORDERS", label: "Orders & Van GPS", icon: Truck },
-                    { screen: "INVENTORY", label: "FEFO Stock Manager", icon: Boxes },
+                    { screen: "ORDERS", label: "Orders & Truck GPS", icon: Truck },
+                    { screen: "INVENTORY", label: "Stock Manager", icon: Boxes },
                     { screen: "NOTIFICATIONS", label: "Notifications", icon: Bell },
                     { screen: "REGISTRATION", label: "Role Registration", icon: UserCheck },
                     { screen: "PROFILE", label: "Pharmacy Profile & DGDA", icon: User },
@@ -495,11 +574,11 @@ export default function MobileAppPage() {
                         }}
                         className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-colors ${
                           isActive
-                            ? "bg-teal-50 text-[#00ac92] font-bold"
+                            ? "bg-teal-50 text-[#139485] font-bold"
                             : "hover:bg-slate-100 text-slate-700"
                         }`}
                       >
-                        <Icon className={`w-4 h-4 ${isActive ? "text-[#00ac92]" : "text-slate-500"}`} />
+                        <Icon className={`w-4 h-4 ${isActive ? "text-[#139485]" : "text-slate-500"}`} />
                         <span>{item.label}</span>
                       </button>
                     );
@@ -508,7 +587,7 @@ export default function MobileAppPage() {
 
                 {/* Drawer Footer */}
                 <div className="p-3 border-t border-slate-200 text-center">
-                  <div className="text-[11px] text-slate-500">24/7 Helpline: <strong className="text-[#00ac92]">16263</strong></div>
+                  <div className="text-[11px] text-slate-500">24/7 Helpline: <strong className="text-[#139485]">16263</strong></div>
                   <div className="text-[9px] text-slate-400 mt-0.5">MedGo Mobile Prototype v2.4</div>
                 </div>
               </div>
@@ -516,7 +595,7 @@ export default function MobileAppPage() {
           )}
           
           {/* Top Status Bar with Dynamic Island & Signal */}
-          <div className="h-8 px-5 bg-[#00ac92] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
+          <div className="h-8 px-5 bg-[#139485] text-white text-[11px] font-semibold flex items-center justify-between shrink-0 select-none z-50">
             <span>9:41</span>
             
             {/* Dynamic Island / Camera Notch */}
@@ -538,7 +617,7 @@ export default function MobileAppPage() {
           {/* =================================================================== */}
           {/* 1. NATIVE MOBILE APP TOP BAR                                        */}
           {/* =================================================================== */}
-          <header className="sticky top-0 z-40 bg-[#00ac92] border-b border-teal-700/30 px-4 py-2.5 flex items-center justify-between shadow-md shrink-0">
+          <header className="sticky top-0 z-40 bg-[#139485] border-b border-teal-700/30 px-4 py-2.5 flex items-center justify-between shadow-md shrink-0">
         
         {/* Left: Brand Logo from Asset */}
         <button
@@ -565,7 +644,7 @@ export default function MobileAppPage() {
             title="Notifications"
           >
             <Bell className="w-4 h-4 text-white" />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#00ac92]" />
+            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-[#139485]" />
           </button>
 
           {/* +Borrow Action */}
@@ -593,16 +672,22 @@ export default function MobileAppPage() {
           <div className="p-4 space-y-4 animate-in fade-in duration-150">
             
             {/* Marketplace Search & Hub Location Card (Matching User Reference) */}
-            <div className="-mx-4 -mt-4 px-4 pt-4 pb-5 bg-gradient-to-b from-[#d8f4ef] via-[#e2f7f3] to-[#ebf9f6] rounded-b-[32px] border-b border-[#00ac92]/15 shadow-xs space-y-3">
+            <div
+              className="-mx-4 -mt-4 px-4 pt-4 pb-9 -mb-2 bg-gradient-to-b from-[#d8f4ef] via-[#e2f7f3] to-[#ebf9f6] border-b border-[#139485]/15 shadow-xs space-y-3"
+              style={{
+                borderBottomLeftRadius: "50% 36px",
+                borderBottomRightRadius: "50% 36px",
+              }}
+            >
               {/* Header Title */}
-              <div className="text-center">
-                <h1 className="text-sm font-extrabold text-[#007d6b] tracking-tight">
+              <div className="text-center px-1">
+                <h1 className="text-[17.5px] sm:text-lg font-medium text-[#007d6b] tracking-tight whitespace-nowrap">
                   Explore the healthcare marketplace
                 </h1>
               </div>
 
               {/* Floating Filter & Search Card */}
-              <div className="bg-white rounded-2xl p-3 shadow-md shadow-[#00ac92]/10 border border-teal-100/80 relative">
+              <div className="bg-white rounded-2xl p-3 shadow-md shadow-[#139485]/10 border border-teal-100/80 relative">
                 {/* Top Row: Location / Depot Hub Selector */}
                 <div className="relative">
                   <div
@@ -610,10 +695,10 @@ export default function MobileAppPage() {
                     className="flex items-center justify-between cursor-pointer py-0.5 group"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-[#00ac92]/15 flex items-center justify-center text-[#00ac92] shrink-0">
+                      <div className="w-5 h-5 rounded-full bg-[#139485]/15 flex items-center justify-center text-[#139485] shrink-0">
                         <MapPin className="w-3.5 h-3.5" />
                       </div>
-                      <span className="text-xs font-bold text-slate-800 group-hover:text-[#00ac92] transition-colors truncate">
+                      <span className="text-xs font-bold text-slate-800 group-hover:text-[#139485] transition-colors truncate">
                         {selectedHub}
                       </span>
                     </div>
@@ -640,7 +725,7 @@ export default function MobileAppPage() {
                           }}
                           className={`w-full text-left px-2.5 py-1.5 rounded-lg font-semibold transition-colors ${
                             selectedHub === hub
-                              ? "bg-teal-50 text-[#00ac92] font-bold"
+                              ? "bg-teal-50 text-[#139485] font-bold"
                               : "hover:bg-slate-50 text-slate-700"
                           }`}
                         >
@@ -669,7 +754,7 @@ export default function MobileAppPage() {
                   <button
                     type="button"
                     onClick={() => setActiveScreen("MEDICINES")}
-                    className="w-8 h-8 rounded-xl bg-[#00ac92] hover:bg-[#00927c] text-white flex items-center justify-center shadow-xs active:scale-95 transition-all shrink-0"
+                    className="w-8 h-8 rounded-xl bg-[#139485] hover:bg-[#00927c] text-white flex items-center justify-center shadow-xs active:scale-95 transition-all shrink-0"
                     title="Search Catalog"
                   >
                     <Search className="w-4 h-4 stroke-[2.4]" />
@@ -678,94 +763,158 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            {/* All Platform Services (12 Interactive Modules) */}
-            <div className="space-y-2">
-              <div className="grid grid-cols-4 gap-y-3 gap-x-2 py-1">
+            {/* Brands Section (Heading + Underline + Animated Ticker + Bottom Shadow) */}
+            <div className="space-y-2 pb-1 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] -mx-4 px-4">
+              <div className="inline-flex flex-col items-start">
+                <span className="text-xs font-bold text-slate-800 tracking-tight">
+                  Brands
+                </span>
+                <div className="h-[2px] bg-[#139485] w-full rounded-full mt-0.5" />
+              </div>
+
+              {/* Top Brands Moving Marquee (Animated to the Left) */}
+              <div className="-mx-4 overflow-hidden pt-1 pb-3 relative select-none">
+                {/* Soft Gradient Fade on Left & Right Edges */}
+                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+
+                {/* Ticker Track */}
+                <div className="animate-marquee-left flex items-center gap-2">
+                  {/* 1st copy */}
+                  {topBrandList.map((brand, idx) => (
+                    <button
+                      key={`brand-1-${idx}`}
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery(brand.query);
+                        setActiveScreen("MEDICINES");
+                      }}
+                      className="inline-flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full bg-white hover:bg-teal-50/70 border border-slate-200/80 hover:border-[#139485] shadow-[0_3px_6px_rgba(0,0,0,0.07)] text-[11.5px] font-bold text-slate-800 hover:text-[#139485] transition-all active:scale-95 shrink-0 cursor-pointer"
+                      title={`Browse ${brand.name}`}
+                    >
+                      <div className="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-slate-100 shadow-2xs">
+                        <BrandLogo name={brand.name} className="w-full h-full" />
+                      </div>
+                      <span>{brand.name}</span>
+                    </button>
+                  ))}
+                  {/* 2nd copy (for seamless infinite loop) */}
+                  {topBrandList.map((brand, idx) => (
+                    <button
+                      key={`brand-2-${idx}`}
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery(brand.query);
+                        setActiveScreen("MEDICINES");
+                      }}
+                      className="inline-flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full bg-white hover:bg-teal-50/70 border border-slate-200/80 hover:border-[#139485] shadow-[0_3px_6px_rgba(0,0,0,0.07)] text-[11.5px] font-bold text-slate-800 hover:text-[#139485] transition-all active:scale-95 shrink-0 cursor-pointer"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    >
+                      <div className="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-slate-100 shadow-2xs">
+                        <BrandLogo name={brand.name} className="w-full h-full" />
+                      </div>
+                      <span>{brand.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* All Platform Services (4 columns per row) */}
+            <div className="pt-2.5 sm:pt-3.5">
+              <div className="grid grid-cols-4 gap-y-3 gap-x-1.5 py-0.5">
                 {[
-                  { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard, bg: "bg-teal-50/90 text-[#00ac92] group-hover:bg-blue-100" },
-                  { screen: "MEDICINES", label: "Medicines", icon: Search, bg: "bg-emerald-50/90 text-[#059669] group-hover:bg-emerald-100" },
-                  { screen: "MEDICINES", label: "+Borrow", icon: Plus, bg: "bg-cyan-50/90 text-cyan-600 group-hover:bg-cyan-100" },
-                  { screen: "MAP", label: "Depots", icon: MapPin, bg: "bg-purple-50/90 text-purple-600 group-hover:bg-purple-100" },
-                  { screen: "ORDERS", label: "Van GPS", icon: Truck, bg: "bg-indigo-50/90 text-indigo-600 group-hover:bg-indigo-100" },
-                  { screen: "INVENTORY", label: "FEFO Stock", icon: Boxes, bg: "bg-amber-50/90 text-amber-600 group-hover:bg-amber-100" },
-                  { screen: "MEDICINES", label: "AI Scanner", icon: Camera, bg: "bg-rose-50/90 text-rose-600 group-hover:bg-rose-100" },
-                  { screen: "ORDERS", label: "Pay Dues", icon: CreditCard, bg: "bg-emerald-50/90 text-emerald-600 group-hover:bg-emerald-100" },
-                  { screen: "PROFILE", label: "DGDA Audit", icon: ShieldCheck, bg: "bg-teal-50/90 text-teal-600 group-hover:bg-teal-100" },
-                  { screen: "REGISTRATION", label: "Role Portal", icon: UserCheck, bg: "bg-violet-50/90 text-violet-600 group-hover:bg-violet-100" },
-                  { screen: "NOTIFICATIONS", label: "Alerts", icon: Bell, bg: "bg-rose-50/90 text-rose-500 group-hover:bg-rose-100" },
-                  { screen: "PROFILE", label: "Hotline", icon: Phone, bg: "bg-slate-100 text-slate-700 group-hover:bg-slate-200" },
+                  {
+                    screen: "DASHBOARD",
+                    label: "Dashboard",
+                    icon: LayoutDashboard,
+                    bg: "bg-teal-50/90 text-[#139485] group-hover:bg-teal-100",
+                    onClick: () => setActiveScreen("DASHBOARD"),
+                  },
+                  {
+                    screen: "MEDICINES",
+                    label: "Place Order",
+                    icon: ShoppingCart,
+                    bg: "bg-blue-50/90 text-blue-600 group-hover:bg-blue-100",
+                    onClick: () => {
+                      setSelectedCategory("ALL");
+                      setActiveScreen("MEDICINES");
+                    },
+                  },
+                  {
+                    screen: "MEDICINES",
+                    label: "Offers",
+                    icon: OfferTagIcon,
+                    bg: "bg-[#fef1f1] group-hover:bg-rose-100",
+                    onClick: () => {
+                      setSearchQuery("FREE");
+                      setActiveScreen("MEDICINES");
+                    },
+                  },
+                  {
+                    screen: "INVENTORY",
+                    label: "Stock Status",
+                    icon: StockStatusIcon,
+                    bg: "bg-[#e5fafb] group-hover:bg-cyan-100",
+                    onClick: () => setActiveScreen("INVENTORY"),
+                  },
+                  {
+                    screen: "ORDERS",
+                    label: "Order Status",
+                    icon: OrderStatusIcon,
+                    bg: "bg-[#f3f1f6] group-hover:bg-purple-100",
+                    onClick: () => setActiveScreen("ORDERS"),
+                  },
+                  {
+                    screen: "MEDICINES",
+                    label: "Price List",
+                    icon: FileText,
+                    bg: "bg-violet-50/90 text-violet-600 group-hover:bg-violet-100",
+                    onClick: () => {
+                      setSearchQuery("");
+                      setActiveScreen("MEDICINES");
+                    },
+                  },
+                  {
+                    screen: "PROFILE",
+                    label: "Credit Limit",
+                    icon: CreditLimitIcon,
+                    bg: "bg-[#fef7e7] group-hover:bg-amber-100",
+                    onClick: () => setActiveScreen("PROFILE"),
+                  },
+                  {
+                    screen: "ORDERS",
+                    label: "Invoices",
+                    icon: InvoiceIcon,
+                    bg: "bg-[#e8fbff] group-hover:bg-sky-100",
+                    onClick: () => setActiveScreen("ORDERS"),
+                  },
+                  {
+                    screen: "ORDERS",
+                    label: "Returns",
+                    icon: ReturnsIcon,
+                    bg: "bg-[#eafcec] group-hover:bg-emerald-100",
+                    onClick: () => setActiveScreen("ORDERS"),
+                  },
                 ].map((item, idx) => {
                   const Icon = item.icon;
                   return (
                     <button
                       key={idx}
-                      onClick={() => setActiveScreen(item.screen as MobileScreen)}
-                      className="flex flex-col items-center gap-1.5 transition-all active:scale-90 group text-center"
+                      onClick={item.onClick}
+                      className="flex flex-col items-center gap-1 transition-all active:scale-90 group text-center"
                     >
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors shadow-2xs ${item.bg}`}>
-                        <Icon className="w-5 h-5 stroke-[2.2]" />
+                      <div className={`w-[52px] h-[52px] rounded-2xl flex items-center justify-center transition-colors shadow-2xs ${item.bg}`}>
+                        <Icon className="w-6 h-6 stroke-[2.2]" />
                       </div>
-                      <span className="text-[11px] font-bold text-slate-700 group-hover:text-slate-900 transition-colors">
+                      <span className="text-[11px] font-bold text-slate-800 group-hover:text-slate-950 transition-colors leading-tight text-center px-0.5">
                         {item.label}
                       </span>
                     </button>
                   );
                 })}
               </div>
-            </div>
-
-            {/* Quick 1-Tap Reorder (জনপ্রিয় দ্রুত রি-অর্ডার) */}
-            <div className="space-y-2 pt-1">
-              <div className="flex items-center justify-between px-1">
-                <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
-                  Quick 1-Tap Reorder (দ্রুত রি-অর্ডার)
-                </span>
-                <button
-                  onClick={() => setActiveScreen("MEDICINES")}
-                  className="text-[11px] font-bold text-[#00ac92] hover:underline"
-                >
-                  View All
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { id: "med-1", name: "Napa Extra", strength: "500mg+65mg", price: 500, comp: "Beximco" },
-                  { id: "med-2", name: "Seclo", strength: "20mg Capsule", price: 600, comp: "Square" },
-                  { id: "med-3", name: "Sergel", strength: "20mg Tablet", price: 700, comp: "Healthcare" },
-                  { id: "med-4", name: "Ceevit", strength: "250mg Chewable", price: 420, comp: "Square" },
-                ].map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-2.5 bg-white rounded-2xl border border-slate-200 shadow-2xs flex items-center justify-between"
-                  >
-                    <div className="min-w-0 pr-1">
-                      <div className="text-xs font-black text-slate-900 truncate">{item.name}</div>
-                      <div className="text-[10px] text-slate-500 truncate">{item.comp} • {item.strength}</div>
-                      <div className="text-[11px] font-black text-slate-900 mt-0.5">৳{item.price}/box</div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => addToCart(item.id)}
-                      className="w-7 h-7 rounded-xl bg-blue-50 hover:bg-[#00ac92] text-[#00ac92] hover:text-white flex items-center justify-center font-bold shadow-2xs active:scale-90 transition-all shrink-0"
-                      title="Add to Cart"
-                    >
-                      <Plus className="w-4 h-4 stroke-[2.5]" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Live Regulatory & Express Hub Guarantee */}
-            <div className="p-3 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-between text-[11px]">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-slate-600 font-bold">Cold Chain 3.8°C Active</span>
-              </div>
-              <span className="text-[10px] font-mono font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200">
-                2-Hr Express Dispatch
-              </span>
             </div>
 
           </div>
@@ -785,7 +934,7 @@ export default function MobileAppPage() {
                 placeholder="Search Napa, Seclo, Esomeprazole, Square..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 text-xs rounded-2xl bg-white border border-slate-200/90 shadow-2xs focus:border-[#00ac92] focus:outline-none"
+                className="w-full pl-9 pr-4 py-2.5 text-xs rounded-2xl bg-white border border-slate-200/90 shadow-2xs focus:border-[#139485] focus:outline-none"
               />
             </div>
 
@@ -797,7 +946,7 @@ export default function MobileAppPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-colors ${
                     selectedCategory === cat
-                      ? "bg-[#00ac92] text-white shadow-2xs"
+                      ? "bg-[#139485] text-white shadow-2xs"
                       : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
                   }`}
                 >
@@ -822,7 +971,7 @@ export default function MobileAppPage() {
                           <span className="text-[10px] text-slate-500 font-semibold">({med.form})</span>
                         </div>
                         <div className="text-[11px] text-slate-500 leading-tight">{med.generic}</div>
-                        <div className="text-[10px] text-[#00ac92] font-bold mt-0.5">{med.company}</div>
+                        <div className="text-[10px] text-[#139485] font-bold mt-0.5">{med.company}</div>
                       </div>
 
                       {med.tradeOffer && (
@@ -852,7 +1001,7 @@ export default function MobileAppPage() {
                           </span>
                           <button
                             onClick={() => addToCart(med.id)}
-                            className="w-5 h-5 rounded-md bg-[#00ac92] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
+                            className="w-5 h-5 rounded-md bg-[#139485] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
                           >
                             +
                           </button>
@@ -860,7 +1009,7 @@ export default function MobileAppPage() {
                       ) : (
                         <button
                           onClick={() => addToCart(med.id)}
-                          className="px-3 py-1 rounded-xl bg-[#00ac92] hover:bg-[#00927c] text-white text-[11px] font-black flex items-center gap-1 shadow-xs transition-colors active:scale-95"
+                          className="px-3 py-1 rounded-xl bg-[#139485] hover:bg-[#00927c] text-white text-[11px] font-black flex items-center gap-1 shadow-xs transition-colors active:scale-95"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add</span>
@@ -885,7 +1034,7 @@ export default function MobileAppPage() {
                 </div>
                 <button
                   onClick={() => setActiveScreen("ORDERS")}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 transition-transform"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#139485] to-[#059669] text-white text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 transition-transform"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   <span>Checkout (10+1)</span>
@@ -909,7 +1058,7 @@ export default function MobileAppPage() {
 
             {/* Mobile Interactive Map Graphics Container */}
             <div className="relative h-48 w-full rounded-3xl bg-slate-200 overflow-hidden border border-slate-300 shadow-inner">
-              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#00ac92_1px,transparent_1px)] [background-size:16px_16px]" />
+              <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#139485_1px,transparent_1px)] [background-size:16px_16px]" />
               
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 200">
                 <path d="M10,40 Q150,80 290,40" stroke="#94A3B8" strokeWidth="6" fill="none" />
@@ -917,7 +1066,7 @@ export default function MobileAppPage() {
                 <path d="M40,180 Q150,120 280,180" stroke="#CBD5E1" strokeWidth="4" fill="none" />
                 <path
                   d="M60,60 Q150,80 220,130"
-                  stroke="#00ac92"
+                  stroke="#139485"
                   strokeWidth="4"
                   strokeDasharray="6,4"
                   fill="none"
@@ -926,7 +1075,7 @@ export default function MobileAppPage() {
 
               {/* User Pharmacy Pin */}
               <div className="absolute top-[40px] left-[50px] -translate-x-1/2 -translate-y-1/2 text-center">
-                <div className="w-7 h-7 rounded-full bg-[#00ac92] text-white flex items-center justify-center shadow-lg ring-4 ring-blue-200/80 animate-pulse">
+                <div className="w-7 h-7 rounded-full bg-[#139485] text-white flex items-center justify-center shadow-lg ring-4 ring-blue-200/80 animate-pulse">
                   <Store className="w-4 h-4" />
                 </div>
                 <span className="text-[9px] font-black bg-white px-1.5 py-0.5 rounded shadow-xs mt-1 block">
@@ -973,7 +1122,7 @@ export default function MobileAppPage() {
                     <span>📍 {depot.distance}</span>
                     <span>📦 {depot.stockCoverage}% Stock Match</span>
                     {depot.coldChain && (
-                      <span className="flex items-center gap-1 text-[#00ac92] font-bold">
+                      <span className="flex items-center gap-1 text-[#139485] font-bold">
                         <ThermometerSnowflake className="w-3.5 h-3.5" /> Cold-Chain
                       </span>
                     )}
@@ -991,7 +1140,7 @@ export default function MobileAppPage() {
                     <button
                       type="button"
                       onClick={() => setActiveScreen("MEDICINES")}
-                      className="flex-1 py-1.5 rounded-xl bg-[#00ac92] text-white font-black text-xs flex items-center justify-center gap-1 shadow-xs active:scale-95"
+                      className="flex-1 py-1.5 rounded-xl bg-[#139485] text-white font-black text-xs flex items-center justify-center gap-1 shadow-xs active:scale-95"
                     >
                       <Package className="w-3.5 h-3.5" />
                       <span>Order Directly</span>
@@ -1028,7 +1177,7 @@ export default function MobileAppPage() {
                     </span>
                     <div className="text-sm font-black text-slate-900">{order.id}</div>
                   </div>
-                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full border bg-teal-50 text-[#00ac92] border-teal-200 animate-pulse">
+                  <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full border bg-teal-50 text-[#139485] border-teal-200 animate-pulse">
                     In Transit
                   </span>
                 </div>
@@ -1096,14 +1245,14 @@ export default function MobileAppPage() {
                   <h2 className="text-xs font-black text-slate-900 uppercase">Pay Wholesale Dues</h2>
                   <p className="text-[11px] text-slate-500">Instant bKash, Nagad or Bank settlement</p>
                 </div>
-                <CreditCard className="w-5 h-5 text-[#00ac92]" />
+                <CreditCard className="w-5 h-5 text-[#139485]" />
               </div>
 
               <div className="grid grid-cols-4 gap-2">
                 {[
                   { mode: "BKASH", label: "bKash", color: "bg-[#D12053] text-white" },
                   { mode: "NAGAD", label: "Nagad", color: "bg-[#F7941D] text-white" },
-                  { mode: "BANK", label: "Bank", color: "bg-[#00ac92] text-white" },
+                  { mode: "BANK", label: "Bank", color: "bg-[#139485] text-white" },
                   { mode: "CASH", label: "Cash", color: "bg-emerald-600 text-white" },
                 ].map((p) => (
                   <button
@@ -1123,7 +1272,7 @@ export default function MobileAppPage() {
               <button
                 type="button"
                 onClick={() => alert(`Paid ৳9,850 via ${paymentMethod} to Tejgaon Depot!`)}
-                className="w-full py-2.5 rounded-xl bg-[#00ac92] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
+                className="w-full py-2.5 rounded-xl bg-[#139485] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
               >
                 Pay ৳9,850 Due via {paymentMethod}
               </button>
@@ -1165,10 +1314,10 @@ export default function MobileAppPage() {
                   </div>
 
                   <div className="flex items-center justify-between pt-1 text-[11px]">
-                    <span className="text-[#00ac92] font-bold">FEFO Priority Rank #{item.fefoRank}</span>
+                    <span className="text-[#139485] font-bold">FEFO Priority Rank #{item.fefoRank}</span>
                     <button
                       onClick={() => setActiveScreen("MEDICINES")}
-                      className="text-xs font-bold text-[#00ac92] hover:underline"
+                      className="text-xs font-bold text-[#139485] hover:underline"
                     >
                       Reorder SKU
                     </button>
@@ -1191,7 +1340,7 @@ export default function MobileAppPage() {
                 <h1 className="text-base font-black text-slate-900">Alerts & Notifications</h1>
                 <p className="text-xs text-slate-500">Regulatory, dispatch and scheme updates</p>
               </div>
-              <span className="text-[10px] font-bold text-[#00ac92] bg-blue-50 px-2 py-0.5 rounded-full border border-teal-200">
+              <span className="text-[10px] font-bold text-[#139485] bg-blue-50 px-2 py-0.5 rounded-full border border-teal-200">
                 2 Unread
               </span>
             </div>
@@ -1242,7 +1391,7 @@ export default function MobileAppPage() {
                   {regStep === 4 && "Track your pending review status"}
                 </p>
               </div>
-              <span className="text-xs font-black text-[#00ac92] bg-blue-50 px-2 py-1 rounded-full border border-teal-200">
+              <span className="text-xs font-black text-[#139485] bg-blue-50 px-2 py-1 rounded-full border border-teal-200">
                 Step {regStep} of 4
               </span>
             </div>
@@ -1295,7 +1444,7 @@ export default function MobileAppPage() {
                       onClick={() => setRegRole(item.role)}
                       className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 ${
                         isSelected
-                          ? "bg-white border-[#00ac92] ring-2 ring-teal-100 shadow-md"
+                          ? "bg-white border-[#139485] ring-2 ring-teal-100 shadow-md"
                           : "bg-white border-slate-200 hover:border-slate-300"
                       }`}
                     >
@@ -1305,7 +1454,7 @@ export default function MobileAppPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <span className="font-black text-xs text-slate-900">{item.title}</span>
-                          {isSelected && <CheckCircle2 className="w-4 h-4 text-[#00ac92]" />}
+                          {isSelected && <CheckCircle2 className="w-4 h-4 text-[#139485]" />}
                         </div>
                         <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
                           {item.desc}
@@ -1317,7 +1466,7 @@ export default function MobileAppPage() {
 
                 <button
                   onClick={() => setRegStep(2)}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white font-black text-xs shadow-md shadow-teal-500/20 active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#139485] to-[#059669] text-white font-black text-xs shadow-md shadow-teal-500/20 active:scale-98 transition-transform"
                 >
                   Proceed to Role Form
                 </button>
@@ -1328,7 +1477,7 @@ export default function MobileAppPage() {
             {regStep === 2 && (
               <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-3">
                 <div className="flex items-center gap-2 p-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700">
-                  <Building2 className="w-4 h-4 text-[#00ac92]" />
+                  <Building2 className="w-4 h-4 text-[#139485]" />
                   <span>Applying as: <strong>{regRole}</strong></span>
                 </div>
 
@@ -1339,7 +1488,7 @@ export default function MobileAppPage() {
                     placeholder="Mahfuzul Islam"
                     value={regFormData.fullName}
                     onChange={(e) => setRegFormData({ ...regFormData, fullName: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#139485] focus:outline-none"
                   />
                 </div>
 
@@ -1350,7 +1499,7 @@ export default function MobileAppPage() {
                     placeholder="01711-223344"
                     value={regFormData.phone}
                     onChange={(e) => setRegFormData({ ...regFormData, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#139485] focus:outline-none"
                   />
                 </div>
 
@@ -1363,7 +1512,7 @@ export default function MobileAppPage() {
                         placeholder="Popular Model Pharmacy"
                         value={regFormData.shopName}
                         onChange={(e) => setRegFormData({ ...regFormData, shopName: e.target.value })}
-                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                        className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#139485] focus:outline-none"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-2">
@@ -1374,7 +1523,7 @@ export default function MobileAppPage() {
                           placeholder="NID Number"
                           value={regFormData.nidNumber}
                           onChange={(e) => setRegFormData({ ...regFormData, nidNumber: e.target.value })}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#139485] focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1">
@@ -1384,7 +1533,7 @@ export default function MobileAppPage() {
                           placeholder="TRAD-XXXX"
                           value={regFormData.tradeLicense}
                           onChange={(e) => setRegFormData({ ...regFormData, tradeLicense: e.target.value })}
-                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                          className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 focus:border-[#139485] focus:outline-none"
                         />
                       </div>
                     </div>
@@ -1400,7 +1549,7 @@ export default function MobileAppPage() {
                       <button
                         type="button"
                         onClick={() => setRegFormData({ ...regFormData, hasCameraPhoto: true })}
-                        className="w-full py-2.5 rounded-xl border-2 border-dashed border-teal-300 bg-white hover:bg-teal-50 text-[#00ac92] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                        className="w-full py-2.5 rounded-xl border-2 border-dashed border-teal-300 bg-white hover:bg-teal-50 text-[#139485] text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
                       >
                         <Camera className="w-4 h-4" />
                         <span>{regFormData.hasCameraPhoto ? "Retake Photo" : "Take Live Photo with Camera"}</span>
@@ -1420,7 +1569,7 @@ export default function MobileAppPage() {
                   <button
                     type="button"
                     onClick={() => setRegStep(3)}
-                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
+                    className="w-2/3 py-2.5 rounded-xl bg-gradient-to-r from-[#139485] to-[#059669] text-white text-xs font-black shadow-md active:scale-98 transition-transform"
                   >
                     Verify with OTP
                   </button>
@@ -1431,7 +1580,7 @@ export default function MobileAppPage() {
             {/* Step 3: OTP */}
             {regStep === 3 && (
               <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs space-y-4 text-center">
-                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#00ac92] flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-[#139485] flex items-center justify-center mx-auto">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
@@ -1459,7 +1608,7 @@ export default function MobileAppPage() {
                           if (next) next.focus();
                         }
                       }}
-                      className="w-10 h-12 text-center text-lg font-black rounded-xl border-2 border-slate-200 focus:border-[#00ac92] focus:outline-none"
+                      className="w-10 h-12 text-center text-lg font-black rounded-xl border-2 border-slate-200 focus:border-[#139485] focus:outline-none"
                     />
                   ))}
                 </div>
@@ -1467,7 +1616,7 @@ export default function MobileAppPage() {
                 <button
                   type="button"
                   onClick={() => setOtpCode(["2", "5", "9", "9", "5", "3"])}
-                  className="text-[11px] font-bold text-[#00ac92] hover:underline block mx-auto"
+                  className="text-[11px] font-bold text-[#139485] hover:underline block mx-auto"
                 >
                   Auto-fill Demo Code (259953)
                 </button>
@@ -1475,7 +1624,7 @@ export default function MobileAppPage() {
                 <button
                   type="button"
                   onClick={handleCompleteRegistration}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#00ac92] to-[#059669] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#139485] to-[#059669] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
                 >
                   Confirm & Submit Registration
                 </button>
@@ -1508,7 +1657,7 @@ export default function MobileAppPage() {
 
                 <button
                   onClick={() => setActiveScreen("DASHBOARD")}
-                  className="w-full py-3 rounded-2xl bg-[#00ac92] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
+                  className="w-full py-3 rounded-2xl bg-[#139485] text-white font-black text-xs shadow-md active:scale-98 transition-transform"
                 >
                   Enter Mobile Dashboard as {regRole}
                 </button>
@@ -1526,7 +1675,7 @@ export default function MobileAppPage() {
             
             {/* Profile Header */}
             <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#00ac92] to-[#059669] text-white flex items-center justify-center font-black text-lg shadow-md">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#139485] to-[#059669] text-white flex items-center justify-center font-black text-lg shadow-md">
                 MI
               </div>
               <div className="flex-1 min-w-0">
@@ -1537,7 +1686,7 @@ export default function MobileAppPage() {
                   </span>
                 </div>
                 <div className="text-xs text-slate-500">{userProfile.pharmacyName}</div>
-                <div className="text-[11px] text-[#00ac92] font-bold">{userProfile.phone}</div>
+                <div className="text-[11px] text-[#139485] font-bold">{userProfile.phone}</div>
               </div>
             </div>
 
@@ -1579,7 +1728,7 @@ export default function MobileAppPage() {
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50">
                   <span>MedGo 24/7 B2B Dispatch Helpline</span>
-                  <span className="font-black text-[#00ac92]">16263</span>
+                  <span className="font-black text-[#139485]">16263</span>
                 </div>
                 <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50">
                   <span>DGDA Central Regulatory Cell</span>
@@ -1606,7 +1755,7 @@ export default function MobileAppPage() {
           <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 pt-2 pb-1.5 flex flex-col shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
             <div className="flex items-center justify-around w-full">
               {[
-                { tab: "DASHBOARD", label: "Home", icon: Store },
+                { tab: "DASHBOARD", label: "Home", icon: Home },
                 { tab: "MEDICINES", label: "Medicines", icon: Search, badge: totalCartCount > 0 ? totalCartCount : undefined },
                 { tab: "MAP", label: "Depots", icon: MapPin },
                 { tab: "ORDERS", label: "Orders", icon: Truck },
@@ -1627,8 +1776,8 @@ export default function MobileAppPage() {
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg border-[3.5px] border-white transition-all ${
                             isCurrent
-                              ? "bg-[#00ac92] shadow-[#00ac92]/45 ring-2 ring-[#00ac92]/30 scale-105"
-                              : "bg-[#00ac92] hover:bg-[#00927c] shadow-[#00ac92]/35"
+                              ? "bg-[#139485] shadow-[#139485]/45 ring-2 ring-[#139485]/30 scale-105"
+                              : "bg-[#139485] hover:bg-[#00927c] shadow-[#139485]/35"
                           }`}
                         >
                           <Icon className="w-5 h-5 stroke-[2.4]" />
@@ -1637,7 +1786,7 @@ export default function MobileAppPage() {
                       <span
                         className={`text-[10px] tracking-tight transition-colors ${
                           isCurrent
-                            ? "text-[#00ac92] font-black"
+                            ? "text-[#139485] font-black"
                             : "text-slate-600 font-bold group-hover:text-slate-900"
                         }`}
                       >
@@ -1655,16 +1804,13 @@ export default function MobileAppPage() {
                       onClick={() => setIsDrawerOpen(true)}
                       className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
                         isCurrent
-                          ? "text-[#00ac92] font-extrabold"
+                          ? "text-[#139485] font-extrabold"
                           : "text-slate-500 hover:text-slate-900"
                       }`}
                       title="Open Menu & Profile"
                     >
                       <div className="relative">
                         <Menu className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
-                        {isCurrent && (
-                          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#00ac92]" />
-                        )}
                       </div>
                       <span className="text-[10px] tracking-tight">{item.label}</span>
                     </button>
@@ -1678,19 +1824,16 @@ export default function MobileAppPage() {
                     onClick={() => setActiveScreen(item.tab as MobileScreen)}
                     className={`flex flex-col items-center gap-0.5 py-0.5 px-2.5 rounded-xl transition-all relative ${
                       isCurrent
-                        ? "text-[#00ac92] font-extrabold"
+                        ? "text-[#139485] font-extrabold"
                         : "text-slate-500 hover:text-slate-900"
                     }`}
                   >
                     <div className="relative">
-                      <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.4]" : "stroke-[1.8]"}`} />
+                      <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.2] fill-[#139485]/15" : "stroke-[1.8]"}`} />
                       {item.badge !== undefined && (
-                        <span className="absolute -top-1.5 -right-2 px-1 rounded-full bg-[#059669] text-white text-[8px] font-black">
+                        <span className="absolute -top-1.5 -right-2 px-1 rounded-full bg-[#139485] text-white text-[8px] font-black">
                           {item.badge}
                         </span>
-                      )}
-                      {isCurrent && (
-                        <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#059669]" />
                       )}
                     </div>
                     <span className="text-[10px] tracking-tight">{item.label}</span>
