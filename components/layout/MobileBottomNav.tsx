@@ -108,9 +108,6 @@ export const MobileBottomNav: React.FC = () => {
                     {item.badge}
                   </span>
                 )}
-                {item.isActive && !item.badge && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#059669]" />
-                )}
               </div>
               <span className="text-[10px] tracking-tight">{item.label}</span>
             </Link>

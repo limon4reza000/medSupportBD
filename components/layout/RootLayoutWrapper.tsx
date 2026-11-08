@@ -24,7 +24,7 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
   if (isDedicatedMobileRoute) {
     return (
       <AppProvider>
-        <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#00ac92] selection:text-white">
+        <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#139485] selection:text-white">
           {children}
         </div>
       </AppProvider>
@@ -104,8 +104,8 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
                       alt="MedGo"
                       className="h-7 max-h-7 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs shrink-0"
                     />
-                    <span className="text-lg font-normal tracking-tight text-white group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
-                      Med<span className="text-[#00ac92]">Go</span>
+                    <span className="text-lg font-normal tracking-tight text-white group-hover:text-[#139485] transition-colors whitespace-nowrap">
+                      Med<span className="text-[#139485]">Go</span>
                     </span>
                   </Link>
                   <p className="text-xs text-slate-300 leading-relaxed font-medium">

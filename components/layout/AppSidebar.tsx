@@ -174,8 +174,8 @@ export const AppSidebar: React.FC = () => {
             alt="MedGo"
             className="h-8 sm:h-9 max-h-8 sm:max-h-9 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs shrink-0"
           />
-          <span className="text-xl font-normal tracking-tight text-slate-900 group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
-            Med<span className="text-[#00ac92]">Go</span>
+          <span className="text-xl font-normal tracking-tight text-slate-900 group-hover:text-[#139485] transition-colors whitespace-nowrap">
+            Med<span className="text-[#139485]">Go</span>
           </span>
         </Link>
       </div>

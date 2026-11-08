@@ -229,8 +229,8 @@ export const HamburgerDrawer: React.FC = () => {
                 alt="MedGo"
                 className="h-7 sm:h-8 max-h-7 sm:max-h-8 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs shrink-0"
               />
-              <span className="text-lg sm:text-xl font-normal tracking-tight text-slate-900 group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
-                Med<span className="text-[#00ac92]">Go</span>
+              <span className="text-lg sm:text-xl font-normal tracking-tight text-slate-900 group-hover:text-[#139485] transition-colors whitespace-nowrap">
+                Med<span className="text-[#139485]">Go</span>
               </span>
             </Link>
             <button

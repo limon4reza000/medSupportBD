@@ -138,8 +138,8 @@ export const TopHeaderBar: React.FC = () => {
                 alt="MedGo"
                 className="h-7 sm:h-8 max-h-7 sm:max-h-8 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
               />
-              <span className="text-base sm:text-lg font-normal tracking-tight text-slate-900 group-hover:text-[#00ac92] transition-colors whitespace-nowrap">
-                Med<span className="text-[#00ac92]">Go</span>
+              <span className="text-base sm:text-lg font-normal tracking-tight text-slate-900 group-hover:text-[#139485] transition-colors whitespace-nowrap">
+                Med<span className="text-[#139485]">Go</span>
               </span>
             </Link>
           </div>

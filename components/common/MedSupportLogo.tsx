@@ -24,7 +24,7 @@ export const MedSupportLogo: React.FC<{
         className={`object-contain max-h-full max-w-full shrink-0 ${className}`}
       />
       <span className="text-lg font-normal tracking-tight text-inherit whitespace-nowrap">
-        Med<span className="text-[#00ac92]">Go</span>
+        Med<span className="text-[#139485]">Go</span>
       </span>
     </div>
   );
