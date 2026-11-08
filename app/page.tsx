@@ -1771,7 +1771,7 @@ export default function MobileAppPage() {
           {/* =================================================================== */}
           {/* 3. NATIVE MOBILE APP BOTTOM NAVIGATION BAR                          */}
           {/* =================================================================== */}
-          <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white sm:rounded-b-[40px] border-t border-slate-200/90 px-3 pt-2 pb-1.5 flex flex-col overflow-hidden">
+          <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white sm:rounded-b-[40px] border-t border-slate-200/90 px-3 pt-2 pb-1.5 flex flex-col">
             <div className="flex items-center justify-around w-full">
               {[
                 { tab: "DASHBOARD", label: "Home", icon: Home },
@@ -1791,7 +1791,7 @@ export default function MobileAppPage() {
                       onClick={() => setActiveScreen("MAP")}
                       className="flex flex-col items-center relative px-2 active:scale-95 transition-all group"
                     >
-                      <div className="relative -mt-6 mb-0.5">
+                      <div className="relative -mt-7.5 sm:-mt-8 mb-1">
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg border-[3.5px] border-white transition-all ${
                             isCurrent
