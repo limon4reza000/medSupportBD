@@ -2043,7 +2043,7 @@ export default function MobileAppPage() {
                       className="flex flex-col items-center relative px-2 active:scale-95 transition-all group"
                       title="Emergency Stock Borrow (+Borrow)"
                     >
-                      <div className="relative -mt-7.5 sm:-mt-8 mb-1">
+                      <div className="relative -mt-[38px] mb-1">
                         <div
                           className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg border-[3.5px] border-white transition-all ${
                             isCurrent
