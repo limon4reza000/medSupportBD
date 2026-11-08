@@ -148,3 +148,27 @@ body,
 .drawer-container.is-open .drawer-panel {
   transform: translate3d(0, 0, 0);
 }
+
+/* ========================================================================= */
+/* Seamless Infinite Left Marquee Animation                                   */
+/* ========================================================================= */
+@keyframes marquee-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 45s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-left:active {
+  animation-play-state: paused;
+}
