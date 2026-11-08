@@ -499,7 +499,10 @@ export default function MobileAppPage() {
         <div className="hidden sm:block absolute -right-[7px] top-[180px] w-[3px] h-16 bg-slate-600 rounded-r" />
 
         {/* Mobile Device Screen Viewport */}
-        <div className="w-full h-full sm:rounded-[42px] overflow-hidden flex flex-col relative bg-slate-50">
+        <div
+          className="w-full h-full sm:rounded-[42px] overflow-hidden flex flex-col relative bg-slate-50"
+          style={{ transform: "translateZ(0)" }}
+        >
           
           {/* Slide-in Mobile Drawer (Triggered by Hamburger Menu) */}
           {isDrawerOpen && (
@@ -1768,7 +1771,7 @@ export default function MobileAppPage() {
           {/* =================================================================== */}
           {/* 3. NATIVE MOBILE APP BOTTOM NAVIGATION BAR                          */}
           {/* =================================================================== */}
-          <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 pt-2 pb-1.5 flex flex-col shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+          <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white sm:rounded-b-[40px] border-t border-slate-200/90 px-3 pt-2 pb-1.5 flex flex-col overflow-hidden">
             <div className="flex items-center justify-around w-full">
               {[
                 { tab: "DASHBOARD", label: "Home", icon: Home },
