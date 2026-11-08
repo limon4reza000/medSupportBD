@@ -130,6 +130,39 @@ const ReturnsIcon: React.FC<{ className?: string }> = () => (
   />
 );
 
+const HomeNavIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M18 4.5v3.5" />
+    <path d="M3 10.2 12 3.2l9 7h-2.2v8.8a2 2 0 0 1-2 2H7.2a2 2 0 0 1-2-2v-8.8H3Z" />
+    <path d="M9.7 21v-4.2a2.3 2.3 0 0 1 4.6 0v4.2" />
+  </svg>
+);
+
+const OrdersNavIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M8.5 9.5V6a3.5 3.5 0 0 1 7 0v3.5" />
+    <path d="M5.5 9 4 18.5a2.5 2.5 0 0 0 2.5 2.5h11a2.5 2.5 0 0 0 2.5-2.5L18.5 9c-1.4 1-3.6 1.2-6.5.2-2.9 1-5.1.8-6.5-.2Z" />
+  </svg>
+);
+
 export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
@@ -1992,10 +2025,10 @@ export default function MobileAppPage() {
           <nav className="absolute bottom-0 left-0 right-0 z-40 bg-white sm:rounded-b-[40px] border-t border-slate-200/90 px-3 pt-2 pb-1.5 flex flex-col">
             <div className="flex items-center justify-around w-full">
               {[
-                { tab: "DASHBOARD", label: "Home", icon: Home },
+                { tab: "DASHBOARD", label: "Home", icon: HomeNavIcon },
                 { tab: "MEDICINES", label: "Explore", icon: Compass, badge: totalCartCount > 0 ? totalCartCount : undefined },
                 { tab: "BORROW", label: "Borrow", icon: Plus },
-                { tab: "ORDERS", label: "Orders", icon: Truck },
+                { tab: "ORDERS", label: "Orders", icon: OrdersNavIcon },
                 { tab: "PROFILE", label: "Profile", icon: User },
               ].map((item) => {
                 const Icon = item.icon;
@@ -2046,7 +2079,7 @@ export default function MobileAppPage() {
                     }`}
                   >
                     <div className="relative">
-                      <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.2] fill-[#139485]/15" : "stroke-[1.8]"}`} />
+                      <Icon className={`w-5 h-5 ${isCurrent ? "stroke-[2.2]" : "stroke-[1.8]"}`} />
                       {item.badge !== undefined && (
                         <span className="absolute -top-1.5 -right-2 px-1 rounded-full bg-[#139485] text-white text-[8px] font-black">
                           {item.badge}
