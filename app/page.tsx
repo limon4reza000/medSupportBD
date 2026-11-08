@@ -675,10 +675,10 @@ export default function MobileAppPage() {
             
             {/* Marketplace Search & Hub Location Card (Matching User Reference) */}
             <div
-              className="-mx-4 -mt-4 px-4 pt-3.5 pb-6 bg-gradient-to-b from-[#bfece2] via-[#c6eee5] to-[#cbf1e8] space-y-2.5"
+              className="-mx-4 -mt-4 px-4 pt-3.5 pb-5 bg-gradient-to-b from-[#bfece2] via-[#c6eee5] to-[#cbf1e8] space-y-2.5"
               style={{
-                borderBottomLeftRadius: "50% 28px",
-                borderBottomRightRadius: "50% 28px",
+                borderBottomLeftRadius: "50% 24px",
+                borderBottomRightRadius: "50% 24px",
               }}
             >
               {/* Header Title */}
@@ -766,7 +766,7 @@ export default function MobileAppPage() {
             </div>
 
             {/* Brands Section (Heading + Underline + View All + Animated Ticker) */}
-            <div className="space-y-2 -mx-4 px-4 -mt-2 sm:-mt-2.5">
+            <div className="space-y-2 -mx-4 px-4 -mt-4.5 sm:-mt-5">
               <div className="flex items-center justify-between">
                 <div className="inline-flex flex-col items-start">
                   <span className="text-xs font-bold text-slate-800 tracking-tight">
