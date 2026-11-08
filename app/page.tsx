@@ -132,6 +132,8 @@ export default function MobileAppPage() {
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isAllBrandsModalOpen, setIsAllBrandsModalOpen] = useState(false);
+  const [brandSearchModalQuery, setBrandSearchModalQuery] = useState("");
   const [selectedHub, setSelectedHub] = useState("All Hubs & Depots");
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
 
@@ -291,28 +293,28 @@ export default function MobileAppPage() {
     },
   ];
 
-  // Top Pharmaceutical Company Brands for Home Marquee (Only Brands & Logos, No Medicines)
+  // Top Pharmaceutical Company Brands for Home Marquee & All Brands Modal
   const topBrandList = [
-    { name: "Square", query: "Square" },
-    { name: "Beximco", query: "Beximco" },
-    { name: "Incepta", query: "Incepta" },
-    { name: "Renata", query: "Renata" },
-    { name: "ACI Limited", query: "ACI" },
-    { name: "Eskayef", query: "Eskayef" },
-    { name: "The ACME", query: "ACME" },
-    { name: "Healthcare", query: "Healthcare" },
-    { name: "Popular", query: "Popular" },
-    { name: "Aristopharma", query: "Aristopharma" },
-    { name: "Opsonin", query: "Opsonin" },
-    { name: "Radiant", query: "Radiant" },
-    { name: "Beacon", query: "Beacon" },
-    { name: "Ibn Sina", query: "Ibn Sina" },
-    { name: "Drug Int.", query: "Drug International" },
-    { name: "Orion", query: "Orion" },
-    { name: "Delta", query: "Delta" },
-    { name: "General", query: "General" },
-    { name: "UniMed", query: "UniMed" },
-    { name: "Globe", query: "Globe" },
+    { name: "Square", fullName: "Square Pharmaceuticals Ltd.", query: "Square", origin: "Pabna / Dhaka", products: "450+ Products" },
+    { name: "Beximco", fullName: "Beximco Pharmaceuticals Ltd.", query: "Beximco", origin: "Tongi, Gazipur", products: "380+ Products" },
+    { name: "Incepta", fullName: "Incepta Pharmaceuticals Ltd.", query: "Incepta", origin: "Savar, Dhaka", products: "420+ Products" },
+    { name: "Renata", fullName: "Renata Limited", query: "Renata", origin: "Mirpur, Dhaka", products: "290+ Products" },
+    { name: "ACI Limited", fullName: "ACI Healthcare & Pharma", query: "ACI", origin: "Narayanganj", products: "260+ Products" },
+    { name: "Eskayef", fullName: "Eskayef Pharmaceuticals Ltd.", query: "Eskayef", origin: "Gazipur", products: "280+ Products" },
+    { name: "The ACME", fullName: "The ACME Laboratories Ltd.", query: "ACME", origin: "Dhamrai, Dhaka", products: "310+ Products" },
+    { name: "Healthcare", fullName: "Healthcare Pharmaceuticals Ltd.", query: "Healthcare", origin: "Gazipur", products: "240+ Products" },
+    { name: "Popular", fullName: "Popular Pharmaceuticals Ltd.", query: "Popular", origin: "Tongi, Gazipur", products: "220+ Products" },
+    { name: "Aristopharma", fullName: "Aristopharma Ltd.", query: "Aristopharma", origin: "Dhaka", products: "270+ Products" },
+    { name: "Opsonin", fullName: "Opsonin Pharma Ltd.", query: "Opsonin", origin: "Barishal", products: "230+ Products" },
+    { name: "Radiant", fullName: "Radiant Pharmaceuticals Ltd.", query: "Radiant", origin: "Tongi, Gazipur", products: "180+ Products" },
+    { name: "Beacon", fullName: "Beacon Pharmaceuticals PLC", query: "Beacon", origin: "Bhaluka, Mymensingh", products: "210+ Products" },
+    { name: "Ibn Sina", fullName: "The Ibn Sina Pharmaceutical Ltd.", query: "Ibn Sina", origin: "Gazipur", products: "250+ Products" },
+    { name: "Drug Int.", fullName: "Drug International Ltd.", query: "Drug International", origin: "Tongi, Gazipur", products: "190+ Products" },
+    { name: "Orion", fullName: "Orion Pharma Ltd.", query: "Orion", origin: "Tejgaon, Dhaka", products: "160+ Products" },
+    { name: "Delta", fullName: "Delta Pharma Ltd.", query: "Delta", origin: "Kishoreganj", products: "140+ Products" },
+    { name: "General", fullName: "General Pharmaceuticals Ltd.", query: "General", origin: "Gazipur", products: "150+ Products" },
+    { name: "UniMed", fullName: "UniMed UniHealth Pharmaceuticals", query: "UniMed", origin: "Gazipur", products: "130+ Products" },
+    { name: "Globe", fullName: "Globe Pharmaceuticals Ltd.", query: "Globe", origin: "Noakhali", products: "120+ Products" },
   ];
 
   // Nearby Depots Dataset
@@ -763,23 +765,37 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            {/* Brands Section (Heading + Underline + Animated Ticker + Bottom Shadow) */}
-            <div className="space-y-2 pb-1 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] -mx-4 px-4">
-              <div className="inline-flex flex-col items-start">
-                <span className="text-xs font-bold text-slate-800 tracking-tight">
-                  Brands
-                </span>
-                <div className="h-[2px] bg-[#139485] w-full rounded-full mt-0.5" />
+            {/* Brands Section (Heading + Underline + View All + Animated Ticker) */}
+            <div className="space-y-2 -mx-4 px-4">
+              <div className="flex items-center justify-between">
+                <div className="inline-flex flex-col items-start">
+                  <span className="text-xs font-bold text-slate-800 tracking-tight">
+                    Brands
+                  </span>
+                  <div className="h-[2px] bg-[#139485] w-full rounded-full mt-0.5" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBrandSearchModalQuery("");
+                    setIsAllBrandsModalOpen(true);
+                  }}
+                  className="text-[11px] font-bold text-[#139485] hover:text-[#0e7468] flex items-center gap-0.5 py-0.5 px-2 rounded-full hover:bg-teal-50/80 transition-colors cursor-pointer group"
+                  title="View all pharmaceutical brands"
+                >
+                  <span>View All</span>
+                  <ChevronRight className="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform" />
+                </button>
               </div>
 
               {/* Top Brands Moving Marquee (Animated to the Left) */}
-              <div className="-mx-4 overflow-hidden pt-1 pb-3 relative select-none">
+              <div className="-mx-4 overflow-hidden pt-1 pb-2.5 relative select-none">
                 {/* Soft Gradient Fade on Left & Right Edges */}
-                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
-                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
 
                 {/* Ticker Track */}
-                <div className="animate-marquee-left flex items-center gap-2">
+                <div className="animate-marquee-left flex items-center gap-2.5">
                   {/* 1st copy */}
                   {topBrandList.map((brand, idx) => (
                     <button
@@ -789,13 +805,13 @@ export default function MobileAppPage() {
                         setSearchQuery(brand.query);
                         setActiveScreen("MEDICINES");
                       }}
-                      className="inline-flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full bg-white hover:bg-teal-50/70 border border-slate-200/80 hover:border-[#139485] shadow-[0_3px_6px_rgba(0,0,0,0.07)] text-[11.5px] font-bold text-slate-800 hover:text-[#139485] transition-all active:scale-95 shrink-0 cursor-pointer"
+                      className="group inline-flex items-center gap-2 pl-1.5 pr-3.5 h-[34px] rounded-full bg-white hover:bg-teal-50/40 border border-slate-200/80 hover:border-[#139485]/70 shadow-[0_2px_6px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_10px_rgba(0,0,0,0.12)] text-xs font-semibold text-slate-700 hover:text-[#139485] transition-all duration-150 active:scale-95 shrink-0 cursor-pointer"
                       title={`Browse ${brand.name}`}
                     >
-                      <div className="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-slate-100 shadow-2xs">
-                        <BrandLogo name={brand.name} className="w-full h-full" />
+                      <div className="w-[22px] h-[22px] rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white ring-1 ring-slate-100 shadow-2xs group-hover:scale-105 transition-transform">
+                        <BrandLogo name={brand.name} className="w-full h-full object-contain" />
                       </div>
-                      <span>{brand.name}</span>
+                      <span className="tracking-tight whitespace-nowrap">{brand.name}</span>
                     </button>
                   ))}
                   {/* 2nd copy (for seamless infinite loop) */}
@@ -807,14 +823,14 @@ export default function MobileAppPage() {
                         setSearchQuery(brand.query);
                         setActiveScreen("MEDICINES");
                       }}
-                      className="inline-flex items-center gap-1.5 pl-1.5 pr-3 py-1 rounded-full bg-white hover:bg-teal-50/70 border border-slate-200/80 hover:border-[#139485] shadow-[0_3px_6px_rgba(0,0,0,0.07)] text-[11.5px] font-bold text-slate-800 hover:text-[#139485] transition-all active:scale-95 shrink-0 cursor-pointer"
+                      className="group inline-flex items-center gap-2 pl-1.5 pr-3.5 h-[34px] rounded-full bg-white hover:bg-teal-50/40 border border-slate-200/80 hover:border-[#139485]/70 shadow-[0_2px_6px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_10px_rgba(0,0,0,0.12)] text-xs font-semibold text-slate-700 hover:text-[#139485] transition-all duration-150 active:scale-95 shrink-0 cursor-pointer"
                       aria-hidden="true"
                       tabIndex={-1}
                     >
-                      <div className="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white border border-slate-100 shadow-2xs">
-                        <BrandLogo name={brand.name} className="w-full h-full" />
+                      <div className="w-[22px] h-[22px] rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white ring-1 ring-slate-100 shadow-2xs group-hover:scale-105 transition-transform">
+                        <BrandLogo name={brand.name} className="w-full h-full object-contain" />
                       </div>
-                      <span>{brand.name}</span>
+                      <span className="tracking-tight whitespace-nowrap">{brand.name}</span>
                     </button>
                   ))}
                 </div>
@@ -1845,6 +1861,139 @@ export default function MobileAppPage() {
             {/* Android / iPhone Bottom Gesture Pill */}
             <div className="w-28 h-1 bg-slate-300 rounded-full mx-auto mt-2 mb-0.5" />
           </nav>
+
+          {/* =============================================================== */}
+          {/* ALL PHARMACEUTICAL BRANDS MODAL / BOTTOM SHEET                  */}
+          {/* =============================================================== */}
+          {isAllBrandsModalOpen && (
+            <div className="absolute inset-0 z-50 flex flex-col justify-end sm:justify-center animate-in fade-in duration-200">
+              {/* Backdrop */}
+              <div
+                onClick={() => setIsAllBrandsModalOpen(false)}
+                className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs cursor-pointer"
+              />
+
+              {/* Sheet Container */}
+              <div className="relative w-full max-h-[90%] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col z-10 animate-in slide-in-from-bottom-8 duration-200 overflow-hidden border border-slate-100">
+                {/* Mobile Drag Handle */}
+                <div className="pt-2 pb-1 flex justify-center sm:hidden">
+                  <div className="w-10 h-1 rounded-full bg-slate-300" />
+                </div>
+
+                {/* Header */}
+                <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center text-[#139485] font-black border border-teal-100 shadow-2xs">
+                      <Building2 className="w-4 h-4 stroke-[2.2]" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-slate-900 leading-tight">All Brands</h3>
+                        <span className="text-[10px] font-black text-[#139485] bg-teal-50 border border-teal-200 px-1.5 py-0.2 rounded-full">
+                          {topBrandList.length} Brands
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 font-medium">Licensed Pharmaceutical Manufacturers</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsAllBrandsModalOpen(false)}
+                    className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                    title="Close"
+                  >
+                    <X className="w-4 h-4 stroke-[2.5]" />
+                  </button>
+                </div>
+
+                {/* Search Bar */}
+                <div className="p-3 bg-white border-b border-slate-100">
+                  <div className="relative">
+                    <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="Search company (Square, Incepta, Beximco...)"
+                      value={brandSearchModalQuery}
+                      onChange={(e) => setBrandSearchModalQuery(e.target.value)}
+                      className="w-full pl-8 pr-7 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200/90 focus:bg-white focus:border-[#139485] focus:outline-none transition-colors"
+                      autoFocus
+                    />
+                    {brandSearchModalQuery && (
+                      <button
+                        onClick={() => setBrandSearchModalQuery("")}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Brands Grid */}
+                <div className="p-3 overflow-y-auto max-h-[62vh] space-y-2">
+                  <div className="grid grid-cols-2 gap-2">
+                    {topBrandList
+                      .filter((brand) =>
+                        brand.name.toLowerCase().includes(brandSearchModalQuery.toLowerCase()) ||
+                        (brand.fullName && brand.fullName.toLowerCase().includes(brandSearchModalQuery.toLowerCase())) ||
+                        brand.query.toLowerCase().includes(brandSearchModalQuery.toLowerCase())
+                      )
+                      .map((brand, idx) => (
+                        <button
+                          key={`modal-brand-${idx}`}
+                          onClick={() => {
+                            setSearchQuery(brand.query);
+                            setActiveScreen("MEDICINES");
+                            setIsAllBrandsModalOpen(false);
+                          }}
+                          className="flex items-center gap-2.5 p-2 rounded-xl border border-slate-200/80 hover:border-[#139485] bg-white hover:bg-teal-50/40 shadow-2xs hover:shadow-xs transition-all duration-150 group text-left cursor-pointer active:scale-95"
+                          title={`Browse ${brand.name}`}
+                        >
+                          <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center shrink-0 bg-white ring-1 ring-slate-100 shadow-2xs group-hover:scale-105 transition-transform">
+                            <BrandLogo name={brand.name} className="w-full h-full object-contain" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-xs font-bold text-slate-800 group-hover:text-[#139485] transition-colors truncate">
+                              {brand.name}
+                            </h4>
+                            <p className="text-[10px] text-slate-400 font-medium truncate">
+                              {brand.products || "Pharma"}
+                            </p>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#139485] group-hover:translate-x-0.5 transition-all shrink-0" />
+                        </button>
+                      ))}
+                  </div>
+
+                  {/* Empty Search Result */}
+                  {topBrandList.filter((b) =>
+                    b.name.toLowerCase().includes(brandSearchModalQuery.toLowerCase()) ||
+                    (b.fullName && b.fullName.toLowerCase().includes(brandSearchModalQuery.toLowerCase()))
+                  ).length === 0 && (
+                    <div className="py-8 text-center text-slate-400">
+                      <Building2 className="w-8 h-8 mx-auto mb-2 stroke-[1.5] text-slate-300" />
+                      <p className="text-xs font-semibold text-slate-600">No brand found</p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">No manufacturer matches "{brandSearchModalQuery}"</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer */}
+                <div className="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-500 font-medium">{topBrandList.length} Top Brands Available</span>
+                  <button
+                    onClick={() => {
+                      setSearchQuery("");
+                      setActiveScreen("MEDICINES");
+                      setIsAllBrandsModalOpen(false);
+                    }}
+                    className="font-bold text-[#139485] hover:underline"
+                  >
+                    View All Medicines →
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>
