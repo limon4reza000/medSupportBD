@@ -675,10 +675,10 @@ export default function MobileAppPage() {
             
             {/* Marketplace Search & Hub Location Card (Matching User Reference) */}
             <div
-              className="-mx-4 -mt-4 px-4 pt-4 pb-9 -mb-2 bg-gradient-to-b from-[#d8f4ef] via-[#e2f7f3] to-[#ebf9f6] border-b border-[#139485]/15 shadow-xs space-y-3"
+              className="-mx-4 -mt-4 px-4 pt-3.5 pb-5 bg-gradient-to-b from-[#d8f4ef] via-[#e2f7f3] to-[#ebf9f6] space-y-2.5"
               style={{
-                borderBottomLeftRadius: "50% 36px",
-                borderBottomRightRadius: "50% 36px",
+                borderBottomLeftRadius: "50% 20px",
+                borderBottomRightRadius: "50% 20px",
               }}
             >
               {/* Header Title */}
