@@ -52,6 +52,8 @@ import {
 import { UserRole, IDistributorSearchResult, IMedicine, IBatch } from "@/types/domain";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { useApp } from "@/lib/context/AppContext";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthModal } from "@/components/auth/AuthModal";
 import { initialMedicines, initialBatches } from "@/lib/data/clientSeed";
 
 // Dynamic import of Leaflet Map for Nearby Inventory without SSR window issues
@@ -201,6 +203,8 @@ const OrdersNavIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5"
 );
 
 export default function MobileAppPage() {
+  const { user: authUser, role: authRole, pharmacy: authPharmacy, logout: authLogout, isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [activeScreen, setActiveScreen] = useState<MobileScreen>("DASHBOARD");
   const [activeRole, setActiveRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -385,16 +389,36 @@ export default function MobileAppPage() {
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
-    name: "Mahfuzul Islam",
-    phone: "01712-345678",
-    pharmacyName: "Lazz Pharma (Dhanmondi Branch)",
+    name: "Dr. Rafiqul Islam",
+    phone: "01711-409821",
+    pharmacyName: "Green Care Pharmacy & Med Store",
     tradeLicense: "TRAD-DHK-2024-88492",
-    dgdaLicense: "DGDA-PH-99214",
+    dgdaLicense: "DL-DHK-2024-8841",
     tin: "eTIN-77492019482",
-    address: "House 24, Road 7, Dhanmondi, Dhaka",
-    creditLimit: 50000,
-    outstandingDue: 14250,
+    address: "House 14, Road 7, Dhanmondi, Dhaka",
+    creditLimit: 100000,
+    outstandingDue: 14500,
   });
+
+  // Sync profile when auth state updates
+  useEffect(() => {
+    if (authUser) {
+      setUserProfile((prev) => ({
+        ...prev,
+        name: authUser.fullName || prev.name,
+        phone: authUser.phone || prev.phone,
+        pharmacyName: authPharmacy?.tradeName || authUser.pharmacyName || prev.pharmacyName,
+        dgdaLicense: authPharmacy?.drugLicenseNo || prev.dgdaLicense,
+        tin: authPharmacy?.taxId || prev.tin,
+        address: authPharmacy?.address || prev.address,
+        creditLimit: authPharmacy?.creditLimit || prev.creditLimit,
+        outstandingDue: authPharmacy?.currentBalance ?? prev.outstandingDue,
+      }));
+      if (authUser.role) {
+        setActiveRole(authUser.role);
+      }
+    }
+  }, [authUser, authPharmacy]);
 
   // Role-Based Registration State
   const [regRole, setRegRole] = useState<UserRole>(UserRole.PHARMACY_OWNER);
@@ -2651,12 +2675,35 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            <button
-              onClick={() => setActiveScreen("REGISTRATION")}
-              className="w-full py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold active:scale-95 transition-transform"
-            >
-              Register Another Business Entity
-            </button>
+            <div className="space-y-2 pt-2">
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="w-full py-2.5 rounded-2xl bg-[#139485] hover:bg-[#007464] text-white text-xs font-bold shadow-xs active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <UserCheck className="w-4 h-4" />
+                <span>Sign In with Mobile OTP / Switch Role</span>
+              </button>
+
+              <button
+                onClick={() => setActiveScreen("REGISTRATION")}
+                className="w-full py-2.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold active:scale-95 transition-transform cursor-pointer"
+              >
+                Register Another Business Entity
+              </button>
+
+              {isAuthenticated && (
+                <button
+                  onClick={async () => {
+                    await authLogout();
+                    setActiveScreen("DASHBOARD");
+                  }}
+                  className="w-full py-2.5 rounded-2xl border border-rose-200 bg-rose-50/60 hover:bg-rose-100 text-rose-700 text-xs font-bold active:scale-95 transition-transform flex items-center justify-center gap-1.5 cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>Sign Out of Session</span>
+                </button>
+              )}
+            </div>
 
           </div>
         )}
@@ -3105,6 +3152,16 @@ export default function MobileAppPage() {
               </div>
             </div>
           )}
+
+          {/* MedGo Pharmaceutical Authentication & OTP Modal */}
+          <AuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+            defaultRole={activeRole}
+            onSuccess={() => {
+              setActiveScreen("DASHBOARD");
+            }}
+          />
 
         </div>
       </div>

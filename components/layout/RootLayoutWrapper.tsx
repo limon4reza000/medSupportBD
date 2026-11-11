@@ -3,6 +3,7 @@
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { AppProvider } from "@/lib/context/AppContext";
+import { AuthProvider } from "@/hooks/useAuth";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { TopHeaderBar } from "@/components/layout/TopHeaderBar";
 import { HamburgerDrawer } from "@/components/layout/HamburgerDrawer";
@@ -23,16 +24,19 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
   // Dedicated full-screen mobile app experience (No desktop sidebar, no desktop footer)
   if (isDedicatedMobileRoute) {
     return (
-      <AppProvider>
-        <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#139485] selection:text-white">
-          {children}
-        </div>
-      </AppProvider>
+      <AuthProvider>
+        <AppProvider>
+          <div className="min-h-screen bg-white text-[#0F172A] font-sans antialiased selection:bg-[#139485] selection:text-white">
+            {children}
+          </div>
+        </AppProvider>
+      </AuthProvider>
     );
   }
 
   return (
-    <AppProvider>
+    <AuthProvider>
+      <AppProvider>
       <div className="min-h-screen flex bg-[#F5F6FC] text-[#0F172A] selection:bg-[#4F46E5] selection:text-white font-sans antialiased">
         
         {/* Desktop Fixed Left Sidebar */}
@@ -164,5 +168,6 @@ export const RootLayoutWrapper: React.FC<{ children: ReactNode }> = ({ children 
         </div>
       </div>
     </AppProvider>
+  </AuthProvider>
   );
 };
