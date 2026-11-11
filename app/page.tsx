@@ -1472,10 +1472,6 @@ export default function MobileAppPage() {
             {/* Header Badge & Title */}
             <div className="flex items-start justify-between">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#139485] text-[10px] font-black uppercase tracking-wider mb-1 border border-emerald-200/60">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#139485] animate-ping" />
-                  B2B Emergency Network
-                </div>
                 <h1 className="text-base font-black text-slate-900">Emergency Stock Borrow</h1>
                 <p className="text-xs text-slate-500">
                   ইমার্জেন্সি ওষুধ ধার নিন • ১৫–৩০ মিনিটে ডেলিভারি
