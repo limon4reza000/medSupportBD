@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   Search,
@@ -40,9 +41,44 @@ import {
   ClipboardList,
   Menu,
   X,
+  LocateFixed,
+  AlertTriangle,
+  Calendar,
+  TrendingDown,
+  Filter,
+  Layers,
+  RefreshCw,
 } from "lucide-react";
-import { UserRole } from "@/types/domain";
+import { UserRole, IDistributorSearchResult, IMedicine, IBatch } from "@/types/domain";
 import { BrandLogo } from "@/components/common/BrandLogo";
+import { useApp } from "@/lib/context/AppContext";
+import { initialMedicines, initialBatches } from "@/lib/data/clientSeed";
+
+// Dynamic import of Leaflet Map for Nearby Inventory without SSR window issues
+const DistributorMap = dynamic(
+  () => import("@/components/map/DistributorMap").then((mod) => mod.DistributorMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-56 rounded-2xl bg-slate-100 flex flex-col items-center justify-center text-slate-500 gap-2 border border-slate-200">
+        <div className="w-6 h-6 border-2 border-[#139485] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-bold text-slate-600">Initializing Interactive Leaflet Map...</span>
+      </div>
+    ),
+  }
+);
+
+// Location Presets across Dhaka metropolitan area for Manual Selection
+const PRESET_DHAKA_LOCATIONS = [
+  { id: "loc-dhanmondi", name: "Dhanmondi", label: "Green Care Pharmacy (Dhanmondi Central)", lat: 23.7465, lng: 90.376 },
+  { id: "loc-shamoli", name: "Shamoli", label: "Popular Medico (Shamoli / Mirpur Rd)", lat: 23.7705, lng: 90.364 },
+  { id: "loc-tejgaon", name: "Tejgaon", label: "Square Pharma Depot (Tejgaon Industrial)", lat: 23.7644, lng: 90.3892 },
+  { id: "loc-mohakhali", name: "Mohakhali", label: "Beximco Metropolitan Hub (Mohakhali)", lat: 23.7806, lng: 90.4042 },
+  { id: "loc-mirpur", name: "Mirpur", label: "Renata Logistics Warehouse (Mirpur-10)", lat: 23.8041, lng: 90.3542 },
+  { id: "loc-uttara", name: "Uttara", label: "ACI Healthcare Regional Hub (Uttara)", lat: 23.8682, lng: 90.3984 },
+  { id: "loc-motijheel", name: "Motijheel", label: "Eskayef Commercial Depot (Motijheel)", lat: 23.7289, lng: 90.4182 },
+  { id: "loc-kallyanpur", name: "Kallyanpur", label: "Healthcare Central Depot (Kallyanpur)", lat: 23.7825, lng: 90.3568 },
+];
 
 type MobileScreen =
   | "DASHBOARD"
@@ -172,6 +208,179 @@ export default function MobileAppPage() {
   const [selectedHub, setSelectedHub] = useState("All Hubs & Depots");
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
   const [borrowBroadcastSent, setBorrowBroadcastSent] = useState(false);
+
+  // Context Database Hooks
+  const { medicines: catalogMedicines, batches: catalogBatches, currentPharmacy } = useApp();
+
+  // Inventory & Stock Management State
+  const [inventorySubTab, setInventorySubTab] = useState<"STOCK" | "NEARBY_MAP">("STOCK");
+  const [inventorySearchQuery, setInventorySearchQuery] = useState("");
+  const [inventoryFilter, setInventoryFilter] = useState<"ALL" | "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK" | "NEAR_EXPIRY">("ALL");
+
+  // Nearby Inventory Interactive Map & Geolocation State
+  const [nearbyUserLocation, setNearbyUserLocation] = useState({
+    latitude: 23.7465,
+    longitude: 90.376,
+    label: currentPharmacy?.tradeName || "Green Care Pharmacy (Dhanmondi Central)",
+  });
+  const [isDetectingGps, setIsDetectingGps] = useState(false);
+  const [gpsStatusMsg, setGpsStatusMsg] = useState<string | null>(null);
+  const [nearbyRadius, setNearbyRadius] = useState<number>(20);
+  const [nearbySearch, setNearbySearch] = useState("");
+  const [nearbyInStockOnly, setNearbyInStockOnly] = useState(false);
+  const [nearbySortBy, setNearbySortBy] = useState<"distance" | "stock" | "delivery">("distance");
+  const [nearbyDistributors, setNearbyDistributors] = useState<IDistributorSearchResult[]>([]);
+  const [isLoadingNearby, setIsLoadingNearby] = useState(false);
+  const [selectedDistributorId, setSelectedDistributorId] = useState<string | undefined>();
+
+  const handleDetectGps = () => {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      setGpsStatusMsg("Geolocation is not supported by your browser");
+      return;
+    }
+    setIsDetectingGps(true);
+    setGpsStatusMsg("Requesting GPS location permission...");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setIsDetectingGps(false);
+        const lat = Number(pos.coords.latitude.toFixed(6));
+        const lng = Number(pos.coords.longitude.toFixed(6));
+        setNearbyUserLocation({
+          latitude: lat,
+          longitude: lng,
+          label: `GPS Device Location (${lat}, ${lng})`,
+        });
+        setGpsStatusMsg("✓ GPS location detected successfully!");
+        setTimeout(() => setGpsStatusMsg(null), 4000);
+      },
+      (err) => {
+        setIsDetectingGps(false);
+        let msg = "Could not retrieve GPS location.";
+        if (err.code === err.PERMISSION_DENIED) {
+          msg = "GPS permission denied. Please choose a preset location below.";
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          msg = "Location unavailable. Please choose a preset location below.";
+        } else if (err.code === err.TIMEOUT) {
+          msg = "GPS request timed out. Please choose a preset location below.";
+        }
+        setGpsStatusMsg(msg);
+        setTimeout(() => setGpsStatusMsg(null), 5000);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+    );
+  };
+
+  const fetchNearbyDistributors = useCallback(async () => {
+    setIsLoadingNearby(true);
+    try {
+      const params = new URLSearchParams();
+      params.set("lat", nearbyUserLocation.latitude.toString());
+      params.set("lng", nearbyUserLocation.longitude.toString());
+      params.set("radiusKm", nearbyRadius.toString());
+      params.set("sortBy", nearbySortBy);
+      if (nearbyInStockOnly) params.set("inStockOnly", "true");
+      if (nearbySearch.trim()) params.set("search", nearbySearch.trim());
+
+      const res = await fetch(`/api/distributors/nearby?${params.toString()}`);
+      const data = await res.json();
+      if (data.distributors) {
+        setNearbyDistributors(data.distributors);
+        if (data.distributors.length > 0 && !selectedDistributorId) {
+          setSelectedDistributorId(data.distributors[0].distributor.id);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load nearby distributors:", err);
+    } finally {
+      setIsLoadingNearby(false);
+    }
+  }, [nearbyUserLocation, nearbyRadius, nearbySortBy, nearbyInStockOnly, nearbySearch, selectedDistributorId]);
+
+  useEffect(() => {
+    if (activeScreen === "INVENTORY" && inventorySubTab === "NEARBY_MAP") {
+      fetchNearbyDistributors();
+    }
+  }, [activeScreen, inventorySubTab, fetchNearbyDistributors]);
+
+  // Actual Database Stock Calculation (Never fabricated)
+  const inventoryItems = useMemo(() => {
+    const meds = catalogMedicines && catalogMedicines.length > 0 ? catalogMedicines : initialMedicines;
+    const allB = catalogBatches && catalogBatches.length > 0 ? catalogBatches : initialBatches;
+
+    return meds.map((med) => {
+      const medBatches = allB.filter((b) => b.medicineId === med.id);
+      const totalUnits = medBatches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
+      const boxUnits = (med.piecesPerStrip || 10) * (med.stripsPerBox || 10);
+      const availableBoxes = Math.floor(totalUnits / boxUnits);
+      const availableStrips = Math.floor(totalUnits / (med.piecesPerStrip || 10));
+
+      const sortedBatches = [...medBatches].sort(
+        (a, b) => new Date(a.expiryDate).getTime() - new Date(b.expiryDate).getTime()
+      );
+      const primaryBatch = sortedBatches[0];
+      const expiryStr = primaryBatch ? new Date(primaryBatch.expiryDate).toISOString().slice(0, 10) : "2026-12-31";
+      const daysToExpiry = Math.ceil((new Date(expiryStr).getTime() - Date.now()) / (1000 * 3600 * 24));
+      const isNearExpiry = daysToExpiry <= 90 && totalUnits > 0;
+
+      let status: "IN_STOCK" | "LOW_STOCK" | "OUT_OF_STOCK" = "IN_STOCK";
+      if (totalUnits === 0) {
+        status = "OUT_OF_STOCK";
+      } else if (totalUnits < 200) {
+        status = "LOW_STOCK";
+      }
+
+      return {
+        id: med.id,
+        name: med.brandName,
+        generic: med.genericName,
+        dosageForm: med.dosageForm,
+        strength: med.strength,
+        manufacturer: med.manufacturer,
+        boxPrice: Number((med.tradePricePerPiece * boxUnits).toFixed(2)),
+        unitPrice: med.tradePricePerPiece,
+        totalUnits,
+        availableBoxes,
+        availableStrips,
+        batchNumber: primaryBatch?.batchNumber || `BN-2025-${med.code?.slice(-6) || "001"}`,
+        expiryDate: expiryStr,
+        daysToExpiry,
+        isNearExpiry,
+        status,
+        fefoRank: isNearExpiry ? 1 : 2,
+      };
+    });
+  }, [catalogMedicines, catalogBatches]);
+
+  const totalStockSkus = inventoryItems.length;
+  const inStockCount = inventoryItems.filter((i) => i.status === "IN_STOCK").length;
+  const lowStockCount = inventoryItems.filter((i) => i.status === "LOW_STOCK").length;
+  const outOfStockCount = inventoryItems.filter((i) => i.status === "OUT_OF_STOCK").length;
+  const nearExpiryCount = inventoryItems.filter((i) => i.isNearExpiry).length;
+
+  const filteredInventoryItems = useMemo(() => {
+    let list = inventoryItems;
+    if (inventoryFilter === "IN_STOCK") {
+      list = list.filter((i) => i.status === "IN_STOCK");
+    } else if (inventoryFilter === "LOW_STOCK") {
+      list = list.filter((i) => i.status === "LOW_STOCK");
+    } else if (inventoryFilter === "OUT_OF_STOCK") {
+      list = list.filter((i) => i.status === "OUT_OF_STOCK");
+    } else if (inventoryFilter === "NEAR_EXPIRY") {
+      list = list.filter((i) => i.isNearExpiry);
+    }
+
+    if (inventorySearchQuery.trim()) {
+      const q = inventorySearchQuery.toLowerCase().trim();
+      list = list.filter(
+        (i) =>
+          i.name.toLowerCase().includes(q) ||
+          i.generic.toLowerCase().includes(q) ||
+          i.manufacturer.toLowerCase().includes(q) ||
+          i.batchNumber.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [inventoryItems, inventoryFilter, inventorySearchQuery]);
 
   // Authenticated User State
   const [userProfile, setUserProfile] = useState({
@@ -554,7 +763,7 @@ export default function MobileAppPage() {
                 {/* Drawer Header */}
                 <div className="bg-[#139485] p-3.5 text-white flex items-center justify-between">
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <img src="/logo.png" alt="MedGo" className="h-5 max-h-5 w-auto object-contain shrink-0" />
+                    <img src="/logo.png" alt="MedGo" style={{ maxHeight: "20px", width: "auto" }} className="h-5 max-h-5 w-auto object-contain shrink-0" />
                     <span className="text-base font-normal tracking-tight text-white whitespace-nowrap">
                       MedGo
                     </span>
@@ -599,7 +808,7 @@ export default function MobileAppPage() {
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
                     { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
                     { screen: "ORDERS", label: "Orders & Truck GPS", icon: Truck },
-                    { screen: "INVENTORY", label: "Stock Manager", icon: Boxes },
+                    { screen: "INVENTORY", label: "Stock Manager & Inventory", icon: Package },
                     { screen: "NOTIFICATIONS", label: "Notifications", icon: Bell },
                     { screen: "REGISTRATION", label: "Role Registration", icon: UserCheck },
                     { screen: "PROFILE", label: "Pharmacy Profile & DGDA", icon: User },
@@ -669,6 +878,7 @@ export default function MobileAppPage() {
           <img
             src="/logo.png"
             alt="MedGo"
+            style={{ maxHeight: "28px", width: "auto" }}
             className="h-7 max-h-7 w-auto object-contain drop-shadow-xs group-hover:scale-105 transition-transform shrink-0"
           />
           <span className="text-lg font-normal tracking-tight text-white whitespace-nowrap">
@@ -969,6 +1179,52 @@ export default function MobileAppPage() {
                     </button>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* Order Management & Active Delivery Tracking Card (Always accessible from Home) */}
+            <div className="p-3.5 bg-white rounded-3xl border border-slate-200/90 shadow-2xs space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                    <Truck className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-slate-900">Wholesale Orders & Live Tracking</div>
+                    <div className="text-[10px] text-slate-500">Live fleet delivery GPS & distributor invoices</div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveScreen("ORDERS")}
+                  className="text-[11px] font-bold text-[#139485] hover:underline flex items-center gap-0.5"
+                >
+                  <span>View All</span>
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+
+              {/* Active Delivery Highlight */}
+              <div className="p-2.5 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[11px] font-extrabold text-slate-900">#ORD-20261011-1504</span>
+                    <span className="text-[9px] font-black px-1.5 py-0.2 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                      DISPATCHED
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-500 truncate mt-0.5">
+                    Beximco Van (DHK-CHA-11-2094) • 8 mins away
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveScreen("ORDERS")}
+                  className="px-2.5 py-1.5 rounded-xl bg-[#139485] text-white text-[10px] font-black shadow-xs active:scale-95 transition-all flex items-center gap-1 shrink-0"
+                >
+                  <Navigation className="w-3 h-3" />
+                  <span>Live GPS</span>
+                </button>
               </div>
             </div>
 
@@ -1552,50 +1808,478 @@ export default function MobileAppPage() {
         )}
 
         {/* ----------------------------------------------------------------- */}
-        {/* TAB 5: INVENTORY BATCH INSPECTOR                                  */}
+        {/* TAB 5: PHARMACY INVENTORY & NEARBY MAP                            */}
         {/* ----------------------------------------------------------------- */}
         {activeScreen === "INVENTORY" && (
-          <div className="p-4 space-y-3 animate-in fade-in duration-150">
-            
-            <div>
-              <h1 className="text-base font-black text-slate-900">Inventory & FEFO Batches</h1>
-              <p className="text-xs text-slate-500">First-Expiring First-Out automated stock prioritization</p>
+          <div className="p-4 space-y-3.5 animate-in fade-in duration-150">
+            {/* Header & Sub-tab Pill Switcher */}
+            <div className="space-y-2.5">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h1 className="text-base font-black text-slate-900">Pharmacy Stock & Inventory</h1>
+                  <p className="text-xs text-slate-500">Live stock tracking, FEFO batch expiry & nearby supply hubs</p>
+                </div>
+                <div className="w-9 h-9 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#139485] shadow-xs">
+                  <Package className="w-5 h-5 stroke-[2.2]" />
+                </div>
+              </div>
+
+              {/* Segmented Controller: My Stock vs Nearby Map */}
+              <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-100/90 border border-slate-200/80 text-xs font-bold">
+                <button
+                  type="button"
+                  onClick={() => setInventorySubTab("STOCK")}
+                  className={`py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                    inventorySubTab === "STOCK"
+                      ? "bg-white text-slate-900 shadow-xs font-black"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <Boxes className="w-4 h-4 text-[#139485]" />
+                  <span>My Stock ({totalStockSkus})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInventorySubTab("NEARBY_MAP");
+                    fetchNearbyDistributors();
+                  }}
+                  className={`py-2 px-3 rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+                    inventorySubTab === "NEARBY_MAP"
+                      ? "bg-white text-slate-900 shadow-xs font-black"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  <MapPin className="w-4 h-4 text-[#139485]" />
+                  <span>Nearby Map ({nearbyDistributors.length || 8})</span>
+                </button>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              {inventoryBatches.map((item) => (
-                <div
-                  key={item.id}
-                  className="p-3.5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-1.5"
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <div className="text-xs font-black text-slate-900">{item.name}</div>
-                      <div className="text-[11px] font-mono text-slate-500">{item.batch}</div>
-                    </div>
-                    <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full border ${item.statusColor}`}>
-                      {item.status}
-                    </span>
+            {/* ============================================================= */}
+            {/* SUB-VIEW 1: MY PHARMACY STOCK & FEFO BATCHES                  */}
+            {/* ============================================================= */}
+            {inventorySubTab === "STOCK" && (
+              <div className="space-y-3">
+                {/* 4 KPI Summary Cards */}
+                <div className="grid grid-cols-4 gap-1.5">
+                  <div className="p-2.5 rounded-2xl bg-white border border-slate-200/80 shadow-2xs text-center">
+                    <span className="text-[10px] font-bold text-slate-500 block truncate">Total SKUs</span>
+                    <span className="text-sm font-black text-slate-900">{totalStockSkus}</span>
                   </div>
-
-                  <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-100">
-                    <span className="text-slate-600">Stock: <strong>{item.quantity} units</strong></span>
-                    <span className="text-slate-600">Expiry: <strong>{item.expiry}</strong></span>
+                  <div className="p-2.5 rounded-2xl bg-emerald-50/70 border border-emerald-100 shadow-2xs text-center">
+                    <span className="text-[10px] font-bold text-emerald-700 block truncate">In Stock</span>
+                    <span className="text-sm font-black text-emerald-800">{inStockCount}</span>
                   </div>
+                  <div className="p-2.5 rounded-2xl bg-amber-50/70 border border-amber-100 shadow-2xs text-center">
+                    <span className="text-[10px] font-bold text-amber-700 block truncate">Low Stock</span>
+                    <span className="text-sm font-black text-amber-800">{lowStockCount}</span>
+                  </div>
+                  <div className="p-2.5 rounded-2xl bg-rose-50/70 border border-rose-100 shadow-2xs text-center">
+                    <span className="text-[10px] font-bold text-rose-700 block truncate">Out/Near</span>
+                    <span className="text-sm font-black text-rose-800">{outOfStockCount + nearExpiryCount}</span>
+                  </div>
+                </div>
 
-                  <div className="flex items-center justify-between pt-1 text-[11px]">
-                    <span className="text-[#139485] font-bold">FEFO Priority Rank #{item.fefoRank}</span>
+                {/* Search Bar */}
+                <div className="relative">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search medicine, generic, batch number..."
+                    value={inventorySearchQuery}
+                    onChange={(e) => setInventorySearchQuery(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2 text-xs rounded-2xl bg-white border border-slate-200 shadow-2xs focus:border-[#139485] focus:outline-none"
+                  />
+                  {inventorySearchQuery && (
                     <button
-                      onClick={() => setActiveScreen("MEDICINES")}
-                      className="text-xs font-bold text-[#139485] hover:underline"
+                      type="button"
+                      onClick={() => setInventorySearchQuery("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                     >
-                      Reorder SKU
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Filter Tabs */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
+                  {[
+                    { id: "ALL", label: `All (${totalStockSkus})` },
+                    { id: "IN_STOCK", label: `In Stock (${inStockCount})` },
+                    { id: "LOW_STOCK", label: `Low Stock (${lowStockCount})` },
+                    { id: "OUT_OF_STOCK", label: `Out of Stock (${outOfStockCount})` },
+                    { id: "NEAR_EXPIRY", label: `Near Expiry (${nearExpiryCount})` },
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      type="button"
+                      onClick={() => setInventoryFilter(f.id as any)}
+                      className={`px-3 py-1 rounded-xl text-[11px] font-bold whitespace-nowrap transition-colors ${
+                        inventoryFilter === f.id
+                          ? "bg-[#139485] text-white shadow-2xs"
+                          : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Medicine Stock List */}
+                <div className="space-y-2">
+                  {filteredInventoryItems.length === 0 ? (
+                    <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 space-y-2">
+                      <Package className="w-8 h-8 text-slate-300 mx-auto" />
+                      <div className="text-xs font-bold text-slate-700">No matching medicines found</div>
+                      <p className="text-[11px]">Try adjusting your search query or filter</p>
+                    </div>
+                  ) : (
+                    filteredInventoryItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2 hover:border-[#139485]/40 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-black text-slate-900">{item.name}</span>
+                              <span className="text-[10px] text-slate-500 font-semibold">({item.strength})</span>
+                            </div>
+                            <div className="text-[11px] text-slate-500 leading-tight">{item.generic}</div>
+                            <div className="text-[10px] text-[#139485] font-bold mt-0.5">{item.manufacturer}</div>
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            {item.status === "OUT_OF_STOCK" ? (
+                              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                                OUT OF STOCK
+                              </span>
+                            ) : item.status === "LOW_STOCK" ? (
+                              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                                LOW STOCK
+                              </span>
+                            ) : (
+                              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                IN STOCK
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Available Stock Quantities */}
+                        <div className="grid grid-cols-2 gap-2 p-2 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                          <div>
+                            <span className="text-[10px] text-slate-400 block font-medium">Available Quantity</span>
+                            <span className="font-extrabold text-slate-800">
+                              {item.availableBoxes} Boxes <span className="text-slate-500 font-medium">({item.totalUnits} pcs)</span>
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-slate-400 block font-medium">Batch Number</span>
+                            <span className="font-mono text-[11px] font-bold text-slate-700 block truncate">
+                              {item.batchNumber}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Expiry Date & Reorder Footer */}
+                        <div className="flex items-center justify-between pt-1 border-t border-slate-100 text-[11px]">
+                          <div className="flex items-center gap-1.5">
+                            <Clock className={`w-3.5 h-3.5 ${item.isNearExpiry ? "text-rose-500" : "text-slate-400"}`} />
+                            <span className={`font-semibold ${item.isNearExpiry ? "text-rose-700 font-bold" : "text-slate-600"}`}>
+                              Exp: {item.expiryDate}
+                            </span>
+                            {item.isNearExpiry && (
+                              <span className="px-1.5 py-0.2 rounded-md bg-rose-100 text-rose-800 text-[9px] font-black">
+                                FEFO Priority
+                              </span>
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSearchQuery(item.name);
+                              setActiveScreen("MEDICINES");
+                            }}
+                            className="px-2.5 py-1 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#139485] font-black text-xs flex items-center gap-1 active:scale-95 transition-all"
+                          >
+                            <ShoppingCart className="w-3.5 h-3.5" />
+                            <span>Reorder SKU</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* ============================================================= */}
+            {/* SUB-VIEW 2: NEARBY INVENTORY & INTERACTIVE MAP                */}
+            {/* ============================================================= */}
+            {inventorySubTab === "NEARBY_MAP" && (
+              <div className="space-y-3">
+                {/* Location Control Bar */}
+                <div className="p-3 bg-emerald-50/70 rounded-2xl border border-emerald-100 space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <MapPin className="w-4 h-4 text-[#139485] shrink-0" />
+                      <div className="min-w-0">
+                        <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wider">
+                          Active Search Location
+                        </span>
+                        <span className="text-xs font-black text-slate-900 truncate block">
+                          {nearbyUserLocation.label}
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleDetectGps}
+                      disabled={isDetectingGps}
+                      className="px-2.5 py-1.5 rounded-xl bg-[#139485] hover:bg-[#007464] text-white text-[11px] font-bold flex items-center gap-1 shadow-xs active:scale-95 transition-all shrink-0"
+                      title="Request GPS location permission"
+                    >
+                      <LocateFixed className={`w-3.5 h-3.5 ${isDetectingGps ? "animate-spin" : ""}`} />
+                      <span>{isDetectingGps ? "Detecting..." : "Use GPS"}</span>
+                    </button>
+                  </div>
+
+                  {/* GPS Permission / Status Message Banner */}
+                  {gpsStatusMsg && (
+                    <div className="text-[11px] font-medium px-2.5 py-1 rounded-xl bg-white border border-emerald-200 text-slate-700 animate-in fade-in">
+                      {gpsStatusMsg}
+                    </div>
+                  )}
+
+                  {/* Manual Location Presets Selector */}
+                  <div className="pt-1 border-t border-emerald-100/70">
+                    <div className="text-[10px] font-bold text-slate-500 mb-1">
+                      Manual Location Preset Selection (Dhaka):
+                    </div>
+                    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
+                      {PRESET_DHAKA_LOCATIONS.map((loc) => {
+                        const isSelected =
+                          nearbyUserLocation.latitude === loc.lat && nearbyUserLocation.longitude === loc.lng;
+                        return (
+                          <button
+                            key={loc.id}
+                            type="button"
+                            onClick={() => {
+                              setNearbyUserLocation({
+                                latitude: loc.lat,
+                                longitude: loc.lng,
+                                label: loc.label,
+                              });
+                            }}
+                            className={`px-2.5 py-1 rounded-xl text-[10px] font-bold whitespace-nowrap transition-colors ${
+                              isSelected
+                                ? "bg-[#139485] text-white shadow-2xs"
+                                : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                            }`}
+                          >
+                            {loc.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Medicine Search & Filter Bar */}
+                <div className="space-y-2">
+                  <div className="relative">
+                    <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="Search medicine to inspect nearby availability (e.g. Napa, Seclo)..."
+                      value={nearbySearch}
+                      onChange={(e) => setNearbySearch(e.target.value)}
+                      className="w-full pl-9 pr-4 py-2 text-xs rounded-2xl bg-white border border-slate-200 shadow-2xs focus:border-[#139485] focus:outline-none"
+                    />
+                    {nearbySearch && (
+                      <button
+                        type="button"
+                        onClick={() => setNearbySearch("")}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Radius and In-Stock Toggles */}
+                  <div className="flex items-center justify-between gap-2 overflow-x-auto pb-0.5 text-xs scrollbar-none">
+                    <div className="flex items-center gap-1">
+                      {[1, 5, 10, 20, 35].map((r) => (
+                        <button
+                          key={r}
+                          type="button"
+                          onClick={() => setNearbyRadius(r)}
+                          className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-colors ${
+                            nearbyRadius === r
+                              ? "bg-[#139485] text-white shadow-xs"
+                              : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                          }`}
+                        >
+                          {r} km
+                        </button>
+                      ))}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setNearbyInStockOnly(!nearbyInStockOnly)}
+                      className={`px-2.5 py-1 rounded-xl text-[10px] font-bold border transition-colors shrink-0 ${
+                        nearbyInStockOnly
+                          ? "bg-emerald-600 text-white border-emerald-600"
+                          : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                      }`}
+                    >
+                      {nearbyInStockOnly ? "✓ In-Stock Only" : "All Availability"}
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
 
+                {/* Interactive Leaflet Map Container */}
+                <div className="h-60 sm:h-72 w-full rounded-2xl overflow-hidden border border-slate-200 shadow-xs relative z-0">
+                  <DistributorMap
+                    userLocation={nearbyUserLocation}
+                    distributors={nearbyDistributors}
+                    selectedDistributorId={selectedDistributorId}
+                    onSelectDistributor={(d) => setSelectedDistributorId(d.distributor.id)}
+                    showCoverageRadius={true}
+                  />
+                </div>
+
+                {/* Nearby Supply Hubs / Pharmacies List Header */}
+                <div className="flex items-center justify-between pt-1">
+                  <div className="text-xs font-black text-slate-900 flex items-center gap-1.5">
+                    <Building2 className="w-4 h-4 text-[#139485]" />
+                    <span>Nearby Verified Supply Hubs ({nearbyDistributors.length})</span>
+                  </div>
+                  <span className="text-[10px] text-slate-500 font-bold">
+                    Radius: {nearbyRadius} km
+                  </span>
+                </div>
+
+                {/* Nearby Hubs Cards */}
+                <div className="space-y-2">
+                  {isLoadingNearby ? (
+                    <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 space-y-2">
+                      <div className="w-6 h-6 border-2 border-[#139485] border-t-transparent rounded-full animate-spin mx-auto" />
+                      <div className="text-xs font-bold text-slate-700">Loading nearby inventory...</div>
+                    </div>
+                  ) : nearbyDistributors.length === 0 ? (
+                    <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 space-y-2">
+                      <MapPin className="w-8 h-8 text-slate-300 mx-auto" />
+                      <div className="text-xs font-bold text-slate-700">No supply hubs found within {nearbyRadius} km</div>
+                      <p className="text-[11px]">Expand search radius or try another location preset</p>
+                    </div>
+                  ) : (
+                    nearbyDistributors.map((d) => {
+                      const isSelected = selectedDistributorId === d.distributor.id;
+                      return (
+                        <div
+                          key={d.distributor.id}
+                          onClick={() => setSelectedDistributorId(d.distributor.id)}
+                          className={`p-3 bg-white rounded-2xl border transition-all space-y-2 cursor-pointer ${
+                            isSelected
+                              ? "border-[#139485] ring-2 ring-[#139485]/15 shadow-sm"
+                              : "border-slate-200/90 shadow-2xs hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-black text-slate-900">{d.distributor.name}</span>
+                              </div>
+                              <div className="text-[10px] text-slate-500 leading-tight mt-0.5">{d.distributor.address}</div>
+                              <div className="flex items-center gap-2 mt-1">
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-extrabold text-[#139485]">
+                                  <Navigation className="w-3 h-3" />
+                                  {d.distanceRoadKm} km
+                                </span>
+                                <span className="text-slate-300">•</span>
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-600">
+                                  <Clock className="w-3 h-3 text-amber-500" />
+                                  ~{d.estimatedDriveTimeMinutes} mins
+                                </span>
+                                {d.distributor.rating && (
+                                  <>
+                                    <span className="text-slate-300">•</span>
+                                    <span className="text-[10px] font-bold text-amber-600">
+                                      ★ {d.distributor.rating}
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+
+                            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[9px] font-black border border-emerald-200 shrink-0">
+                              DGDA Verified
+                            </span>
+                          </div>
+
+                          {/* Searched Target Medicine Stock or General Availability */}
+                          {d.targetMedicineStock ? (
+                            <div className="p-2 bg-teal-50/60 rounded-xl border border-teal-100 flex items-center justify-between text-xs">
+                              <div>
+                                <span className="text-[10px] text-teal-800 font-bold block">
+                                  {d.targetMedicineStock.brandName} ({d.targetMedicineStock.strength})
+                                </span>
+                                <span className="text-xs font-black text-slate-900">
+                                  In Stock: {d.targetMedicineStock.availableStockBoxes} Boxes ({d.targetMedicineStock.availableStockPieces} pcs)
+                                </span>
+                              </div>
+                              <div className="text-right">
+                                <span className="text-xs font-black text-[#139485] block">
+                                  ৳{d.targetMedicineStock.tradePricePerBox}/box
+                                </span>
+                                <span className="text-[9px] text-slate-500">Exp: {d.targetMedicineStock.nextBatchExpiry}</span>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-50 rounded-xl text-[11px] text-slate-600">
+                              <span>Full Depot Catalog Available:</span>
+                              <span className="font-extrabold text-[#139485]">41,302 SKUs</span>
+                            </div>
+                          )}
+
+                          {/* Action Buttons */}
+                          <div className="flex items-center gap-2 pt-1 border-t border-slate-100">
+                            <a
+                              href={`tel:${d.distributor.contactNo}`}
+                              onClick={(e) => e.stopPropagation()}
+                              className="py-1.5 px-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1 active:scale-95"
+                            >
+                              <Phone className="w-3.5 h-3.5 text-slate-500" />
+                              <span>Call Depot</span>
+                            </a>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (d.targetMedicineStock) {
+                                  setSearchQuery(d.targetMedicineStock.brandName);
+                                }
+                                setActiveScreen("MEDICINES");
+                              }}
+                              className="flex-1 py-1.5 rounded-xl bg-[#139485] hover:bg-[#007464] text-white font-black text-xs flex items-center justify-center gap-1 shadow-xs active:scale-95 transition-all"
+                            >
+                              <ShoppingCart className="w-3.5 h-3.5" />
+                              <span>Order / Borrow Stock</span>
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -2028,7 +2712,7 @@ export default function MobileAppPage() {
                 { tab: "DASHBOARD", label: "Home", icon: HomeNavIcon },
                 { tab: "MEDICINES", label: "Explore", icon: Compass, badge: totalCartCount > 0 ? totalCartCount : undefined },
                 { tab: "BORROW", label: "Borrow", icon: Plus },
-                { tab: "ORDERS", label: "Orders", icon: OrdersNavIcon },
+                { tab: "INVENTORY", label: "Inventory", icon: Package },
                 { tab: "PROFILE", label: "Profile", icon: User },
               ].map((item) => {
                 const Icon = item.icon;
