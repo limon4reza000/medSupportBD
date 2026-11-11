@@ -95,8 +95,13 @@ export interface IMedicine {
   
   isActive: boolean;
   requiresColdChain?: boolean;
+  requiresPrescription?: boolean;
   darNo?: string;
   dgdaApproved?: boolean;
+  therapeuticClass?: string;
+  tradePricePerBox?: number;
+  mrpPerBox?: number;
+  minOrderQuantity?: number;
 }
 
 export interface IBatch {
