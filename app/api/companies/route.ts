@@ -7,37 +7,50 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const search = (searchParams.get("search") || "").toLowerCase().trim();
+    const search = (searchParams.get("search") || searchParams.get("q") || "").toLowerCase().trim();
 
     const allDepots = db.getDistributors ? db.getDistributors() : (db.distributors || []);
 
-    const companies = ALL_PHARMA_COMPANIES.filter((c) => c.id !== "ALL").map((c) => {
+    const companies = ALL_PHARMA_COMPANIES.filter((c) => c.id !== "ALL").map((c, index) => {
       // Find associated depots from mockDb
-      const matchingDepots = allDepots.filter(
+      let matchingDepots = allDepots.filter(
         (d) =>
           d.companyName.toLowerCase().includes(c.id.toLowerCase()) ||
           d.name.toLowerCase().includes(c.id.toLowerCase())
       );
 
+      if (matchingDepots.length === 0) {
+        matchingDepots = [allDepots[index % allDepots.length]];
+      }
+
+      const cleanCount = parseInt(c.count.replace(/,/g, ""), 10) || 500;
+      const minOrder = c.id === "Square" ? 3000 : c.id === "Beximco" ? 2000 : 1500;
+
       return {
         id: c.id,
         name: c.fullName,
         shortName: c.label,
-        skuCount: c.count,
-        depotsCount: matchingDepots.length || 1,
+        code: c.id.slice(0, 4).toUpperCase(),
+        logoUrl: `/logos/${c.id.toLowerCase()}.png`,
+        dgdaManufacturerNo: `MFG-LIC-${String(1001 + index).padStart(4, "0")}`,
+        skuCount: cleanCount,
+        depotsCount: matchingDepots.length,
+        minimumOrderAmount: minOrder,
+        supportPhone: "+880 2-9876543",
+        supportEmail: `orderdesk@${c.id.toLowerCase().replace(/\s+/g, "")}.com.bd`,
+        isDgdaVerified: true,
+        headquarters: "Dhaka, Bangladesh",
         depots: matchingDepots.map((d) => ({
           id: d.id,
           name: d.name,
           address: d.address,
           thana: d.thana,
           district: d.district,
-          contactNo: d.contactNo,
-          operatingHours: d.operatingHours,
-          coldChainAvailable: d.coldChainAvailable,
-          verificationBadge: d.verificationBadge,
+          contactPhone: d.contactNo,
+          operatingHours: d.operatingHours || "8:00 AM - 9:00 PM",
+          isColdChainCertified: !!d.coldChainAvailable,
+          orderCutoffTime: "14:00",
         })),
-        isDgdaVerified: true,
-        headquarters: "Dhaka, Bangladesh",
       };
     });
 
