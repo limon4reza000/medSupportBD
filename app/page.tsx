@@ -1182,52 +1182,6 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            {/* Order Management & Active Delivery Tracking Card (Always accessible from Home) */}
-            <div className="p-3.5 bg-white rounded-3xl border border-slate-200/90 shadow-2xs space-y-2.5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
-                    <Truck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-black text-slate-900">Wholesale Orders & Live Tracking</div>
-                    <div className="text-[10px] text-slate-500">Live fleet delivery GPS & distributor invoices</div>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveScreen("ORDERS")}
-                  className="text-[11px] font-bold text-[#139485] hover:underline flex items-center gap-0.5"
-                >
-                  <span>View All</span>
-                  <ChevronRight className="w-3 h-3" />
-                </button>
-              </div>
-
-              {/* Active Delivery Highlight */}
-              <div className="p-2.5 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between gap-2">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[11px] font-extrabold text-slate-900">#ORD-20261011-1504</span>
-                    <span className="text-[9px] font-black px-1.5 py-0.2 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                      DISPATCHED
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-slate-500 truncate mt-0.5">
-                    Beximco Van (DHK-CHA-11-2094) • 8 mins away
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveScreen("ORDERS")}
-                  className="px-2.5 py-1.5 rounded-xl bg-[#139485] text-white text-[10px] font-black shadow-xs active:scale-95 transition-all flex items-center gap-1 shrink-0"
-                >
-                  <Navigation className="w-3 h-3" />
-                  <span>Live GPS</span>
-                </button>
-              </div>
-            </div>
-
           </div>
         )}
 
