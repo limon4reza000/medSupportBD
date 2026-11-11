@@ -429,6 +429,7 @@ export default function MobileAppPage() {
     "med-01": 20, // 20 strips Napa Extra
     "med-02": 10, // 10 strips Seclo 20
   });
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [paymentMethod, setPaymentMethod] = useState<"BKASH" | "NAGAD" | "BANK" | "CASH">("BKASH");
@@ -2702,63 +2703,78 @@ export default function MobileAppPage() {
               </div>
             ) : (
               <div className="space-y-3">
-                {/* Cart Items List */}
-                <div className="space-y-2">
-                  {Object.entries(cart).map(([medId, qty]) => {
-                    if (qty <= 0) return null;
-                    const med = medicineList.find((m) => m.id === medId);
-                    if (!med) return null;
-                    const itemTotal = med.unitPrice * 10 * qty;
+                {/* Cart Items Grouped by Pharmaceutical Company */}
+                <div className="space-y-2.5">
+                  {Object.entries(
+                    Object.entries(cart).reduce<Record<string, Array<{ medId: string; qty: number; med: (typeof medicineList)[0] }>>>((acc, [medId, qty]) => {
+                      if (qty <= 0) return acc;
+                      const med = medicineList.find((m) => m.id === medId);
+                      if (!med) return acc;
+                      const company = med.company || "Direct Depot Supply";
+                      if (!acc[company]) acc[company] = [];
+                      acc[company].push({ medId, qty, med });
+                      return acc;
+                    }, {})
+                  ).map(([company, items]) => {
+                    const companySubtotal = items.reduce((sum, item) => sum + item.med.unitPrice * 10 * item.qty, 0);
 
                     return (
-                      <div
-                        key={medId}
-                        className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs flex items-center justify-between gap-2.5"
-                      >
-                        <div className="min-w-0 flex-1">
+                      <div key={company} className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
+                        {/* Company Header & Subtotal */}
+                        <div className="flex items-center justify-between pb-1.5 border-b border-slate-100">
                           <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-black text-slate-900 truncate">
-                              {med.name}
-                            </span>
-                            <span className="text-[10px] text-slate-500 shrink-0">
-                              {med.form}
-                            </span>
+                            <span className="w-2 h-2 rounded-full bg-[#139485]" />
+                            <span className="text-xs font-black text-slate-900">{company}</span>
                           </div>
-                          <div className="text-[10px] text-slate-500 truncate">{med.company}</div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <span className="text-xs font-black text-[#139485]">
-                              ৳{itemTotal.toFixed(0)}
-                            </span>
-                            <span className="text-[10px] text-slate-400">
-                              (৳{med.unitPrice * 10}/box)
-                            </span>
-                            {med.tradeOffer && (
-                              <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 border border-amber-200">
-                                {med.tradeOffer}
-                              </span>
-                            )}
-                          </div>
+                          <span className="text-[11px] font-extrabold text-[#139485]">
+                            ৳{companySubtotal.toFixed(0)} ({items.length} SKUs)
+                          </span>
                         </div>
 
-                        {/* Quantity Stepper */}
-                        <div className="flex items-center gap-2 bg-slate-100 px-2 py-1 rounded-xl border border-slate-200 shrink-0">
-                          <button
-                            type="button"
-                            onClick={() => removeFromCart(med.id)}
-                            className="w-5 h-5 rounded-md bg-white text-slate-700 flex items-center justify-center font-black shadow-2xs active:scale-90"
-                          >
-                            -
-                          </button>
-                          <span className="text-xs font-black text-slate-900 min-w-[18px] text-center">
-                            {qty}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => addToCart(med.id)}
-                            className="w-5 h-5 rounded-md bg-[#139485] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
-                          >
-                            +
-                          </button>
+                        {/* Company Line Items */}
+                        <div className="space-y-1.5">
+                          {items.map(({ medId, qty, med }) => {
+                            const itemTotal = med.unitPrice * 10 * qty;
+                            return (
+                              <div
+                                key={medId}
+                                className="p-2 bg-slate-50/80 rounded-xl flex items-center justify-between gap-2 text-xs"
+                              >
+                                <div className="min-w-0 flex-1">
+                                  <div className="font-black text-slate-900 truncate">{med.name}</div>
+                                  <div className="text-[10px] text-slate-500 mt-0.5">
+                                    ৳{itemTotal.toFixed(0)} <span className="text-slate-400">(৳{med.unitPrice * 10}/box)</span>
+                                    {med.tradeOffer && (
+                                      <span className="ml-1.5 px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 font-bold border border-amber-200 text-[9px]">
+                                        {med.tradeOffer}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Stepper */}
+                                <div className="flex items-center gap-1.5 bg-white px-2 py-0.5 rounded-lg border border-slate-200 shrink-0">
+                                  <button
+                                    type="button"
+                                    onClick={() => removeFromCart(med.id)}
+                                    className="w-4 h-4 rounded text-slate-600 hover:text-slate-900 flex items-center justify-center font-bold text-xs"
+                                  >
+                                    -
+                                  </button>
+                                  <span className="text-xs font-black text-slate-900 min-w-[16px] text-center">
+                                    {qty}
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => addToCart(med.id)}
+                                    className="w-4 h-4 rounded text-[#139485] font-black flex items-center justify-center text-xs"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     );
@@ -2823,15 +2839,55 @@ export default function MobileAppPage() {
                 {/* Checkout Button */}
                 <button
                   type="button"
-                  onClick={() => {
-                    alert(`Wholesale Order Placed Successfully! (Total: ৳${(calculateSubtotal() * 0.97).toFixed(0)})`);
-                    setCart({});
-                    setActiveScreen("ORDERS");
+                  disabled={isCheckingOut}
+                  onClick={async () => {
+                    setIsCheckingOut(true);
+                    try {
+                      const payloadItems = Object.entries(cart)
+                        .filter(([_, q]) => q > 0)
+                        .map(([medicineId, orderedQty]) => ({
+                          medicineId,
+                          orderedUnit: "BOX" as const,
+                          orderedQty,
+                        }));
+
+                      const res = await fetch("/api/orders/checkout", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          pharmacyId: "pharm-01",
+                          items: payloadItems,
+                          paymentMethod,
+                          deliveryNotes: "Wholesale Mobile Order via MedGo B2B Portal",
+                        }),
+                      });
+
+                      const data = await res.json();
+                      if (data.success) {
+                        alert(
+                          data.isMultiCompany
+                            ? `✓ Multi-Company Orders Created!\n\n${data.companyOrders.map((o: any) => `• ${o.companyName}: #${o.orderNumber} (৳${o.netPayableAmount})`).join("\n")}\n\nGrand Total: ৳${data.consolidatedSummary?.grandTotal}`
+                            : `✓ Order #${data.data?.orderNumber || "CONFIRMED"} placed successfully with FEFO batch allocation!`
+                        );
+                        setCart({});
+                        setActiveScreen("ORDERS");
+                      } else {
+                        alert(data.error || "Failed to place order.");
+                      }
+                    } catch (err: any) {
+                      alert(err.message || "Failed to submit checkout.");
+                    } finally {
+                      setIsCheckingOut(false);
+                    }
                   }}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#139485] to-[#059669] hover:from-[#008272] hover:to-[#047857] text-white font-black text-xs shadow-md shadow-[#139485]/25 flex items-center justify-center gap-2 active:scale-95 transition-all"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#139485] to-[#059669] hover:from-[#008272] hover:to-[#047857] text-white font-black text-xs shadow-md shadow-[#139485]/25 flex items-center justify-center gap-2 active:scale-95 transition-all disabled:opacity-50"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  <span>Confirm Wholesale Order (৳{(calculateSubtotal() * 0.97).toFixed(0)})</span>
+                  <span>
+                    {isCheckingOut
+                      ? "Decomposing & Processing Orders..."
+                      : `Confirm Wholesale Order (৳${(calculateSubtotal() * 0.97).toFixed(0)})`}
+                  </span>
                 </button>
               </div>
             )}
