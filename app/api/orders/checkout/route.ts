@@ -4,6 +4,7 @@ import { BatchFifoEngine } from "@/services/batchFifoEngine";
 import { CreditLedgerEngine } from "@/services/creditLedgerEngine";
 import { PackagingEngine } from "@/services/packagingEngine";
 import { StockLockEngine } from "@/services/stockLockEngine";
+import { serverCartStore } from "@/lib/cart/cartStore";
 import {
   CheckoutPayload,
   CheckoutResponseData,
@@ -215,9 +216,16 @@ export async function POST(req: NextRequest) {
       }
 
       // Record Company-Specific Order
+      const assignedMPO = companyName.includes("Beximco")
+        ? { name: "Tanvir Hasan", phone: "01819001122" }
+        : { name: "Tariq Aziz", phone: "01912884910" };
+
+      const challanNumber = orderNumber.replace("ORD-", "CH-");
+
       const companyOrderRecord = {
         id: orderId,
         orderNumber,
+        challanNumber,
         companyName,
         pharmacyId: pharmacy.id,
         depotId: depotId || "depot-dhk-01",
@@ -230,6 +238,7 @@ export async function POST(req: NextRequest) {
         totalLoosePieces: companyLooseBilled,
         totalBonusPieces: companyBonusLoose,
         deliveryNotes: deliveryNotes || `B2B Wholesale Dispatch from ${companyName}`,
+        assignedMPO,
         createdAt: new Date().toISOString(),
         items: allocatedItemsBreakdown,
       };
@@ -258,8 +267,9 @@ export async function POST(req: NextRequest) {
       createdAt: new Date().toISOString(),
     });
 
-    // 7. Release optimistic stock locks
+    // 7. Release optimistic stock locks & clear persistent server cart
     StockLockEngine.releaseLock(lockToken);
+    serverCartStore.delete(pharmacy.id);
 
     // 8. Construct Backward-Compatible and Multi-Company Response
     const primaryAllocatedItems = createdOrders.flatMap((o) => o.items);
