@@ -332,7 +332,7 @@ export function SalesVsPurchaseComparisonCard({
 }
 
 /**
- * 5. Dynamic Business Analytics Bar Chart (Exact Dark UI with Blue Rounded Bars)
+ * 5. Dynamic Business Analytics Bar Chart (White Card with Exact Navy Rounded Bars & Hover Details)
  */
 export function DynamicBarChart({
   chart,
@@ -348,20 +348,20 @@ export function DynamicBarChart({
   isMasked?: boolean;
   isLoading?: boolean;
 }) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(0); // Default active on first bar (like screenshot)
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null); // Details tooltip appears on hover
   const [showMenu, setShowMenu] = useState(false);
 
   if (isLoading) {
     return (
-      <div className="bg-black rounded-2xl p-6 border border-zinc-900 shadow-2xl space-y-4">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
         <div className="flex justify-between items-center">
-          <div className="h-4 w-32 bg-zinc-800 rounded animate-pulse" />
+          <div className="h-4 w-32 bg-slate-100 rounded animate-pulse" />
           <div className="flex space-x-2">
-            <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
-            <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
           </div>
         </div>
-        <div className="h-56 bg-zinc-900/50 rounded-xl animate-pulse" />
+        <div className="h-56 bg-slate-50 rounded-xl animate-pulse" />
       </div>
     );
   }
@@ -369,12 +369,12 @@ export function DynamicBarChart({
   if (!chart || !chart.categories || chart.categories.length === 0) {
     return (
       <div
-        className="py-12 text-center text-xs text-zinc-400 bg-black rounded-2xl border border-zinc-900 shadow-2xl space-y-2 p-6"
+        className="py-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2 p-6"
         data-testid="dynamic-bar-chart-empty"
       >
-        <Package className="w-8 h-8 text-zinc-600 mx-auto" />
-        <p className="font-semibold text-zinc-200">No Data Available</p>
-        <p className="text-[11px] text-zinc-500 max-w-xs mx-auto">
+        <Package className="w-8 h-8 text-slate-400 mx-auto" />
+        <p className="font-semibold text-slate-700">No Data Available</p>
+        <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
           No transactions or orders matched the selected filters.
         </p>
       </div>
@@ -445,18 +445,18 @@ export function DynamicBarChart({
   const availableBarSpan = svgWidth - leftMargin - rightMargin;
   const gap = (availableBarSpan - totalBarWidth) / (count + 1);
 
-  const activeIdx = hoveredIdx !== null && hoveredIdx < count ? hoveredIdx : 0;
-  const activeVal = seriesData[activeIdx] || 0;
-  const activeCat = chart.categories[activeIdx] || "";
-  const activeBarX = leftMargin + gap + activeIdx * (barWidth + gap);
-  const activeBarH = Math.max(8, (activeVal / ceiling) * chartHeight);
+  const activeIdx = hoveredIdx !== null && hoveredIdx < count ? hoveredIdx : null;
+  const activeVal = activeIdx !== null ? (seriesData[activeIdx] || 0) : 0;
+  const activeCat = activeIdx !== null ? (chart.categories[activeIdx] || "") : "";
+  const activeBarX = activeIdx !== null ? (leftMargin + gap + activeIdx * (barWidth + gap)) : 0;
+  const activeBarH = activeIdx !== null ? Math.max(8, (activeVal / ceiling) * chartHeight) : 0;
   const activeBarY = yZero - activeBarH;
 
   const metricLabel = chart.title.toLowerCase().includes("sales") ? "Sales" : "Purchase";
 
   return (
     <div
-      className="bg-black text-white rounded-2xl p-5 border border-zinc-900 shadow-2xl relative overflow-hidden select-none"
+      className="bg-white text-slate-800 rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden select-none"
       data-testid="dynamic-bar-chart"
       role="graphics-document"
       aria-label={chart.title}
@@ -465,7 +465,7 @@ export function DynamicBarChart({
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[#205493]" />
-          <h2 className="text-xs font-semibold text-zinc-300 tracking-wide uppercase">
+          <h2 className="text-xs font-bold text-slate-700 tracking-wide uppercase">
             {chart.title}
           </h2>
         </div>
@@ -477,7 +477,7 @@ export function DynamicBarChart({
                 navigator.clipboard.writeText(window.location.href);
               }
             }}
-            className="p-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors border border-zinc-800"
+            className="p-1.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors border border-slate-200"
           >
             <Upload className="w-4 h-4" />
           </button>
@@ -485,21 +485,21 @@ export function DynamicBarChart({
             <button
               title="More Options"
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors border border-zinc-800"
+              className="p-1.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors border border-slate-200"
             >
               <MoreHorizontal className="w-4 h-4" />
             </button>
             {showMenu && (
-              <div className="absolute right-0 mt-1 w-36 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl py-1 text-xs text-zinc-300 z-20">
+              <div className="absolute right-0 mt-1 w-36 bg-white border border-slate-200 rounded-xl shadow-xl py-1 text-xs text-slate-700 z-20">
                 <button
                   onClick={() => setShowMenu(false)}
-                  className="w-full text-left px-3 py-1.5 hover:bg-zinc-800 hover:text-white"
+                  className="w-full text-left px-3 py-1.5 hover:bg-slate-50 hover:text-slate-900"
                 >
                   View Details
                 </button>
                 <button
                   onClick={() => setShowMenu(false)}
-                  className="w-full text-left px-3 py-1.5 hover:bg-zinc-800 hover:text-white"
+                  className="w-full text-left px-3 py-1.5 hover:bg-slate-50 hover:text-slate-900"
                 >
                   Export Data
                 </button>
@@ -510,7 +510,10 @@ export function DynamicBarChart({
       </div>
 
       {/* SVG Chart Container */}
-      <div className="w-full overflow-x-auto scrollbar-none relative">
+      <div
+        className="w-full overflow-x-auto scrollbar-none relative"
+        onMouseLeave={() => setHoveredIdx(null)}
+      >
         <svg
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
           className="w-full h-64 md:h-72 select-none"
@@ -525,9 +528,9 @@ export function DynamicBarChart({
                 <text
                   x="8"
                   y={lineY + 4}
-                  fill="#71717a"
+                  fill="#64748b"
                   fontSize="11"
-                  fontWeight="400"
+                  fontWeight="500"
                   fontFamily="sans-serif"
                 >
                   {formatYLabel(tickVal)}
@@ -538,9 +541,9 @@ export function DynamicBarChart({
                   y1={lineY}
                   x2={svgWidth - rightMargin}
                   y2={lineY}
-                  stroke="#1f242e"
+                  stroke="#e2e8f0"
                   strokeWidth="1"
-                  strokeDasharray="2 3"
+                  strokeDasharray="3 3"
                 />
               </g>
             );
@@ -561,6 +564,7 @@ export function DynamicBarChart({
                 key={`bar-${cat}-${i}`}
                 className="cursor-pointer transition-all duration-200"
                 onMouseEnter={() => setHoveredIdx(i)}
+                onTouchStart={() => setHoveredIdx(i)}
                 onClick={() => setHoveredIdx(i)}
               >
                 {/* Transparent Hover Hitbox Area for Smooth Interaction */}
@@ -572,7 +576,7 @@ export function DynamicBarChart({
                   fill="transparent"
                 />
 
-                {/* The Bar: Solid Navy/Cobalt Blue with rounded corners */}
+                {/* The Bar: Solid Navy Blue with rounded corners (Matching screenshot) */}
                 <rect
                   x={x}
                   y={y}
@@ -580,20 +584,19 @@ export function DynamicBarChart({
                   height={barH}
                   rx="10"
                   ry="10"
-                  fill={isHovered ? "#296cb8" : "#205493"}
-                  className="transition-all duration-300 ease-out"
+                  fill={isHovered ? "#2b6cb0" : "#205493"}
+                  className="transition-all duration-200 ease-out"
                 />
 
-                {/* X-Axis Category / Month Label */}
+                {/* X-Axis Category / Month Label (Horizontal) */}
                 <text
                   x={x + barWidth / 2}
                   y={yZero + 22}
                   textAnchor="middle"
-                  fill="#f8fafc"
+                  fill={isHovered ? "#0f172a" : "#475569"}
                   fontSize="12"
-                  fontWeight="500"
+                  fontWeight={isHovered ? "700" : "500"}
                   fontFamily="sans-serif"
-                  className={isHovered ? "font-bold fill-white" : "fill-zinc-300"}
                 >
                   {cat.slice(0, 5)}
                 </text>
@@ -602,17 +605,17 @@ export function DynamicBarChart({
           })}
         </svg>
 
-        {/* Floating Tooltip Card (Matching the user screenshot) */}
-        {activeCat && (
+        {/* Floating Tooltip Card (Exact match to user reference screenshot) */}
+        {activeIdx !== null && activeCat && (
           <div
-            className="absolute z-10 pointer-events-none transition-all duration-300 ease-out"
+            className="absolute z-10 pointer-events-none transition-all duration-200 ease-out"
             style={{
-              left: `${Math.max(14, Math.min(80, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
-              top: `${Math.max(20, Math.min(80, (activeBarY / svgHeight) * 100))}%`,
-              transform: activeBarY < 80 ? "translate(-50%, 15px)" : "translate(-50%, -105%)",
+              left: `${Math.max(12, Math.min(88, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
+              top: `${Math.max(15, Math.min(80, (activeBarY / svgHeight) * 100))}%`,
+              transform: activeBarY < 80 ? "translate(-50%, 15px)" : "translate(-50%, -115%)",
             }}
           >
-            <div className="bg-[#262626] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 shadow-2xl space-y-1 min-w-[115px]">
+            <div className="bg-[#262626] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 shadow-2xl space-y-1 min-w-[125px]">
               <div className="text-xs font-bold text-white tracking-tight">
                 {activeCat}
               </div>
@@ -621,7 +624,7 @@ export function DynamicBarChart({
                 <span className="text-zinc-300 font-medium">
                   {metricLabel}
                 </span>
-                <span className="text-white font-bold ml-auto pl-2">
+                <span className="text-white font-bold ml-auto pl-3">
                   {formatTooltipVal(activeVal)}
                 </span>
               </div>
