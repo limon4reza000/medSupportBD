@@ -89,7 +89,8 @@ type MobileScreen =
   | "INVENTORY"
   | "NOTIFICATIONS"
   | "PROFILE"
-  | "BORROW";
+  | "BORROW"
+  | "CART";
 
 interface MedicineItem {
   id: string;
@@ -806,9 +807,10 @@ export default function MobileAppPage() {
                   {[
                     { screen: "BORROW", label: "Stock Borrow (+Borrow)", icon: Plus },
                     { screen: "DASHBOARD", label: "Dashboard", icon: LayoutDashboard },
+                    { screen: "CART", label: "Wholesale Cart", icon: ShoppingCart },
+                    { screen: "INVENTORY", label: "Stock Manager & Inventory", icon: Package },
                     { screen: "MAP", label: "Depots & Warehouses", icon: MapPin },
                     { screen: "ORDERS", label: "Orders & Truck GPS", icon: Truck },
-                    { screen: "INVENTORY", label: "Stock Manager & Inventory", icon: Package },
                     { screen: "NOTIFICATIONS", label: "Notifications", icon: Bell },
                     { screen: "REGISTRATION", label: "Role Registration", icon: UserCheck },
                     { screen: "PROFILE", label: "Pharmacy Profile & DGDA", icon: User },
@@ -1156,6 +1158,13 @@ export default function MobileAppPage() {
                     onClick: () => setActiveScreen("ORDERS"),
                   },
                   {
+                    screen: "INVENTORY",
+                    label: "Inventory",
+                    icon: Package,
+                    bg: "bg-[#e5fafb] text-[#139485] group-hover:bg-cyan-100",
+                    onClick: () => setActiveScreen("INVENTORY"),
+                  },
+                  {
                     screen: "ORDERS",
                     label: "Returns",
                     icon: ReturnsIcon,
@@ -1298,11 +1307,11 @@ export default function MobileAppPage() {
                   </div>
                 </div>
                 <button
-                  onClick={() => setActiveScreen("ORDERS")}
+                  onClick={() => setActiveScreen("CART")}
                   className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#139485] to-[#059669] text-white text-xs font-black shadow-md flex items-center gap-1.5 active:scale-95 transition-transform"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  <span>Checkout (10+1)</span>
+                  <span>View Cart ({totalCartCount})</span>
                 </button>
               </div>
             )}
@@ -2651,6 +2660,184 @@ export default function MobileAppPage() {
           </div>
         )}
 
+        {/* ----------------------------------------------------------------- */}
+        {/* TAB 9: WHOLESALE CART & CHECKOUT                                  */}
+        {/* ----------------------------------------------------------------- */}
+        {activeScreen === "CART" && (
+          <div className="p-4 space-y-3.5 animate-in fade-in duration-150 pb-20">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-base font-black text-slate-900">Wholesale Cart</h1>
+                <p className="text-xs text-slate-500">
+                  {totalCartCount > 0
+                    ? `${totalCartCount} boxes selected from verified depots`
+                    : "Your cart is currently empty"}
+                </p>
+              </div>
+              <div className="w-9 h-9 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#139485] shadow-xs">
+                <ShoppingCart className="w-5 h-5 stroke-[2.2]" />
+              </div>
+            </div>
+
+            {totalCartCount === 0 ? (
+              <div className="p-8 text-center bg-white rounded-3xl border border-slate-200/90 shadow-2xs space-y-3 my-4">
+                <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+                  <ShoppingCart className="w-7 h-7" />
+                </div>
+                <div>
+                  <div className="text-sm font-black text-slate-800">Your Cart is Empty</div>
+                  <p className="text-xs text-slate-500 mt-1 max-w-[240px] mx-auto">
+                    Browse the catalog to add wholesale medicines from verified depots to your cart.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveScreen("MEDICINES")}
+                  className="px-4 py-2 rounded-xl bg-[#139485] hover:bg-[#007464] text-white font-black text-xs shadow-xs active:scale-95 transition-all inline-flex items-center gap-1.5"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Explore Medicines</span>
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {/* Cart Items List */}
+                <div className="space-y-2">
+                  {Object.entries(cart).map(([medId, qty]) => {
+                    if (qty <= 0) return null;
+                    const med = medicineList.find((m) => m.id === medId);
+                    if (!med) return null;
+                    const itemTotal = med.unitPrice * 10 * qty;
+
+                    return (
+                      <div
+                        key={medId}
+                        className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs flex items-center justify-between gap-2.5"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-black text-slate-900 truncate">
+                              {med.name}
+                            </span>
+                            <span className="text-[10px] text-slate-500 shrink-0">
+                              {med.form}
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-slate-500 truncate">{med.company}</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-xs font-black text-[#139485]">
+                              ৳{itemTotal.toFixed(0)}
+                            </span>
+                            <span className="text-[10px] text-slate-400">
+                              (৳{med.unitPrice * 10}/box)
+                            </span>
+                            {med.tradeOffer && (
+                              <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                                {med.tradeOffer}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Quantity Stepper */}
+                        <div className="flex items-center gap-2 bg-slate-100 px-2 py-1 rounded-xl border border-slate-200 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => removeFromCart(med.id)}
+                            className="w-5 h-5 rounded-md bg-white text-slate-700 flex items-center justify-center font-black shadow-2xs active:scale-90"
+                          >
+                            -
+                          </button>
+                          <span className="text-xs font-black text-slate-900 min-w-[18px] text-center">
+                            {qty}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => addToCart(med.id)}
+                            className="w-5 h-5 rounded-md bg-[#139485] text-white flex items-center justify-center font-black shadow-2xs active:scale-90"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Bill Breakdown Card */}
+                <div className="p-3.5 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2 text-xs">
+                  <div className="font-black text-slate-900 text-xs pb-1 border-b border-slate-100 flex items-center justify-between">
+                    <span>Order Bill Summary</span>
+                    <span className="text-[10px] font-bold text-slate-400">B2B Wholesale</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span>Items Subtotal ({totalCartCount} boxes)</span>
+                    <span className="font-bold text-slate-900">৳{calculateSubtotal().toFixed(0)}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-emerald-600">
+                    <span>DGDA Wholesale Scheme Discount (3%)</span>
+                    <span className="font-bold">-৳{(calculateSubtotal() * 0.03).toFixed(0)}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-slate-600">
+                    <span>Depot Delivery Fee</span>
+                    <span className="font-bold text-emerald-600">FREE</span>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-xs font-black text-slate-900">Total Payable Amount</span>
+                    <span className="text-base font-black text-[#139485]">
+                      ৳{(calculateSubtotal() * 0.97).toFixed(0)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Payment Method Selector */}
+                <div className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
+                  <div className="text-xs font-black text-slate-900">Select Payment Terms</div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {[
+                      { id: "CASH", label: "Cash on Delivery" },
+                      { id: "BANK", label: "15-Day Credit" },
+                      { id: "BKASH", label: "bKash B2B" },
+                    ].map((pm) => (
+                      <button
+                        key={pm.id}
+                        type="button"
+                        onClick={() => setPaymentMethod(pm.id as any)}
+                        className={`p-2 rounded-xl text-center border text-[10px] font-bold transition-all ${
+                          paymentMethod === pm.id
+                            ? "bg-teal-50 border-[#139485] text-[#139485] ring-1 ring-[#139485]/20 font-black"
+                            : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                        }`}
+                      >
+                        <div>{pm.label}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Checkout Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert(`Wholesale Order Placed Successfully! (Total: ৳${(calculateSubtotal() * 0.97).toFixed(0)})`);
+                    setCart({});
+                    setActiveScreen("ORDERS");
+                  }}
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#139485] to-[#059669] hover:from-[#008272] hover:to-[#047857] text-white font-black text-xs shadow-md shadow-[#139485]/25 flex items-center justify-center gap-2 active:scale-95 transition-all"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Confirm Wholesale Order (৳{(calculateSubtotal() * 0.97).toFixed(0)})</span>
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
       </main>
 
           {/* =================================================================== */}
@@ -2660,9 +2847,9 @@ export default function MobileAppPage() {
             <div className="flex items-center justify-around w-full">
               {[
                 { tab: "DASHBOARD", label: "Home", icon: HomeNavIcon },
-                { tab: "MEDICINES", label: "Explore", icon: Compass, badge: totalCartCount > 0 ? totalCartCount : undefined },
+                { tab: "MEDICINES", label: "Explore", icon: Compass },
                 { tab: "BORROW", label: "Borrow", icon: Plus },
-                { tab: "INVENTORY", label: "Inventory", icon: Package },
+                { tab: "CART", label: "Cart", icon: ShoppingCart, badge: totalCartCount > 0 ? totalCartCount : undefined },
                 { tab: "PROFILE", label: "Profile", icon: User },
               ].map((item) => {
                 const Icon = item.icon;
