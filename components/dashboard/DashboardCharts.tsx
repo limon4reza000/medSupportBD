@@ -321,3 +321,314 @@ export function SalesVsPurchaseComparisonCard({
     </div>
   );
 }
+
+/**
+ * 5. Dynamic Business Analytics Bar Chart (SVG-based, Filter-Driven)
+ */
+export function DynamicBarChart({
+  chart,
+  isMasked = false,
+}: {
+  chart?: {
+    title: string;
+    yAxisLabel: string;
+    categories: string[];
+    series: { label: string; data: number[] }[];
+  };
+  isMasked?: boolean;
+}) {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  if (!chart || !chart.categories || chart.categories.length === 0) {
+    return (
+      <div className="py-8 text-center text-xs text-slate-400 bg-white rounded-xl border border-slate-200">
+        No records found matching current analytics filter.
+      </div>
+    );
+  }
+
+  const seriesData = chart.series?.[0]?.data || [];
+  const maxVal = Math.max(...seriesData, 1000);
+  const chartHeight = 130;
+  const barWidth = Math.max(20, Math.min(36, Math.floor(220 / chart.categories.length)));
+  const gap = Math.max(12, Math.min(24, Math.floor(80 / chart.categories.length)));
+  const svgWidth = chart.categories.length * (barWidth + gap) + 20;
+
+  return (
+    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3" data-testid="dynamic-bar-chart">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+            {chart.title}
+          </h2>
+          <p className="text-[10px] text-slate-400 font-medium">
+            {chart.yAxisLabel}
+          </p>
+        </div>
+        {hoveredIdx !== null && (
+          <span className="text-[11px] font-bold text-teal-900 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+            {chart.categories[hoveredIdx]}:{" "}
+            {isMasked
+              ? "••••••"
+              : seriesData[hoveredIdx] > 0
+              ? `৳${seriesData[hoveredIdx].toLocaleString()}`
+              : "0 (POS Standby)"}
+          </span>
+        )}
+      </div>
+
+      <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+        <svg
+          viewBox={`0 0 ${svgWidth} ${chartHeight + 35}`}
+          className="w-full h-44 select-none"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <defs>
+            <linearGradient id="dynamicBarGradActive" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#139485" />
+              <stop offset="100%" stopColor="#0d6d62" />
+            </linearGradient>
+            <linearGradient id="dynamicBarGradNormal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#5eead4" />
+              <stop offset="100%" stopColor="#14b8a6" />
+            </linearGradient>
+            <linearGradient id="standbyBarGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#cbd5e1" />
+              <stop offset="100%" stopColor="#94a3b8" />
+            </linearGradient>
+          </defs>
+
+          {/* Grid lines */}
+          <line x1="0" y1={chartHeight} x2={svgWidth} y2={chartHeight} stroke="#e2e8f0" strokeWidth="1" />
+          <line x1="0" y1={chartHeight / 2} x2={svgWidth} y2={chartHeight / 2} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="3 3" />
+
+          {chart.categories.map((cat, i) => {
+            const val = seriesData[i] || 0;
+            const barHeight = isMasked
+              ? chartHeight * 0.4
+              : val > 0
+              ? Math.max(8, (val / maxVal) * chartHeight)
+              : 4;
+            const x = i * (barWidth + gap) + 12;
+            const y = chartHeight - barHeight;
+            const isHovered = hoveredIdx === i;
+            const isZero = val === 0;
+
+            return (
+              <g
+                key={`bar-${cat}-${i}`}
+                className="cursor-pointer transition-all duration-200"
+                onMouseEnter={() => setHoveredIdx(i)}
+                onMouseLeave={() => setHoveredIdx(null)}
+              >
+                <rect
+                  x={x}
+                  y={y}
+                  width={barWidth}
+                  height={barHeight}
+                  rx="4"
+                  fill={
+                    isZero
+                      ? "url(#standbyBarGrad)"
+                      : isHovered
+                      ? "url(#dynamicBarGradActive)"
+                      : "url(#dynamicBarGradNormal)"
+                  }
+                  opacity={isHovered ? 1 : 0.85}
+                  className="transition-all duration-300"
+                />
+
+                {/* Amount label */}
+                {!isMasked && val > 0 && (
+                  <text
+                    x={x + barWidth / 2}
+                    y={Math.max(12, y - 5)}
+                    textAnchor="middle"
+                    className="text-[9px] font-semibold fill-slate-600"
+                  >
+                    {val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}
+                  </text>
+                )}
+
+                {/* Category label */}
+                <text
+                  x={x + barWidth / 2}
+                  y={chartHeight + 16}
+                  textAnchor="middle"
+                  className={`text-[10px] ${
+                    isHovered ? "font-bold fill-teal-900" : "font-medium fill-slate-500"
+                  }`}
+                >
+                  {cat.slice(0, 7)}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 6. Dynamic Business Performance Trends Line Chart (Multi-Series SVG)
+ */
+export function DynamicLineChart({
+  chart,
+  isMasked = false,
+}: {
+  chart?: {
+    title: string;
+    timePoints: string[];
+    lines: { name: string; color: string; data: number[]; isStandby: boolean }[];
+  };
+  isMasked?: boolean;
+}) {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  if (!chart || !chart.timePoints || chart.timePoints.length === 0) {
+    return (
+      <div className="py-8 text-center text-xs text-slate-400 bg-white rounded-xl border border-slate-200">
+        No performance trend data available.
+      </div>
+    );
+  }
+
+  const { timePoints, lines } = chart;
+  const allValues = lines.flatMap((l) => l.data || []);
+  const maxVal = Math.max(...allValues, 10000);
+  const chartHeight = 120;
+  const pointGap = 55;
+  const svgWidth = Math.max(300, (timePoints.length - 1) * pointGap + 60);
+
+  // Helper to calculate SVG points for a line
+  const getPointsString = (data: number[]) => {
+    return data
+      .map((val, idx) => {
+        const x = idx * pointGap + 30;
+        const y = chartHeight - (isMasked ? chartHeight * 0.4 : (val / maxVal) * (chartHeight - 20) + 10);
+        return `${x},${y}`;
+      })
+      .join(" ");
+  };
+
+  return (
+    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3" data-testid="dynamic-line-chart">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+            {chart.title}
+          </h2>
+          <p className="text-[10px] text-slate-400 font-medium">
+            Multi-series performance comparison
+          </p>
+        </div>
+        {/* Legend */}
+        <div className="flex items-center space-x-2 text-[10px]">
+          {lines.map((l) => (
+            <div key={l.name} className="flex items-center space-x-1">
+              <span
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: l.color }}
+              />
+              <span className="text-slate-600 font-medium">
+                {l.name} {l.isStandby ? "(POS)" : ""}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+        <svg
+          viewBox={`0 0 ${svgWidth} ${chartHeight + 35}`}
+          className="w-full h-44 select-none"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          {/* Grid lines */}
+          <line x1="15" y1={chartHeight} x2={svgWidth - 15} y2={chartHeight} stroke="#e2e8f0" strokeWidth="1" />
+          <line x1="15" y1={chartHeight / 2} x2={svgWidth - 15} y2={chartHeight / 2} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="3 3" />
+
+          {/* Lines */}
+          {lines.map((line) => {
+            const points = getPointsString(line.data);
+            return (
+              <g key={`line-${line.name}`}>
+                <polyline
+                  fill="none"
+                  stroke={line.color}
+                  strokeWidth={line.isStandby ? "1.5" : "2.5"}
+                  strokeDasharray={line.isStandby ? "4 4" : "none"}
+                  points={points}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Data points */}
+                {line.data.map((val, idx) => {
+                  const x = idx * pointGap + 30;
+                  const y = chartHeight - (isMasked ? chartHeight * 0.4 : (val / maxVal) * (chartHeight - 20) + 10);
+                  const isHovered = hoveredIdx === idx;
+
+                  return (
+                    <circle
+                      key={`pt-${line.name}-${idx}`}
+                      cx={x}
+                      cy={y}
+                      r={isHovered ? "5" : "3.5"}
+                      fill="#ffffff"
+                      stroke={line.color}
+                      strokeWidth={isHovered ? "2.5" : "1.8"}
+                      className="cursor-pointer transition-all duration-150"
+                      onMouseEnter={() => setHoveredIdx(idx)}
+                      onMouseLeave={() => setHoveredIdx(null)}
+                    />
+                  );
+                })}
+              </g>
+            );
+          })}
+
+          {/* Timepoint Labels */}
+          {timePoints.map((tp, idx) => {
+            const x = idx * pointGap + 30;
+            const isHovered = hoveredIdx === idx;
+
+            return (
+              <text
+                key={`tp-${tp}-${idx}`}
+                x={x}
+                y={chartHeight + 16}
+                textAnchor="middle"
+                className={`text-[10px] ${
+                  isHovered ? "font-bold fill-slate-900" : "font-medium fill-slate-400"
+                }`}
+              >
+                {tp}
+              </text>
+            );
+          })}
+        </svg>
+      </div>
+
+      {hoveredIdx !== null && (
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs flex items-center justify-between">
+          <span className="font-semibold text-slate-700">
+            {timePoints[hoveredIdx]} Performance:
+          </span>
+          <div className="flex items-center space-x-3 text-[11px]">
+            {lines.map((l) => (
+              <span key={`hov-${l.name}`} style={{ color: l.color }} className="font-bold">
+                {l.name}:{" "}
+                {isMasked
+                  ? "••••••"
+                  : l.data[hoveredIdx] > 0
+                  ? `৳${l.data[hoveredIdx].toLocaleString()}`
+                  : "Standby"}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
