@@ -385,7 +385,7 @@ export default function BusinessAnalyticsScreen({
             {/* =========================================================================
                 TIER 3: BAR CHART — BUSINESS ANALYTICS
                 ========================================================================= */}
-            <DynamicBarChart chart={data.barChart} isMasked={isMasked} />
+            <DynamicBarChart chart={data.barChart} isMasked={isMasked} isLoading={loading} />
 
             {/* =========================================================================
                 TIER 4: LINE CHART — BUSINESS PERFORMANCE TRENDS

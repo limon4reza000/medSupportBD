@@ -328,6 +328,7 @@ export function SalesVsPurchaseComparisonCard({
 export function DynamicBarChart({
   chart,
   isMasked = false,
+  isLoading = false,
 }: {
   chart?: {
     title: string;
@@ -336,13 +337,30 @@ export function DynamicBarChart({
     series: { label: string; data: number[] }[];
   };
   isMasked?: boolean;
+  isLoading?: boolean;
 }) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
+        <div className="h-4 w-40 bg-slate-100 rounded animate-pulse" />
+        <div className="h-44 bg-slate-50 rounded-xl animate-pulse" />
+      </div>
+    );
+  }
+
   if (!chart || !chart.categories || chart.categories.length === 0) {
     return (
-      <div className="py-8 text-center text-xs text-slate-400 bg-white rounded-xl border border-slate-200">
-        No records found matching current analytics filter.
+      <div
+        className="py-10 text-center text-xs text-slate-500 bg-white rounded-xl border border-slate-200 space-y-2 p-6"
+        data-testid="dynamic-bar-chart-empty"
+      >
+        <Package className="w-8 h-8 text-slate-300 mx-auto" />
+        <p className="font-semibold text-slate-700">No Data Available</p>
+        <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+          No transactions or orders matched the selected filters. Try switching the date range or company filter.
+        </p>
       </div>
     );
   }
@@ -352,10 +370,15 @@ export function DynamicBarChart({
   const chartHeight = 130;
   const barWidth = Math.max(20, Math.min(36, Math.floor(220 / chart.categories.length)));
   const gap = Math.max(12, Math.min(24, Math.floor(80 / chart.categories.length)));
-  const svgWidth = chart.categories.length * (barWidth + gap) + 20;
+  const svgWidth = Math.max(300, chart.categories.length * (barWidth + gap) + 30);
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3" data-testid="dynamic-bar-chart">
+    <div
+      className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3"
+      data-testid="dynamic-bar-chart"
+      role="graphics-document"
+      aria-label={chart.title}
+    >
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
@@ -365,14 +388,18 @@ export function DynamicBarChart({
             {chart.yAxisLabel}
           </p>
         </div>
-        {hoveredIdx !== null && (
-          <span className="text-[11px] font-bold text-teal-900 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+        {hoveredIdx !== null ? (
+          <span className="text-[11px] font-bold text-teal-900 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 animate-fadeIn">
             {chart.categories[hoveredIdx]}:{" "}
             {isMasked
               ? "••••••"
               : seriesData[hoveredIdx] > 0
               ? `৳${seriesData[hoveredIdx].toLocaleString()}`
               : "0 (POS Standby)"}
+          </span>
+        ) : (
+          <span className="text-[10px] text-slate-400 font-medium">
+            Hover bars for details
           </span>
         )}
       </div>
@@ -409,7 +436,7 @@ export function DynamicBarChart({
               : val > 0
               ? Math.max(8, (val / maxVal) * chartHeight)
               : 4;
-            const x = i * (barWidth + gap) + 12;
+            const x = i * (barWidth + gap) + 16;
             const y = chartHeight - barHeight;
             const isHovered = hoveredIdx === i;
             const isZero = val === 0;
