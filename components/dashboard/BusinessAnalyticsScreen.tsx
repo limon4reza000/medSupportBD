@@ -31,6 +31,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { UserRole } from "@/types/domain";
 import { OverviewCards, OverviewCardsData } from "./OverviewCards";
 import { RecentActivitiesStream, ActivityItem } from "./RecentActivitiesStream";
+import { AnalyticsFilters } from "./AnalyticsFilters";
 import {
   MonthlyPurchaseBarChart,
   CompanyDistributionChart,
@@ -365,104 +366,21 @@ export default function BusinessAnalyticsScreen({
             {/* =========================================================================
                 TIER 2: ANALYTICS FILTERS
                 ========================================================================= */}
-            <div
-              className="bg-white rounded-xl p-3 border border-slate-200 shadow-sm space-y-2.5"
-              data-testid="analytics-filters-section"
-            >
-              {/* Date Range Filter */}
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
-                <span className="flex items-center space-x-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-teal-600" />
-                  <span>Time Horizon:</span>
-                </span>
-                <span className="text-[11px] text-teal-700 font-medium bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200">
-                  {data?.filters?.label || data?.filter?.label || "This Month"}
-                </span>
-              </div>
-
-              {/* Date Range Pills */}
-              <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
-                {[
-                  { id: "daily", label: "Daily" },
-                  { id: "weekly", label: "Weekly" },
-                  { id: "monthly", label: "Monthly" },
-                  { id: "yearly", label: "Yearly" },
-                  { id: "custom", label: "Custom 📅" },
-                ].map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => {
-                      if (p.id === "custom") {
-                        setIsCustomModalOpen(true);
-                      }
-                      setSelectedPeriod(p.id);
-                    }}
-                    className={`px-3 py-1 rounded-lg font-medium whitespace-nowrap transition-all text-xs ${
-                      selectedPeriod === p.id
-                        ? "bg-[#139485] text-white shadow-sm"
-                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                    }`}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Analytics Type Filter */}
-              <div className="space-y-1.5 pt-1.5 border-t border-slate-100">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
-                  <span className="flex items-center space-x-1.5">
-                    <Layers className="w-3.5 h-3.5 text-teal-600" />
-                    <span>Analytics Type:</span>
-                  </span>
-                  <span className="text-[10px] text-teal-700 font-semibold bg-teal-50/70 px-1.5 py-0.2 rounded capitalize">
-                    {selectedType.replace(/_/g, " ")}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
-                  {[
-                    { id: "purchase", label: "Purchase" },
-                    { id: "sales", label: "Sales" },
-                    { id: "company_purchase", label: "Company-wise Purchase" },
-                    { id: "company_sales", label: "Company-wise Sales" },
-                    { id: "medicine_purchase", label: "Medicine-wise Purchase" },
-                    { id: "medicine_sales", label: "Medicine-wise Sales" },
-                  ].map((t) => (
-                    <button
-                      key={t.id}
-                      onClick={() => setSelectedType(t.id)}
-                      className={`px-2.5 py-1 rounded-lg font-medium whitespace-nowrap transition-all text-[11px] ${
-                        selectedType === t.id
-                          ? "bg-teal-700 text-white shadow-sm"
-                          : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Company Filter Dropdown */}
-              <div className="flex items-center space-x-2 pt-1.5 border-t border-slate-100 text-xs">
-                <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                <select
-                  value={selectedCompany}
-                  onChange={(e) => setSelectedCompany(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-700 focus:outline-none focus:ring-1 focus:ring-teal-500"
-                >
-                  <option value="all">All Companies</option>
-                  <option value="Square">Square Pharmaceuticals PLC</option>
-                  <option value="Beximco">Beximco Pharmaceuticals Ltd.</option>
-                  <option value="Incepta">Incepta Pharmaceuticals Ltd.</option>
-                  <option value="Renata">Renata Limited</option>
-                  <option value="Opsonin">Opsonin Pharma Ltd.</option>
-                  <option value="Eskayef">Eskayef Pharmaceuticals Ltd.</option>
-                  <option value="Aristopharma">Aristopharma Ltd.</option>
-                  <option value="ACME">The ACME Laboratories Ltd.</option>
-                </select>
-              </div>
-            </div>
+            <AnalyticsFilters
+              selectedPeriod={selectedPeriod}
+              onSelectPeriod={setSelectedPeriod}
+              selectedType={selectedType}
+              onSelectType={setSelectedType}
+              selectedCompany={selectedCompany}
+              onSelectCompany={setSelectedCompany}
+              periodLabel={data?.filters?.label || data?.filter?.label}
+              onOpenCustomModal={() => setIsCustomModalOpen(true)}
+              onResetFilters={() => {
+                setSelectedPeriod("monthly");
+                setSelectedType("purchase");
+                setSelectedCompany("all");
+              }}
+            />
 
             {/* =========================================================================
                 TIER 3: BAR CHART — BUSINESS ANALYTICS
@@ -736,15 +654,29 @@ export default function BusinessAnalyticsScreen({
                   className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-teal-500"
                 />
               </div>
+
+              {new Date(customStart) > new Date(customEnd) ? (
+                <p className="text-[11px] text-rose-600 font-medium bg-rose-50 p-2 rounded-lg border border-rose-200">
+                  ⚠️ Start date cannot be after end date.
+                </p>
+              ) : new Date(customEnd).getTime() - new Date(customStart).getTime() > 365 * 24 * 60 * 60 * 1000 ? (
+                <p className="text-[11px] text-rose-600 font-medium bg-rose-50 p-2 rounded-lg border border-rose-200">
+                  ⚠️ Date range query cannot exceed 365 days.
+                </p>
+              ) : null}
             </div>
 
             <div className="flex items-center space-x-2 pt-2">
               <button
+                disabled={
+                  new Date(customStart) > new Date(customEnd) ||
+                  new Date(customEnd).getTime() - new Date(customStart).getTime() > 365 * 24 * 60 * 60 * 1000
+                }
                 onClick={() => {
                   setIsCustomModalOpen(false);
                   fetchAnalytics();
                 }}
-                className="flex-1 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg text-xs transition-colors shadow-sm"
+                className="flex-1 py-2 bg-teal-600 hover:bg-teal-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold rounded-lg text-xs transition-colors shadow-sm"
               >
                 Apply Range
               </button>
