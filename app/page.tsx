@@ -238,6 +238,51 @@ export default function MobileAppPage() {
   const [isLoadingNearby, setIsLoadingNearby] = useState(false);
   const [selectedDistributorId, setSelectedDistributorId] = useState<string | undefined>();
 
+  // Compliance & Profile Edit State
+  const [isEditComplianceOpen, setIsEditComplianceOpen] = useState(false);
+  const [editLicenseNo, setEditLicenseNo] = useState("DL-DHK-2024-8841");
+  const [editPharmacist, setEditPharmacist] = useState("Md. Nazmul Karim, B.Pharm");
+  const [editLat, setEditLat] = useState("23.746500");
+  const [editLng, setEditLng] = useState("90.376000");
+  const [complianceMsg, setComplianceMsg] = useState<{ text: string; isError: boolean } | null>(null);
+  const [isSavingCompliance, setIsSavingCompliance] = useState(false);
+
+  const handleSaveCompliance = async () => {
+    setIsSavingCompliance(true);
+    setComplianceMsg(null);
+    try {
+      const res = await fetch("/api/pharmacies", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: "pharm-01",
+          drugLicenseNo: editLicenseNo,
+          pharmacistName: editPharmacist,
+          latitude: parseFloat(editLat),
+          longitude: parseFloat(editLng),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setUserProfile((prev) => ({
+          ...prev,
+          dgdaLicense: editLicenseNo,
+        }));
+        setComplianceMsg({ text: "✓ DGDA compliance and geolocation updated successfully!", isError: false });
+        setTimeout(() => {
+          setIsEditComplianceOpen(false);
+          setComplianceMsg(null);
+        }, 1500);
+      } else {
+        setComplianceMsg({ text: data.error || "Failed to update compliance records.", isError: true });
+      }
+    } catch (err: any) {
+      setComplianceMsg({ text: err.message || "Network error.", isError: true });
+    } finally {
+      setIsSavingCompliance(false);
+    }
+  };
+
   const handleDetectGps = () => {
     if (typeof window === "undefined" || !navigator.geolocation) {
       setGpsStatusMsg("Geolocation is not supported by your browser");
@@ -2628,11 +2673,57 @@ export default function MobileAppPage() {
               </div>
             </div>
 
+            {/* Credit Facilities Progress Card */}
+            <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CreditCard className="w-4 h-4 text-[#139485]" />
+                  <h2 className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                    Wholesale Credit Facilities
+                  </h2>
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  DGDA Authorized
+                </span>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-slate-500 font-medium">Used Credit (৳{userProfile.outstandingDue.toLocaleString()})</span>
+                  <span className="font-bold text-slate-800">
+                    {Math.round((userProfile.outstandingDue / userProfile.creditLimit) * 100)}% Used
+                  </span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-teal-500 to-[#139485] rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min(100, Math.round((userProfile.outstandingDue / userProfile.creditLimit) * 100))}%` }}
+                  />
+                </div>
+                <div className="flex justify-between text-[11px] pt-0.5">
+                  <span className="text-slate-400">Total Limit: ৳{userProfile.creditLimit.toLocaleString()}</span>
+                  <span className="text-emerald-700 font-black">
+                    Available: ৳{(userProfile.creditLimit - userProfile.outstandingDue).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             {/* Credentials Card */}
             <div className="p-4 bg-white rounded-3xl border border-slate-200 shadow-xs space-y-2.5">
-              <h2 className="text-xs font-black text-slate-900 uppercase tracking-wider">
-                DGDA & Trade Verification
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xs font-black text-slate-900 uppercase tracking-wider">
+                  DGDA & Trade Verification
+                </h2>
+                <button
+                  type="button"
+                  onClick={() => setIsEditComplianceOpen(true)}
+                  className="text-[11px] font-bold text-[#139485] hover:underline cursor-pointer"
+                >
+                  Edit Regulatory Info
+                </button>
+              </div>
 
               <div className="space-y-1.5 text-xs">
                 <div className="flex justify-between py-1 border-b border-slate-100">
@@ -2650,6 +2741,10 @@ export default function MobileAppPage() {
                 <div className="flex justify-between py-1 border-b border-slate-100">
                   <span className="text-slate-500">e-TIN Number</span>
                   <span className="font-mono font-bold text-slate-900">{userProfile.tin}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-slate-100">
+                  <span className="text-slate-500">Store Geolocation</span>
+                  <span className="font-mono font-bold text-emerald-700">23.7465° N, 90.3760° E (Verified)</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-500">Premises Address</span>
@@ -3162,6 +3257,123 @@ export default function MobileAppPage() {
               setActiveScreen("DASHBOARD");
             }}
           />
+
+          {/* DGDA Compliance & Geolocation Edit Modal */}
+          {isEditComplianceOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
+              <div className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+                <div className="bg-[#139485] p-4 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5" />
+                    <span className="font-bold text-sm">DGDA Compliance & Geolocation</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsEditComplianceOpen(false);
+                      setComplianceMsg(null);
+                    }}
+                    className="p-1 rounded-full hover:bg-white/10"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="p-4 space-y-3 text-xs">
+                  {complianceMsg && (
+                    <div
+                      className={`p-2.5 rounded-xl border font-medium ${
+                        complianceMsg.isError
+                          ? "bg-rose-50 text-rose-700 border-rose-200"
+                          : "bg-emerald-50 text-emerald-800 border-emerald-200"
+                      }`}
+                    >
+                      {complianceMsg.text}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      DGDA Drug License Number
+                    </label>
+                    <input
+                      type="text"
+                      value={editLicenseNo}
+                      onChange={(e) => setEditLicenseNo(e.target.value)}
+                      placeholder="DL-DHK-2024-8841"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-teal-500"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-0.5">Format: DL-DHK-YYYY-XXXX or DGDA-PH-XXXX</p>
+                  </div>
+
+                  <div>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Registered Pharmacist in Charge
+                    </label>
+                    <input
+                      type="text"
+                      value={editPharmacist}
+                      onChange={(e) => setEditPharmacist(e.target.value)}
+                      placeholder="Pharmacist Name, B.Pharm"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-teal-500"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Latitude</label>
+                      <input
+                        type="text"
+                        value={editLat}
+                        onChange={(e) => setEditLat(e.target.value)}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-semibold text-slate-700 mb-1">Longitude</label>
+                      <input
+                        type="text"
+                        value={editLng}
+                        onChange={(e) => setEditLng(e.target.value)}
+                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                          setEditLat(pos.coords.latitude.toFixed(6));
+                          setEditLng(pos.coords.longitude.toFixed(6));
+                        });
+                      }
+                    }}
+                    className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-teal-600" />
+                    <span>Detect Device GPS Coordinates</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveCompliance}
+                    disabled={isSavingCompliance}
+                    className="w-full py-2.5 bg-[#139485] hover:bg-[#007464] text-white font-bold rounded-xl shadow-xs active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    {isSavingCompliance ? (
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <ShieldCheck className="w-4 h-4" />
+                        <span>Save & Validate DGDA License</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>

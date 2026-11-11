@@ -151,6 +151,9 @@ export interface IPharmacy {
   latitude?: number;
   longitude?: number;
   isLocationVerified?: boolean;
+  licenseExpiryDate?: string;
+  pharmacistName?: string;
+  pharmacistRegNumber?: string;
 }
 
 // ============================================================================
