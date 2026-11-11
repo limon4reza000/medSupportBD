@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { resolveUser, enforceTenantBoundary } from "@/lib/auth/guards";
 import { UserRole } from "@/types/domain";
+import { db } from "@/lib/mockDb";
 
 export const dynamic = "force-dynamic";
 
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     const orderId = params.id;
-    const order = SEED_ORDERS[orderId];
+    const order = db.orders.find((o) => o.id === orderId) || SEED_ORDERS[orderId];
 
     if (!order) {
       return NextResponse.json(

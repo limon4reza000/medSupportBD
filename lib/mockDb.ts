@@ -378,6 +378,381 @@ export interface LedgerEntry {
   createdAt: string;
 }
 
+
+export const initialOrders: any[] = [
+  // 1. Beximco Dispatched Order (Current month)
+  {
+    id: "ORD-20261111-BEX-7967",
+    orderNumber: "ORD-20261111-BEX-7967",
+    challanNumber: "CH-20261111-BEX-9102",
+    companyId: "comp-bex",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DISPATCHED,
+    grossAmount: 49000.00,
+    tradeDiscountAmount: 1470.00,
+    vatAmount: 720.00,
+    netPayableAmount: 48250.00,
+    totalLoosePieces: 2000,
+    totalBonusPieces: 200,
+    deliveryNotes: "Direct cold-chain delivery from Beximco Tejgaon Depot",
+    assignedMPO: { name: "Tanvir Ahmed", phone: "+880 1711-223344", territory: "Dhanmondi North" },
+    vanPlate: "DHK-METRO-CHA-11-2094",
+    driverPhone: "+880 1711-223344",
+    dispatchedAt: "2026-11-11T16:30:00.000Z",
+    createdAt: "2026-11-11T15:20:00.000Z",
+    items: [
+      { medicineId: "med-01", medicineName: "Napa Extra 500mg+65mg", genericName: "Paracetamol + Caffeine", orderedBoxes: 100, unitTradePrice: 490.00, subtotal: 48250.00 }
+    ],
+  },
+  // 2. Square Dispatched Order (Current month)
+  {
+    id: "ORD-20261110-SQU-8812",
+    orderNumber: "ORD-20261110-SQU-8812",
+    challanNumber: "CH-20261110-SQU-4401",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DISPATCHED,
+    grossAmount: 38000.00,
+    tradeDiscountAmount: 1140.00,
+    vatAmount: 340.00,
+    netPayableAmount: 37200.00,
+    totalLoosePieces: 1500,
+    totalBonusPieces: 150,
+    deliveryNotes: "Urgent morning delivery",
+    assignedMPO: { name: "Mahmudul Hasan", phone: "+880 1712-334455", territory: "Dhanmondi Central" },
+    vanPlate: "DHK-METRO-CHA-12-8819",
+    driverPhone: "+880 1712-334455",
+    dispatchedAt: "2026-11-10T11:00:00.000Z",
+    createdAt: "2026-11-10T09:15:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 60, unitTradePrice: 500.00, subtotal: 30000.00 },
+      { medicineId: "med-05", medicineName: "Monas 10mg", genericName: "Montelukast", orderedBoxes: 12, unitTradePrice: 600.00, subtotal: 7200.00 }
+    ],
+  },
+  // 3. Square Packed Order (Current month)
+  {
+    id: "ORD-20261108-SQU-6621",
+    orderNumber: "ORD-20261108-SQU-6621",
+    challanNumber: "CH-20261108-SQU-1205",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.PACKED,
+    grossAmount: 24500.00,
+    tradeDiscountAmount: 735.00,
+    vatAmount: 235.00,
+    netPayableAmount: 24000.00,
+    totalLoosePieces: 800,
+    totalBonusPieces: 80,
+    deliveryNotes: "Standard replenishment",
+    assignedMPO: { name: "Mahmudul Hasan", phone: "+880 1712-334455", territory: "Dhanmondi Central" },
+    createdAt: "2026-11-08T14:45:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 25, unitTradePrice: 500.00, subtotal: 12500.00 },
+      { medicineId: "med-05", medicineName: "Monas 10mg", genericName: "Montelukast", orderedBoxes: 28, unitTradePrice: 600.00, subtotal: 11500.00 }
+    ],
+  },
+  // 4. Incepta Allocated Order (Current month)
+  {
+    id: "ORD-20261106-INC-4419",
+    orderNumber: "ORD-20261106-INC-4419",
+    challanNumber: "CH-20261106-INC-8890",
+    companyId: "comp-inc",
+    companyName: "Incepta Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.ALLOCATED,
+    grossAmount: 25800.00,
+    tradeDiscountAmount: 774.00,
+    vatAmount: 24.00,
+    netPayableAmount: 25050.00,
+    totalLoosePieces: 1000,
+    totalBonusPieces: 100,
+    deliveryNotes: "Batch verification required",
+    assignedMPO: { name: "Zubair Rahman", phone: "+880 1819-556677", territory: "Dhanmondi South" },
+    createdAt: "2026-11-06T10:30:00.000Z",
+    items: [
+      { medicineId: "med-03", medicineName: "Pantobex 20mg", genericName: "Pantoprazole", orderedBoxes: 50, unitTradePrice: 501.00, subtotal: 25050.00 }
+    ],
+  },
+  // 5. Renata Submitted Order (Current month)
+  {
+    id: "ORD-20261104-REN-3301",
+    orderNumber: "ORD-20261104-REN-3301",
+    challanNumber: "CH-20261104-REN-5512",
+    companyId: "comp-ren",
+    companyName: "Renata Limited",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.SUBMITTED,
+    grossAmount: 14400.00,
+    tradeDiscountAmount: 432.00,
+    vatAmount: 32.00,
+    netPayableAmount: 14000.00,
+    totalLoosePieces: 600,
+    totalBonusPieces: 60,
+    deliveryNotes: "Afternoon delivery slot",
+    assignedMPO: { name: "Anisur Rahman", phone: "+880 1911-778899", territory: "Dhanmondi West" },
+    createdAt: "2026-11-04T12:00:00.000Z",
+    items: [
+      { medicineId: "med-04", medicineName: "Sergel 20mg", genericName: "Esomeprazole", orderedBoxes: 28, unitTradePrice: 500.00, subtotal: 14000.00 }
+    ],
+  },
+  // 6. October 2026 Delivered Orders (Total = 132,100.00)
+  {
+    id: "ORD-20261025-SQU-9901",
+    orderNumber: "ORD-20261025-SQU-9901",
+    challanNumber: "CH-20261025-SQU-3312",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 55000.00,
+    tradeDiscountAmount: 1650.00,
+    vatAmount: 150.00,
+    netPayableAmount: 53500.00,
+    totalLoosePieces: 2200,
+    totalBonusPieces: 220,
+    createdAt: "2026-10-25T11:20:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 107, unitTradePrice: 500.00, subtotal: 53500.00 }
+    ],
+  },
+  {
+    id: "ORD-20261018-BEX-7712",
+    orderNumber: "ORD-20261018-BEX-7712",
+    challanNumber: "CH-20261018-BEX-9014",
+    companyId: "comp-bex",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 48000.00,
+    tradeDiscountAmount: 1440.00,
+    vatAmount: 40.00,
+    netPayableAmount: 46600.00,
+    totalLoosePieces: 1900,
+    totalBonusPieces: 190,
+    createdAt: "2026-10-18T14:10:00.000Z",
+    items: [
+      { medicineId: "med-01", medicineName: "Napa Extra 500mg+65mg", genericName: "Paracetamol + Caffeine", orderedBoxes: 95, unitTradePrice: 490.52, subtotal: 46600.00 }
+    ],
+  },
+  {
+    id: "ORD-20261008-INC-5510",
+    orderNumber: "ORD-20261008-INC-5510",
+    challanNumber: "CH-20261008-INC-2201",
+    companyId: "comp-inc",
+    companyName: "Incepta Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 33000.00,
+    tradeDiscountAmount: 1000.00,
+    vatAmount: 0.00,
+    netPayableAmount: 32000.00,
+    totalLoosePieces: 1200,
+    totalBonusPieces: 120,
+    createdAt: "2026-10-08T09:40:00.000Z",
+    items: [
+      { medicineId: "med-03", medicineName: "Pantobex 20mg", genericName: "Pantoprazole", orderedBoxes: 64, unitTradePrice: 500.00, subtotal: 32000.00 }
+    ],
+  },
+  // 7. September 2026 Delivered Orders (Total = 139,000.00)
+  {
+    id: "ORD-20260920-SQU-4412",
+    orderNumber: "ORD-20260920-SQU-4412",
+    challanNumber: "CH-20260920-SQU-1109",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 72000.00,
+    tradeDiscountAmount: 2160.00,
+    vatAmount: 160.00,
+    netPayableAmount: 70000.00,
+    createdAt: "2026-09-20T10:00:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 140, unitTradePrice: 500.00, subtotal: 70000.00 }
+    ],
+  },
+  {
+    id: "ORD-20260910-BEX-3319",
+    orderNumber: "ORD-20260910-BEX-3319",
+    challanNumber: "CH-20260910-BEX-8812",
+    companyId: "comp-bex",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 71000.00,
+    tradeDiscountAmount: 2000.00,
+    vatAmount: 0.00,
+    netPayableAmount: 69000.00,
+    createdAt: "2026-09-10T15:30:00.000Z",
+    items: [
+      { medicineId: "med-01", medicineName: "Napa Extra 500mg+65mg", genericName: "Paracetamol + Caffeine", orderedBoxes: 140, unitTradePrice: 492.85, subtotal: 69000.00 }
+    ],
+  },
+  // 8. August 2026 Delivered Orders (Total = 118,200.00)
+  {
+    id: "ORD-20260815-INC-8812",
+    orderNumber: "ORD-20260815-INC-8812",
+    challanNumber: "CH-20260815-INC-3341",
+    companyId: "comp-inc",
+    companyName: "Incepta Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 122000.00,
+    tradeDiscountAmount: 3800.00,
+    vatAmount: 0.00,
+    netPayableAmount: 118200.00,
+    createdAt: "2026-08-15T11:00:00.000Z",
+    items: [
+      { medicineId: "med-03", medicineName: "Pantobex 20mg", genericName: "Pantoprazole", orderedBoxes: 236, unitTradePrice: 500.84, subtotal: 118200.00 }
+    ],
+  },
+  // 9. July 2026 Delivered Orders (Total = 125,400.00)
+  {
+    id: "ORD-20260714-SQU-1102",
+    orderNumber: "ORD-20260714-SQU-1102",
+    challanNumber: "CH-20260714-SQU-7788",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 129000.00,
+    tradeDiscountAmount: 3600.00,
+    vatAmount: 0.00,
+    netPayableAmount: 125400.00,
+    createdAt: "2026-07-14T10:15:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 250, unitTradePrice: 501.60, subtotal: 125400.00 }
+    ],
+  },
+  // 10. June 2026 Delivered Orders (Total = 112,000.00)
+  {
+    id: "ORD-20260620-BEX-2201",
+    orderNumber: "ORD-20260620-BEX-2201",
+    challanNumber: "CH-20260620-BEX-6611",
+    companyId: "comp-bex",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 115000.00,
+    tradeDiscountAmount: 3000.00,
+    vatAmount: 0.00,
+    netPayableAmount: 112000.00,
+    createdAt: "2026-06-20T16:00:00.000Z",
+    items: [
+      { medicineId: "med-01", medicineName: "Napa Extra 500mg+65mg", genericName: "Paracetamol + Caffeine", orderedBoxes: 228, unitTradePrice: 491.22, subtotal: 112000.00 }
+    ],
+  },
+  // 11. Early 2026 Consolidated Orders (Jan - May 2026: Total = 645,600.00)
+  {
+    id: "ORD-20260310-EARLY-001",
+    orderNumber: "ORD-20260310-EARLY-001",
+    challanNumber: "CH-20260310-EARLY-001",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 665000.00,
+    tradeDiscountAmount: 19400.00,
+    vatAmount: 0.00,
+    netPayableAmount: 645600.00,
+    createdAt: "2026-03-10T12:00:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 1290, unitTradePrice: 500.46, subtotal: 645600.00 }
+    ],
+  },
+  // 12. Dispatched van order for Beximco
+  {
+    id: "ORD-20261111-BEX-002",
+    orderNumber: "ORD-20261111-BEX-002",
+    challanNumber: "CH-BEX-20261111-002",
+    companyId: "comp-bex",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DISPATCHED,
+    grossAmount: 4350.00,
+    tradeDiscountAmount: 0.00,
+    vatAmount: 0.00,
+    netPayableAmount: 4350.00,
+    createdAt: "2026-11-11T12:00:00.000Z",
+    items: [
+      { medicineId: "med-01", medicineName: "Napa Extra", genericName: "Paracetamol", orderedBoxes: 10, unitTradePrice: 435.00, subtotal: 4350.00 }
+    ],
+  },
+  // 13. Square Allocated order
+  {
+    id: "ORD-20261111-SQU-001",
+    orderNumber: "ORD-20261111-SQU-001",
+    challanNumber: "CH-SQU-20261111-001",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.ALLOCATED,
+    grossAmount: 5400.00,
+    tradeDiscountAmount: 0.00,
+    vatAmount: 0.00,
+    netPayableAmount: 5400.00,
+    createdAt: "2026-11-11T11:00:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20", genericName: "Omeprazole", orderedBoxes: 10, unitTradePrice: 540.00, subtotal: 5400.00 }
+    ],
+  },
+  // 14. Second submitted order
+  {
+    id: "ORD-20261111-REN-009",
+    orderNumber: "ORD-20261111-REN-009",
+    challanNumber: "CH-REN-20261111-009",
+    companyId: "comp-ren",
+    companyName: "Renata Limited",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.SUBMITTED,
+    grossAmount: 6000.00,
+    tradeDiscountAmount: 0.00,
+    vatAmount: 0.00,
+    netPayableAmount: 6000.00,
+    createdAt: "2026-11-11T10:00:00.000Z",
+    items: [
+      { medicineId: "med-04", medicineName: "Sergel 20mg", genericName: "Esomeprazole", orderedBoxes: 12, unitTradePrice: 500.00, subtotal: 6000.00 }
+    ],
+  }
+];
+
 export const initialLedgerEntries: LedgerEntry[] = [
   {
     id: "ledg-001",
@@ -421,7 +796,7 @@ class MemoryDatabase {
   public tradeOffers: ITradeOffer[] = [...initialTradeOffers];
   public pharmacies: IPharmacy[] = [...initialPharmacies];
   public ledgerEntries: LedgerEntry[] = [...initialLedgerEntries];
-  public orders: any[] = [];
+  public orders: any[] = [...initialOrders];
 
   private medicineMap: Map<string, IMedicine> = new Map();
   private batchMap: Map<string, IBatch[]> = new Map();
