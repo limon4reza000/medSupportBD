@@ -2858,25 +2858,35 @@ export default function MobileAppPage() {
                       return acc;
                     }, {})
                   ).map(([company, items]) => {
+                    const minOrder = company.includes("Beximco") ? 2000 : company.includes("Square") ? 2000 : 1500;
                     const companySubtotal = items.reduce((sum, item) => sum + item.med.unitPrice * 10 * item.qty, 0);
+                    const isMovMet = companySubtotal >= minOrder;
 
                     return (
                       <div key={company} className="p-3 bg-white rounded-2xl border border-slate-200/90 shadow-2xs space-y-2">
                         {/* Company Header & Subtotal */}
                         <div className="flex items-center justify-between pb-1.5 border-b border-slate-100">
                           <div className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-[#139485]" />
+                            <span className={`w-2 h-2 rounded-full ${isMovMet ? "bg-[#139485]" : "bg-amber-500"}`} />
                             <span className="text-xs font-black text-slate-900">{company}</span>
                           </div>
-                          <span className="text-[11px] font-extrabold text-[#139485]">
-                            ৳{companySubtotal.toFixed(0)} ({items.length} SKUs)
-                          </span>
+                          <div className="text-right">
+                            <span className="text-[11px] font-extrabold text-[#139485]">
+                              ৳{companySubtotal.toFixed(0)} ({items.length} SKUs)
+                            </span>
+                            {!isMovMet && (
+                              <div className="text-[9px] text-amber-600 font-bold">
+                                Add ৳{(minOrder - companySubtotal).toFixed(0)} for min order
+                              </div>
+                            )}
+                          </div>
                         </div>
 
                         {/* Company Line Items */}
                         <div className="space-y-1.5">
                           {items.map(({ medId, qty, med }) => {
                             const itemTotal = med.unitPrice * 10 * qty;
+                            const bonusQty = Math.floor(qty / 10);
                             return (
                               <div
                                 key={medId}
@@ -2886,11 +2896,15 @@ export default function MobileAppPage() {
                                   <div className="font-black text-slate-900 truncate">{med.name}</div>
                                   <div className="text-[10px] text-slate-500 mt-0.5">
                                     ৳{itemTotal.toFixed(0)} <span className="text-slate-400">(৳{med.unitPrice * 10}/box)</span>
-                                    {med.tradeOffer && (
+                                    {bonusQty > 0 ? (
+                                      <span className="ml-1.5 px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 text-[9px]">
+                                        🎁 Scheme: +{bonusQty} Strip Free
+                                      </span>
+                                    ) : med.tradeOffer ? (
                                       <span className="ml-1.5 px-1.5 py-0.2 rounded bg-amber-50 text-amber-700 font-bold border border-amber-200 text-[9px]">
                                         {med.tradeOffer}
                                       </span>
-                                    )}
+                                    ) : null}
                                   </div>
                                 </div>
 
