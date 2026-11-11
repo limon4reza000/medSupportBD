@@ -26,6 +26,12 @@ import {
   Plus,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  MonthlyPurchaseBarChart,
+  CompanyDistributionChart,
+  TopMedicinesRankingChart,
+  SalesVsPurchaseComparisonCard,
+} from "./DashboardCharts";
 
 interface DashboardAnalyticsData {
   filter: {
@@ -519,37 +525,65 @@ export default function BusinessAnalyticsScreen({
               )}
             </div>
 
-            {/* 7. Purchase Analytics & Top SKUs */}
+            {/* 7. Trailing 6-Month Procurement Trends Chart */}
             <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
-              <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
-                Top Purchased Medicines in Period
-              </h2>
-
-              <div className="divide-y divide-slate-100">
-                {purchases?.topPurchasedMedicines.map((m, idx) => (
-                  <div key={m.medicineId || idx} className="py-2.5 flex items-center justify-between text-xs">
-                    <div className="space-y-0.5 max-w-[240px]">
-                      <div className="font-bold text-slate-800 truncate">{m.name}</div>
-                      <div className="text-[10px] text-slate-500 truncate">
-                        {m.genericName} &bull; {m.companyName}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-semibold text-slate-800">
-                        {m.boxes} Boxes
-                      </div>
-                      <div className="text-[11px] text-teal-700 font-medium">
-                        {isMasked ? "••••••" : `৳${m.totalAmount?.toLocaleString() ?? "0"}`}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                {(!purchases?.topPurchasedMedicines || purchases.topPurchasedMedicines.length === 0) && (
-                  <div className="py-4 text-center text-xs text-slate-400">
-                    No medicine purchase records found in selected time horizon.
-                  </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="w-4 h-4 text-teal-600" />
+                  <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                    Procurement Trends
+                  </h2>
+                </div>
+                {purchases?.momComparison && !isMasked && (
+                  <span
+                    className={`text-[11px] font-semibold flex items-center ${
+                      (purchases.momComparison.variancePercent ?? 0) >= 0 ? "text-emerald-700" : "text-rose-700"
+                    }`}
+                  >
+                    MoM: {(purchases.momComparison.variancePercent ?? 0) >= 0 ? "+" : ""}
+                    {purchases.momComparison.variancePercent}%
+                  </span>
                 )}
               </div>
+              <MonthlyPurchaseBarChart data={purchases?.monthlyPurchases || []} isMasked={isMasked} />
+            </div>
+
+            {/* 8. Company Spend Distribution */}
+            <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Building2 className="w-4 h-4 text-purple-600" />
+                  <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                    Company Spend Distribution
+                  </h2>
+                </div>
+                <span className="text-[10px] text-slate-400">Tap to filter</span>
+              </div>
+              <CompanyDistributionChart
+                companies={purchases?.companyPurchases || []}
+                onSelectCompany={(compName) => setSelectedCompany(compName)}
+                isMasked={isMasked}
+              />
+            </div>
+
+            {/* 9. Sales vs Procurement Comparison */}
+            <SalesVsPurchaseComparisonCard
+              purchaseAmount={fin?.totalPurchasePeriod ?? null}
+              isMasked={isMasked}
+            />
+
+            {/* 10. Top Purchased Medicines Ranking */}
+            <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
+              <div className="flex items-center space-x-2">
+                <Package className="w-4 h-4 text-teal-600" />
+                <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                  Top Purchased Medicines Ranking
+                </h2>
+              </div>
+              <TopMedicinesRankingChart
+                medicines={purchases?.topPurchasedMedicines || []}
+                isMasked={isMasked}
+              />
             </div>
           </>
         )}

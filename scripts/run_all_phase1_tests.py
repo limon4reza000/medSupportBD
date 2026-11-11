@@ -18,6 +18,9 @@ SCRIPTS = [
     "scripts/test_st_1_8.py",
     "scripts/test_st_1_9.py",
     "scripts/test_st_1_10.py",
+    "scripts/test_st_1_11a.py",
+    "scripts/test_st_1_11b.py",
+    "scripts/test_st_1_11c.py",
 ]
 
 def main():
@@ -41,7 +44,7 @@ def main():
 
     print("\n" + "=" * 70)
     if all_passed:
-        print("ALL 11 SUB-TASK TEST SUITES PASSED FLAWLESSLY! PHASE 1 IS PRODUCTION READY.")
+        print("ALL 14 SUB-TASK TEST SUITES PASSED FLAWLESSLY! PHASE 1 IS PRODUCTION READY.")
     else:
         print("SOME TESTS FAILED.")
     print("=" * 70)
