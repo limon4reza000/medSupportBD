@@ -29,8 +29,9 @@
 10. [Feature 1.8: Company-Wise Cart Engine](#10-feature-18-company-wise-cart-engine)
 11. [Feature 1.9: Multi-Company Unified Checkout](#11-feature-19-multi-company-unified-checkout)
 12. [Feature 1.10: Atomic Order Decomposition & FEFO Stock Reservation Engine](#12-feature-110-atomic-order-decomposition--fefo-stock-reservation-engine)
-13. [Detailed Phase 1 Implementation Roadmap & Git Commit Plan](#13-detailed-phase-1-implementation-roadmap--git-commit-plan)
-14. [Sign-Off & Verification Process](#14-sign-off--verification-process)
+13. [Feature 1.11: Dashboard — Business Analytics & Real-Time Intelligence](#13-feature-111-dashboard--business-analytics--real-time-intelligence)
+14. [Detailed Phase 1 Implementation Roadmap & Git Commit Plan](#14-detailed-phase-1-implementation-roadmap--git-commit-plan)
+15. [Sign-Off & Verification Process](#15-sign-off--verification-process)
 
 ---
 
@@ -1898,7 +1899,510 @@ model OrderItemAllocation {
 - **Edge Case 1.10.4:** Order 10 boxes where Batch A has 6 boxes (expiring March 2027) and Batch B has 20 boxes (expiring December 2027). Verify FEFO allocates 6 from Batch A and 4 from Batch B.
 
 
-## 13. Detailed Phase 1 Implementation Roadmap & Git Commit Plan
+## 13. Feature 1.11: Dashboard — Business Analytics & Real-Time Intelligence
+
+### 1. Purpose and Expected Functionality
+Feature 1.11 provides the core command-and-control intelligence hub for MedGo. It equips retail pharmacy owners, managing partners, and authorized operations managers with an executive-level, real-time analytics engine tracking B2B wholesale procurement, outstanding credit exposure, multi-company order velocity, and physical batch inventory health.
+
+The Dashboard module serves six interconnected business functions:
+1. **Financial Overview:** Aggregates real-time monthly and year-to-date (YTD) wholesale purchases, computes overall pharmacy credit utilization across all 45 licensed manufacturers, tracks outstanding credit balances against credit limits, and calculates pending supplier invoices.
+2. **Purchase Analytics:** Analyzes procurement patterns across pharmaceutical manufacturers (e.g. Beximco, Square, Incepta, Renata), identifies top-ordered medicine SKUs by physical units and capital expenditure, and provides month-over-month (MoM) purchase comparisons.
+3. **Sales & Margin Analytics:** Defines the analytical framework for counter dispensing revenue, daily/weekly/monthly sales, and gross Chemist margins. **Strict Rule:** Until the MedGo Retail Point-of-Sale (POS) dispensing module is actively populated, the backend explicitly returns `salesDataAvailable: false` with explanatory metadata, preventing the false display of `৳0` or misleading financial health indicators.
+4. **Charts & Visualizations:** Renders responsive, interactive SVG/Canvas charts including Monthly Purchase Bar Charts, Company-Wise Procurement Share Bars, Top Purchased Medicines Rankings, and Multi-Month Expense Trends.
+5. **Inventory Insights & Expiry Risk:** Continuously evaluates physical stock batches against reorder thresholds, identifying low-stock SKUs, stockouts, batches expiring within 90 days, and expired batches requiring regulatory DGDA return, while calculating intelligent run-rate reorder quantities.
+6. **Order Lifecycle Distribution:** Summarizes B2B orders across the complete fulfillment pipeline (`SUBMITTED`, `ALLOCATED`, `PACKED`, `DISPATCHED`, `DELIVERED`, `CANCELLED`) with instant drill-down and active delivery fleet dispatch tracking.
+
+---
+
+### 2. Complete End-to-End User Workflow
+```
+[User on Home Screen]
+       │
+       ▼ Taps 'Dashboard' Shortcut / Metric Card
+[Role & Permission Verification]
+       │
+       ├─► Role = 'RETAIL_PHARMACY' (Staff)
+       │       │
+       │       ▼ Masks financial figures (Credit, Purchases, Balances) with '••••••'
+       │
+       └─► Role = 'PHARMACY_OWNER' / 'ADMIN'
+               │
+               ▼ Unrestricted access to all Financial & Procurement KPIs
+[Fetch Analytics: GET /api/dashboard/analytics?period=this_month&companyId=all]
+       │
+       ▼ Server aggregates actual Orders, Credits, Batches, and Ledgers
+[Render Dashboard UI with Skeleton Transition]
+       │
+       ├─► 1. Financial Overview (Purchase, Balance, Available Credit, Invoices)
+       ├─► 2. Filter Bar (Today | 7D | This Month | Last Month | This Year | Custom | Company)
+       ├─► 3. Purchase Analytics (Monthly Spend, Company Share, Top SKUs, MoM Delta)
+       ├─► 4. Sales & Margin Analytics (POS Integration Indicator / Metrics)
+       ├─► 5. Visual Charts (Purchase Bar, Company Distribution, Top SKUs)
+       ├─► 6. Inventory Insights (Total SKUs, Low Stock, Near Expiry Alerts)
+       └─► 7. Order Status Pipeline (Submitted -> Allocated -> Packed -> Dispatched -> Delivered)
+       │
+       ▼ User selects Filter: 'Last 7 Days' or 'Square Pharmaceuticals'
+[Instant Client Recalibration via API (<100ms)]
+       │
+       ▼ UI re-animates charts and KPIs to match selected filter slice
+```
+
+1. **Accessing the Dashboard:**
+   - From the MedGo Home Screen, the user clicks the **Dashboard** shortcut in the Quick Actions grid or taps the Dashboard widget in the header.
+2. **Permission & Context Evaluation:**
+   - The system inspects the authenticated session token (`medgo_session`).
+   - If the user has `VIEW_FINANCES` permission (`PHARMACY_OWNER`, `ADMIN`), full monetary values are shown.
+   - If the user is `RETAIL_PHARMACY` counter staff, all monetary cards show a masked privacy shield (`••••••`) and a lock badge indicating that financial figures require Owner credentials.
+3. **Hydration & Loading State:**
+   - The screen renders an animated pulse skeleton matching the grid layout.
+   - The client dispatches a request to `GET /api/dashboard/analytics` with the default filter `period=this_month` and `companyId=all`.
+4. **Data Presentation & Interactive Navigation:**
+   - **Financial Overview:** Highlights total purchases this month, available credit limit, outstanding balances, and pending invoices.
+   - **Filter Adjustment:** The user taps a filter pill (e.g., `Last 7 Days`, `Last Month`, `This Year`, or `Custom Date Range`). The dashboard asynchronously refetches data and updates all cards and charts with zero full-page reload.
+   - **Company-Specific Drill-Down:** The user selects a specific manufacturer (e.g. *Beximco Pharmaceuticals Ltd.*). The entire dashboard dynamically scopes its KPIs, showing only Beximco purchases, Beximco credit limits, Beximco orders, and Beximco inventory batches.
+   - **Inventory Alerts & Replenishment:** The user taps the **Low Stock** or **Near Expiry** alert pill. An interactive slide-over drawer lists the affected medicines with batch numbers, remaining days to expiry, and one-tap **"Reorder Now"** actions that auto-populate the Multi-Company Cart.
+   - **Order Tracking Link:** The user clicks the **Dispatched Orders** count, immediately navigating to the live fleet tracking map or the order status view.
+
+---
+
+### 3. User Interactions, UI Elements & Screen Behaviors
+
+#### 3.1 Financial Overview KPI Cards
+- **Total Purchase (Selected Period & YTD):**
+  - Displays primary currency formatted sum (e.g., `৳148,500.00`) for the selected period and secondary caption `৳1,420,800.00 This Year`.
+  - Shows dynamic trend pill: `▲ +12.4% vs last period` (green) or `▼ -4.2%` (red) computed dynamically from the prior equivalent time period.
+- **Total Sales (Selected Period & YTD):**
+  - When POS records exist: Displays gross dispensed sales and percentage growth.
+  - When POS module is not yet linked: Displays a subtle amber badge `POS Module Unlinked` with tooltip `"Retail counter sales data will activate automatically once dispensing receipts are recorded via the POS terminal."`.
+- **Outstanding Balance:**
+  - Displays total current payables owed across wholesale credit lines (e.g., `৳34,500.00`).
+  - Progress bar showing utilization relative to total credit facility:
+    - `< 50%`: Emerald green indicator (`Safe Credit Buffer`).
+    - `50% - 80%`: Amber indicator (`Moderate Utilization`).
+    - `> 80%`: Crimson red indicator (`High Credit Risk — Approaching Limit`).
+- **Available Credit Limit:**
+  - Displays remaining liquid purchasing power: `৳85,500.00 Available of ৳120,000.00 Limit`.
+- **Total Payments & Pending Invoices:**
+  - Shows total settled payments within the period alongside count and monetary value of unsettled invoices (e.g., `3 Invoices Pending • ৳18,200.00 Due`).
+
+#### 3.2 Filter Bar & Date-Range Controls
+- **Preset Period Tabs:** Horizontal scrollable pills:
+  - `[Today]` | `[Last 7 Days]` | `[This Month]` (Default active) | `[Last Month]` | `[This Year]` | `[Custom Range 📅]`
+- **Custom Date Range Picker Modal:**
+  - Activated when `Custom Range` is clicked.
+  - Dual date picker for `Start Date` and `End Date`.
+  - Enforces `startDate <= endDate` and restricts queries to a maximum lookback window of 365 days.
+  - Quick action buttons: `Apply Filter` and `Reset to Default`.
+- **Company Dropdown Filter:**
+  - Native styled select input listing:
+    - `All Pharmaceutical Companies (45)`
+    - Alphabetical list of manufacturers with active orders or credit facilities.
+
+#### 3.3 Purchase Analytics Section
+- **Monthly Purchase Bar Chart:**
+  - Displays a 6-month trailing bar chart with month labels (`Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`).
+  - Hover / tap tooltip shows exact spend and order count for that calendar month.
+- **Company-Wise Purchase Share:**
+  - Visual breakdown displaying supplier distribution (e.g., *Square: 41.2%*, *Beximco: 32.5%*, *Incepta: 16.8%*, *Renata: 9.5%*).
+  - Accompanied by interactive legend where tapping a company filters the entire dashboard.
+- **Top 5 Most Purchased Medicines:**
+  - Table / card list showing:
+    1. Medicine Brand Name & Strength (e.g., `Napa Extra 500mg+65mg`)
+    2. Generic Molecule & Manufacturer (`Paracetamol + Caffeine • Beximco`)
+    3. Total Boxes Ordered (`120 Boxes`)
+    4. Total Procurement Value (`৳58,800.00`)
+- **MoM Purchase Comparison Card:**
+  - Direct comparative card displaying:
+    - `Current Month: ৳148,500.00`
+    - `Previous Month: ৳132,100.00`
+    - `Net Variance: +৳16,400.00 (+12.4% MoM)`
+
+#### 3.4 Sales & Margin Analytics Section
+- **Sales Volume Breakdown:** Daily, weekly, and monthly totals calculated from dispensing tickets.
+- **Top Selling Medicines:** Ranked by unit sales and gross margin percentage.
+- **Chemist Margin Analysis:** Average profit margin computed across retail sales:
+  $$\text{Margin } \% = \frac{\text{Retail MRP} - \text{Wholesale Trade Price}}{\text{Retail MRP}} \times 100$$
+- **Unavailable Data Shield:** If POS transactions have not been recorded, the UI replaces the empty charts with an educational, non-obtrusive state explaining how POS dispensing connects to wholesale replenishment.
+
+#### 3.5 Inventory Health & Insights
+- **Metric Badges:**
+  - **Total Items in Catalog:** Count of unique SKUs managed (e.g. `1,240 SKUs`).
+  - **Low Stock (< 10 boxes):** Count highlighted in amber.
+  - **Out of Stock (0 boxes):** Count highlighted in red with an urgent badge.
+  - **Near Expiry (< 90 days):** Count highlighted in orange, showing batches requiring fast dispensing or supplier exchange.
+  - **Expired Batches:** Count in deep red with DGDA return compliance prompt.
+- **Interactive Reorder Suggestions Drawer:**
+  - Opens on click of Low Stock or Out of Stock cards.
+  - Displays SKU, Current Stock, Average Weekly Consumption, and Suggested Order Qty (in full manufacturer boxes).
+  - Button: **"Add Suggested to Cart"** which leverages `ST-1.8` company clustering.
+
+#### 3.6 Order Fulfillment Overview
+- **Pipeline Status Counters:**
+  - `SUBMITTED` (Pending confirmation)
+  - `ALLOCATED` (Stock reserved at Depot)
+  - `PACKED` (Ready for van dispatch)
+  - `DISPATCHED` (En route with live delivery vehicle)
+  - `DELIVERED` (Received and verified at pharmacy)
+  - `CANCELLED` (Rejected or stock unavailable)
+- **Active Dispatch Snapshot:**
+  - Shows the most recently dispatched delivery van with vehicle license plate, assigned driver phone, and a **"Track Van"** button navigating to the live Leaflet map.
+
+---
+
+### 4. Frontend Functional Requirements
+- **Framework & Libraries:** Built using Next.js 14 App Router React Server/Client Components, Tailwind CSS, Lucide React icons, and lightweight SVG charting primitives (zero heavy external D3 dependencies for maximum mobile performance).
+- **Responsive Layout:**
+  - Mobile viewport (`360px - 480px`): Single column vertical stack, horizontal swipeable cards for KPI metrics, collapsable chart sections.
+  - Tablet/Desktop (`768px+`): Multi-column grid layout (2-column KPIs, side-by-side charts).
+- **State Management:**
+  - Local URL query synchronization: Changing filters updates URL search parameters (`?period=last_month&companyId=comp-bex`), allowing shareable, bookmarkable dashboard views.
+  - SWR / React Query caching with 60-second stale time, background refetch on tab focus, and optimistic UI transitions.
+- **Theme & Branding Consistency:**
+  - Strictly follows the MedGo color palette: `#139485` (Primary Teal), `#0F766E` (Dark Teal), `#F0FDFA` (Light Teal Background), `#1E293B` (Slate Text), `#E2E8F0` (Borders).
+  - Font family: Google Font `Open Sans`, `sans-serif`.
+- **Masking & Role-Based UI Rendering:**
+  - Conditionally renders sensitive financial data based on user claims returned by `useAuth()`. If `user.role === 'RETAIL_PHARMACY'`, all monetary spans display `••••••` with an `Insufficient Permission` badge.
+
+---
+
+### 5. Backend Business Logic & Processing Rules
+
+#### 5.1 Deterministic Period & Date-Range Engine
+The backend resolves all period filter strings against Bangladesh Standard Time (`BST = UTC+6:00`):
+- `today`: From `00:00:00.000` to `23:59:59.999` BST of current day.
+- `7d`: From `00:00:00.000` BST of (Today - 6 days) to `23:59:59.999` BST of Today.
+- `this_month`: From 1st day `00:00:00.000` BST of current calendar month to current moment.
+- `last_month`: From 1st day `00:00:00.000` BST to last day `23:59:59.999` BST of previous calendar month.
+- `this_year`: From January 1st `00:00:00.000` BST of current calendar year to current moment.
+- `custom`: Parses explicit `startDate` and `endDate` query parameters, ensuring `startDate <= endDate` and `(endDate - startDate) <= 365 days`.
+
+#### 5.2 Real-Time Order & Purchase Spend Aggregation
+1. Query non-cancelled orders (`status != 'CANCELLED'`) matching:
+   - `pharmacyId == session.pharmacyId` (Tenant isolation)
+   - `createdAt >= period.startDate AND createdAt <= period.endDate`
+   - If `companyId != 'all'`, match `companyId == query.companyId`.
+2. Compute `totalPurchasePeriod`:
+   $$\text{totalPurchasePeriod} = \sum_{o \in \text{Orders}} o.\text{totalAmount}$$
+3. Compute `totalPurchaseYear`:
+   $$\text{totalPurchaseYear} = \sum_{o \in \text{Orders}_{\text{YTD}}} o.\text{totalAmount}$$
+4. Compute Comparative Period Spend (`previousPeriod`):
+   - Equivalent prior duration (e.g. if `period=this_month` with 11 elapsed days, compares to the first 11 days of `last_month`).
+   - Growth percentage formula:
+     $$\Delta\% = \begin{cases} 
+     \frac{\text{Current} - \text{Previous}}{\text{Previous}} \times 100 & \text{if } \text{Previous} > 0 \\
+     +100\% & \text{if } \text{Previous} = 0 \text{ and } \text{Current} > 0 \\
+     0\% & \text{if } \text{Previous} = 0 \text{ and } \text{Current} = 0
+     \end{cases}$$
+
+#### 5.3 Company-Wise & SKU Aggregation
+1. **Company Breakdown:**
+   - Group orders by `companyId`, summing `totalAmount` per company.
+   - Attach canonical manufacturer name from `companies` directory.
+   - Compute percentage share:
+     $$\text{Share } \% = \frac{\text{Company Spend}}{\text{totalPurchasePeriod}} \times 100$$
+2. **Top Purchased Medicines:**
+   - Flatten `Order.items` for orders in period.
+   - Group by `medicineId`, summing `quantity` (boxes) and `subtotal` (cost).
+   - Sort descending by `subtotal` (or `quantity`), taking Top 5 or Top 10 records.
+
+#### 5.4 Credit & Outstanding Balance Calculation
+1. Fetch `PharmacyCredit` records for `session.pharmacyId`.
+2. Compute total facility limit:
+   $$\text{Available Credit} = \sum (\text{creditLimit} - \text{usedCredit})$$
+   $$\text{Outstanding Balance} = \sum \text{usedCredit}$$
+3. Filter by `companyId` if specific company filter is selected.
+
+#### 5.5 Inventory Health & FEFO Alerts
+1. Query all active physical inventory batches for `session.pharmacyId` (or global catalog stock in demo context).
+2. Categorize:
+   - **Low Stock:** Total available quantity across all batches $\le 10$ boxes (or $\le \text{reorderLevel}$).
+   - **Out of Stock:** Total quantity $== 0$.
+   - **Near Expiry:** Batches where $\text{NOW}() < \text{expiryDate} \le \text{NOW}() + 90 \text{ days}$.
+   - **Expired:** Batches where $\text{expiryDate} < \text{NOW}()$.
+3. Compute intelligent Reorder Suggestions:
+   - For items where stock $\le$ reorder threshold, calculate suggested order:
+     $$\text{Suggested Boxes} = \max(20, \text{Monthly Run Rate} \times 1.5 - \text{Current Stock})$$
+
+#### 5.6 Data Distinction Rules (Zero vs Unavailable)
+- **Financial Rule:** If zero orders exist in period, `totalPurchasePeriod = 0.00` and `purchaseGrowthPercent = 0.0%`.
+- **Sales Data Rule:** Because consumer dispensing POS is scheduled for Phase 3/4, the API returns:
+  ```json
+  "salesAnalytics": {
+    "isAvailable": false,
+    "reason": "POS_MODULE_UNLINKED",
+    "totalSalesPeriod": null,
+    "totalSalesYear": null,
+    "topSellingMedicines": []
+  }
+  ```
+  This guarantees that missing POS data is strictly separated from actual business insolvency.
+
+---
+
+### 6. Required API Endpoints with Request/Response Contracts
+
+#### 6.1 `GET /api/dashboard/analytics`
+- **Authentication:** Mandatory (`medgo_session` cookie).
+- **Permissions:** `VIEW_DASHBOARD`. If user lacks `VIEW_FINANCES`, all monetary amounts are set to `null` or masked.
+- **Query Parameters:**
+  | Parameter | Type | Required | Default | Description |
+  | :--- | :--- | :--- | :--- | :--- |
+  | `period` | String | No | `this_month` | `today`, `7d`, `this_month`, `last_month`, `this_year`, `custom` |
+  | `startDate`| String | If custom | - | ISO 8601 date string (e.g. `2026-11-01T00:00:00Z`) |
+  | `endDate` | String | If custom | - | ISO 8601 date string (e.g. `2026-11-11T23:59:59Z`) |
+  | `companyId`| String | No | `all` | Specific company identifier or `all` |
+
+- **Success Response (200 OK — Pharmacy Owner):**
+```json
+{
+  "success": true,
+  "data": {
+    "filter": {
+      "period": "this_month",
+      "startDate": "2026-11-01T00:00:00.000Z",
+      "endDate": "2026-11-11T23:59:59.999Z",
+      "companyId": "all",
+      "companyName": "All Companies"
+    },
+    "financialOverview": {
+      "totalPurchasePeriod": 148500.00,
+      "totalPurchaseYear": 1420800.00,
+      "purchaseGrowthPercent": 12.4,
+      "totalOutstandingBalance": 34500.00,
+      "availableCreditLimit": 85500.00,
+      "totalCreditFacility": 120000.00,
+      "creditUtilizationPercent": 28.75,
+      "totalPaymentsPeriod": 114000.00,
+      "pendingPaymentsAmount": 34500.00,
+      "pendingInvoicesCount": 3
+    },
+    "salesAnalytics": {
+      "isAvailable": false,
+      "reason": "POS_MODULE_UNLINKED",
+      "message": "Retail counter sales data will activate automatically once dispensing receipts are recorded via the POS terminal.",
+      "totalSalesPeriod": null,
+      "totalSalesYear": null,
+      "salesGrowthPercent": null,
+      "topSellingMedicines": []
+    },
+    "purchaseAnalytics": {
+      "monthlyPurchases": [
+        { "month": "Jun", "year": 2026, "amount": 112000.00, "orderCount": 8 },
+        { "month": "Jul", "year": 2026, "amount": 125400.00, "orderCount": 10 },
+        { "month": "Aug", "year": 2026, "amount": 118200.00, "orderCount": 9 },
+        { "month": "Sep", "year": 2026, "amount": 139000.00, "orderCount": 11 },
+        { "month": "Oct", "year": 2026, "amount": 132100.00, "orderCount": 10 },
+        { "month": "Nov", "year": 2026, "amount": 148500.00, "orderCount": 12 }
+      ],
+      "companyPurchases": [
+        { "companyId": "comp-squ", "companyName": "Square Pharmaceuticals PLC", "amount": 61200.00, "percentage": 41.2 },
+        { "companyId": "comp-bex", "companyName": "Beximco Pharmaceuticals Ltd.", "amount": 48250.00, "percentage": 32.5 },
+        { "companyId": "comp-inc", "companyName": "Incepta Pharmaceuticals Ltd.", "amount": 25050.00, "percentage": 16.9 },
+        { "companyId": "comp-ren", "companyName": "Renata Limited", "amount": 14000.00, "percentage": 9.4 }
+      ],
+      "topPurchasedMedicines": [
+        { "medicineId": "med-01", "name": "Napa Extra 500mg+65mg", "genericName": "Paracetamol + Caffeine", "companyName": "Beximco", "boxes": 120, "totalAmount": 58800.00 },
+        { "medicineId": "med-02", "name": "Seclo 20mg", "genericName": "Omeprazole", "companyName": "Square", "boxes": 85, "totalAmount": 42500.00 },
+        { "medicineId": "med-03", "name": "Monas 10mg", "genericName": "Montelukast", "companyName": "Square", "boxes": 40, "totalAmount": 24000.00 }
+      ],
+      "momComparison": {
+        "currentMonthAmount": 148500.00,
+        "previousMonthAmount": 132100.00,
+        "varianceAmount": 16400.00,
+        "variancePercent": 12.4
+      }
+    },
+    "inventoryInsights": {
+      "totalMedicinesCount": 1240,
+      "lowStockCount": 3,
+      "outOfStockCount": 1,
+      "nearExpiryCount": 2,
+      "expiredCount": 0,
+      "reorderSuggestions": [
+        { "medicineId": "med-01", "name": "Napa Extra", "companyId": "comp-bex", "currentStock": 4, "suggestedBoxes": 50, "reason": "Low Stock (< 10 boxes)" },
+        { "medicineId": "med-04", "name": "Sergel 20mg", "companyId": "comp-ren", "currentStock": 0, "suggestedBoxes": 30, "reason": "Out of Stock" }
+      ]
+    },
+    "orderOverview": {
+      "totalOrders": 14,
+      "byStatus": {
+        "SUBMITTED": 2,
+        "ALLOCATED": 1,
+        "PACKED": 2,
+        "DISPATCHED": 3,
+        "DELIVERED": 6,
+        "CANCELLED": 0
+      },
+      "recentDispatched": [
+        {
+          "orderId": "ORD-20261111-BEX-7967",
+          "companyName": "Beximco Pharmaceuticals Ltd.",
+          "challanNo": "CH-20261111-BEX-9102",
+          "vanPlate": "DHK-METRO-CHA-11-2094",
+          "driverPhone": "+880 1711-223344",
+          "dispatchedAt": "2026-11-11T16:30:00.000Z"
+        }
+      ]
+    },
+    "rbac": {
+      "role": "PHARMACY_OWNER",
+      "financesMasked": false
+    }
+  }
+}
+```
+
+- **Masked Response (200 OK — Counter Staff / RETAIL_PHARMACY):**
+```json
+{
+  "success": true,
+  "data": {
+    "financialOverview": {
+      "totalPurchasePeriod": null,
+      "totalPurchaseYear": null,
+      "purchaseGrowthPercent": null,
+      "totalOutstandingBalance": null,
+      "availableCreditLimit": null,
+      "totalCreditFacility": null,
+      "creditUtilizationPercent": null,
+      "maskedNotice": "Financial metrics require Pharmacy Owner credentials."
+    },
+    "inventoryInsights": { "totalMedicinesCount": 1240, "lowStockCount": 3, "outOfStockCount": 1, "nearExpiryCount": 2, "expiredCount": 0 },
+    "orderOverview": { "totalOrders": 14, "byStatus": { "SUBMITTED": 2, "ALLOCATED": 1, "PACKED": 2, "DISPATCHED": 3, "DELIVERED": 6, "CANCELLED": 0 } },
+    "rbac": {
+      "role": "RETAIL_PHARMACY",
+      "financesMasked": true
+    }
+  }
+}
+```
+
+---
+
+### 7. Database Schema, Tables, Relationships & Constraints
+
+```
+┌─────────────────────────────────┐           ┌─────────────────────────────────┐
+│            Pharmacy             │ 1       * │         PharmacyCredit          │
+├─────────────────────────────────┤───────────├─────────────────────────────────┤
+│ id (PK)                         │           │ id (PK)                         │
+│ name                            │           │ pharmacyId (FK)                 │
+│ drugLicenseNo                   │           │ companyId (FK)                  │
+│ creditLimit                     │           │ creditLimit (Decimal)           │
+│ outstandingBalance              │           │ usedCredit (Decimal)            │
+└─────────────────────────────────┘           └─────────────────────────────────┘
+                 │ 1
+                 │
+                 │ *
+┌─────────────────────────────────┐           ┌─────────────────────────────────┐
+│              Order              │ 1       * │            OrderItem            │
+├─────────────────────────────────┤───────────├─────────────────────────────────┤
+│ id (PK)                         │           │ id (PK)                         │
+│ pharmacyId (FK)                 │           │ orderId (FK)                    │
+│ companyId (FK)                  │           │ medicineId (FK)                 │
+│ totalAmount (Decimal)           │           │ quantity (Int)                  │
+│ status (OrderLifecycleStatus)   │           │ unitPrice (Decimal)             │
+│ paymentTerms                    │           │ subtotal (Decimal)              │
+│ createdAt (DateTime, INDEXED)   │           │ bonusQuantity (Int)             │
+└─────────────────────────────────┘           └─────────────────────────────────┘
+                 │ 1
+                 │
+                 │ *
+┌─────────────────────────────────┐           ┌─────────────────────────────────┐
+│         PaymentLedger           │           │         InventoryBatch          │
+├─────────────────────────────────┤           ├─────────────────────────────────┤
+│ id (PK)                         │           │ id (PK)                         │
+│ pharmacyId (FK)                 │           │ medicineId (FK, INDEXED)        │
+│ companyId (FK)                  │           │ batchNumber                     │
+│ orderId (FK, NULLABLE)          │           │ quantity (Int)                  │
+│ amount (Decimal)                │           │ expiryDate (DateTime, INDEXED)  │
+│ transactionType (DEBIT/CREDIT)  │           │ purchasePrice (Decimal)         │
+│ createdAt (DateTime, INDEXED)   │           │ status (ACTIVE/EXPIRED/RESERVED)│
+└─────────────────────────────────┘           └─────────────────────────────────┘
+```
+
+#### SQL Indexes for Sub-50ms Dashboard Query Performance:
+```sql
+CREATE INDEX idx_orders_pharmacy_created ON "Order" ("pharmacyId", "createdAt");
+CREATE INDEX idx_orders_company_created ON "Order" ("companyId", "createdAt");
+CREATE INDEX idx_batches_expiry ON "InventoryBatch" ("expiryDate");
+CREATE INDEX idx_batches_med_qty ON "InventoryBatch" ("medicineId", "quantity");
+CREATE INDEX idx_ledger_pharmacy_created ON "PaymentLedger" ("pharmacyId", "createdAt");
+```
+
+---
+
+### 8. Authentication, Authorization & Security Requirements
+- **Session Verification:** Every request must present a valid, unexpired `medgo_session` token issued by `ST-1.1A`.
+- **Role Enforcement & Data Masking:**
+  - `PHARMACY_OWNER` & `ADMIN`: Granted full access to all procurement, financial balances, and inventory metrics.
+  - `RETAIL_PHARMACY` (Staff): Financial fields (`totalPurchasePeriod`, `outstandingBalance`, `availableCreditLimit`, `companyPurchases.amount`) are scrubbed by the server and returned as `null` with `financesMasked: true`.
+  - `COMPANY_REP` (MPO): Scoped strictly to their assigned `companyId`. MPOs cannot inspect other companies' purchase volumes or cross-manufacturer metrics.
+- **Tenant Isolation:** Enforced at SQL / ORM query generation level (`WHERE pharmacyId = session.pharmacyId`). Attempts to forge requests for other pharmacies are rejected with `403 Forbidden`.
+
+---
+
+### 9. Input Validation, Edge Cases & Error Handling
+- **Invalid Date Range:** If `startDate > endDate`, returns `422 Unprocessable Entity` with error `"startDate cannot be after endDate"`.
+- **Excessive Date Window:** If `(endDate - startDate) > 365 days`, returns `422 Unprocessable Entity` with error `"Date range query cannot exceed 365 days"`.
+- **Zero Spend Period:** If no orders occurred during the selected window, returns `totalPurchasePeriod = 0.00` and `purchaseGrowthPercent = 0.0` (never throws `DivideByZeroException` or NaN).
+- **Missing Inventory Batches:** If zero batches exist for a medicine, stock is cleanly reported as `0` without missing property crashes.
+- **Unlinked POS Dispensing Module:** Handles non-existent retail POS sales tables gracefully by returning structured flag `salesDataAvailable: false`.
+
+---
+
+### 10. Dependencies on Other Features & Phases
+
+#### 10.1 Phase 1 In-Scope Dependencies (Fully Satisfied):
+- **`ST-1.1A` & `ST-1.1B` (Authentication):** Provides authenticated user session, pharmacy identity, and security tokens.
+- **`ST-1.2` (RBAC):** Supplies `VIEW_FINANCES` and `VIEW_DASHBOARD` role checks.
+- **`ST-1.3` (Pharmacy Profiles):** Supplies licensed pharmacy details, credit facility thresholds, and depot linkage.
+- **`ST-1.4` (Company Directory):** Supplies canonical company names, logos, and support hotlines.
+- **`ST-1.5` & `ST-1.6` (Catalog & Taxonomies):** Supplies medicine names, generics, dosage forms, and chemist margin formulas.
+- **`ST-1.8` & `ST-1.10` (Cart & Orders Engine):** Supplies order history, trade scheme bonuses, wholesale discounts, and physical batch allocations.
+
+#### 10.2 Forward Dependencies (Scheduled for Later Phases):
+- **Phase 3/4: Point-of-Sale (POS) & Counter Sales:** Feeds real-time retail customer sales receipts into `salesAnalytics`.
+- **Phase 4: Payment Gateway & Automated Reconciliation:** Feeds bank/MFS settlement data into `totalPayments`.
+- **Phase 2: Live Delivery Van GPS:** Feeds live coordinates into the active dispatch snapshot widget on the Dashboard.
+
+---
+
+### 11. Detailed Acceptance Criteria
+1. **Real Database Data:** Every figure displayed on the Dashboard must be dynamically calculated from database records (`Order`, `OrderItem`, `PharmacyCredit`, `InventoryBatch`); no hardcoded mock figures are permitted.
+2. **Filter Reactivity:** Changing the filter selector (Today, 7D, This Month, Last Month, This Year, Custom, Company) must update all cards and charts asynchronously without full-page refresh.
+3. **RBAC Masking:** Users authenticated as `RETAIL_PHARMACY` must receive masked figures (`••••••`) for all financial totals while retaining access to inventory alerts and order counts.
+4. **Tenant Scoping:** Pharmacy owners must only see their own pharmacy's transactions; MPOs must only see orders for their assigned pharmaceutical company.
+5. **Accurate MoM Growth:** Percentage changes between current and previous periods must adhere mathematically to standard variance formulas with proper zero-handling.
+6. **FEFO & Expiry Precision:** Batches expiring within 90 days must trigger Near Expiry warnings; expired batches must trigger DGDA return alerts.
+7. **Reorder Suggestions:** Suggested order quantities must be computed based on stock vs threshold and formatted in full manufacturer boxes.
+8. **Distinct Missing POS State:** Absence of retail sales records must be displayed as `POS Module Unlinked`, never as `৳0 Sales`.
+9. **Performance Benchmark:** Aggregation queries on `GET /api/dashboard/analytics` must complete in $\le 100\text{ms}$.
+10. **Visual Responsiveness:** Dashboard cards and charts must display without horizontal overflow on mobile screens (`360px - 430px`) and scale gracefully to tablet/desktop.
+
+---
+
+### 12. Comprehensive Test Scenarios (Positive, Negative, Edge-Case)
+
+#### Positive Test Cases:
+- **Test 1.11.1 (Standard Month Aggregation):** Query `GET /api/dashboard/analytics?period=this_month`. Verify returned `totalPurchasePeriod` matches sum of all non-cancelled orders created in November 2026.
+- **Test 1.11.2 (Company Filter):** Query with `companyId=comp-bex`. Verify `companyPurchases` returns only Beximco and all order counts match Beximco orders.
+- **Test 1.11.3 (Month-over-Month Comparison):** Verify `momComparison` correctly calculates difference between current month spend and previous month spend.
+- **Test 1.11.4 (Inventory Health):** Verify `lowStockCount` reflects medicines with $\le 10$ boxes and `nearExpiryCount` reflects batches with expiry within 90 days.
+
+#### Negative Test Cases:
+- **Test 1.11.5 (Unauthenticated Access):** Query endpoint without `medgo_session` cookie. Verify returns `401 Unauthorized`.
+- **Test 1.11.6 (Invalid Date Range):** Query with `period=custom&startDate=2026-12-01&endDate=2026-11-01`. Verify returns `422 Unprocessable Entity`.
+- **Test 1.11.7 (Unauthorized Cross-Tenant MPO Query):** Log in as Square MPO and attempt to query Beximco analytics. Verify returns `403 Forbidden` (`TENANT_ISOLATION_VIOLATION`).
+
+#### Edge-Case Test Cases:
+- **Test 1.11.8 (Brand New Pharmacy — Zero Purchases):** Query analytics for newly registered pharmacy with zero orders. Verify `totalPurchasePeriod = 0.00`, `purchaseGrowthPercent = 0.0`, and empty states render gracefully without runtime error.
+- **Test 1.11.9 (Staff RBAC Masking):** Query endpoint with `RETAIL_PHARMACY` session. Verify `totalPurchasePeriod` is `null`, `financesMasked` is `true`, and UI displays privacy shield.
+- **Test 1.11.10 (Missing POS Sales):** Verify `salesAnalytics.isAvailable` is `false` and reason is `POS_MODULE_UNLINKED`, ensuring zero sales is not falsely indicated.
+
+---
+
+## 14. Detailed Phase 1 Implementation Roadmap & Git Commit Plan
 
 The following table breaks down every Phase 1 feature into individually deliverable sub-tasks, each with its explicit scope of work, verification requirements, and semantic Git commit message.
 
@@ -1915,10 +2419,14 @@ The following table breaks down every Phase 1 feature into individually delivera
 | **ST-1.8** | Company-Wise Cart Engine | Build cart holding items from multiple companies grouped by manufacturer with trade scheme bonuses and steppers. | Verify company subtotal calculations, bonus box additions, and local storage persistence. | `feat(cart): implement multi-company cart engine with trade schemes` |
 | **ST-1.9** | Multi-Company Unified Checkout | Build checkout screen displaying bill summary, 3% DGDA discount, and payment terms (COD, Credit, bKash). | Test subtotal calculations, credit limit checks, and payment method selection. | `feat(checkout): implement unified checkout with company credit validation` |
 | **ST-1.10**| Atomic Order Decomposition Engine | Implement server-side order decomposition, FEFO batch stock locks, ledger debit entries, and MPO notification dispatch. | Test multi-company order split (1 cart -> N orders), FEFO batch deduction, rollback on stock shortage. | `feat(orders): implement atomic order decomposition and FEFO stock reservation` |
+| **ST-1.11A**| Dashboard Analytics Aggregation Engine | Implement `GET /api/dashboard/analytics` with multi-period date filters, order spend aggregations, company share, credit metrics, and staff RBAC privacy masking. | Query analytics across 6 period filters, test company scoping, verify 422 on invalid dates, test staff financial masking. | `feat(dashboard): implement real-time business analytics aggregation engine` |
+| **ST-1.11B**| Dashboard UI — Financial KPIs & Inventory Health | Build responsive metric cards, utilization progress bars, inventory alerts (low stock, out of stock, near expiry), order lifecycle counters, and reorder drawer. | Visual responsive tests, verify click-to-reorder drawer, verify staff masking renders `••••••` shield. | `feat(dashboard): build responsive kpi overview and inventory insight cards` |
+| **ST-1.11C**| Dashboard Charts & Interactive Filter Engine | Implement responsive SVG/Canvas charts (Monthly Purchase Bar, Company Share, Top SKUs) and multi-period filter bar with Custom Date Range modal. | Test period filter switching, verify dynamic recalculation of charts without page reload, benchmark sub-100ms UI responsiveness. | `feat(dashboard): implement interactive analytics charts and multi-period filter engine` |
+
 
 ---
 
-## 14. Sign-Off & Verification Process
+## 15. Sign-Off & Verification Process
 
 ### Strict Operational Directive:
 In direct accordance with the user's instructions:
