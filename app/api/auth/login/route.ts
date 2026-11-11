@@ -1,21 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SEED_USERS, IAuthUser } from "@/lib/auth/rbac";
 import { UserRole } from "@/types/domain";
+import { normalizeTarget, verifyOtpCode } from "@/lib/auth/otpStore";
+import { initialPharmacies } from "@/lib/mockDb";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { identifier, password, role } = body;
+    const { identifier, password, otp, role } = body;
 
-    const normalizedIdentifier = (identifier || "").trim().replace(/[\s-]/g, "");
+    const normalizedIdentifier = normalizeTarget(identifier || "", "phone");
 
     if (!normalizedIdentifier) {
       return NextResponse.json(
         { success: false, error: "Please enter your mobile number or corporate email." },
         { status: 400 }
       );
+    }
+
+    // If OTP provided, verify it first
+    if (otp) {
+      const otpResult = verifyOtpCode(normalizedIdentifier, otp);
+      if (!otpResult.success) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: otpResult.error || "Invalid verification code.",
+            remainingAttempts: otpResult.remainingAttempts,
+            isLocked: otpResult.isLocked,
+          },
+          { status: otpResult.isLocked ? 429 : 401 }
+        );
+      }
     }
 
     // Match existing seed user by phone or email
@@ -32,7 +50,7 @@ export async function POST(req: NextRequest) {
         id: `user-${Date.now().toString(36)}`,
         phone: normalizedIdentifier.startsWith("01") ? normalizedIdentifier : "01711000000",
         email: normalizedIdentifier.includes("@") ? normalizedIdentifier : `${normalizedIdentifier}@medgo.pharm`,
-        fullName: "Registered Pharmacy Chemist",
+        fullName: assignedRole === UserRole.SALES_REP ? "Tanvir Hasan (MPO)" : "Registered Pharmacy Chemist",
         role: assignedRole,
         pharmacyId: "pharm-01",
         pharmacyName: "Green Care Pharmacy & Med Store",
@@ -48,10 +66,18 @@ export async function POST(req: NextRequest) {
       token,
     };
 
+    // Load pharmacy credit details for pharmacy roles
+    const pharmacy = initialPharmacies.find((p) => p.id === (user?.pharmacyId || "pharm-01")) || initialPharmacies[0];
+
     const response = NextResponse.json({
       success: true,
       message: `Signed in successfully as ${user.fullName} (${user.role})`,
-      user: authenticatedUser,
+      user: {
+        ...authenticatedUser,
+        creditLimit: pharmacy.creditLimit,
+        creditBalance: pharmacy.creditLimit - pharmacy.currentBalance,
+        outstandingBalance: pharmacy.currentBalance,
+      },
       token,
     });
 

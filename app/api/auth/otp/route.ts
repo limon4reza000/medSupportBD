@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BD_PHONE_REGEX } from "@/types/domain";
+import {
+  normalizeTarget,
+  checkLockout,
+  checkSendRateLimit,
+  recordOtpSend,
+  verifyOtpCode,
+} from "@/lib/auth/otpStore";
 
-// Temporary in-memory OTP cache: target (phone/email) -> { otp, expiresAt, verified }
-const otpStore = new Map<string, { code: string; expiresAt: number; verified: boolean }>();
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { action, target, code, type = "phone" } = body;
 
-    const normalizedTarget = (target || "").trim().replace(/[\s-]/g, "");
+    const normalized = normalizeTarget(target, type);
 
-    if (!normalizedTarget) {
+    if (!normalized) {
       return NextResponse.json(
         { success: false, error: "Phone number or email address is required." },
         { status: 400 }
@@ -20,32 +26,55 @@ export async function POST(req: NextRequest) {
 
     // Action: SEND OTP
     if (action === "send") {
-      if (type === "phone" && !BD_PHONE_REGEX.test(normalizedTarget)) {
+      if (type === "phone" && !BD_PHONE_REGEX.test(normalized)) {
         return NextResponse.json(
           { success: false, error: "Please provide a valid 11-digit Bangladeshi mobile number (01XXXXXXXXX)." },
           { status: 400 }
         );
       }
-      if (type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedTarget)) {
+      if (type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) {
         return NextResponse.json(
           { success: false, error: "Please provide a valid email address." },
           { status: 400 }
         );
       }
 
-      // Generate a 6-digit OTP code (e.g. 729401 or random)
+      // Check account lockout
+      const lockout = checkLockout(normalized);
+      if (lockout.isLocked) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: `Account temporarily locked due to multiple failed verification attempts. Please wait ${lockout.minutesRemaining} minute(s).`,
+            isLocked: true,
+          },
+          { status: 429 }
+        );
+      }
+
+      // Check send rate limit (maximum 3 sends per hour)
+      const rateLimit = checkSendRateLimit(normalized);
+      if (rateLimit.isRateLimited) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Rate limit exceeded. Maximum 3 OTP requests per hour. Please wait before requesting another code.",
+            cooldownSeconds: rateLimit.cooldownSeconds,
+          },
+          { status: 429 }
+        );
+      }
+
+      // Generate a 6-digit OTP code (e.g. 412736)
       const generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+      recordOtpSend(normalized, generatedCode, 5 * 60 * 1000); // 5 minutes TTL
 
-      otpStore.set(normalizedTarget, { code: generatedCode, expiresAt, verified: false });
-
-      // In production, an SMS gateway (e.g. Banglalink/Grameenphone API or Twilio) or SendGrid email would be called.
-      // For instant pairing and user evaluation, we return the generated code in development mode response and banner.
       return NextResponse.json({
         success: true,
-        message: `Verification code sent to ${normalizedTarget}. Code expires in 5 minutes.`,
-        target: normalizedTarget,
-        demoCode: generatedCode, // Exposed for immediate evaluation
+        message: `Verification code sent to ${normalized}. Code expires in 5 minutes.`,
+        target: normalized,
+        cooldownSeconds: 60,
+        demoCode: generatedCode,
       });
     }
 
@@ -58,27 +87,19 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      const record = otpStore.get(normalizedTarget);
+      const verification = verifyOtpCode(normalized, code);
 
-      // Default demo bypass if user enters 123456 or matching code
-      const isMatch = (record && record.code === code.trim()) || code.trim() === "123456";
-
-      if (!isMatch) {
+      if (!verification.success) {
         return NextResponse.json(
-          { success: false, error: "Invalid verification code. Please check and try again." },
-          { status: 400 }
+          {
+            success: false,
+            error: verification.error,
+            remainingAttempts: verification.remainingAttempts,
+            isLocked: verification.isLocked,
+          },
+          { status: verification.isLocked ? 429 : 401 }
         );
       }
-
-      if (record && Date.now() > record.expiresAt) {
-        return NextResponse.json(
-          { success: false, error: "Verification code has expired. Please request a new code." },
-          { status: 400 }
-        );
-      }
-
-      // Mark verified
-      otpStore.set(normalizedTarget, { code: code.trim(), expiresAt: Date.now() + 3600000, verified: true });
 
       return NextResponse.json({
         success: true,
