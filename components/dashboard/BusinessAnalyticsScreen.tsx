@@ -26,6 +26,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { UserRole } from "@/types/domain";
 import {
   MonthlyPurchaseBarChart,
   CompanyDistributionChart,
@@ -125,14 +126,16 @@ interface BusinessAnalyticsScreenProps {
   onBack: () => void;
   onNavigateToMap?: () => void;
   onNavigateToCart?: () => void;
+  onOpenAuth?: () => void;
 }
 
 export default function BusinessAnalyticsScreen({
   onBack,
   onNavigateToMap,
   onNavigateToCart,
+  onOpenAuth,
 }: BusinessAnalyticsScreenProps) {
-  const { user } = useAuth();
+  const { user, token, loginWithOtp } = useAuth();
   const [data, setData] = useState<DashboardAnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -155,7 +158,13 @@ export default function BusinessAnalyticsScreen({
       if (selectedPeriod === "custom") {
         url += `&startDate=${customStart}T00:00:00Z&endDate=${customEnd}T23:59:59Z`;
       }
-      const res = await fetch(url, { credentials: "include" });
+      const activeToken = token || (typeof window !== "undefined" ? localStorage.getItem("medgo_session_token") : null);
+      const headers: Record<string, string> = {};
+      if (activeToken) {
+        headers["Authorization"] = `Bearer ${activeToken}`;
+      }
+
+      const res = await fetch(url, { credentials: "include", headers });
       const json = await res.json();
       if (!res.ok || !json.success) {
         throw new Error(json.error || "Failed to load dashboard analytics.");
@@ -166,7 +175,23 @@ export default function BusinessAnalyticsScreen({
     } finally {
       setLoading(false);
     }
-  }, [selectedPeriod, selectedCompany, customStart, customEnd]);
+  }, [selectedPeriod, selectedCompany, customStart, customEnd, token]);
+
+  const handleQuickDemoLogin = async () => {
+    setLoading(true);
+    try {
+      const res = await loginWithOtp("01711409821", "531472", UserRole.PHARMACY_OWNER);
+      if (res.success) {
+        fetchAnalytics();
+      } else {
+        setError(res.error || "Demo login failed.");
+      }
+    } catch (e: any) {
+      setError(e.message || "Failed to sign in.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchAnalytics();
@@ -288,21 +313,57 @@ export default function BusinessAnalyticsScreen({
           </div>
         )}
 
-        {/* Error State */}
+        {/* Error / Auth Required State */}
         {error && (
-          <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs text-rose-700 flex items-start space-x-2.5">
-            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold text-rose-800">Analytics Error</p>
-              <p>{error}</p>
-              <button
-                onClick={fetchAnalytics}
-                className="mt-2 inline-flex items-center space-x-1 text-teal-700 font-semibold underline"
-              >
-                <span>Retry Query</span>
-              </button>
+          error.toLowerCase().includes("authentication") || error.toLowerCase().includes("sign in") ? (
+            <div className="bg-white border border-teal-200/90 rounded-2xl p-5 shadow-sm space-y-4 text-center my-4 animate-in fade-in">
+              <div className="w-12 h-12 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mx-auto text-[#139485]">
+                <Shield className="w-6 h-6 stroke-[2.2]" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-sm font-bold text-slate-900">
+                  Pharmacy Owner Authentication Required
+                </h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Access to sensitive wholesale procurement figures, credit limits, and expiry risk intelligence requires an authenticated session.
+                </p>
+              </div>
+
+              <div className="space-y-2 pt-1 max-w-xs mx-auto">
+                <button
+                  onClick={handleQuickDemoLogin}
+                  disabled={loading}
+                  className="w-full py-2.5 px-4 bg-[#139485] hover:bg-teal-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow flex items-center justify-center space-x-1.5"
+                >
+                  <Shield className="w-3.5 h-3.5" />
+                  <span>1-Click Demo Login as Dr. Rafiqul Islam</span>
+                </button>
+
+                {onOpenAuth && (
+                  <button
+                    onClick={onOpenAuth}
+                    className="w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-colors"
+                  >
+                    Sign In with Phone OTP
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs text-rose-700 flex items-start space-x-2.5">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-rose-800">Analytics Error</p>
+                <p>{error}</p>
+                <button
+                  onClick={fetchAnalytics}
+                  className="mt-2 inline-flex items-center space-x-1 text-teal-700 font-semibold underline"
+                >
+                  <span>Retry Query</span>
+                </button>
+              </div>
+            </div>
+          )
         )}
 
         {data && (

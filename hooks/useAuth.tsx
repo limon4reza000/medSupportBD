@@ -61,14 +61,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshUser = useCallback(async () => {
     setIsLoading(true);
     try {
+      const savedToken = typeof window !== "undefined" ? localStorage.getItem("medgo_session_token") : null;
+      const headers: Record<string, string> = { "Cache-Control": "no-cache" };
+      if (savedToken) {
+        headers["Authorization"] = `Bearer ${savedToken}`;
+      }
+
       const res = await fetch("/api/auth/me", {
-        headers: { "Cache-Control": "no-cache" },
+        headers,
+        credentials: "include",
       });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.user) {
+          const resolvedToken = data.token || data.user.token || savedToken || null;
           setUser(data.user);
-          setToken(data.user.token || null);
+          setToken(resolvedToken);
+          if (resolvedToken && typeof window !== "undefined") {
+            localStorage.setItem("medgo_session_token", resolvedToken);
+          }
           if (data.pharmacy) {
             setPharmacy(data.pharmacy);
           }
@@ -158,6 +169,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.error("Logout request failed:", err);
     } finally {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("medgo_session_token");
+      }
       setUser(null);
       setToken(null);
       setPharmacy(null);

@@ -25,9 +25,18 @@ export async function GET(req: NextRequest) {
 
     const pharmacy = initialPharmacies.find((p) => p.id === (activeUser.pharmacyId || "pharm-01")) || initialPharmacies[0];
 
-    return NextResponse.json({
+    const userToken =
+      token && token.startsWith("mgtok_")
+        ? token
+        : `mgtok_${Buffer.from(`${activeUser.id}:${activeUser.role}`).toString("base64")}`;
+
+    const res = NextResponse.json({
       success: true,
-      user: activeUser,
+      token: userToken,
+      user: {
+        ...activeUser,
+        token: userToken,
+      },
       pharmacy: {
         id: pharmacy.id,
         tradeName: pharmacy.tradeName,
@@ -48,6 +57,16 @@ export async function GET(req: NextRequest) {
         },
       },
     });
+
+    if (!req.cookies.get("medgo_session")) {
+      res.cookies.set("medgo_session", userToken, {
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+      });
+    }
+
+    return res;
   } catch (err: any) {
     return NextResponse.json(
       { success: false, error: err.message || "Failed to load session profile." },

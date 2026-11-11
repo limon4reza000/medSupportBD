@@ -3080,6 +3080,7 @@ export default function MobileAppPage() {
             onBack={() => setActiveScreen("DASHBOARD")}
             onNavigateToMap={() => setActiveScreen("MAP")}
             onNavigateToCart={() => setActiveScreen("CART")}
+            onOpenAuth={() => setIsAuthModalOpen(true)}
           />
         )}
 
