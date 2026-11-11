@@ -933,7 +933,7 @@ export default function MobileAppPage() {
               {/* Header Title */}
               <div className="text-center px-1">
                 <h1 className="text-[17.5px] sm:text-lg font-medium text-[#007d6b] tracking-tight whitespace-nowrap">
-                  Explore the healthcare marketplace
+                  Explore Medicines & Suppliers
                 </h1>
               </div>
 
