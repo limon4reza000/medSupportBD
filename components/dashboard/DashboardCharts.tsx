@@ -1,7 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { TrendingUp, TrendingDown, Building2, Package, DollarSign, Info } from "lucide-react";
+import {
+  TrendingUp,
+  TrendingDown,
+  Building2,
+  Package,
+  DollarSign,
+  Info,
+  Upload,
+  MoreHorizontal,
+} from "lucide-react";
 
 interface MonthlyData {
   month: string;
@@ -323,7 +332,7 @@ export function SalesVsPurchaseComparisonCard({
 }
 
 /**
- * 5. Dynamic Business Analytics Bar Chart (SVG-based, Filter-Driven)
+ * 5. Dynamic Business Analytics Bar Chart (Exact Dark UI with Blue Rounded Bars)
  */
 export function DynamicBarChart({
   chart,
@@ -339,13 +348,20 @@ export function DynamicBarChart({
   isMasked?: boolean;
   isLoading?: boolean;
 }) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(0); // Default active on first bar (like screenshot)
+  const [showMenu, setShowMenu] = useState(false);
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
-        <div className="h-4 w-40 bg-slate-100 rounded animate-pulse" />
-        <div className="h-44 bg-slate-50 rounded-xl animate-pulse" />
+      <div className="bg-black rounded-2xl p-6 border border-zinc-900 shadow-2xl space-y-4">
+        <div className="flex justify-between items-center">
+          <div className="h-4 w-32 bg-zinc-800 rounded animate-pulse" />
+          <div className="flex space-x-2">
+            <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
+            <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse" />
+          </div>
+        </div>
+        <div className="h-56 bg-zinc-900/50 rounded-xl animate-pulse" />
       </div>
     );
   }
@@ -353,145 +369,265 @@ export function DynamicBarChart({
   if (!chart || !chart.categories || chart.categories.length === 0) {
     return (
       <div
-        className="py-10 text-center text-xs text-slate-500 bg-white rounded-xl border border-slate-200 space-y-2 p-6"
+        className="py-12 text-center text-xs text-zinc-400 bg-black rounded-2xl border border-zinc-900 shadow-2xl space-y-2 p-6"
         data-testid="dynamic-bar-chart-empty"
       >
-        <Package className="w-8 h-8 text-slate-300 mx-auto" />
-        <p className="font-semibold text-slate-700">No Data Available</p>
-        <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
-          No transactions or orders matched the selected filters. Try switching the date range or company filter.
+        <Package className="w-8 h-8 text-zinc-600 mx-auto" />
+        <p className="font-semibold text-zinc-200">No Data Available</p>
+        <p className="text-[11px] text-zinc-500 max-w-xs mx-auto">
+          No transactions or orders matched the selected filters.
         </p>
       </div>
     );
   }
 
-  const seriesData = chart.series?.[0]?.data || [];
-  const maxVal = Math.max(...seriesData, 1000);
-  const chartHeight = 130;
-  const barWidth = Math.max(20, Math.min(36, Math.floor(220 / chart.categories.length)));
-  const gap = Math.max(12, Math.min(24, Math.floor(80 / chart.categories.length)));
-  const svgWidth = Math.max(300, chart.categories.length * (barWidth + gap) + 30);
+  const series = chart.series?.[0] || { label: "Purchase", data: [] };
+  const seriesData = series.data || [];
+  const rawMax = Math.max(...seriesData, 1000);
+
+  // Dynamic clean ceiling computation
+  const getCeiling = (max: number) => {
+    if (max <= 50000) return 50000;
+    if (max <= 100000) return 100000;
+    if (max <= 150000) return 150000;
+    if (max <= 200000) return 200000;
+    if (max <= 300000) return 300000;
+    if (max <= 500000) return 500000;
+    if (max <= 1000000) return 1000000;
+    return Math.ceil(max / 100000) * 100000;
+  };
+
+  const ceiling = getCeiling(rawMax);
+  const yTicks = [
+    ceiling,
+    ceiling * 0.75,
+    ceiling * 0.5,
+    ceiling * 0.25,
+    0,
+  ];
+
+  const formatYLabel = (val: number) => {
+    if (val === 0) return "৳0";
+    if (val >= 1000000) {
+      const num = val / 1000000;
+      return `৳${num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)}M`;
+    }
+    if (val >= 1000) {
+      const num = val / 1000;
+      return `৳${num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)}K`;
+    }
+    return `৳${val}`;
+  };
+
+  const formatTooltipVal = (val: number) => {
+    if (isMasked) return "••••••";
+    if (val === 0) return "৳0";
+    if (val >= 1000) {
+      const kVal = val / 1000;
+      return `৳${kVal % 1 === 0 ? kVal.toFixed(0) : kVal.toFixed(1)}K`;
+    }
+    return `৳${val}`;
+  };
+
+  // Dimensions
+  const chartHeight = 200;
+  const topPadding = 30;
+  const leftMargin = 55;
+  const rightMargin = 20;
+  const yZero = topPadding + chartHeight;
+  const svgHeight = yZero + 35;
+
+  const count = chart.categories.length;
+  const barWidth = Math.max(38, Math.min(54, Math.floor(260 / count)));
+  const totalBarWidth = count * barWidth;
+  const minSvgWidth = 460;
+  const svgWidth = Math.max(minSvgWidth, leftMargin + totalBarWidth + count * 24 + rightMargin);
+  const availableBarSpan = svgWidth - leftMargin - rightMargin;
+  const gap = (availableBarSpan - totalBarWidth) / (count + 1);
+
+  const activeIdx = hoveredIdx !== null && hoveredIdx < count ? hoveredIdx : 0;
+  const activeVal = seriesData[activeIdx] || 0;
+  const activeCat = chart.categories[activeIdx] || "";
+  const activeBarX = leftMargin + gap + activeIdx * (barWidth + gap);
+  const activeBarH = Math.max(8, (activeVal / ceiling) * chartHeight);
+  const activeBarY = yZero - activeBarH;
+
+  const metricLabel = chart.title.toLowerCase().includes("sales") ? "Sales" : "Purchase";
 
   return (
     <div
-      className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3"
+      className="bg-black text-white rounded-2xl p-5 border border-zinc-900 shadow-2xl relative overflow-hidden select-none"
       data-testid="dynamic-bar-chart"
       role="graphics-document"
       aria-label={chart.title}
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+      {/* Top Header Actions */}
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center space-x-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#205493]" />
+          <h2 className="text-xs font-semibold text-zinc-300 tracking-wide uppercase">
             {chart.title}
           </h2>
-          <p className="text-[10px] text-slate-400 font-medium">
-            {chart.yAxisLabel}
-          </p>
         </div>
-        {hoveredIdx !== null ? (
-          <span className="text-[11px] font-bold text-teal-900 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 animate-fadeIn">
-            {chart.categories[hoveredIdx]}:{" "}
-            {isMasked
-              ? "••••••"
-              : seriesData[hoveredIdx] > 0
-              ? `৳${seriesData[hoveredIdx].toLocaleString()}`
-              : "0 (POS Standby)"}
-          </span>
-        ) : (
-          <span className="text-[10px] text-slate-400 font-medium">
-            Hover bars for details
-          </span>
-        )}
+        <div className="flex items-center space-x-2">
+          <button
+            title="Share / Export"
+            onClick={() => {
+              if (typeof navigator !== "undefined" && navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href);
+              }
+            }}
+            className="p-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors border border-zinc-800"
+          >
+            <Upload className="w-4 h-4" />
+          </button>
+          <div className="relative">
+            <button
+              title="More Options"
+              onClick={() => setShowMenu(!showMenu)}
+              className="p-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white transition-colors border border-zinc-800"
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </button>
+            {showMenu && (
+              <div className="absolute right-0 mt-1 w-36 bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl py-1 text-xs text-zinc-300 z-20">
+                <button
+                  onClick={() => setShowMenu(false)}
+                  className="w-full text-left px-3 py-1.5 hover:bg-zinc-800 hover:text-white"
+                >
+                  View Details
+                </button>
+                <button
+                  onClick={() => setShowMenu(false)}
+                  className="w-full text-left px-3 py-1.5 hover:bg-zinc-800 hover:text-white"
+                >
+                  Export Data
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+      {/* SVG Chart Container */}
+      <div className="w-full overflow-x-auto scrollbar-none relative">
         <svg
-          viewBox={`0 0 ${svgWidth} ${chartHeight + 35}`}
-          className="w-full h-44 select-none"
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          className="w-full h-64 md:h-72 select-none"
           preserveAspectRatio="xMidYMid meet"
         >
-          <defs>
-            <linearGradient id="dynamicBarGradActive" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#139485" />
-              <stop offset="100%" stopColor="#0d6d62" />
-            </linearGradient>
-            <linearGradient id="dynamicBarGradNormal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#5eead4" />
-              <stop offset="100%" stopColor="#14b8a6" />
-            </linearGradient>
-            <linearGradient id="standbyBarGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#cbd5e1" />
-              <stop offset="100%" stopColor="#94a3b8" />
-            </linearGradient>
-          </defs>
+          {/* 5 Horizontal Grid Lines and Left-aligned Y-Axis Labels */}
+          {yTicks.map((tickVal, i) => {
+            const lineY = topPadding + i * (chartHeight / 4);
+            return (
+              <g key={`ytick-${tickVal}-${i}`}>
+                {/* Y-Axis Label */}
+                <text
+                  x="8"
+                  y={lineY + 4}
+                  fill="#71717a"
+                  fontSize="11"
+                  fontWeight="400"
+                  fontFamily="sans-serif"
+                >
+                  {formatYLabel(tickVal)}
+                </text>
+                {/* Faint Horizontal Dashed Line */}
+                <line
+                  x1={leftMargin}
+                  y1={lineY}
+                  x2={svgWidth - rightMargin}
+                  y2={lineY}
+                  stroke="#1f242e"
+                  strokeWidth="1"
+                  strokeDasharray="2 3"
+                />
+              </g>
+            );
+          })}
 
-          {/* Grid lines */}
-          <line x1="0" y1={chartHeight} x2={svgWidth} y2={chartHeight} stroke="#e2e8f0" strokeWidth="1" />
-          <line x1="0" y1={chartHeight / 2} x2={svgWidth} y2={chartHeight / 2} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="3 3" />
-
+          {/* Bars */}
           {chart.categories.map((cat, i) => {
             const val = seriesData[i] || 0;
-            const barHeight = isMasked
+            const barH = isMasked
               ? chartHeight * 0.4
-              : val > 0
-              ? Math.max(8, (val / maxVal) * chartHeight)
-              : 4;
-            const x = i * (barWidth + gap) + 16;
-            const y = chartHeight - barHeight;
+              : Math.max(6, (val / ceiling) * chartHeight);
+            const x = leftMargin + gap + i * (barWidth + gap);
+            const y = yZero - barH;
             const isHovered = hoveredIdx === i;
-            const isZero = val === 0;
 
             return (
               <g
                 key={`bar-${cat}-${i}`}
                 className="cursor-pointer transition-all duration-200"
                 onMouseEnter={() => setHoveredIdx(i)}
-                onMouseLeave={() => setHoveredIdx(null)}
+                onClick={() => setHoveredIdx(i)}
               >
+                {/* Transparent Hover Hitbox Area for Smooth Interaction */}
+                <rect
+                  x={x - 6}
+                  y={topPadding}
+                  width={barWidth + 12}
+                  height={chartHeight + 30}
+                  fill="transparent"
+                />
+
+                {/* The Bar: Solid Navy/Cobalt Blue with rounded corners */}
                 <rect
                   x={x}
                   y={y}
                   width={barWidth}
-                  height={barHeight}
-                  rx="4"
-                  fill={
-                    isZero
-                      ? "url(#standbyBarGrad)"
-                      : isHovered
-                      ? "url(#dynamicBarGradActive)"
-                      : "url(#dynamicBarGradNormal)"
-                  }
-                  opacity={isHovered ? 1 : 0.85}
-                  className="transition-all duration-300"
+                  height={barH}
+                  rx="10"
+                  ry="10"
+                  fill={isHovered ? "#296cb8" : "#205493"}
+                  className="transition-all duration-300 ease-out"
                 />
 
-                {/* Amount label */}
-                {!isMasked && val > 0 && (
-                  <text
-                    x={x + barWidth / 2}
-                    y={Math.max(12, y - 5)}
-                    textAnchor="middle"
-                    className="text-[9px] font-semibold fill-slate-600"
-                  >
-                    {val >= 1000 ? `${(val / 1000).toFixed(0)}k` : val}
-                  </text>
-                )}
-
-                {/* Category label */}
+                {/* X-Axis Category / Month Label */}
                 <text
                   x={x + barWidth / 2}
-                  y={chartHeight + 16}
+                  y={yZero + 22}
                   textAnchor="middle"
-                  className={`text-[10px] ${
-                    isHovered ? "font-bold fill-teal-900" : "font-medium fill-slate-500"
-                  }`}
+                  fill="#f8fafc"
+                  fontSize="12"
+                  fontWeight="500"
+                  fontFamily="sans-serif"
+                  className={isHovered ? "font-bold fill-white" : "fill-zinc-300"}
                 >
-                  {cat.slice(0, 7)}
+                  {cat.slice(0, 5)}
                 </text>
               </g>
             );
           })}
         </svg>
+
+        {/* Floating Tooltip Card (Matching the user screenshot) */}
+        {activeCat && (
+          <div
+            className="absolute z-10 pointer-events-none transition-all duration-300 ease-out"
+            style={{
+              left: `${Math.max(14, Math.min(80, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
+              top: `${Math.max(20, Math.min(80, (activeBarY / svgHeight) * 100))}%`,
+              transform: activeBarY < 80 ? "translate(-50%, 15px)" : "translate(-50%, -105%)",
+            }}
+          >
+            <div className="bg-[#262626] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 shadow-2xl space-y-1 min-w-[115px]">
+              <div className="text-xs font-bold text-white tracking-tight">
+                {activeCat}
+              </div>
+              <div className="flex items-center space-x-2 text-xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#205493] shrink-0" />
+                <span className="text-zinc-300 font-medium">
+                  {metricLabel}
+                </span>
+                <span className="text-white font-bold ml-auto pl-2">
+                  {formatTooltipVal(activeVal)}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -23,11 +23,12 @@ def test_bar_chart_component():
     assert 'data-testid="dynamic-bar-chart"' in content
     assert 'data-testid="dynamic-bar-chart-empty"' in content
     assert 'role="graphics-document"' in content
-    assert "dynamicBarGradActive" in content
-    assert "dynamicBarGradNormal" in content
-    assert "standbyBarGrad" in content
+    assert 'rx="10"' in content
+    assert "#205493" in content
+    assert "bg-black" in content
+    assert "Upload" in content
     assert "isLoading" in content
-    print("PASSED: DynamicBarChart SVG elements, testids, gradients, and empty states verified.")
+    print("PASSED: DynamicBarChart SVG elements, testids, rounded blue bars, dark card styling, and empty states verified.")
 
 def test_api_all_bar_chart_types():
     print("\n[Test 2] Querying API across all 6 Analytics Types...")
@@ -105,3 +106,4 @@ def main():
 if __name__ == "__main__":
     success = main()
     sys.exit(0 if success else 1)
+
