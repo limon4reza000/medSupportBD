@@ -8,8 +8,6 @@ import {
   Package,
   DollarSign,
   Info,
-  Upload,
-  MoreHorizontal,
 } from "lucide-react";
 
 interface MonthlyData {
@@ -332,7 +330,7 @@ export function SalesVsPurchaseComparisonCard({
 }
 
 /**
- * 5. Dynamic Business Analytics Bar Chart (White Card with Exact Navy Rounded Bars & Hover Details)
+ * 5. Dynamic Business Analytics Bar Chart (Refined UI: Clean Minimalist Header, Rounded Royal Bars, Compact Hover Card)
  */
 export function DynamicBarChart({
   chart,
@@ -348,20 +346,16 @@ export function DynamicBarChart({
   isMasked?: boolean;
   isLoading?: boolean;
 }) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null); // Details tooltip appears on hover
-  const [showMenu, setShowMenu] = useState(false);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4">
         <div className="flex justify-between items-center">
-          <div className="h-4 w-32 bg-slate-100 rounded animate-pulse" />
-          <div className="flex space-x-2">
-            <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
-            <div className="w-8 h-8 rounded-full bg-slate-100 animate-pulse" />
-          </div>
+          <div className="h-4 w-36 bg-slate-100 rounded-md animate-pulse" />
+          <div className="h-4 w-16 bg-slate-100 rounded-full animate-pulse" />
         </div>
-        <div className="h-56 bg-slate-50 rounded-xl animate-pulse" />
+        <div className="h-56 bg-slate-50/70 rounded-xl animate-pulse" />
       </div>
     );
   }
@@ -369,7 +363,7 @@ export function DynamicBarChart({
   if (!chart || !chart.categories || chart.categories.length === 0) {
     return (
       <div
-        className="py-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-sm space-y-2 p-6"
+        className="py-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200/90 shadow-sm space-y-2 p-6"
         data-testid="dynamic-bar-chart-empty"
       >
         <Package className="w-8 h-8 text-slate-400 mx-auto" />
@@ -431,11 +425,11 @@ export function DynamicBarChart({
 
   // Dimensions
   const chartHeight = 200;
-  const topPadding = 30;
+  const topPadding = 24;
   const leftMargin = 55;
   const rightMargin = 20;
   const yZero = topPadding + chartHeight;
-  const svgHeight = yZero + 35;
+  const svgHeight = yZero + 32;
 
   const count = chart.categories.length;
   const barWidth = Math.max(38, Math.min(54, Math.floor(260 / count)));
@@ -456,56 +450,18 @@ export function DynamicBarChart({
 
   return (
     <div
-      className="bg-white text-slate-800 rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden select-none"
+      className="bg-white text-slate-800 rounded-2xl p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none"
       data-testid="dynamic-bar-chart"
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Top Header Actions */}
+      {/* Clean Minimalist Header (Share and 3-dots removed per user request) */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#205493]" />
-          <h2 className="text-xs font-bold text-slate-700 tracking-wide uppercase">
+        <div className="flex items-center space-x-2.5">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#205493] ring-4 ring-[#205493]/10" />
+          <h2 className="text-xs font-bold text-slate-700 tracking-wider uppercase">
             {chart.title}
           </h2>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button
-            title="Share / Export"
-            onClick={() => {
-              if (typeof navigator !== "undefined" && navigator.clipboard) {
-                navigator.clipboard.writeText(window.location.href);
-              }
-            }}
-            className="p-1.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors border border-slate-200"
-          >
-            <Upload className="w-4 h-4" />
-          </button>
-          <div className="relative">
-            <button
-              title="More Options"
-              onClick={() => setShowMenu(!showMenu)}
-              className="p-1.5 rounded-full bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors border border-slate-200"
-            >
-              <MoreHorizontal className="w-4 h-4" />
-            </button>
-            {showMenu && (
-              <div className="absolute right-0 mt-1 w-36 bg-white border border-slate-200 rounded-xl shadow-xl py-1 text-xs text-slate-700 z-20">
-                <button
-                  onClick={() => setShowMenu(false)}
-                  className="w-full text-left px-3 py-1.5 hover:bg-slate-50 hover:text-slate-900"
-                >
-                  View Details
-                </button>
-                <button
-                  onClick={() => setShowMenu(false)}
-                  className="w-full text-left px-3 py-1.5 hover:bg-slate-50 hover:text-slate-900"
-                >
-                  Export Data
-                </button>
-              </div>
-            )}
-          </div>
         </div>
       </div>
 
@@ -519,16 +475,24 @@ export function DynamicBarChart({
           className="w-full h-64 md:h-72 select-none"
           preserveAspectRatio="xMidYMid meet"
         >
-          {/* 5 Horizontal Grid Lines and Left-aligned Y-Axis Labels */}
+          {/* Defs for subtle shadow filter */}
+          <defs>
+            <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#205493" floodOpacity="0.25" />
+            </filter>
+          </defs>
+
+          {/* 5 Horizontal Grid Lines and Right-aligned Y-Axis Labels */}
           {yTicks.map((tickVal, i) => {
             const lineY = topPadding + i * (chartHeight / 4);
             return (
               <g key={`ytick-${tickVal}-${i}`}>
-                {/* Y-Axis Label */}
+                {/* Y-Axis Label (Right-aligned against gridline for beautiful alignment) */}
                 <text
-                  x="8"
+                  x={leftMargin - 10}
                   y={lineY + 4}
-                  fill="#64748b"
+                  textAnchor="end"
+                  fill="#94a3b8"
                   fontSize="11"
                   fontWeight="500"
                   fontFamily="sans-serif"
@@ -558,6 +522,7 @@ export function DynamicBarChart({
             const x = leftMargin + gap + i * (barWidth + gap);
             const y = yZero - barH;
             const isHovered = hoveredIdx === i;
+            const hasHover = hoveredIdx !== null;
 
             return (
               <g
@@ -576,7 +541,7 @@ export function DynamicBarChart({
                   fill="transparent"
                 />
 
-                {/* The Bar: Solid Navy Blue with rounded corners (Matching screenshot) */}
+                {/* The Bar: Solid Navy Blue with rounded corners and hover glow */}
                 <rect
                   x={x}
                   y={y}
@@ -585,13 +550,15 @@ export function DynamicBarChart({
                   rx="10"
                   ry="10"
                   fill={isHovered ? "#2b6cb0" : "#205493"}
+                  filter={isHovered ? "url(#barShadow)" : undefined}
+                  opacity={hasHover && !isHovered ? 0.75 : 1}
                   className="transition-all duration-200 ease-out"
                 />
 
                 {/* X-Axis Category / Month Label (Horizontal) */}
                 <text
                   x={x + barWidth / 2}
-                  y={yZero + 22}
+                  y={yZero + 20}
                   textAnchor="middle"
                   fill={isHovered ? "#0f172a" : "#475569"}
                   fontSize="12"
@@ -605,26 +572,26 @@ export function DynamicBarChart({
           })}
         </svg>
 
-        {/* Floating Tooltip Card (Exact match to user reference screenshot) */}
+        {/* Floating Tooltip Card (Refined Short & Compact per user request) */}
         {activeIdx !== null && activeCat && (
           <div
-            className="absolute z-10 pointer-events-none transition-all duration-200 ease-out"
+            className="absolute z-10 pointer-events-none transition-all duration-150 ease-out"
             style={{
-              left: `${Math.max(12, Math.min(88, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
-              top: `${Math.max(15, Math.min(80, (activeBarY / svgHeight) * 100))}%`,
-              transform: activeBarY < 80 ? "translate(-50%, 15px)" : "translate(-50%, -115%)",
+              left: `${Math.max(10, Math.min(90, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
+              top: `${Math.max(12, Math.min(85, (activeBarY / svgHeight) * 100))}%`,
+              transform: activeBarY < 65 ? "translate(-50%, 12px)" : "translate(-50%, -115%)",
             }}
           >
-            <div className="bg-[#262626] border border-zinc-700/80 rounded-xl px-3.5 py-2.5 shadow-2xl space-y-1 min-w-[125px]">
-              <div className="text-xs font-bold text-white tracking-tight">
+            <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap">
+              <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-0.5">
                 {activeCat}
               </div>
-              <div className="flex items-center space-x-2 text-xs">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#205493] shrink-0" />
-                <span className="text-zinc-300 font-medium">
+              <div className="flex items-center space-x-1.5 text-[11px] leading-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
+                <span className="text-zinc-400 font-medium">
                   {metricLabel}
                 </span>
-                <span className="text-white font-bold ml-auto pl-3">
+                <span className="text-white font-bold pl-1">
                   {formatTooltipVal(activeVal)}
                 </span>
               </div>

@@ -27,9 +27,9 @@ def test_bar_chart_component():
     assert "#205493" in content
     assert "bg-white" in content
     assert "hoveredIdx" in content
-    assert "Upload" in content
+    assert "formatTooltipVal" in content
     assert "isLoading" in content
-    print("PASSED: DynamicBarChart SVG elements, testids, rounded blue bars, white card styling, hover tooltip, and empty states verified.")
+    print("PASSED: DynamicBarChart SVG elements, testids, rounded blue bars, white card styling, compact hover tooltip, and empty states verified.")
 
 def test_api_all_bar_chart_types():
     print("\n[Test 2] Querying API across all 6 Analytics Types...")
