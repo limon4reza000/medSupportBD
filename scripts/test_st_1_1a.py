@@ -83,7 +83,8 @@ def test_auth_api():
     assert res.get("user", {}).get("fullName"), "Expected user fullName"
 
     # 6. Test Lockout after 5 incorrect attempts on a separate number
-    lock_phone = "01799887766"
+    import time
+    lock_phone = f"01799{int(time.time()) % 1000000:06d}"
     make_request("/api/auth/otp", {"action": "send", "target": lock_phone, "type": "phone"}, method="POST")
     for i in range(5):
         s, r, _ = make_request("/api/auth/otp", {"action": "verify", "target": lock_phone, "code": "999999", "type": "phone"}, method="POST")

@@ -21,6 +21,11 @@ SCRIPTS = [
     "scripts/test_st_1_11a.py",
     "scripts/test_st_1_11b.py",
     "scripts/test_st_1_11c.py",
+    "scripts/test_st_db_1.py",
+    "scripts/test_st_db_2.py",
+    "scripts/test_st_db_3.py",
+    "scripts/test_st_db_4.py",
+    "scripts/test_st_db_5.py",
 ]
 
 def main():

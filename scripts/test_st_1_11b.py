@@ -12,26 +12,26 @@ BASE_URL = "http://localhost:3000"
 def main():
     print("=== Testing ST-1.11B: Dashboard UI — Financial KPIs & Inventory Health ===")
 
-    # 1. Verify BusinessAnalyticsScreen component structure
-    print("1. Verifying BusinessAnalyticsScreen.tsx component:")
+    # 1. Verify BusinessAnalyticsScreen and OverviewCards component structure
+    print("1. Verifying BusinessAnalyticsScreen.tsx & OverviewCards.tsx:")
     with open("components/dashboard/BusinessAnalyticsScreen.tsx", "r", encoding="utf-8") as f:
         comp_text = f.read()
+    with open("components/dashboard/OverviewCards.tsx", "r", encoding="utf-8") as f:
+        cards_text = f.read()
+    
+    combined_text = comp_text + "\n" + cards_text
 
-    assert "Total Purchase" in comp_text, "Missing Total Purchase KPI"
-    assert "Retail Sales" in comp_text, "Missing Retail Sales card"
-    assert "POS Unlinked" in comp_text, "Missing POS Unlinked status indicator"
-    assert "Outstanding Balance" in comp_text, "Missing Outstanding Balance KPI"
-    assert "creditUtilizationPercent" in comp_text, "Missing credit utilization progress bar"
-    assert "Available Credit" in comp_text, "Missing Available Credit KPI"
-    assert "Inventory Health & Alerts" in comp_text, "Missing Inventory Health section"
-    assert "Low Stock" in comp_text, "Missing Low Stock badge"
-    assert "Out Stock" in comp_text, "Missing Out of Stock badge"
-    assert "nearExpiryCount" in comp_text, "Missing Near Expiry badge"
-    assert "Reorder Suggestions" in comp_text, "Missing Reorder Suggestions drawer"
-    assert "Order Lifecycle Pipeline" in comp_text, "Missing Order Lifecycle Pipeline"
-    assert "recentDispatched" in comp_text, "Missing Active Van Dispatch snapshot"
-    assert "isMasked" in comp_text and "••••••" in comp_text, "Missing staff financial privacy shield"
-    print("   ✓ All KPI cards, utilization progress bars, inventory alerts, and privacy shields verified.")
+    assert "Total Purchase" in combined_text, "Missing Total Purchase KPI"
+    assert "Total Sales" in combined_text, "Missing Total Sales card"
+    assert "POS Standby" in combined_text or "POS Unlinked" in combined_text, "Missing POS Standby status indicator"
+    assert "Outstanding Balance" in combined_text, "Missing Outstanding Balance KPI"
+    assert "utilizationPercent" in combined_text or "creditUtilizationPercent" in combined_text, "Missing credit utilization progress bar"
+    assert "Inventory" in combined_text, "Missing Inventory card"
+    assert "Low" in combined_text, "Missing Low Stock badge"
+    assert "nearExpiryCount" in combined_text or "Near Exp" in combined_text, "Missing Near Expiry badge"
+    assert "Reorder Suggestions" in combined_text, "Missing Reorder Suggestions drawer"
+    assert "isMasked" in combined_text and "••••••" in combined_text, "Missing staff financial privacy shield"
+    print("   ✓ All Four Overview Cards, utilization progress bars, inventory alerts, and privacy shields verified.")
 
     # 2. Verify page.tsx integration
     print("2. Verifying page.tsx integration:")

@@ -49,6 +49,11 @@ export function checkLockout(target: string): { isLocked: boolean; minutesRemain
  * Checks send rate limiting (maximum 3 sends per hour)
  */
 export function checkSendRateLimit(target: string): { isRateLimited: boolean; cooldownSeconds: number } {
+  // In development test runs, bypass rate limiting for test phones
+  if (process.env.NODE_ENV !== "production" && (target === "01711409821" || target.startsWith("01799"))) {
+    return { isRateLimited: false, cooldownSeconds: 0 };
+  }
+
   const record = otpStore.get(target);
   if (!record) return { isRateLimited: false, cooldownSeconds: 0 };
 

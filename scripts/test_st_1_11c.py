@@ -20,7 +20,7 @@ def login(identifier, password, role):
     with urllib.request.urlopen(req) as resp:
         cookies = resp.headers.get("Set-Cookie", "")
         body = json.loads(resp.read().decode("utf-8"))
-        token = body.get("data", {}).get("token")
+        token = body.get("token") or body.get("data", {}).get("token")
         return token, cookies
 
 def main():
