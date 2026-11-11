@@ -503,6 +503,7 @@ export function DynamicBarChart({
 export function DynamicLineChart({
   chart,
   isMasked = false,
+  isLoading = false,
 }: {
   chart?: {
     title: string;
@@ -510,13 +511,30 @@ export function DynamicLineChart({
     lines: { name: string; color: string; data: number[]; isStandby: boolean }[];
   };
   isMasked?: boolean;
+  isLoading?: boolean;
 }) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
+        <div className="h-4 w-48 bg-slate-100 rounded animate-pulse" />
+        <div className="h-44 bg-slate-50 rounded-xl animate-pulse" />
+      </div>
+    );
+  }
+
   if (!chart || !chart.timePoints || chart.timePoints.length === 0) {
     return (
-      <div className="py-8 text-center text-xs text-slate-400 bg-white rounded-xl border border-slate-200">
-        No performance trend data available.
+      <div
+        className="py-10 text-center text-xs text-slate-500 bg-white rounded-xl border border-slate-200 space-y-2 p-6"
+        data-testid="dynamic-line-chart-empty"
+      >
+        <TrendingUp className="w-8 h-8 text-slate-300 mx-auto" />
+        <p className="font-semibold text-slate-700">No Trend Data Available</p>
+        <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+          Performance trends require historical transactions across consecutive periods.
+        </p>
       </div>
     );
   }
@@ -540,7 +558,12 @@ export function DynamicLineChart({
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3" data-testid="dynamic-line-chart">
+    <div
+      className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3"
+      data-testid="dynamic-line-chart"
+      role="graphics-document"
+      aria-label={chart.title}
+    >
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
@@ -637,8 +660,8 @@ export function DynamicLineChart({
         </svg>
       </div>
 
-      {hoveredIdx !== null && (
-        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs flex items-center justify-between">
+      {hoveredIdx !== null ? (
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs flex items-center justify-between animate-fadeIn">
           <span className="font-semibold text-slate-700">
             {timePoints[hoveredIdx]} Performance:
           </span>
@@ -655,6 +678,10 @@ export function DynamicLineChart({
             ))}
           </div>
         </div>
+      ) : (
+        <p className="text-[10px] text-slate-400 text-right pr-2">
+          Tap points to compare series values
+        </p>
       )}
     </div>
   );
