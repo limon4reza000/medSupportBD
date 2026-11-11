@@ -22,6 +22,7 @@ function resolvePeriod(
   const now = new Date(); // Current time
 
   switch (period.toLowerCase()) {
+    case "daily":
     case "today": {
       const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
       const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
@@ -29,6 +30,7 @@ function resolvePeriod(
       const prevEnd = new Date(end.getTime() - 24 * 60 * 60 * 1000);
       return { range: { startDate: start, endDate: end, prevStartDate: prevStart, prevEndDate: prevEnd, label: "Today" } };
     }
+    case "weekly":
     case "7d": {
       const end = new Date(now);
       const start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -43,6 +45,7 @@ function resolvePeriod(
       const prevEnd = new Date(now.getFullYear(), now.getMonth() - 1, 0, 23, 59, 59, 999);
       return { range: { startDate: start, endDate: end, prevStartDate: prevStart, prevEndDate: prevEnd, label: "Last Month" } };
     }
+    case "yearly":
     case "this_year": {
       const start = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
       const end = new Date(now);
@@ -71,6 +74,7 @@ function resolvePeriod(
       const prevStart = new Date(prevEnd.getTime() - duration);
       return { range: { startDate: start, endDate: end, prevStartDate: prevStart, prevEndDate: prevEnd, label: "Custom Range" } };
     }
+    case "monthly":
     case "this_month":
     default: {
       const start = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
@@ -94,10 +98,11 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
-    const periodParam = searchParams.get("period") || "this_month";
+    const periodParam = searchParams.get("period") || "monthly";
     const customStart = searchParams.get("startDate");
     const customEnd = searchParams.get("endDate");
     const companyIdParam = searchParams.get("companyId") || "all";
+    const analyticsTypeParam = (searchParams.get("type") || "purchase").toLowerCase().trim();
 
     // 2. Multi-Tenant Authorization check for MPOs / Sales Reps
     if (user.role === UserRole.SALES_REP) {
@@ -297,7 +302,7 @@ export async function GET(req: NextRequest) {
 
     // 11. Credit & Outstanding Balances
     const totalCreditFacility = pharmacy.creditLimit || 120000.0;
-    const totalOutstandingBalance = pharmacy.currentBalance || 34500.0;
+    const totalOutstandingBalance = pharmacy.currentBalance || 59751.84;
     const availableCreditLimit = Math.max(0, totalCreditFacility - totalOutstandingBalance);
     const creditUtilizationPercent = Number(((totalOutstandingBalance / totalCreditFacility) * 100).toFixed(2));
     const pendingPaymentsAmount = totalOutstandingBalance;
@@ -404,6 +409,179 @@ export async function GET(req: NextRequest) {
     // 14. RBAC Financial Masking for Staff
     const canViewFinances = hasPermission(user.role, Permission.VIEW_FINANCES);
 
+    // =========================================================================
+    // 15. DYNAMIC BAR CHART DATASET (Controls based on analyticsType)
+    // =========================================================================
+    let barChartCategories: string[] = [];
+    let barChartSeriesData: number[] = [];
+    let barChartTitle = "Business Analytics";
+    let barChartSeriesLabel = "Amount (৳)";
+
+    switch (analyticsTypeParam) {
+      case "company_purchase":
+      case "company-wise purchase": {
+        barChartTitle = "Company-wise Purchase Distribution";
+        barChartSeriesLabel = "Procurement Amount (৳)";
+        const topComps = companyPurchases.slice(0, 6);
+        barChartCategories = topComps.map((c) => c.companyName.split(" ")[0]);
+        barChartSeriesData = topComps.map((c) => (canViewFinances ? c.amount || 0 : 0));
+        break;
+      }
+      case "company_sales":
+      case "company-wise sales": {
+        barChartTitle = "Company-wise Sales Distribution";
+        barChartSeriesLabel = "Sales Dispensed (৳)";
+        const topComps = companyPurchases.slice(0, 6);
+        barChartCategories = topComps.map((c) => c.companyName.split(" ")[0]);
+        barChartSeriesData = topComps.map(() => 0); // POS standby
+        break;
+      }
+      case "medicine_purchase":
+      case "medicine-wise purchase": {
+        barChartTitle = "Medicine-wise Purchase Ranking";
+        barChartSeriesLabel = "Procurement Spend (৳)";
+        const topMeds = topPurchasedMedicines.slice(0, 5);
+        barChartCategories = topMeds.map((m) => m.name.split(" ")[0]);
+        barChartSeriesData = topMeds.map((m) => (canViewFinances ? m.totalAmount || 0 : 0));
+        break;
+      }
+      case "medicine_sales":
+      case "medicine-wise sales": {
+        barChartTitle = "Medicine-wise Sales Ranking";
+        barChartSeriesLabel = "Sales Units Dispensed";
+        const topMeds = topPurchasedMedicines.slice(0, 5);
+        barChartCategories = topMeds.map((m) => m.name.split(" ")[0]);
+        barChartSeriesData = topMeds.map(() => 0); // POS standby
+        break;
+      }
+      case "sales": {
+        barChartTitle = "Sales Analytics";
+        barChartSeriesLabel = "Sales Dispensed (৳)";
+        barChartCategories = trailingMonths.map((m) => m.month);
+        barChartSeriesData = trailingMonths.map(() => 0); // POS standby
+        break;
+      }
+      case "purchase":
+      default: {
+        barChartTitle = "Purchase Analytics";
+        barChartSeriesLabel = "Procurement Spend (৳)";
+        barChartCategories = trailingMonths.map((m) => m.month);
+        barChartSeriesData = trailingMonths.map((m) => (canViewFinances ? m.amount : 0));
+        break;
+      }
+    }
+
+    // =========================================================================
+    // 16. DYNAMIC LINE CHART DATASET (Sales vs Purchase multi-series comparison)
+    // =========================================================================
+    const lineTimePoints = trailingMonths.map((m) => m.month);
+    const purchaseLineData = trailingMonths.map((m) => (canViewFinances ? m.amount : 0));
+    const salesLineData = trailingMonths.map(() => 0); // In Phase 1 prior to POS dispensing
+
+    const lineChart = {
+      title: "Business Performance Trends",
+      timePoints: lineTimePoints,
+      lines: [
+        {
+          name: "Purchase Spend",
+          color: "#139485",
+          data: purchaseLineData,
+          isStandby: false,
+        },
+        {
+          name: "Retail Sales (POS)",
+          color: "#2563eb",
+          data: salesLineData,
+          isStandby: true,
+        },
+      ],
+    };
+
+    // =========================================================================
+    // 17. UNIFIED RECENT ACTIVITIES STREAM
+    // =========================================================================
+    const recentActivities: {
+      id: string;
+      type: "ORDER" | "PURCHASE" | "PAYMENT";
+      referenceId: string;
+      entityName: string;
+      amount: number | null;
+      status: string;
+      timestamp: string;
+    }[] = [];
+
+    // From Orders
+    for (const o of companyFilteredOrders.slice(0, 6)) {
+      const isDelivered = o.status === OrderStatus.DELIVERED;
+      recentActivities.push({
+        id: `act-${o.id}`,
+        type: isDelivered ? "PURCHASE" : "ORDER",
+        referenceId: o.orderNumber || o.id,
+        entityName: o.companyName || "Pharmaceutical Manufacturer",
+        amount: canViewFinances ? o.netPayableAmount || o.subtotal || 0 : null,
+        status: o.status || "CONFIRMED",
+        timestamp: o.createdAt || new Date().toISOString(),
+      });
+    }
+
+    // From Payment Ledger
+    const allLedger = db.ledgerEntries || [];
+    for (const l of allLedger.slice(0, 4)) {
+      recentActivities.push({
+        id: `act-${l.id}`,
+        type: "PAYMENT",
+        referenceId: l.referenceNumber || l.id,
+        entityName: "Wholesale Supplier Clearing",
+        amount: canViewFinances ? l.amount : null,
+        status: "COMPLETED",
+        timestamp: l.createdAt || new Date().toISOString(),
+      });
+    }
+
+    // Sort recent activities chronologically descending
+    recentActivities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    // =========================================================================
+    // 18. EXACT FOUR OVERVIEW CARDS DATASET
+    // =========================================================================
+    const overviewCards = {
+      totalPurchase: {
+        amount: canViewFinances ? totalPurchasePeriod : null,
+        periodLabel: label,
+        trendPercent: canViewFinances ? purchaseGrowthPercent : null,
+        summary: canViewFinances
+          ? `${periodOrders.length} wholesale orders placed across ${companyPurchases.length} companies`
+          : "Protected metric",
+        totalYear: canViewFinances ? totalPurchaseYear : null,
+      },
+      totalSales: {
+        amount: null,
+        isAvailable: false,
+        periodLabel: label,
+        summary: "POS Standby — Activates with counter dispensing",
+      },
+      outstandingBalance: {
+        amount: canViewFinances ? totalOutstandingBalance : null,
+        creditLimit: canViewFinances ? totalCreditFacility : null,
+        utilizationPercent: canViewFinances ? creditUtilizationPercent : null,
+        pendingInvoicesCount,
+        summary: canViewFinances
+          ? `৳${availableCreditLimit.toLocaleString()} Available Credit remaining`
+          : "Protected metric",
+      },
+      inventory: {
+        totalStockItems: db.medicines.length,
+        lowStockCount,
+        outOfStockCount,
+        nearExpiryCount,
+        expiredCount,
+        summary: `${lowStockCount} items below reorder threshold`,
+      },
+    };
+
+    // =========================================================================
+    // 19. BACKWARD COMPATIBLE FINANCIAL & ANALYTICS OBJECTS
+    // =========================================================================
     const financialOverview = canViewFinances
       ? {
           totalPurchasePeriod,
@@ -453,10 +631,37 @@ export async function GET(req: NextRequest) {
           variancePercent: null,
         };
 
-    // 15. Formulate Production Response Payload
+    // =========================================================================
+    // 20. RETURN UNIFIED PRODUCTION RESPONSE PAYLOAD
+    // =========================================================================
     return NextResponse.json({
       success: true,
       data: {
+        // Core 5-Section Contract
+        overviewCards,
+        filters: {
+          period: periodParam,
+          analyticsType: analyticsTypeParam,
+          companyId: companyIdParam,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+          label,
+        },
+        barChart: {
+          title: barChartTitle,
+          yAxisLabel: barChartSeriesLabel,
+          categories: barChartCategories,
+          series: [
+            {
+              label: barChartSeriesLabel,
+              data: barChartSeriesData,
+            },
+          ],
+        },
+        lineChart,
+        recentActivities: recentActivities.slice(0, 8),
+
+        // Backward-Compatible Structure for existing components & tests
         filter: {
           period: periodParam,
           startDate: startDate.toISOString(),
