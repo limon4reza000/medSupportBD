@@ -1115,36 +1115,28 @@ export function DynamicLineChart({
               })}
             </svg>
 
-            {/* Floating Glassmorphic Tooltip Card directly over the active node */}
+            {/* Floating Glassmorphic Tooltip Card directly over the active node (Ultra-Compact Width) */}
             {hoveredIdx !== null && (
               <div
                 className="absolute z-20 pointer-events-none transition-all duration-150 ease-out"
                 style={{
-                  left: `${Math.max(52, Math.min(scrollableWidth - 52, hoveredIdx * slotWidth + slotWidth / 2))}px`,
+                  left: `${Math.max(42, Math.min(scrollableWidth - 42, hoveredIdx * slotWidth + slotWidth / 2))}px`,
                   top: `${Math.max(16, Math.min(chartHeight + topPadding, hoveredY))}px`,
                   transform: hoveredY < 80 ? "translate(-50%, 14px)" : "translate(-50%, -125%)",
                 }}
               >
-                <div className="bg-[#18181b]/95 backdrop-blur-md border border-zinc-700/80 rounded-xl px-3 py-2 shadow-2xl whitespace-nowrap text-left min-w-[120px]">
-                  <div className="flex items-center justify-between space-x-2 mb-1.5 border-b border-zinc-700/60 pb-1">
-                    <span className="text-[11px] font-bold text-zinc-100">
-                      {timePoints[hoveredIdx]}
-                    </span>
-                    <span className="text-[9px] font-semibold text-teal-300 bg-teal-950/80 border border-teal-800/60 rounded px-1.5 py-0.5">
-                      2026 Trend
-                    </span>
+                <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap text-left">
+                  <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-1">
+                    {timePoints[hoveredIdx]}
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {lines.map((l) => (
                       <div
                         key={`hov-tip-${l.name}`}
-                        className="flex items-center justify-between space-x-3 text-[11px] leading-tight"
+                        className="flex items-center space-x-1.5 text-[11px] leading-tight"
                       >
-                        <div className="flex items-center space-x-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: l.color }} />
-                          <span className="text-zinc-400 font-medium">{l.name}:</span>
-                        </div>
-                        <span className="text-white font-bold pl-1">
+                        <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: l.color }} />
+                        <span className="text-white font-bold">
                           {isMasked
                             ? "••••••"
                             : l.data[hoveredIdx] > 0
