@@ -767,6 +767,26 @@ export const initialOrders: any[] = [
       { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 291, unitTradePrice: 500.34, subtotal: 145600.00 }
     ],
   },
+  // 11b. December 2026 Projected Delivered Order (Completing 12-Month Calendar Cycle)
+  {
+    id: "ORD-20261215-DEC-001",
+    orderNumber: "ORD-20261215-DEC-001",
+    challanNumber: "CH-20261215-DEC-001",
+    companyId: "comp-squ",
+    companyName: "Square Pharmaceuticals PLC",
+    pharmacyId: "pharm-01",
+    depotId: "depot-dhk-01",
+    placedById: "user-sr-01",
+    status: OrderStatus.DELIVERED,
+    grossAmount: 128000.00,
+    tradeDiscountAmount: 3000.00,
+    vatAmount: 0.00,
+    netPayableAmount: 125000.00,
+    createdAt: "2026-12-15T12:00:00.000Z",
+    items: [
+      { medicineId: "med-02", medicineName: "Seclo 20mg", genericName: "Omeprazole", orderedBoxes: 250, unitTradePrice: 500.00, subtotal: 125000.00 }
+    ],
+  },
   // 12. Dispatched van order for Beximco
   {
     id: "ORD-20261111-BEX-002",

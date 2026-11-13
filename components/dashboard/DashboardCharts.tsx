@@ -424,21 +424,20 @@ export function DynamicBarChart({
   };
 
   // Dimensions
-  const chartHeight = 200;
+  const chartHeight = 210;
   const topPadding = 24;
-  const leftMargin = 55;
-  const rightMargin = 20;
+  const leftMargin = 72; // Generous space for larger Y-Axis labels (fontSize 14)
+  const rightMargin = 28;
   const yZero = topPadding + chartHeight;
-  const svgHeight = yZero + 32;
+  const svgHeight = yZero + 38;
 
   const count = chart.categories.length;
-  const isAnnual = count >= 12;
-  const barWidth = isAnnual ? 28 : Math.max(38, Math.min(54, Math.floor(260 / count)));
+  // Wide, thick bars matching reference UI with scrollable viewport
+  const barWidth = count >= 12 ? 44 : Math.max(42, Math.min(56, Math.floor(260 / count)));
   const totalBarWidth = count * barWidth;
-  const minSvgWidth = isAnnual ? 600 : 460;
-  const svgWidth = Math.max(minSvgWidth, leftMargin + totalBarWidth + count * (isAnnual ? 16 : 24) + rightMargin);
+  const gap = count >= 12 ? 22 : 28;
+  const svgWidth = Math.max(500, leftMargin + totalBarWidth + (count + 1) * gap + rightMargin);
   const availableBarSpan = svgWidth - leftMargin - rightMargin;
-  const gap = (availableBarSpan - totalBarWidth) / (count + 1);
 
   const activeIdx = hoveredIdx !== null && hoveredIdx < count ? hoveredIdx : null;
   const activeVal = activeIdx !== null ? (seriesData[activeIdx] || 0) : 0;
@@ -456,7 +455,7 @@ export function DynamicBarChart({
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Clean Minimalist Header (Share and 3-dots removed per user request) */}
+      {/* Clean Minimalist Header with Scrollable Indicator */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-[#205493] ring-4 ring-[#205493]/10" />
@@ -464,141 +463,149 @@ export function DynamicBarChart({
             {chart.title}
           </h2>
         </div>
+        {count >= 12 && (
+          <span className="text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
+            Scroll ↔
+          </span>
+        )}
       </div>
 
-      {/* SVG Chart Container */}
+      {/* Scrollable Chart Viewport with Modern Subtle Scrollbar */}
       <div
-        className="w-full overflow-x-auto scrollbar-none relative"
+        className="w-full overflow-x-auto pb-3 pt-1 scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 relative select-none"
         onMouseLeave={() => setHoveredIdx(null)}
       >
-        <svg
-          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-          className="w-full h-64 md:h-72 select-none"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          {/* Defs for subtle shadow filter */}
-          <defs>
-            <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#205493" floodOpacity="0.25" />
-            </filter>
-          </defs>
-
-          {/* 5 Horizontal Grid Lines and Right-aligned Y-Axis Labels */}
-          {yTicks.map((tickVal, i) => {
-            const lineY = topPadding + i * (chartHeight / 4);
-            return (
-              <g key={`ytick-${tickVal}-${i}`}>
-                {/* Y-Axis Label (Right-aligned against gridline for beautiful alignment) */}
-                <text
-                  x={leftMargin - 10}
-                  y={lineY + 4}
-                  textAnchor="end"
-                  fill="#94a3b8"
-                  fontSize="11"
-                  fontWeight="500"
-                  fontFamily="sans-serif"
-                >
-                  {formatYLabel(tickVal)}
-                </text>
-                {/* Faint Horizontal Dashed Line */}
-                <line
-                  x1={leftMargin}
-                  y1={lineY}
-                  x2={svgWidth - rightMargin}
-                  y2={lineY}
-                  stroke="#e2e8f0"
-                  strokeWidth="1"
-                  strokeDasharray="3 3"
-                />
-              </g>
-            );
-          })}
-
-          {/* Bars */}
-          {chart.categories.map((cat, i) => {
-            const val = seriesData[i] || 0;
-            const barH = isMasked
-              ? chartHeight * 0.4
-              : Math.max(6, (val / ceiling) * chartHeight);
-            const x = leftMargin + gap + i * (barWidth + gap);
-            const y = yZero - barH;
-            const isHovered = hoveredIdx === i;
-            const hasHover = hoveredIdx !== null;
-
-            return (
-              <g
-                key={`bar-${cat}-${i}`}
-                className="cursor-pointer transition-all duration-200"
-                onMouseEnter={() => setHoveredIdx(i)}
-                onTouchStart={() => setHoveredIdx(i)}
-                onClick={() => setHoveredIdx(i)}
-              >
-                {/* Transparent Hover Hitbox Area for Smooth Interaction */}
-                <rect
-                  x={x - 6}
-                  y={topPadding}
-                  width={barWidth + 12}
-                  height={chartHeight + 30}
-                  fill="transparent"
-                />
-
-                {/* The Bar: Solid Navy Blue with rounded corners and hover glow */}
-                <rect
-                  x={x}
-                  y={y}
-                  width={barWidth}
-                  height={barH}
-                  rx="10"
-                  ry="10"
-                  fill={isHovered ? "#2b6cb0" : "#205493"}
-                  filter={isHovered ? "url(#barShadow)" : undefined}
-                  opacity={hasHover && !isHovered ? 0.75 : 1}
-                  className="transition-all duration-200 ease-out"
-                />
-
-                {/* X-Axis Category / Month Label (Horizontal) */}
-                <text
-                  x={x + barWidth / 2}
-                  y={yZero + 20}
-                  textAnchor="middle"
-                  fill={isHovered ? "#0f172a" : "#475569"}
-                  fontSize={isAnnual ? "10" : "12"}
-                  fontWeight={isHovered ? "700" : "500"}
-                  fontFamily="sans-serif"
-                >
-                  {cat.slice(0, 3)}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-
-        {/* Floating Tooltip Card (Refined Short & Compact per user request) */}
-        {activeIdx !== null && activeCat && (
-          <div
-            className="absolute z-10 pointer-events-none transition-all duration-150 ease-out"
-            style={{
-              left: `${Math.max(10, Math.min(90, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
-              top: `${Math.max(12, Math.min(85, (activeBarY / svgHeight) * 100))}%`,
-              transform: activeBarY < 65 ? "translate(-50%, 12px)" : "translate(-50%, -115%)",
-            }}
+        <div style={{ minWidth: `${svgWidth}px` }} className="relative">
+          <svg
+            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+            className="w-full select-none"
+            style={{ minWidth: `${svgWidth}px`, height: `${svgHeight}px` }}
+            preserveAspectRatio="none"
           >
-            <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap">
-              <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-0.5">
-                {activeCat}
-              </div>
-              <div className="flex items-center space-x-1.5 text-[11px] leading-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
-                <span className="text-zinc-400 font-medium">
-                  {metricLabel}
-                </span>
-                <span className="text-white font-bold pl-1">
-                  {formatTooltipVal(activeVal)}
-                </span>
+            {/* Defs for subtle shadow filter */}
+            <defs>
+              <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#205493" floodOpacity="0.25" />
+              </filter>
+            </defs>
+
+            {/* 5 Horizontal Grid Lines and Right-aligned Large Y-Axis Labels */}
+            {yTicks.map((tickVal, i) => {
+              const lineY = topPadding + i * (chartHeight / 4);
+              return (
+                <g key={`ytick-${tickVal}-${i}`}>
+                  {/* Y-Axis Label: Larger, bolder and clear (fontSize 14) */}
+                  <text
+                    x={leftMargin - 12}
+                    y={lineY + 5}
+                    textAnchor="end"
+                    fill="#475569"
+                    fontSize="14"
+                    fontWeight="600"
+                    fontFamily="sans-serif"
+                  >
+                    {formatYLabel(tickVal)}
+                  </text>
+                  {/* Faint Horizontal Dashed Line */}
+                  <line
+                    x1={leftMargin}
+                    y1={lineY}
+                    x2={svgWidth - rightMargin}
+                    y2={lineY}
+                    stroke="#e2e8f0"
+                    strokeWidth="1"
+                    strokeDasharray="3 3"
+                  />
+                </g>
+              );
+            })}
+
+            {/* Bars */}
+            {chart.categories.map((cat, i) => {
+              const val = seriesData[i] || 0;
+              const barH = isMasked
+                ? chartHeight * 0.4
+                : Math.max(6, (val / ceiling) * chartHeight);
+              const x = leftMargin + gap + i * (barWidth + gap);
+              const y = yZero - barH;
+              const isHovered = hoveredIdx === i;
+              const hasHover = hoveredIdx !== null;
+
+              return (
+                <g
+                  key={`bar-${cat}-${i}`}
+                  className="cursor-pointer transition-all duration-200"
+                  onMouseEnter={() => setHoveredIdx(i)}
+                  onTouchStart={() => setHoveredIdx(i)}
+                  onClick={() => setHoveredIdx(i)}
+                >
+                  {/* Transparent Hover Hitbox Area for Smooth Interaction */}
+                  <rect
+                    x={x - 6}
+                    y={topPadding}
+                    width={barWidth + 12}
+                    height={chartHeight + 30}
+                    fill="transparent"
+                  />
+
+                  {/* The Bar: Solid Navy Blue with rounded corners and hover glow */}
+                  <rect
+                    x={x}
+                    y={y}
+                    width={barWidth}
+                    height={barH}
+                    rx="10"
+                    ry="10"
+                    fill={isHovered ? "#2b6cb0" : "#205493"}
+                    filter={isHovered ? "url(#barShadow)" : undefined}
+                    opacity={hasHover && !isHovered ? 0.75 : 1}
+                    className="transition-all duration-200 ease-out"
+                  />
+
+                  {/* X-Axis Category / Month Label: Larger, bolder font (fontSize 14) */}
+                  <text
+                    x={x + barWidth / 2}
+                    y={yZero + 24}
+                    textAnchor="middle"
+                    fill={isHovered ? "#0f172a" : "#334155"}
+                    fontSize="14"
+                    fontWeight={isHovered ? "800" : "700"}
+                    fontFamily="sans-serif"
+                  >
+                    {cat.slice(0, 3)}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Floating Tooltip Card (Refined Short & Compact per user request) */}
+          {activeIdx !== null && activeCat && (
+            <div
+              className="absolute z-10 pointer-events-none transition-all duration-150 ease-out"
+              style={{
+                left: `${Math.max(4, Math.min(96, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
+                top: `${Math.max(12, Math.min(85, (activeBarY / svgHeight) * 100))}%`,
+                transform: activeBarY < 65 ? "translate(-50%, 12px)" : "translate(-50%, -115%)",
+              }}
+            >
+              <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap">
+                <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-0.5">
+                  {activeCat}
+                </div>
+                <div className="flex items-center space-x-1.5 text-[11px] leading-none">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
+                  <span className="text-zinc-400 font-medium">
+                    {metricLabel}
+                  </span>
+                  <span className="text-white font-bold pl-1">
+                    {formatTooltipVal(activeVal)}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
