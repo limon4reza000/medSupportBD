@@ -178,6 +178,9 @@ model Pharmacy {
   orders          Order[]
   ledgerEntries   LedgerTransaction[]
   forecasts       DemandForecast[]
+  invoices        Invoice[]
+  returnRequests  ReturnRequest[]
+  pharmacyStocks  PharmacyStock[]
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -249,6 +252,7 @@ model Medicine {
   tradeOffers      TradeOffer[]
   orderItems       OrderItem[]
   forecasts        DemandForecast[]
+  pharmacyStocks   PharmacyStock[]
 
   @@index([brandName])
   @@index([genericName])
@@ -367,6 +371,9 @@ model Order {
   items              OrderItem[]
   ledgerTransactions LedgerTransaction[]
   stockReservations  StockReservation[]
+  statusHistory      OrderStatusHistory[]
+  invoices           Invoice[]
+  returnRequests     ReturnRequest[]
 
   @@index([pharmacyId, status])
   @@index([depotId, createdAt])
@@ -514,4 +521,146 @@ model AuditLog {
 
   @@index([userId])
   @@index([action])
+}
+
+// -----------------------------------------------------------------------------
+// ORDER STATUS AUDIT TRAIL
+// -----------------------------------------------------------------------------
+
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status    OrderStatus
+  notes     String?
+  changedBy String?
+  createdAt DateTime    @default(now())
+
+  @@index([orderId])
+}
+
+// -----------------------------------------------------------------------------
+// COMMERCIAL INVOICE & MUSHAK-6.3 CHALLAN
+// -----------------------------------------------------------------------------
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique // e.g. INV-2026-SQ-0914
+  orderId       String
+  order         Order         @relation(fields: [orderId], references: [id])
+  pharmacyId    String
+  pharmacy      Pharmacy      @relation(fields: [pharmacyId], references: [id])
+  companyName   String
+  totalGross    Decimal       @db.Decimal(12, 2)
+  discountTotal Decimal       @db.Decimal(12, 2)
+  vatTotal      Decimal       @db.Decimal(12, 2)
+  netPayable    Decimal       @db.Decimal(12, 2)
+  paidAmount    Decimal       @default(0.00) @db.Decimal(12, 2)
+  status        PaymentStatus @default(UNPAID)
+  dueDate       DateTime
+  issuedAt      DateTime      @default(now())
+
+  @@index([pharmacyId, status])
+  @@index([orderId])
+}
+
+// -----------------------------------------------------------------------------
+// PHARMACY STOCKROOM INVENTORY & MOVEMENTS
+// -----------------------------------------------------------------------------
+
+model PharmacyStock {
+  id          String          @id @default(cuid())
+  pharmacyId  String
+  pharmacy    Pharmacy        @relation(fields: [pharmacyId], references: [id])
+  medicineId  String
+  medicine    Medicine        @relation(fields: [medicineId], references: [id])
+  batchNumber String
+  expiryDate  DateTime
+  quantity    Int             // loose units / boxes in stock
+  mrp         Decimal         @db.Decimal(10, 2)
+  costPrice   Decimal         @db.Decimal(10, 2)
+  updatedAt   DateTime        @updatedAt
+  movements   StockMovement[]
+
+  @@unique([pharmacyId, medicineId, batchNumber])
+  @@index([pharmacyId])
+}
+
+model StockMovement {
+  id            String        @id @default(cuid())
+  stockId       String
+  stock         PharmacyStock @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  movementType  String        // INTAKE_DELIVERY, MANUAL_IN, POS_SALE, RETURN_OUT, SPOILAGE_DISPOSAL
+  quantityDelta Int           // positive for IN, negative for OUT
+  balanceAfter  Int
+  reason        String?
+  referenceId   String?       // Order # or Return #
+  createdAt     DateTime      @default(now())
+
+  @@index([stockId])
+}
+
+// -----------------------------------------------------------------------------
+// RETURN CLAIMS & REFUND ADJUSTMENTS
+// -----------------------------------------------------------------------------
+
+enum ReturnStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  CREDITED
+}
+
+model ReturnRequest {
+  id             String       @id @default(cuid())
+  returnNumber   String       @unique // e.g. RET-2026-0042
+  pharmacyId     String
+  pharmacy       Pharmacy     @relation(fields: [pharmacyId], references: [id])
+  orderId        String
+  order          Order        @relation(fields: [orderId], references: [id])
+  companyName    String
+  reason         String
+  notes          String?
+  attachmentUrl  String?
+  status         ReturnStatus @default(SUBMITTED)
+  totalAmount    Decimal      @db.Decimal(12, 2)
+  reviewedById   String?
+  rejectionNote  String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  items          ReturnItem[]
+
+  @@index([pharmacyId, status])
+  @@index([orderId])
+}
+
+model ReturnItem {
+  id             String        @id @default(cuid())
+  returnId       String
+  returnRequest  ReturnRequest @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  medicineId     String
+  batchNumber    String
+  quantity       Int
+  unitPrice      Decimal       @db.Decimal(10, 2)
+  totalRefund    Decimal       @db.Decimal(12, 2)
+
+  @@index([returnId])
+}
+
+// -----------------------------------------------------------------------------
+// NOTIFICATIONS
+// -----------------------------------------------------------------------------
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String?
+  title     String
+  message   String
+  type      String   // ORDER_PLACED, STATUS_CHANGE, RETURN_APPROVED, CREDIT_ALERT
+  metadata  Json?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }

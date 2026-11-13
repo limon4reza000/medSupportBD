@@ -16,6 +16,14 @@ import {
   IDistributorMedicineInventory,
   IDistributorSearchResult,
   ILiveDeliveryVehicle,
+  ReturnStatus,
+  IReturnRequest,
+  IReturnItem,
+  IOrderStatusHistory,
+  IInvoice,
+  IPharmacyStock,
+  IStockMovement,
+  INotification,
 } from "@/types/domain";
 import { GeoRoutingEngine } from "@/services/geoRoutingEngine";
 
@@ -885,6 +893,421 @@ export const initialLedgerEntries: LedgerEntry[] = [
   }
 ];
 
+// Initial Invoices with Mushak-6.3 tax attributes
+export const initialInvoices: IInvoice[] = [
+  {
+    id: "inv-001",
+    invoiceNumber: "INV-20261111-BEX-7967",
+    orderId: "ORD-20261111-BEX-7967",
+    orderNumber: "ORD-20261111-BEX-7967",
+    challanNumber: "CH-20261111-BEX-9102",
+    pharmacyId: "pharm-01",
+    pharmacyName: "Green Care Pharmacy & Med Store",
+    companyName: "Beximco Pharmaceuticals Ltd.",
+    totalGross: 49000.00,
+    discountTotal: 1470.00,
+    vatTotal: 720.00,
+    netPayable: 48250.00,
+    paidAmount: 0.00,
+    dueAmount: 48250.00,
+    status: PaymentStatus.UNPAID,
+    dueDate: "2026-12-11T15:20:00.000Z",
+    issuedAt: "2026-11-11T15:20:00.000Z",
+    items: [
+      {
+        medicineId: "med-01",
+        brandName: "Napa Extra 500mg+65mg",
+        packSize: "20 Strips/Box (200 Tablets)",
+        batchNumber: "BEX-NP-2024-88",
+        expiryDate: "2027-04-30",
+        orderedQty: 100,
+        unitTradePrice: 490.00,
+        grossAmount: 49000.00,
+        bonusQty: 10,
+        vatAmount: 720.00,
+        netItemTotal: 48250.00,
+      }
+    ]
+  },
+  {
+    id: "inv-002",
+    invoiceNumber: "INV-20261110-SQU-8812",
+    orderId: "ORD-20261110-SQU-8812",
+    orderNumber: "ORD-20261110-SQU-8812",
+    challanNumber: "CH-20261110-SQU-4401",
+    pharmacyId: "pharm-01",
+    pharmacyName: "Green Care Pharmacy & Med Store",
+    companyName: "Square Pharmaceuticals PLC",
+    totalGross: 38000.00,
+    discountTotal: 1140.00,
+    vatTotal: 340.00,
+    netPayable: 37200.00,
+    paidAmount: 37200.00,
+    dueAmount: 0.00,
+    status: PaymentStatus.PAID,
+    dueDate: "2026-12-10T11:00:00.000Z",
+    issuedAt: "2026-11-10T11:00:00.000Z",
+    items: [
+      {
+        medicineId: "med-02",
+        brandName: "Ace Plus 500mg+65mg",
+        packSize: "20 Strips/Box (200 Tablets)",
+        batchNumber: "SQU-AC-2024-05",
+        expiryDate: "2027-01-30",
+        orderedQty: 50,
+        unitTradePrice: 490.00,
+        grossAmount: 24500.00,
+        bonusQty: 5,
+        vatAmount: 200.00,
+        netItemTotal: 23900.00,
+      },
+      {
+        medicineId: "med-03",
+        brandName: "Seclo 20mg Capsule",
+        packSize: "30 Strips/Box (300 Capsules)",
+        batchNumber: "SQU-SC-2024-12",
+        expiryDate: "2027-02-15",
+        orderedQty: 8,
+        unitTradePrice: 1750.00,
+        grossAmount: 14000.00,
+        bonusQty: 0,
+        vatAmount: 140.00,
+        netItemTotal: 13300.00,
+      }
+    ]
+  },
+  {
+    id: "inv-003",
+    invoiceNumber: "INV-20261108-REN-1102",
+    orderId: "ORD-20261108-REN-1102",
+    orderNumber: "ORD-20261108-REN-1102",
+    challanNumber: "CH-20261108-REN-3301",
+    pharmacyId: "pharm-01",
+    pharmacyName: "Green Care Pharmacy & Med Store",
+    companyName: "Renata Limited",
+    totalGross: 14500.00,
+    discountTotal: 0.00,
+    vatTotal: 0.00,
+    netPayable: 14500.00,
+    paidAmount: 5000.00,
+    dueAmount: 9500.00,
+    status: PaymentStatus.PARTIALLY_PAID,
+    dueDate: "2026-12-08T14:00:00.000Z",
+    issuedAt: "2026-11-08T14:00:00.000Z",
+    items: [
+      {
+        medicineId: "med-06",
+        brandName: "Zimax 500mg Tablet",
+        packSize: "10 Strips/Box (60 Tablets)",
+        batchNumber: "REN-ZX-2024-19",
+        expiryDate: "2027-05-30",
+        orderedQty: 10,
+        unitTradePrice: 1450.00,
+        grossAmount: 14500.00,
+        bonusQty: 0,
+        vatAmount: 0.00,
+        netItemTotal: 14500.00,
+      }
+    ]
+  }
+];
+
+// Order Status Progression History
+export const initialOrderStatusHistory: IOrderStatusHistory[] = [
+  {
+    id: "osh-001",
+    orderId: "ORD-20261111-BEX-7967",
+    status: OrderStatus.ALLOCATED,
+    notes: "Order confirmed and FEFO batches allocated at Beximco Tejgaon Hub",
+    changedBy: "Tanvir Ahmed (MPO)",
+    createdAt: "2026-11-11T15:20:00.000Z",
+  },
+  {
+    id: "osh-002",
+    orderId: "ORD-20261111-BEX-7967",
+    status: OrderStatus.DISPATCHED,
+    notes: "Loaded into Delivery Vehicle DHK-METRO-CHA-11-2094 with cold-chain monitoring active",
+    changedBy: "System Dispatcher",
+    createdAt: "2026-11-11T16:30:00.000Z",
+  },
+  {
+    id: "osh-003",
+    orderId: "ORD-20261110-SQU-8812",
+    status: OrderStatus.ALLOCATED,
+    notes: "Order accepted by Square Pharma Dhanmondi Depot",
+    changedBy: "Mahmudul Hasan (MPO)",
+    createdAt: "2026-11-10T11:00:00.000Z",
+  },
+  {
+    id: "osh-004",
+    orderId: "ORD-20261110-SQU-8812",
+    status: OrderStatus.DISPATCHED,
+    notes: "En route to pharmacy via van DHK-METRO-CHA-12-8819",
+    changedBy: "Depot Manager",
+    createdAt: "2026-11-10T12:15:00.000Z",
+  },
+  {
+    id: "osh-005",
+    orderId: "ORD-20261110-SQU-8812",
+    status: OrderStatus.DELIVERED,
+    notes: "Delivered & verified by Dr. Rafiqul Islam (Pharmacy Owner)",
+    changedBy: "Dr. Rafiqul Islam",
+    createdAt: "2026-11-10T14:45:00.000Z",
+  }
+];
+
+// Initial Pharmacy Physical Stockroom Inventory
+export const initialPharmacyStocks: IPharmacyStock[] = [
+  {
+    id: "pstk-01",
+    pharmacyId: "pharm-01",
+    medicineId: "med-01",
+    brandName: "Napa Extra 500mg+65mg",
+    genericName: "Paracetamol + Caffeine",
+    manufacturer: "Beximco Pharmaceuticals Ltd.",
+    dosageForm: "Tablet",
+    strength: "500mg + 65mg",
+    batchNumber: "BEX-NP-2024-88",
+    expiryDate: "2027-04-30",
+    quantity: 45, // 45 boxes in stock
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 600.00,
+    costPrice: 490.00,
+    isLowStock: false,
+    isNearExpiry: false,
+    updatedAt: "2026-11-11T17:00:00Z",
+  },
+  {
+    id: "pstk-02",
+    pharmacyId: "pharm-01",
+    medicineId: "med-03",
+    brandName: "Seclo 20mg Capsule",
+    genericName: "Omeprazole",
+    manufacturer: "Square Pharmaceuticals PLC",
+    dosageForm: "Capsule",
+    strength: "20mg",
+    batchNumber: "SQU-SC-2024-12",
+    expiryDate: "2027-02-15",
+    quantity: 28,
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 2100.00,
+    costPrice: 1750.00,
+    isLowStock: false,
+    isNearExpiry: false,
+    updatedAt: "2026-11-10T15:00:00Z",
+  },
+  {
+    id: "pstk-03",
+    pharmacyId: "pharm-01",
+    medicineId: "med-02",
+    brandName: "Ace Plus 500mg+65mg",
+    genericName: "Paracetamol + Caffeine",
+    manufacturer: "Square Pharmaceuticals PLC",
+    dosageForm: "Tablet",
+    strength: "500mg + 65mg",
+    batchNumber: "SQU-AC-2024-05",
+    expiryDate: "2026-12-30", // Near expiry (approx 45 days)
+    quantity: 8, // Low Stock alert (< 10)
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 600.00,
+    costPrice: 490.00,
+    isLowStock: true,
+    isNearExpiry: true,
+    updatedAt: "2026-11-09T11:00:00Z",
+  },
+  {
+    id: "pstk-04",
+    pharmacyId: "pharm-01",
+    medicineId: "med-04",
+    brandName: "Sergel 20mg",
+    genericName: "Esomeprazole",
+    manufacturer: "Healthcare Pharmaceuticals Ltd.",
+    dosageForm: "Capsule",
+    strength: "20mg",
+    batchNumber: "HEALTH-SG-2024-91",
+    expiryDate: "2027-08-20",
+    quantity: 35,
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 2400.00,
+    costPrice: 2000.00,
+    isLowStock: false,
+    isNearExpiry: false,
+    updatedAt: "2026-11-08T09:30:00Z",
+  },
+  {
+    id: "pstk-05",
+    pharmacyId: "pharm-01",
+    medicineId: "med-05",
+    brandName: "Monas 10mg",
+    genericName: "Montelukast",
+    manufacturer: "The ACME Laboratories Ltd.",
+    dosageForm: "Tablet",
+    strength: "10mg",
+    batchNumber: "ACME-MN-2024-34",
+    expiryDate: "2027-06-10",
+    quantity: 18,
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 900.00,
+    costPrice: 750.00,
+    isLowStock: false,
+    isNearExpiry: false,
+    updatedAt: "2026-11-07T14:00:00Z",
+  },
+  {
+    id: "pstk-06",
+    pharmacyId: "pharm-01",
+    medicineId: "med-06",
+    brandName: "Ciprocin 500mg",
+    genericName: "Ciprofloxacin",
+    manufacturer: "Square Pharmaceuticals PLC",
+    dosageForm: "Tablet",
+    strength: "500mg",
+    batchNumber: "SQU-CP-2024-77",
+    expiryDate: "2027-01-10",
+    quantity: 4, // Low Stock Alert!
+    packagingUnit: PackagingUnit.BOX,
+    mrp: 1400.00,
+    costPrice: 1150.00,
+    isLowStock: true,
+    isNearExpiry: false,
+    updatedAt: "2026-11-06T18:00:00Z",
+  }
+];
+
+// Initial Stock Movements Audit History
+export const initialStockMovements: IStockMovement[] = [
+  {
+    id: "smov-001",
+    pharmacyId: "pharm-01",
+    stockId: "pstk-01",
+    medicineName: "Napa Extra 500mg+65mg",
+    batchNumber: "BEX-NP-2024-88",
+    movementType: "INTAKE_DELIVERY",
+    quantityDelta: 50,
+    balanceAfter: 50,
+    reason: "Delivered wholesale order ORD-20261105-BEX-001 from Beximco",
+    referenceId: "ORD-20261105-BEX-001",
+    createdAt: "2026-11-06T10:00:00Z",
+  },
+  {
+    id: "smov-002",
+    pharmacyId: "pharm-01",
+    stockId: "pstk-01",
+    medicineName: "Napa Extra 500mg+65mg",
+    batchNumber: "BEX-NP-2024-88",
+    movementType: "POS_SALE",
+    quantityDelta: -5,
+    balanceAfter: 45,
+    reason: "Retail counter sales dispatch",
+    referenceId: "POS-20261110-091",
+    createdAt: "2026-11-10T16:30:00Z",
+  },
+  {
+    id: "smov-003",
+    pharmacyId: "pharm-01",
+    stockId: "pstk-03",
+    medicineName: "Ace Plus 500mg+65mg",
+    batchNumber: "SQU-AC-2024-05",
+    movementType: "POS_SALE",
+    quantityDelta: -12,
+    balanceAfter: 8,
+    reason: "Prescription fulfillment batch sale",
+    referenceId: "POS-20261111-014",
+    createdAt: "2026-11-11T12:00:00Z",
+  }
+];
+
+// Initial Return Claims
+export const initialReturnRequests: IReturnRequest[] = [
+  {
+    id: "ret-001",
+    returnNumber: "RET-2026-0041",
+    pharmacyId: "pharm-01",
+    orderId: "ORD-20261110-SQU-8812",
+    orderNumber: "ORD-20261110-SQU-8812",
+    companyName: "Square Pharmaceuticals PLC",
+    reason: "DAMAGED_PACKAGING",
+    notes: "Carton arrived wet with 3 crushed blister boxes. Not fit for retail dispense.",
+    status: ReturnStatus.APPROVED,
+    totalAmount: 1470.00,
+    reviewedById: "Mahmudul Hasan (Square MPO)",
+    createdAt: "2026-11-10T16:00:00Z",
+    updatedAt: "2026-11-11T09:30:00Z",
+    items: [
+      {
+        id: "ritm-01",
+        returnId: "ret-001",
+        medicineId: "med-02",
+        brandName: "Ace Plus 500mg+65mg",
+        batchNumber: "SQU-AC-2024-05",
+        quantity: 3,
+        unitPrice: 490.00,
+        totalRefund: 1470.00,
+      }
+    ]
+  },
+  {
+    id: "ret-002",
+    returnNumber: "RET-2026-0042",
+    pharmacyId: "pharm-01",
+    orderId: "ORD-20261108-REN-1102",
+    orderNumber: "ORD-20261108-REN-1102",
+    companyName: "Renata Limited",
+    reason: "NEAR_EXPIRY",
+    notes: "Batch expiry within 60 days per company trade return policy.",
+    status: ReturnStatus.SUBMITTED,
+    totalAmount: 2900.00,
+    createdAt: "2026-11-12T11:00:00Z",
+    updatedAt: "2026-11-12T11:00:00Z",
+    items: [
+      {
+        id: "ritm-02",
+        returnId: "ret-002",
+        medicineId: "med-06",
+        brandName: "Zimax 500mg Tablet",
+        batchNumber: "REN-ZX-2024-19",
+        quantity: 2,
+        unitPrice: 1450.00,
+        totalRefund: 2900.00,
+      }
+    ]
+  }
+];
+
+// Initial System & Business Notifications
+export const initialNotifications: INotification[] = [
+  {
+    id: "notif-001",
+    pharmacyId: "pharm-01",
+    title: "Order Dispatched — Beximco Hub",
+    message: "Order ORD-20261111-BEX-7967 is en route with live temperature control.",
+    type: "STATUS_CHANGE",
+    metadata: { orderId: "ORD-20261111-BEX-7967" },
+    isRead: false,
+    createdAt: "2026-11-11T16:30:00Z",
+  },
+  {
+    id: "notif-002",
+    pharmacyId: "pharm-01",
+    title: "Return Claim Approved",
+    message: "Square Pharma approved RET-2026-0041 (৳1,470.00). Ledger credited.",
+    type: "RETURN_APPROVED",
+    metadata: { returnId: "ret-001" },
+    isRead: false,
+    createdAt: "2026-11-11T09:30:00Z",
+  },
+  {
+    id: "notif-003",
+    pharmacyId: "pharm-01",
+    title: "Stock Alert — Low Inventory",
+    message: "Ace Plus and Ciprocin 500mg have reached reorder thresholds.",
+    type: "STOCK_ALERT",
+    isRead: true,
+    createdAt: "2026-11-10T08:00:00Z",
+  }
+];
+
+
 // In-Memory Database Singleton with O(1) Map indexing for high performance
 class MemoryDatabase {
   public medicines: IMedicine[] = [...initialMedicines];
@@ -893,6 +1316,12 @@ class MemoryDatabase {
   public pharmacies: IPharmacy[] = [...initialPharmacies];
   public ledgerEntries: LedgerEntry[] = [...initialLedgerEntries];
   public orders: any[] = [...initialOrders];
+  public invoices: IInvoice[] = [...initialInvoices];
+  public orderStatusHistory: IOrderStatusHistory[] = [...initialOrderStatusHistory];
+  public pharmacyStocks: IPharmacyStock[] = [...initialPharmacyStocks];
+  public stockMovements: IStockMovement[] = [...initialStockMovements];
+  public returnRequests: IReturnRequest[] = [...initialReturnRequests];
+  public notifications: INotification[] = [...initialNotifications];
 
   private medicineMap: Map<string, IMedicine> = new Map();
   private batchMap: Map<string, IBatch[]> = new Map();
@@ -1020,9 +1449,25 @@ class MemoryDatabase {
     this.cachedEnrichedCatalog = this.medicines.map((med) => {
       const batches = this.getBatchesForMedicine(med.id);
       const activeOffer = this.getOfferForMedicine(med.id);
+      const piecesPerStrip = med.piecesPerStrip || 10;
+      const stripsPerBox = med.stripsPerBox || 10;
+      const totalPiecesPerBox = piecesPerStrip * stripsPerBox;
+      const pieces = batches.reduce((acc, b) => acc + b.availableLooseUnits, 0);
+      const boxes = Math.floor(pieces / (totalPiecesPerBox || 100));
+      const strips = Math.floor((pieces % (totalPiecesPerBox || 100)) / (piecesPerStrip || 10));
+      const sortedBatches = batches.slice().sort((a, b) => new Date(a.expiryDate).getTime() - new Date(b.expiryDate).getTime());
+      const nextBatchExpiry = sortedBatches[0]?.expiryDate
+        ? new Date(sortedBatches[0].expiryDate).toISOString().slice(0, 10)
+        : "2027-01-31";
+
       return {
         ...med,
-        availableStockPieces: batches.reduce((acc, b) => acc + b.availableLooseUnits, 0),
+        availableStockPieces: pieces,
+        availableStockBoxes: boxes,
+        availableBoxes: boxes,
+        availableStockStrips: strips,
+        nextBatchExpiry,
+        expiryDate: nextBatchExpiry,
         batches,
         activeOffer,
       };
@@ -1410,6 +1855,325 @@ class MemoryDatabase {
     return items;
   }
 
+  // --------------------------------------------------------------------------
+  // INVOICES & CHALLANS
+  // --------------------------------------------------------------------------
+  public getInvoices(pharmacyId?: string): IInvoice[] {
+    if (pharmacyId) {
+      return this.invoices.filter((inv) => inv.pharmacyId === pharmacyId);
+    }
+    return this.invoices;
+  }
+
+  public getInvoice(id: string): IInvoice | undefined {
+    return this.invoices.find((inv) => inv.id === id || inv.invoiceNumber === id || inv.orderId === id || inv.orderNumber === id);
+  }
+
+  public addInvoice(invoice: IInvoice): void {
+    this.invoices.unshift(invoice);
+  }
+
+  public payInvoice(invoiceId: string, amount: number): boolean {
+    const inv = this.invoices.find((i) => i.id === invoiceId || i.invoiceNumber === invoiceId);
+    if (!inv) return false;
+    inv.paidAmount = Number((inv.paidAmount + amount).toFixed(2));
+    inv.dueAmount = Math.max(0, Number((inv.netPayable - inv.paidAmount).toFixed(2)));
+    if (inv.dueAmount <= 0) {
+      inv.status = PaymentStatus.PAID;
+    } else {
+      inv.status = PaymentStatus.PARTIALLY_PAID;
+    }
+    return true;
+  }
+
+  // --------------------------------------------------------------------------
+  // ORDER STATUS HISTORY & PROGRESSION
+  // --------------------------------------------------------------------------
+  public getOrderStatusHistory(orderId: string): IOrderStatusHistory[] {
+    return this.orderStatusHistory.filter((h) => h.orderId === orderId);
+  }
+
+  public addOrderStatusHistory(entry: IOrderStatusHistory): void {
+    this.orderStatusHistory.push(entry);
+  }
+
+  public updateOrderStatus(orderId: string, status: OrderStatus, notes?: string, changedBy?: string): boolean {
+    const order = this.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    if (!order) return false;
+    order.status = status;
+    order.updatedAt = new Date().toISOString();
+    
+    // Add history log
+    this.addOrderStatusHistory({
+      id: `osh-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      orderId: order.id,
+      status,
+      notes: notes || `Status changed to ${status}`,
+      changedBy: changedBy || "System",
+      createdAt: new Date().toISOString(),
+    });
+
+    // Auto-intake to pharmacy stockroom if marked DELIVERED
+    if (status === OrderStatus.DELIVERED) {
+      order.deliveredDate = new Date().toISOString();
+      this.addDeliveredOrderToPharmacyStock(order);
+    }
+
+    return true;
+  }
+
+  // --------------------------------------------------------------------------
+  // PHARMACY STOCKROOM INVENTORY & MOVEMENTS
+  // --------------------------------------------------------------------------
+  public getPharmacyStock(pharmacyId: string = "pharm-01"): IPharmacyStock[] {
+    return this.pharmacyStocks.filter((s) => s.pharmacyId === pharmacyId);
+  }
+
+  public adjustPharmacyStock(
+    pharmacyId: string,
+    stockId: string,
+    quantityDelta: number,
+    movementType: "INTAKE_DELIVERY" | "MANUAL_IN" | "POS_SALE" | "RETURN_OUT" | "SPOILAGE_DISPOSAL" | "AUDIT_ADJUSTMENT",
+    reason?: string,
+    referenceId?: string
+  ): { success: boolean; error?: string; stock?: IPharmacyStock } {
+    const stock = this.pharmacyStocks.find((s) => s.id === stockId && s.pharmacyId === pharmacyId);
+    if (!stock) {
+      return { success: false, error: "Stock item not found in pharmacy inventory." };
+    }
+
+    const newQty = stock.quantity + quantityDelta;
+    if (newQty < 0) {
+      return { success: false, error: `Insufficient stock quantity. Current stock: ${stock.quantity}, requested deduction: ${Math.abs(quantityDelta)}.` };
+    }
+
+    stock.quantity = newQty;
+    stock.isLowStock = stock.quantity <= 10;
+    stock.updatedAt = new Date().toISOString();
+
+    const movement: IStockMovement = {
+      id: `smov-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      pharmacyId,
+      stockId: stock.id,
+      medicineName: stock.brandName,
+      batchNumber: stock.batchNumber,
+      movementType,
+      quantityDelta,
+      balanceAfter: stock.quantity,
+      reason: reason || `Manual stock adjustment: ${movementType}`,
+      referenceId,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.stockMovements.unshift(movement);
+    return { success: true, stock };
+  }
+
+  public addDeliveredOrderToPharmacyStock(order: any): void {
+    const pharmacyId = order.pharmacyId || "pharm-01";
+    if (!order.items || !Array.isArray(order.items)) return;
+
+    for (const it of order.items) {
+      const medId = it.medicineId || "med-01";
+      const med = this.getMedicine(medId);
+      const brandName = it.brandName || it.medicineName || med?.brandName || "Medicine";
+      const genericName = it.genericName || med?.genericName || "Generic";
+      const manufacturer = order.companyName || med?.manufacturer || "Manufacturer";
+      const qty = it.orderedBoxes || it.orderedQty || 10;
+      const batchNo = it.batchBreakdown?.[0]?.batchNumber || `DEL-BATCH-${Date.now().toString().slice(-4)}`;
+      const expiry = it.batchBreakdown?.[0]?.expiryDate
+        ? new Date(it.batchBreakdown[0].expiryDate).toISOString().slice(0, 10)
+        : "2027-06-30";
+
+      // Check if item batch already exists in pharmacy stock
+      const existing = this.pharmacyStocks.find(
+        (s) => s.pharmacyId === pharmacyId && s.medicineId === medId && s.batchNumber === batchNo
+      );
+
+      if (existing) {
+        existing.quantity += qty;
+        existing.updatedAt = new Date().toISOString();
+        this.stockMovements.unshift({
+          id: `smov-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          pharmacyId,
+          stockId: existing.id,
+          medicineName: existing.brandName,
+          batchNumber: existing.batchNumber,
+          movementType: "INTAKE_DELIVERY",
+          quantityDelta: qty,
+          balanceAfter: existing.quantity,
+          reason: `Auto intake from delivered order ${order.orderNumber || order.id}`,
+          referenceId: order.orderNumber || order.id,
+          createdAt: new Date().toISOString(),
+        });
+      } else {
+        const newStock: IPharmacyStock = {
+          id: `pstk-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          pharmacyId,
+          medicineId: medId,
+          brandName,
+          genericName,
+          manufacturer,
+          dosageForm: med?.dosageForm || "Tablet",
+          strength: med?.strength || "Standard",
+          batchNumber: batchNo,
+          expiryDate: expiry,
+          quantity: qty,
+          packagingUnit: PackagingUnit.BOX,
+          mrp: med ? Number(med.mrpPerPiece) * (med.piecesPerStrip * med.stripsPerBox) : 600,
+          costPrice: med ? Number(med.tradePricePerPiece) * (med.piecesPerStrip * med.stripsPerBox) : 490,
+          isLowStock: false,
+          isNearExpiry: false,
+          updatedAt: new Date().toISOString(),
+        };
+        this.pharmacyStocks.unshift(newStock);
+        this.stockMovements.unshift({
+          id: `smov-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          pharmacyId,
+          stockId: newStock.id,
+          medicineName: newStock.brandName,
+          batchNumber: newStock.batchNumber,
+          movementType: "INTAKE_DELIVERY",
+          quantityDelta: qty,
+          balanceAfter: qty,
+          reason: `Auto intake from delivered order ${order.orderNumber || order.id}`,
+          referenceId: order.orderNumber || order.id,
+          createdAt: new Date().toISOString(),
+        });
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // RETURN CLAIMS & REFUND ADJUSTMENTS
+  // --------------------------------------------------------------------------
+  public getReturnRequests(pharmacyId?: string): IReturnRequest[] {
+    if (pharmacyId) {
+      return this.returnRequests.filter((r) => r.pharmacyId === pharmacyId);
+    }
+    return this.returnRequests;
+  }
+
+  public getReturnRequest(id: string): IReturnRequest | undefined {
+    return this.returnRequests.find((r) => r.id === id || r.returnNumber === id);
+  }
+
+  public addReturnRequest(req: IReturnRequest): void {
+    this.returnRequests.unshift(req);
+  }
+
+  public reviewReturnRequest(
+    returnId: string,
+    status: ReturnStatus,
+    rejectionNote?: string,
+    reviewerId?: string
+  ): boolean {
+    const claim = this.returnRequests.find((r) => r.id === returnId || r.returnNumber === returnId);
+    if (!claim) return false;
+
+    claim.status = status;
+    claim.reviewedById = reviewerId || "Authorized MPO Representative";
+    claim.rejectionNote = rejectionNote;
+    claim.updatedAt = new Date().toISOString();
+
+    if (status === ReturnStatus.APPROVED) {
+      // 1. Post RETURN_CREDIT to financial ledger
+      const pharmacy = this.getPharmacy(claim.pharmacyId);
+      if (pharmacy) {
+        const prevBal = pharmacy.currentBalance;
+        const newBal = this.updatePharmacyBalance(pharmacy.id, -claim.totalAmount);
+        this.addLedgerEntry({
+          id: `ledg-ret-${Date.now()}`,
+          pharmacyId: pharmacy.id,
+          orderId: claim.orderId,
+          transactionType: TransactionType.RETURN_CREDIT,
+          amount: claim.totalAmount,
+          previousBalance: prevBal,
+          newBalance: newBal,
+          referenceNumber: `CREDIT-NOTE-${claim.returnNumber}`,
+          notes: `Return claim approved for ${claim.companyName}: ${claim.reason}`,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      // 2. Adjust local inventory
+      for (const item of claim.items) {
+        const stock = this.pharmacyStocks.find(
+          (s) => s.pharmacyId === claim.pharmacyId && s.medicineId === item.medicineId && s.batchNumber === item.batchNumber
+        );
+        if (stock) {
+          this.adjustPharmacyStock(
+            claim.pharmacyId,
+            stock.id,
+            -item.quantity,
+            "RETURN_OUT",
+            `Return approved: ${claim.returnNumber}`,
+            claim.returnNumber
+          );
+        }
+      }
+
+      // 3. Dispatch notification
+      this.addNotification({
+        id: `notif-${Date.now()}`,
+        pharmacyId: claim.pharmacyId,
+        title: "Return Claim Approved",
+        message: `Claim ${claim.returnNumber} (৳${claim.totalAmount.toLocaleString()}) approved. Ledger credit note issued.`,
+        type: "RETURN_APPROVED",
+        metadata: { returnId: claim.id },
+        isRead: false,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    return true;
+  }
+
+  // --------------------------------------------------------------------------
+  // NOTIFICATIONS
+  // --------------------------------------------------------------------------
+  public getNotifications(userId?: string, pharmacyId: string = "pharm-01"): INotification[] {
+    return this.notifications.filter((n) => (!n.pharmacyId || n.pharmacyId === pharmacyId) && (!userId || !n.userId || n.userId === userId));
+  }
+
+  public addNotification(notification: INotification): void {
+    this.notifications.unshift(notification);
+  }
+
+  public markNotificationRead(id: string): boolean {
+    const notif = this.notifications.find((n) => n.id === id);
+    if (notif) {
+      notif.isRead = true;
+      return true;
+    }
+    return false;
+  }
+
+  // --------------------------------------------------------------------------
+  // LIVE DASHBOARD KPI AGGREGATION
+  // --------------------------------------------------------------------------
+  public getDashboardKpiMetrics(pharmacyId: string = "pharm-01") {
+    const pharmacy = this.getPharmacy(pharmacyId);
+    const pharmacyOrders = this.orders.filter((o) => o.pharmacyId === pharmacyId);
+    const totalPurchase = pharmacyOrders.reduce((sum, o) => sum + (Number(o.netPayableAmount) || 0), 0);
+    const pendingOrdersCount = pharmacyOrders.filter(
+      (o) => o.status === OrderStatus.PROCESSING || o.status === OrderStatus.ALLOCATED || o.status === OrderStatus.SUBMITTED
+    ).length;
+    const outstandingCredit = pharmacy ? Number(pharmacy.currentBalance) : 34500.00;
+    const creditLimit = pharmacy ? Number(pharmacy.creditLimit) : 120000.00;
+    const availableCredit = Math.max(0, creditLimit - outstandingCredit);
+
+    return {
+      totalPurchase,
+      totalOrders: pharmacyOrders.length,
+      pendingOrders: pendingOrdersCount,
+      outstandingCredit,
+      creditLimit,
+      availableCredit,
+      pharmacyName: pharmacy?.tradeName || "Green Care Pharmacy & Med Store",
+    };
+  }
+
   public getLiveDeliveryVehicles(depotId?: string): ILiveDeliveryVehicle[] {
     if (depotId) {
       return this.deliveryVehicles.filter((v) => v.depotId === depotId && v.isLiveSharing);
@@ -1425,7 +2189,9 @@ class MemoryDatabase {
 // Global persistence for Next.js hot-reloading
 const globalForDb = globalThis as unknown as { medSupplyDb: MemoryDatabase };
 export const db =
-  globalForDb.medSupplyDb && typeof globalForDb.medSupplyDb.searchNearbyDistributors === "function"
+  globalForDb.medSupplyDb &&
+  typeof (globalForDb.medSupplyDb as any).addInvoice === "function" &&
+  (globalForDb.medSupplyDb as any).getEnrichedCatalog?.()?.[0]?.availableStockBoxes !== undefined
     ? globalForDb.medSupplyDb
     : new MemoryDatabase();
 if (process.env.NODE_ENV !== "production") globalForDb.medSupplyDb = db;

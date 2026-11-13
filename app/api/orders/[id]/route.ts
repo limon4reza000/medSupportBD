@@ -83,3 +83,82 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     );
   }
 }
+
+export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    const orderId = params.id;
+    const body = await req.json();
+    const { status, notes, changedBy } = body;
+
+    if (!status) {
+      return NextResponse.json(
+        { success: false, error: "New order status is required." },
+        { status: 400 }
+      );
+    }
+
+    const order = db.orders.find((o) => o.id === orderId || o.orderNumber === orderId);
+    if (!order) {
+      return NextResponse.json(
+        { success: false, error: `Order ${orderId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    // Cancellation check: cannot cancel delivered or already cancelled orders
+    if (status === "CANCELLED" && (order.status === "DELIVERED" || order.status === "CANCELLED")) {
+      return NextResponse.json(
+        { success: false, error: `Cannot cancel an order that is already ${order.status}.` },
+        { status: 422 }
+      );
+    }
+
+    const success = db.updateOrderStatus(order.id, status, notes, changedBy || "Pharmacy User");
+
+    if (!success) {
+      return NextResponse.json(
+        { success: false, error: "Failed to update order status." },
+        { status: 500 }
+      );
+    }
+
+    // If cancelled, credit back the pharmacy balance
+    if (status === "CANCELLED") {
+      db.updatePharmacyBalance(order.pharmacyId, -Number(order.netPayableAmount || 0));
+      db.addNotification({
+        id: `notif-${Date.now()}`,
+        pharmacyId: order.pharmacyId,
+        title: `Order Cancelled`,
+        message: `Order #${order.orderNumber || order.id} was cancelled. Reserved funds released.`,
+        type: "STATUS_CHANGE",
+        metadata: { orderId: order.id },
+        isRead: false,
+        createdAt: new Date().toISOString(),
+      });
+    } else if (status === "DELIVERED") {
+      db.addNotification({
+        id: `notif-${Date.now()}`,
+        pharmacyId: order.pharmacyId,
+        title: `Order Delivered & Restocked`,
+        message: `Order #${order.orderNumber || order.id} delivered. Medicines added to your stockroom.`,
+        type: "STATUS_CHANGE",
+        metadata: { orderId: order.id },
+        isRead: false,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Order status updated to ${status}.`,
+      order: db.orders.find((o) => o.id === order.id),
+      history: db.getOrderStatusHistory(order.id),
+    });
+  } catch (err: any) {
+    return NextResponse.json(
+      { success: false, error: err.message || "Failed to update order status." },
+      { status: 500 }
+    );
+  }
+}
+

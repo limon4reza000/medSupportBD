@@ -9,6 +9,7 @@ import {
   CheckoutPayload,
   CheckoutResponseData,
   OrderStatus,
+  PaymentStatus,
   TransactionType,
 } from "@/types/domain";
 
@@ -245,6 +246,66 @@ export async function POST(req: NextRequest) {
 
       db.addOrder(companyOrderRecord);
       createdOrders.push(companyOrderRecord);
+
+      // Automatically generate Mushak-6.3 Invoice for this company order
+      const invoiceId = `inv-${orderId}`;
+      const invoiceNumber = `INV-${orderNumber.replace("ORD-", "")}`;
+      db.addInvoice({
+        id: invoiceId,
+        invoiceNumber,
+        orderId,
+        orderNumber,
+        challanNumber,
+        pharmacyId: pharmacy.id,
+        pharmacyName: pharmacy.tradeName,
+        companyName,
+        totalGross: Number(companyGross.toFixed(2)),
+        discountTotal: Number(companyDiscount.toFixed(2)),
+        vatTotal: Number(companyVat.toFixed(2)),
+        netPayable: Number(companyNet.toFixed(2)),
+        paidAmount: 0.00,
+        dueAmount: Number(companyNet.toFixed(2)),
+        status: PaymentStatus.UNPAID,
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        issuedAt: new Date().toISOString(),
+        items: allocatedItemsBreakdown.map((it) => ({
+          medicineId: it.medicineId,
+          brandName: it.brandName,
+          packSize: `${it.orderedQty} ${it.orderedUnit}`,
+          batchNumber: it.batchBreakdown?.[0]?.batchNumber || "FEFO-BATCH",
+          expiryDate: it.batchBreakdown?.[0]?.expiryDate
+            ? new Date(it.batchBreakdown[0].expiryDate).toISOString().slice(0, 10)
+            : "2027-06-30",
+          orderedQty: it.orderedQty,
+          unitTradePrice: Number((it.netItemTotal / (it.orderedQty || 1)).toFixed(2)),
+          grossAmount: it.netItemTotal,
+          bonusQty: it.bonusLooseUnits > 0 ? Math.ceil(it.bonusLooseUnits / 100) : 0,
+          vatAmount: 0,
+          netItemTotal: it.netItemTotal,
+        })),
+      });
+
+      // Maintain order status progression history
+      db.addOrderStatusHistory({
+        id: `osh-${orderId}-01`,
+        orderId,
+        status: OrderStatus.ALLOCATED,
+        notes: `Order created and batches reserved via FEFO allocation from ${companyName}`,
+        changedBy: "MedGo Order Cutting Engine",
+        createdAt: new Date().toISOString(),
+      });
+
+      // Dispatch business notification
+      db.addNotification({
+        id: `notif-${Date.now()}-${orderIndex}`,
+        pharmacyId: pharmacy.id,
+        title: `Order Placed — ${companyName}`,
+        message: `Order #${orderNumber} (Challan: ${challanNumber}) created for ৳${companyNet.toFixed(2)}. MPO: ${assignedMPO.name}.`,
+        type: "ORDER_PLACED",
+        metadata: { orderId, orderNumber, companyName },
+        isRead: false,
+        createdAt: new Date().toISOString(),
+      });
     }
 
     // 6. Update Pharmacy Financial Ledger for the consolidated transaction

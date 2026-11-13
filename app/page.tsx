@@ -56,6 +56,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { AuthModal } from "@/components/auth/AuthModal";
 import BusinessAnalyticsScreen from "@/components/dashboard/BusinessAnalyticsScreen";
 import { initialMedicines, initialBatches } from "@/lib/data/clientSeed";
+import { OffersHubModal } from "@/components/offers/OffersHubModal";
+import { CompanyStockStatusModal } from "@/components/stock/CompanyStockStatusModal";
+import { OrderStatusModal } from "@/components/orders/OrderStatusModal";
+import { PriceListModal } from "@/components/price-list/PriceListModal";
+import { CreditLimitModal } from "@/components/credit/CreditLimitModal";
+import { InvoicesModal } from "@/components/invoices/InvoicesModal";
+import { ReturnsManagerModal } from "@/components/returns/ReturnsManagerModal";
+import { MedicineDetailModal } from "@/components/medicines/MedicineDetailModal";
+import { StockAdjustModal } from "@/components/inventory/StockAdjustModal";
 
 // Dynamic import of Leaflet Map for Nearby Inventory without SSR window issues
 const DistributorMap = dynamic(
@@ -215,6 +224,17 @@ export default function MobileAppPage() {
   const [selectedHub, setSelectedHub] = useState("All Hubs & Depots");
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
   const [borrowBroadcastSent, setBorrowBroadcastSent] = useState(false);
+
+  // Dedicated Functional Module Modals State
+  const [isOffersModalOpen, setIsOffersModalOpen] = useState(false);
+  const [isStockStatusModalOpen, setIsStockStatusModalOpen] = useState(false);
+  const [isOrderStatusModalOpen, setIsOrderStatusModalOpen] = useState(false);
+  const [isPriceListModalOpen, setIsPriceListModalOpen] = useState(false);
+  const [isCreditLimitModalOpen, setIsCreditLimitModalOpen] = useState(false);
+  const [isInvoicesModalOpen, setIsInvoicesModalOpen] = useState(false);
+  const [isReturnsModalOpen, setIsReturnsModalOpen] = useState(false);
+  const [selectedMedicineForDetail, setSelectedMedicineForDetail] = useState<IMedicine | null>(null);
+  const [selectedStockForAdjust, setSelectedStockForAdjust] = useState<any | null>(null);
 
   // Context Database Hooks
   const { medicines: catalogMedicines, batches: catalogBatches, currentPharmacy } = useApp();
@@ -760,8 +780,8 @@ export default function MobileAppPage() {
   ];
 
   // Helpers
-  const addToCart = (medId: string) => {
-    setCart((prev) => ({ ...prev, [medId]: (prev[medId] || 0) + 1 }));
+  const addToCart = (medId: string, qty: number = 1) => {
+    setCart((prev) => ({ ...prev, [medId]: (prev[medId] || 0) + (qty || 1) }));
   };
 
   const removeFromCart = (medId: string) => {
@@ -1188,48 +1208,42 @@ export default function MobileAppPage() {
                     label: "Offers",
                     icon: OfferTagIcon,
                     bg: "bg-[#fef1f1] group-hover:bg-rose-100",
-                    onClick: () => {
-                      setSearchQuery("FREE");
-                      setActiveScreen("MEDICINES");
-                    },
+                    onClick: () => setIsOffersModalOpen(true),
                   },
                   {
                     screen: "INVENTORY",
                     label: "Stock Status",
                     icon: StockStatusIcon,
                     bg: "bg-[#e5fafb] group-hover:bg-cyan-100",
-                    onClick: () => setActiveScreen("INVENTORY"),
+                    onClick: () => setIsStockStatusModalOpen(true),
                   },
                   {
                     screen: "ORDERS",
                     label: "Order Status",
                     icon: OrderStatusIcon,
                     bg: "bg-[#f3f1f6] group-hover:bg-purple-100",
-                    onClick: () => setActiveScreen("ORDERS"),
+                    onClick: () => setIsOrderStatusModalOpen(true),
                   },
                   {
                     screen: "MEDICINES",
                     label: "Price List",
                     icon: FileText,
                     bg: "bg-violet-50/90 text-violet-600 group-hover:bg-violet-100",
-                    onClick: () => {
-                      setSearchQuery("");
-                      setActiveScreen("MEDICINES");
-                    },
+                    onClick: () => setIsPriceListModalOpen(true),
                   },
                   {
                     screen: "PROFILE",
                     label: "Credit Limit",
                     icon: CreditLimitIcon,
                     bg: "bg-[#fef7e7] group-hover:bg-amber-100",
-                    onClick: () => setActiveScreen("PROFILE"),
+                    onClick: () => setIsCreditLimitModalOpen(true),
                   },
                   {
                     screen: "ORDERS",
                     label: "Invoices",
                     icon: InvoiceIcon,
                     bg: "bg-[#e8fbff] group-hover:bg-sky-100",
-                    onClick: () => setActiveScreen("ORDERS"),
+                    onClick: () => setIsInvoicesModalOpen(true),
                   },
                   {
                     screen: "INVENTORY",
@@ -1243,7 +1257,7 @@ export default function MobileAppPage() {
                     label: "Returns",
                     icon: ReturnsIcon,
                     bg: "bg-[#eafcec] group-hover:bg-emerald-100",
-                    onClick: () => setActiveScreen("ORDERS"),
+                    onClick: () => setIsReturnsModalOpen(true),
                   },
                 ].map((item, idx) => {
                   const Icon = item.icon;
@@ -1313,9 +1327,31 @@ export default function MobileAppPage() {
                     className="p-3 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-2"
                   >
                     <div className="flex items-start justify-between gap-2">
-                      <div>
+                      <div
+                        onClick={() => {
+                          const allM = catalogMedicines && catalogMedicines.length > 0 ? catalogMedicines : initialMedicines;
+                          const fullMed = allM.find((m) => m.id === med.id) || {
+                            id: med.id,
+                            code: med.id,
+                            brandName: med.name,
+                            genericName: med.generic,
+                            dosageForm: med.form as any,
+                            strength: med.strength,
+                            manufacturer: med.company,
+                            piecesPerStrip: 10,
+                            stripsPerBox: 10,
+                            mrpPerPiece: med.unitPrice * 1.2,
+                            tradePricePerPiece: med.unitPrice,
+                            vatPercentage: 2.4,
+                            isActive: true,
+                          };
+                          setSelectedMedicineForDetail(fullMed as any);
+                        }}
+                        className="cursor-pointer group flex-1"
+                        title="Click to view packaging & chemist margin breakdown"
+                      >
                         <div className="flex items-center gap-1.5">
-                          <span className="text-xs font-black text-slate-900">{med.name}</span>
+                          <span className="text-xs font-black text-slate-900 group-hover:text-[#139485] transition-colors">{med.name}</span>
                           <span className="text-[10px] text-slate-500 font-semibold">({med.form})</span>
                         </div>
                         <div className="text-[11px] text-slate-500 leading-tight">{med.generic}</div>
@@ -1718,9 +1754,47 @@ export default function MobileAppPage() {
         {activeScreen === "ORDERS" && (
           <div className="p-4 space-y-4 animate-in fade-in duration-150">
             
-            <div>
-              <h1 className="text-base font-black text-slate-900">Orders & Dispatches</h1>
-              <p className="text-xs text-slate-500">Track delivery fleet & settle distributor dues</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-base font-black text-slate-900">Orders & Dispatches</h1>
+                <p className="text-xs text-slate-500">Track delivery fleet & settle distributor dues</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsOrderStatusModalOpen(true)}
+                className="px-3 py-1.5 rounded-xl bg-[#139485] hover:bg-teal-700 text-white text-xs font-bold flex items-center gap-1 shadow-xs active:scale-95 transition-all"
+              >
+                <Truck className="w-3.5 h-3.5" />
+                <span>All Orders</span>
+              </button>
+            </div>
+
+            {/* Quick Actions Strip */}
+            <div className="grid grid-cols-3 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setIsOrderStatusModalOpen(true)}
+                className="p-2.5 bg-white rounded-2xl border border-slate-200 hover:border-teal-300 font-bold text-slate-800 shadow-2xs flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <Clock className="w-3.5 h-3.5 text-[#139485]" />
+                <span>Lifecycle</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsInvoicesModalOpen(true)}
+                className="p-2.5 bg-white rounded-2xl border border-slate-200 hover:border-teal-300 font-bold text-slate-800 shadow-2xs flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <Receipt className="w-3.5 h-3.5 text-[#139485]" />
+                <span>Invoices</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsReturnsModalOpen(true)}
+                className="p-2.5 bg-white rounded-2xl border border-slate-200 hover:border-teal-300 font-bold text-slate-800 shadow-2xs flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Returns</span>
+              </button>
             </div>
 
             {/* Active Order with Live GPS */}
@@ -2030,17 +2104,36 @@ export default function MobileAppPage() {
                             )}
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSearchQuery(item.name);
-                              setActiveScreen("MEDICINES");
-                            }}
-                            className="px-2.5 py-1 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#139485] font-black text-xs flex items-center gap-1 active:scale-95 transition-all"
-                          >
-                            <ShoppingCart className="w-3.5 h-3.5" />
-                            <span>Reorder SKU</span>
-                          </button>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSelectedStockForAdjust({
+                                  id: `pstk-${item.id}`,
+                                  pharmacyId: "pharm-01",
+                                  medicineId: item.id,
+                                  brandName: item.name,
+                                  genericName: item.generic,
+                                  batchNumber: item.batchNumber,
+                                  quantity: item.availableBoxes,
+                                });
+                              }}
+                              className="px-2 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1 transition-colors"
+                            >
+                              <span>Adjust</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSearchQuery(item.name);
+                                setActiveScreen("MEDICINES");
+                              }}
+                              className="px-2.5 py-1 rounded-xl bg-teal-50 hover:bg-teal-100 text-[#139485] font-black text-xs flex items-center gap-1 active:scale-95 transition-all"
+                            >
+                              <ShoppingCart className="w-3.5 h-3.5" />
+                              <span>Reorder SKU</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))
@@ -3285,6 +3378,89 @@ export default function MobileAppPage() {
             defaultRole={activeRole}
             onSuccess={() => {
               setActiveScreen("DASHBOARD");
+            }}
+          />
+
+          {/* Trade Offers Hub Modal */}
+          <OffersHubModal
+            isOpen={isOffersModalOpen}
+            onClose={() => setIsOffersModalOpen(false)}
+            onClaimOffer={(medId, qty) => {
+              addToCart(medId, qty);
+            }}
+          />
+
+          {/* Company Depot Stock Status Modal */}
+          <CompanyStockStatusModal
+            isOpen={isStockStatusModalOpen}
+            onClose={() => setIsStockStatusModalOpen(false)}
+            onSelectToOrder={() => {
+              setIsStockStatusModalOpen(false);
+              setActiveScreen("MEDICINES");
+            }}
+            onAddToCart={(medId, qty) => {
+              addToCart(medId, qty);
+            }}
+          />
+
+          {/* Order Tracking & Lifecycle Modal */}
+          <OrderStatusModal
+            isOpen={isOrderStatusModalOpen}
+            onClose={() => setIsOrderStatusModalOpen(false)}
+            onOpenInvoice={() => {
+              setIsOrderStatusModalOpen(false);
+              setIsInvoicesModalOpen(true);
+            }}
+            onOpenReturn={() => {
+              setIsOrderStatusModalOpen(false);
+              setIsReturnsModalOpen(true);
+            }}
+          />
+
+          {/* Price List Modal */}
+          <PriceListModal
+            isOpen={isPriceListModalOpen}
+            onClose={() => setIsPriceListModalOpen(false)}
+            onAddToCart={(medId, qty) => {
+              addToCart(medId, qty);
+            }}
+          />
+
+          {/* Wholesale Credit Facility Modal */}
+          <CreditLimitModal
+            isOpen={isCreditLimitModalOpen}
+            onClose={() => setIsCreditLimitModalOpen(false)}
+          />
+
+          {/* Commercial Invoices Modal */}
+          <InvoicesModal
+            isOpen={isInvoicesModalOpen}
+            onClose={() => setIsInvoicesModalOpen(false)}
+          />
+
+          {/* Returns & Refund Claims Modal */}
+          <ReturnsManagerModal
+            isOpen={isReturnsModalOpen}
+            onClose={() => setIsReturnsModalOpen(false)}
+          />
+
+          {/* Medicine Detail Modal */}
+          <MedicineDetailModal
+            medicine={selectedMedicineForDetail}
+            isOpen={!!selectedMedicineForDetail}
+            onClose={() => setSelectedMedicineForDetail(null)}
+            onAddToCart={(medId, qty) => {
+              addToCart(medId, qty);
+            }}
+          />
+
+          {/* Physical Stock Adjust Modal */}
+          <StockAdjustModal
+            stockItem={selectedStockForAdjust}
+            isOpen={!!selectedStockForAdjust}
+            onClose={() => setSelectedStockForAdjust(null)}
+            onSuccess={() => {
+              // Stock updated
             }}
           />
 

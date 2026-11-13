@@ -988,4 +988,135 @@ export const SalesRepRegistrationSchema = z.object({
   { message: "At least one contact method (Mobile Number or Gmail / Email Address) is required", path: ["phone"] }
 );
 
+// ============================================================================
+// DASHBOARD & FULL FUNCTIONAL INTEGRATION MODULE TYPES
+// ============================================================================
+
+export enum ReturnStatus {
+  SUBMITTED = "SUBMITTED",
+  UNDER_REVIEW = "UNDER_REVIEW",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CREDITED = "CREDITED",
+}
+
+export interface IReturnItem {
+  id: string;
+  returnId: string;
+  medicineId: string;
+  brandName?: string;
+  batchNumber: string;
+  quantity: number;
+  unitPrice: number;
+  totalRefund: number;
+}
+
+export interface IReturnRequest {
+  id: string;
+  returnNumber: string; // e.g. RET-2026-0042
+  pharmacyId: string;
+  orderId: string;
+  orderNumber: string;
+  companyName: string;
+  reason: string;
+  notes?: string;
+  attachmentUrl?: string;
+  status: ReturnStatus;
+  totalAmount: number;
+  reviewedById?: string;
+  rejectionNote?: string;
+  createdAt: string;
+  updatedAt: string;
+  items: IReturnItem[];
+}
+
+export interface IOrderStatusHistory {
+  id: string;
+  orderId: string;
+  status: OrderStatus;
+  notes?: string;
+  changedBy?: string;
+  createdAt: string;
+}
+
+export interface IInvoice {
+  id: string;
+  invoiceNumber: string;
+  orderId: string;
+  orderNumber: string;
+  challanNumber?: string;
+  pharmacyId: string;
+  pharmacyName: string;
+  companyName: string;
+  totalGross: number;
+  discountTotal: number;
+  vatTotal: number;
+  netPayable: number;
+  paidAmount: number;
+  dueAmount: number;
+  status: PaymentStatus;
+  dueDate: string;
+  issuedAt: string;
+  items?: {
+    medicineId: string;
+    brandName: string;
+    packSize: string;
+    batchNumber: string;
+    expiryDate: string;
+    orderedQty: number;
+    unitTradePrice: number;
+    grossAmount: number;
+    bonusQty: number;
+    vatAmount: number;
+    netItemTotal: number;
+  }[];
+}
+
+export interface IPharmacyStock {
+  id: string;
+  pharmacyId: string;
+  medicineId: string;
+  brandName: string;
+  genericName: string;
+  manufacturer: string;
+  dosageForm: string;
+  strength: string;
+  batchNumber: string;
+  expiryDate: string;
+  quantity: number; // in loose pieces or boxes
+  packagingUnit: PackagingUnit;
+  mrp: number;
+  costPrice: number;
+  isLowStock?: boolean;
+  isNearExpiry?: boolean;
+  updatedAt: string;
+}
+
+export interface IStockMovement {
+  id: string;
+  pharmacyId: string;
+  stockId: string;
+  medicineName: string;
+  batchNumber: string;
+  movementType: "INTAKE_DELIVERY" | "MANUAL_IN" | "POS_SALE" | "RETURN_OUT" | "SPOILAGE_DISPOSAL" | "AUDIT_ADJUSTMENT";
+  quantityDelta: number; // positive for addition, negative for deduction
+  balanceAfter: number;
+  reason?: string;
+  referenceId?: string; // Order ID, Return ID, or Adjustment reference
+  createdAt: string;
+}
+
+export interface INotification {
+  id: string;
+  userId?: string;
+  pharmacyId?: string;
+  title: string;
+  message: string;
+  type: "ORDER_PLACED" | "STATUS_CHANGE" | "RETURN_APPROVED" | "RETURN_REJECTED" | "CREDIT_ALERT" | "STOCK_ALERT";
+  metadata?: any;
+  isRead: boolean;
+  createdAt: string;
+}
+
+
 
