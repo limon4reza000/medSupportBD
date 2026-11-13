@@ -648,7 +648,7 @@ export function DynamicBarChart({
 }
 
 /**
- * 6. Dynamic Business Performance Trends Line Chart (Multi-Series SVG)
+ * 6. Dynamic Business Performance Trends Line Chart (Multi-Series SVG with Fixed Y-Axis and Responsive Scroll)
  */
 export function DynamicLineChart({
   chart,
@@ -664,12 +664,33 @@ export function DynamicLineChart({
   isLoading?: boolean;
 }) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(270);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const updateWidth = () => {
+      if (el.clientWidth > 0) {
+        setContainerWidth(el.clientWidth);
+      }
+    };
+
+    updateWidth();
+    const ro = new ResizeObserver(updateWidth);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3">
-        <div className="h-4 w-48 bg-slate-100 rounded animate-pulse" />
-        <div className="h-44 bg-slate-50 rounded-xl animate-pulse" />
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm space-y-4">
+        <div className="flex justify-between items-center">
+          <div className="h-4 w-48 bg-slate-100 rounded-md animate-pulse" />
+          <div className="h-4 w-28 bg-slate-100 rounded-full animate-pulse" />
+        </div>
+        <div className="h-56 bg-slate-50/70 rounded-xl animate-pulse" />
       </div>
     );
   }
@@ -677,10 +698,10 @@ export function DynamicLineChart({
   if (!chart || !chart.timePoints || chart.timePoints.length === 0) {
     return (
       <div
-        className="py-10 text-center text-xs text-slate-500 bg-white rounded-xl border border-slate-200 space-y-2 p-6"
+        className="py-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200/90 shadow-sm space-y-2 p-6"
         data-testid="dynamic-line-chart-empty"
       >
-        <TrendingUp className="w-8 h-8 text-slate-300 mx-auto" />
+        <TrendingUp className="w-8 h-8 text-slate-400 mx-auto" />
         <p className="font-semibold text-slate-700">No Trend Data Available</p>
         <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
           Performance trends require historical transactions across consecutive periods.
@@ -691,44 +712,106 @@ export function DynamicLineChart({
 
   const { timePoints, lines } = chart;
   const allValues = lines.flatMap((l) => l.data || []);
-  const maxVal = Math.max(...allValues, 10000);
-  const chartHeight = 120;
-  const pointGap = 55;
-  const svgWidth = Math.max(300, (timePoints.length - 1) * pointGap + 60);
+  const rawMax = Math.max(...allValues, 1000);
 
-  // Helper to calculate SVG points for a line
+  // Clean ceiling calculation matching Bar Chart
+  const getCeiling = (max: number) => {
+    if (max <= 50000) return 50000;
+    if (max <= 100000) return 100000;
+    if (max <= 150000) return 150000;
+    if (max <= 200000) return 200000;
+    if (max <= 300000) return 300000;
+    if (max <= 500000) return 500000;
+    if (max <= 1000000) return 1000000;
+    return Math.ceil(max / 100000) * 100000;
+  };
+
+  const ceiling = getCeiling(rawMax);
+  const yTicks = [
+    ceiling,
+    ceiling * 0.75,
+    ceiling * 0.5,
+    ceiling * 0.25,
+    0,
+  ];
+
+  const formatYLabel = (val: number) => {
+    if (val === 0) return "৳0";
+    if (val >= 1000000) {
+      const num = val / 1000000;
+      return `৳${num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)}M`;
+    }
+    if (val >= 1000) {
+      const num = val / 1000;
+      return `৳${num % 1 === 0 ? num.toFixed(0) : num.toFixed(1)}K`;
+    }
+    return `৳${val}`;
+  };
+
+  // Dimensions: Much larger, prominent height (190px) matching Bar Chart
+  const chartHeight = 190;
+  const topPadding = 24;
+  const yZero = topPadding + chartHeight;
+  const svgHeight = yZero + 38;
+
+  // Y-axis fixed column width (flushed to the far left)
+  const yAxisWidth = 46;
+
+  const count = timePoints.length;
+  // Exactly 6 timepoints in front when count > 6 (e.g. 12 months), remaining scroll
+  const visiblePoints = count > 6 ? 6 : Math.max(1, count);
+  const slotWidth = Math.max(40, Math.floor(containerWidth / visiblePoints));
+  const scrollableWidth = count > 6 ? slotWidth * count : Math.max(containerWidth, slotWidth * count);
+
+  // Helper to calculate SVG points string for a polyline
   const getPointsString = (data: number[]) => {
     return data
       .map((val, idx) => {
-        const x = idx * pointGap + 30;
-        const y = chartHeight - (isMasked ? chartHeight * 0.4 : (val / maxVal) * (chartHeight - 20) + 10);
-        return `${x},${y}`;
+        const x = idx * slotWidth + slotWidth / 2;
+        const y = yZero - (isMasked ? chartHeight * 0.4 : Math.min(chartHeight, (val / ceiling) * chartHeight));
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
       })
       .join(" ");
   };
 
+  // Helper to calculate area polygon points string for the primary line
+  const getAreaPointsString = (data: number[]) => {
+    if (data.length === 0) return "";
+    const firstX = slotWidth / 2;
+    const lastX = (data.length - 1) * slotWidth + slotWidth / 2;
+    const linePoints = getPointsString(data);
+    return `${firstX.toFixed(1)},${yZero} ${linePoints} ${lastX.toFixed(1)},${yZero}`;
+  };
+
   return (
     <div
-      className="bg-white rounded-xl p-4 border border-slate-200 shadow-sm space-y-3"
+      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none space-y-3"
       data-testid="dynamic-line-chart"
       role="graphics-document"
       aria-label={chart.title}
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-xs font-bold text-slate-900 uppercase tracking-wide">
-            {chart.title}
-          </h2>
-          <p className="text-[10px] text-slate-400 font-medium">
-            Multi-series performance comparison
-          </p>
+      {/* Header with Title, Scroll Indicator, and Legend */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#139485] ring-4 ring-[#139485]/10" />
+            <h2 className="text-xs font-bold text-slate-700 tracking-wider uppercase">
+              {chart.title}
+            </h2>
+          </div>
+          {count > 6 && (
+            <span className="sm:hidden text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
+              Scroll ↔
+            </span>
+          )}
         </div>
+
         {/* Legend */}
-        <div className="flex items-center space-x-2 text-[10px]">
+        <div className="flex items-center space-x-3 text-[11px]">
           {lines.map((l) => (
-            <div key={l.name} className="flex items-center space-x-1">
+            <div key={l.name} className="flex items-center space-x-1.5">
               <span
-                className="w-2.5 h-2.5 rounded-full"
+                className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ backgroundColor: l.color }}
               />
               <span className="text-slate-600 font-medium">
@@ -736,88 +819,196 @@ export function DynamicLineChart({
               </span>
             </div>
           ))}
+          {count > 6 && (
+            <span className="hidden sm:inline-block text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
+              Scroll ↔
+            </span>
+          )}
         </div>
       </div>
 
-      <div className="w-full overflow-x-auto pb-2 scrollbar-none">
-        <svg
-          viewBox={`0 0 ${svgWidth} ${chartHeight + 35}`}
-          className="w-full h-44 select-none"
-          preserveAspectRatio="xMidYMid meet"
+      {/* Chart Layout: Fixed Vertical Y-Axis on Left + Scrollable Lines on Right */}
+      <div className="flex items-start relative">
+        {/* 1. FIXED VERTICAL Y-AXIS (Left Column: Stays fixed, never scrolls, flush left) */}
+        <div className="shrink-0 z-10 bg-white select-none pt-1" style={{ width: `${yAxisWidth}px` }}>
+          <svg
+            width={yAxisWidth}
+            height={svgHeight}
+            className="overflow-visible select-none"
+            style={{ width: `${yAxisWidth}px`, height: `${svgHeight}px` }}
+          >
+            {yTicks.map((tickVal, i) => {
+              const lineY = topPadding + i * (chartHeight / 4);
+              return (
+                <text
+                  key={`ytick-fixed-line-${tickVal}-${i}`}
+                  x="0"
+                  y={lineY + 4}
+                  textAnchor="start"
+                  fill="#475569"
+                  fontSize="13"
+                  fontWeight="600"
+                  fontFamily="sans-serif"
+                >
+                  {formatYLabel(tickVal)}
+                </text>
+              );
+            })}
+          </svg>
+        </div>
+
+        {/* 2. SCROLLABLE LINES & HORIZONTAL MONTHS VIEWPORT (Right Column: 6 points in front, remaining scroll) */}
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-x-auto pb-3 pt-1 scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 relative select-none"
+          onMouseLeave={() => setHoveredIdx(null)}
         >
-          {/* Grid lines */}
-          <line x1="15" y1={chartHeight} x2={svgWidth - 15} y2={chartHeight} stroke="#e2e8f0" strokeWidth="1" />
-          <line x1="15" y1={chartHeight / 2} x2={svgWidth - 15} y2={chartHeight / 2} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="3 3" />
+          <div style={{ minWidth: `${scrollableWidth}px` }} className="relative">
+            <svg
+              viewBox={`0 0 ${scrollableWidth} ${svgHeight}`}
+              className="w-full select-none"
+              style={{ minWidth: `${scrollableWidth}px`, height: `${svgHeight}px` }}
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="lineAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#139485" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#139485" stopOpacity="0.0" />
+                </linearGradient>
+              </defs>
 
-          {/* Lines */}
-          {lines.map((line) => {
-            const points = getPointsString(line.data);
-            return (
-              <g key={`line-${line.name}`}>
-                <polyline
-                  fill="none"
-                  stroke={line.color}
-                  strokeWidth={line.isStandby ? "1.5" : "2.5"}
-                  strokeDasharray={line.isStandby ? "4 4" : "none"}
-                  points={points}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              {/* 5 Horizontal Dashed Gridlines spanning the entire scrollable width */}
+              {yTicks.map((tickVal, i) => {
+                const lineY = topPadding + i * (chartHeight / 4);
+                return (
+                  <line
+                    key={`gridline-line-${tickVal}-${i}`}
+                    x1="0"
+                    y1={lineY}
+                    x2={scrollableWidth}
+                    y2={lineY}
+                    stroke="#e2e8f0"
+                    strokeWidth="1"
+                    strokeDasharray="3 3"
+                  />
+                );
+              })}
+
+              {/* Active Month Vertical Guideline */}
+              {hoveredIdx !== null && (
+                <line
+                  x1={hoveredIdx * slotWidth + slotWidth / 2}
+                  y1={topPadding}
+                  x2={hoveredIdx * slotWidth + slotWidth / 2}
+                  y2={yZero}
+                  stroke="#94a3b8"
+                  strokeWidth="1.5"
+                  strokeDasharray="3 3"
+                  className="pointer-events-none"
                 />
-                {/* Data points */}
-                {line.data.map((val, idx) => {
-                  const x = idx * pointGap + 30;
-                  const y = chartHeight - (isMasked ? chartHeight * 0.4 : (val / maxVal) * (chartHeight - 20) + 10);
-                  const isHovered = hoveredIdx === idx;
+              )}
 
-                  return (
-                    <circle
-                      key={`pt-${line.name}-${idx}`}
-                      cx={x}
-                      cy={y}
-                      r={isHovered ? "5" : "3.5"}
-                      fill="#ffffff"
+              {/* Area Polygon Fill under Primary Active Line */}
+              {lines.length > 0 && !lines[0].isStandby && (
+                <polygon
+                  points={getAreaPointsString(lines[0].data)}
+                  fill="url(#lineAreaGradient)"
+                  className="pointer-events-none transition-all duration-300"
+                />
+              )}
+
+              {/* Polylines & Data Point Circles */}
+              {lines.map((line) => {
+                const points = getPointsString(line.data);
+                return (
+                  <g key={`line-${line.name}`}>
+                    {/* The Line */}
+                    <polyline
+                      fill="none"
                       stroke={line.color}
-                      strokeWidth={isHovered ? "2.5" : "1.8"}
-                      className="cursor-pointer transition-all duration-150"
-                      onMouseEnter={() => setHoveredIdx(idx)}
-                      onMouseLeave={() => setHoveredIdx(null)}
+                      strokeWidth={line.isStandby ? "2" : "3"}
+                      strokeDasharray={line.isStandby ? "4 4" : "none"}
+                      points={points}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
-                  );
-                })}
-              </g>
-            );
-          })}
 
-          {/* Timepoint Labels */}
-          {timePoints.map((tp, idx) => {
-            const x = idx * pointGap + 30;
-            const isHovered = hoveredIdx === idx;
+                    {/* Data Points */}
+                    {line.data.map((val, idx) => {
+                      const x = idx * slotWidth + slotWidth / 2;
+                      const y = yZero - (isMasked ? chartHeight * 0.4 : Math.min(chartHeight, (val / ceiling) * chartHeight));
+                      const isHovered = hoveredIdx === idx;
 
-            return (
-              <text
-                key={`tp-${tp}-${idx}`}
-                x={x}
-                y={chartHeight + 16}
-                textAnchor="middle"
-                className={`text-[10px] ${
-                  isHovered ? "font-bold fill-slate-900" : "font-medium fill-slate-400"
-                }`}
-              >
-                {tp}
-              </text>
-            );
-          })}
-        </svg>
+                      return (
+                        <circle
+                          key={`pt-${line.name}-${idx}`}
+                          cx={x}
+                          cy={y}
+                          r={isHovered ? "6" : "4"}
+                          fill="#ffffff"
+                          stroke={line.color}
+                          strokeWidth={isHovered ? "3" : "2.2"}
+                          className="cursor-pointer transition-all duration-150"
+                        />
+                      );
+                    })}
+                  </g>
+                );
+              })}
+
+              {/* Transparent Column Hitbox for smooth hovering */}
+              {timePoints.map((tp, idx) => {
+                const slotX = idx * slotWidth;
+                return (
+                  <rect
+                    key={`hitbox-${tp}-${idx}`}
+                    x={slotX}
+                    y={topPadding}
+                    width={slotWidth}
+                    height={chartHeight + 35}
+                    fill="transparent"
+                    className="cursor-pointer"
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onTouchStart={() => setHoveredIdx(idx)}
+                    onClick={() => setHoveredIdx(idx)}
+                  />
+                );
+              })}
+
+              {/* Horizontal Month Labels: Large, Bold font (fontSize 13) */}
+              {timePoints.map((tp, idx) => {
+                const x = idx * slotWidth + slotWidth / 2;
+                const isHovered = hoveredIdx === idx;
+
+                return (
+                  <text
+                    key={`tp-${tp}-${idx}`}
+                    x={x}
+                    y={yZero + 22}
+                    textAnchor="middle"
+                    fill={isHovered ? "#0f172a" : "#334155"}
+                    fontSize="13"
+                    fontWeight={isHovered ? "800" : "700"}
+                    fontFamily="sans-serif"
+                  >
+                    {tp.slice(0, 3)}
+                  </text>
+                );
+              })}
+            </svg>
+          </div>
+        </div>
       </div>
 
+      {/* Detail Summary Bar when Point is Hovered / Selected */}
       {hoveredIdx !== null ? (
-        <div className="bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs flex items-center justify-between animate-fadeIn">
-          <span className="font-semibold text-slate-700">
+        <div className="bg-slate-50 border border-slate-200/90 rounded-xl p-2.5 text-xs flex items-center justify-between animate-fadeIn">
+          <span className="font-bold text-slate-800">
             {timePoints[hoveredIdx]} Performance:
           </span>
           <div className="flex items-center space-x-3 text-[11px]">
             {lines.map((l) => (
-              <span key={`hov-${l.name}`} style={{ color: l.color }} className="font-bold">
+              <span key={`hov-bar-${l.name}`} style={{ color: l.color }} className="font-bold">
                 {l.name}:{" "}
                 {isMasked
                   ? "••••••"
@@ -830,7 +1021,7 @@ export function DynamicLineChart({
         </div>
       ) : (
         <p className="text-[10px] text-slate-400 text-right pr-2">
-          Tap points to compare series values
+          Tap or hover points to compare series values
         </p>
       )}
     </div>
