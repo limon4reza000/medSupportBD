@@ -8,9 +8,6 @@ import {
   DollarSign,
   CreditCard,
   Package,
-  AlertTriangle,
-  ChevronRight,
-  ExternalLink,
 } from "lucide-react";
 
 export interface OverviewCardsData {
@@ -74,7 +71,7 @@ export function OverviewCards({
           ========================================================================= */}
       <div
         onClick={() => onCardClick && onCardClick("purchase")}
-        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-teal-400 hover:shadow-md transition-all group flex flex-col justify-between"
+        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-teal-400 hover:shadow-md transition-all group flex flex-col justify-start"
         data-testid="card-total-purchase"
       >
         <div>
@@ -107,10 +104,6 @@ export function OverviewCards({
             )}
           </div>
         </div>
-        <p className="mt-2 text-[10px] text-slate-500 line-clamp-1 border-t border-slate-100 pt-1.5 flex items-center justify-between">
-          <span>{totalPurchase?.summary}</span>
-          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-        </p>
       </div>
 
       {/* =========================================================================
@@ -118,7 +111,7 @@ export function OverviewCards({
           ========================================================================= */}
       <div
         onClick={() => onCardClick && onCardClick("sales")}
-        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-blue-400 hover:shadow-md transition-all group flex flex-col justify-between"
+        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-blue-400 hover:shadow-md transition-all group flex flex-col justify-start"
         data-testid="card-total-sales"
       >
         <div>
@@ -142,10 +135,6 @@ export function OverviewCards({
             <span className="text-[10px] text-slate-400 font-medium">Counter Dispensing</span>
           </div>
         </div>
-        <p className="mt-2 text-[10px] text-slate-500 line-clamp-1 border-t border-slate-100 pt-1.5 flex items-center justify-between">
-          <span className="truncate">{totalSales?.summary}</span>
-          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-        </p>
       </div>
 
       {/* =========================================================================
@@ -153,7 +142,7 @@ export function OverviewCards({
           ========================================================================= */}
       <div
         onClick={() => onCardClick && onCardClick("balance")}
-        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-amber-400 hover:shadow-md transition-all group flex flex-col justify-between"
+        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-amber-400 hover:shadow-md transition-all group flex flex-col justify-start"
         data-testid="card-outstanding-balance"
       >
         <div>
@@ -188,10 +177,6 @@ export function OverviewCards({
             </div>
           )}
         </div>
-        <p className="mt-2 text-[10px] text-slate-500 line-clamp-1 border-t border-slate-100 pt-1.5 flex items-center justify-between">
-          <span className="truncate">{outstandingBalance?.summary}</span>
-          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-        </p>
       </div>
 
       {/* =========================================================================
@@ -199,7 +184,7 @@ export function OverviewCards({
           ========================================================================= */}
       <div
         onClick={() => onCardClick && onCardClick("inventory")}
-        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-indigo-400 hover:shadow-md transition-all group flex flex-col justify-between"
+        className="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm relative overflow-hidden cursor-pointer hover:border-indigo-400 hover:shadow-md transition-all group flex flex-col justify-start"
         data-testid="card-inventory"
       >
         <div>
@@ -226,10 +211,6 @@ export function OverviewCards({
             )}
           </div>
         </div>
-        <p className="mt-2 text-[10px] text-slate-500 line-clamp-1 border-t border-slate-100 pt-1.5 flex items-center justify-between">
-          <span className="truncate">{inventory?.summary}</span>
-          <ChevronRight className="w-3 h-3 text-slate-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-        </p>
       </div>
     </div>
   );
