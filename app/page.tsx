@@ -1160,25 +1160,7 @@ export default function MobileAppPage() {
               </div>
             </div>
 
-            {/* Quick Business Analytics Summary Banner */}
-            <div
-              onClick={() => setActiveScreen("BUSINESS_ANALYTICS")}
-              className="p-3 bg-gradient-to-r from-[#007d6b] to-[#139485] text-white rounded-2xl shadow-sm cursor-pointer hover:shadow-md transition-all flex items-center justify-between"
-            >
-              <div className="space-y-0.5">
-                <div className="flex items-center space-x-1.5 text-[11px] font-semibold text-teal-100">
-                  <LayoutDashboard className="w-3.5 h-3.5" />
-                  <span>Business Analytics & Financial Health</span>
-                </div>
-                <p className="text-xs font-bold text-white tracking-tight">
-                  Procurement Summary &bull; Outstanding Balance &bull; Stock Alerts
-                </p>
-              </div>
-              <div className="flex items-center space-x-1 bg-white/15 hover:bg-white/25 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-teal-50 transition-colors">
-                <span>View</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
+            {/* Business Analytics & Financial Health banner removed from Home Screen per user request */}
 
             {/* All Platform Services (4 columns per row) */}
             <div className="-mt-1 sm:-mt-1.5">
