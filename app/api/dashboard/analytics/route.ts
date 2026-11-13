@@ -216,6 +216,30 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    // 7b. Full Calendar Year Months (January to December for Annual Bar Chart)
+    const annualMonths: { month: string; year: number; amount: number; orderCount: number }[] = [];
+    const chartYear = endDate.getFullYear();
+    for (let mIdx = 0; mIdx < 12; mIdx++) {
+      const mStart = new Date(chartYear, mIdx, 1, 0, 0, 0, 0);
+      const mEnd = new Date(chartYear, mIdx + 1, 0, 23, 59, 59, 999);
+
+      const mOrders = companyFilteredOrders.filter((o) => {
+        const d = new Date(o.createdAt);
+        return d >= mStart && d <= mEnd;
+      });
+
+      const mTotal = Number(
+        mOrders.reduce((sum, o) => sum + (o.netPayableAmount || o.subtotal || 0), 0).toFixed(2)
+      );
+
+      annualMonths.push({
+        month: monthNames[mIdx],
+        year: chartYear,
+        amount: mTotal,
+        orderCount: mOrders.length,
+      });
+    }
+
     // 8. Company-Wise Spend Breakdown in Period
     const companySpendMap = new Map<string, { companyId: string; companyName: string; amount: number }>();
     for (const o of periodOrders) {
@@ -457,16 +481,16 @@ export async function GET(req: NextRequest) {
       case "sales": {
         barChartTitle = "Sales Analytics";
         barChartSeriesLabel = "Sales Dispensed (৳)";
-        barChartCategories = trailingMonths.map((m) => m.month);
-        barChartSeriesData = trailingMonths.map(() => 0); // POS standby
+        barChartCategories = annualMonths.map((m) => m.month);
+        barChartSeriesData = annualMonths.map(() => 0); // POS standby
         break;
       }
       case "purchase":
       default: {
         barChartTitle = "Purchase Analytics";
         barChartSeriesLabel = "Procurement Spend (৳)";
-        barChartCategories = trailingMonths.map((m) => m.month);
-        barChartSeriesData = trailingMonths.map((m) => (canViewFinances ? m.amount : 0));
+        barChartCategories = annualMonths.map((m) => m.month);
+        barChartSeriesData = annualMonths.map((m) => (canViewFinances ? m.amount : 0));
         break;
       }
     }
@@ -474,9 +498,9 @@ export async function GET(req: NextRequest) {
     // =========================================================================
     // 16. DYNAMIC LINE CHART DATASET (Sales vs Purchase multi-series comparison)
     // =========================================================================
-    const lineTimePoints = trailingMonths.map((m) => m.month);
-    const purchaseLineData = trailingMonths.map((m) => (canViewFinances ? m.amount : 0));
-    const salesLineData = trailingMonths.map(() => 0); // In Phase 1 prior to POS dispensing
+    const lineTimePoints = annualMonths.map((m) => m.month);
+    const purchaseLineData = annualMonths.map((m) => (canViewFinances ? m.amount : 0));
+    const salesLineData = annualMonths.map(() => 0); // In Phase 1 prior to POS dispensing
 
     const lineChart = {
       title: "Business Performance Trends",

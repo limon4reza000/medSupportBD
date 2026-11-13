@@ -432,10 +432,11 @@ export function DynamicBarChart({
   const svgHeight = yZero + 32;
 
   const count = chart.categories.length;
-  const barWidth = Math.max(38, Math.min(54, Math.floor(260 / count)));
+  const isAnnual = count >= 12;
+  const barWidth = isAnnual ? 28 : Math.max(38, Math.min(54, Math.floor(260 / count)));
   const totalBarWidth = count * barWidth;
-  const minSvgWidth = 460;
-  const svgWidth = Math.max(minSvgWidth, leftMargin + totalBarWidth + count * 24 + rightMargin);
+  const minSvgWidth = isAnnual ? 600 : 460;
+  const svgWidth = Math.max(minSvgWidth, leftMargin + totalBarWidth + count * (isAnnual ? 16 : 24) + rightMargin);
   const availableBarSpan = svgWidth - leftMargin - rightMargin;
   const gap = (availableBarSpan - totalBarWidth) / (count + 1);
 
@@ -561,11 +562,11 @@ export function DynamicBarChart({
                   y={yZero + 20}
                   textAnchor="middle"
                   fill={isHovered ? "#0f172a" : "#475569"}
-                  fontSize="12"
+                  fontSize={isAnnual ? "10" : "12"}
                   fontWeight={isHovered ? "700" : "500"}
                   fontFamily="sans-serif"
                 >
-                  {cat.slice(0, 5)}
+                  {cat.slice(0, 3)}
                 </text>
               </g>
             );
