@@ -474,7 +474,7 @@ export function DynamicBarChart({
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Clean Minimalist Header with Scroll Indicator */}
+      {/* Clean Minimalist Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[#205493] ring-4 ring-[#205493]/10" />
@@ -482,11 +482,6 @@ export function DynamicBarChart({
             {chart.title}
           </h2>
         </div>
-        {count > 6 && (
-          <span className="text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
-            Scroll ↔
-          </span>
-        )}
       </div>
 
       {/* Chart Layout: Fixed Vertical Y-Axis on Left + Scrollable Bars on Right */}
@@ -825,25 +820,16 @@ export function DynamicLineChart({
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Premium Header with Title, Live Badge, Scroll Indicator, and Legend */}
+      {/* Premium Header with Title, Live Badge, and Legend */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2.5">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#139485] opacity-40" />
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#139485]" />
-            </span>
-            <div>
-              <h2 className="text-xs font-bold text-slate-800 tracking-wider uppercase">
-                {chart.title}
-              </h2>
-            </div>
-          </div>
-          {count > 6 && (
-            <span className="sm:hidden text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200/70 rounded-full px-2 py-0.5">
-              Scroll ↔
-            </span>
-          )}
+        <div className="flex items-center space-x-2.5">
+          <span className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#139485] opacity-40" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#139485]" />
+          </span>
+          <h2 className="text-xs font-bold text-slate-800 tracking-wider uppercase">
+            {chart.title}
+          </h2>
         </div>
 
         {/* Legend with Capsule Badges */}
@@ -862,11 +848,6 @@ export function DynamicLineChart({
               </span>
             </div>
           ))}
-          {count > 6 && (
-            <span className="hidden sm:inline-flex items-center text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200/70 rounded-full px-2.5 py-1">
-              Scroll ↔
-            </span>
-          )}
         </div>
       </div>
 
