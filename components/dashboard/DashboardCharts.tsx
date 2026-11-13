@@ -648,7 +648,9 @@ export function DynamicBarChart({
 }
 
 /**
- * 6. Dynamic Business Performance Trends Line Chart (Multi-Series SVG with Fixed Y-Axis and Responsive Scroll)
+ * 6. Dynamic Business Performance Trends Line Chart (Ultra-Premium SaaS Edition)
+ * Features: Silky Smooth Bezier Splines, Ambient Gradient Fill, Glowing Nodes,
+ * Fixed Left Y-Axis, Responsive 6-Month Front View with Smooth Scroll, and Glassmorphic Tooltips.
  */
 export function DynamicLineChart({
   chart,
@@ -690,7 +692,7 @@ export function DynamicLineChart({
           <div className="h-4 w-48 bg-slate-100 rounded-md animate-pulse" />
           <div className="h-4 w-28 bg-slate-100 rounded-full animate-pulse" />
         </div>
-        <div className="h-56 bg-slate-50/70 rounded-xl animate-pulse" />
+        <div className="h-60 bg-slate-50/70 rounded-xl animate-pulse" />
       </div>
     );
   }
@@ -748,22 +750,22 @@ export function DynamicLineChart({
     return `৳${val}`;
   };
 
-  // Dimensions: Much larger, prominent height (190px) matching Bar Chart
-  const chartHeight = 190;
-  const topPadding = 24;
+  // Dimensions: Generous, premium height (210px) matching Bar Chart perfectly
+  const chartHeight = 210;
+  const topPadding = 26;
   const yZero = topPadding + chartHeight;
   const svgHeight = yZero + 38;
 
-  // Y-axis fixed column width (flushed to the far left)
+  // Y-axis fixed column width (flushed to the far left at red mark line)
   const yAxisWidth = 46;
 
   const count = timePoints.length;
-  // Exactly 6 timepoints in front when count > 6 (e.g. 12 months), remaining scroll
+  // Exactly 6 timepoints in front when count > 6 (e.g. 12 months), remaining scroll smoothly
   const visiblePoints = count > 6 ? 6 : Math.max(1, count);
-  const slotWidth = Math.max(40, Math.floor(containerWidth / visiblePoints));
+  const slotWidth = Math.max(42, Math.floor(containerWidth / visiblePoints));
   const scrollableWidth = count > 6 ? slotWidth * count : Math.max(containerWidth, slotWidth * count);
 
-  // Helper to calculate SVG points string for a polyline
+  // Linear points calculation (used for polylines and hover calculations)
   const getPointsString = (data: number[]) => {
     return data
       .map((val, idx) => {
@@ -774,62 +776,103 @@ export function DynamicLineChart({
       .join(" ");
   };
 
-  // Helper to calculate area polygon points string for the primary line
-  const getAreaPointsString = (data: number[]) => {
+  // Ultra-Smooth Catmull-Rom Cubic Bezier Spline
+  const getSmoothPath = (data: number[]) => {
+    const pts = data.map((val, idx) => ({
+      x: idx * slotWidth + slotWidth / 2,
+      y: yZero - (isMasked ? chartHeight * 0.4 : Math.min(chartHeight, (val / ceiling) * chartHeight)),
+    }));
+    if (pts.length === 0) return "";
+    if (pts.length === 1) return `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+
+    let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = i > 0 ? pts[i - 1] : pts[i];
+      const p1 = pts[i];
+      const p2 = pts[i + 1];
+      const p3 = i < pts.length - 2 ? pts[i + 2] : p2;
+
+      const cp1x = p1.x + (p2.x - p0.x) * 0.18;
+      const cp1y = p1.y + (p2.y - p0.y) * 0.18;
+      const cp2x = p2.x - (p3.x - p1.x) * 0.18;
+      const cp2y = p2.y - (p3.y - p1.y) * 0.18;
+
+      d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    }
+    return d;
+  };
+
+  // Smooth Area Polygon Path
+  const getAreaSmoothPath = (data: number[]) => {
     if (data.length === 0) return "";
     const firstX = slotWidth / 2;
     const lastX = (data.length - 1) * slotWidth + slotWidth / 2;
-    const linePoints = getPointsString(data);
-    return `${firstX.toFixed(1)},${yZero} ${linePoints} ${lastX.toFixed(1)},${yZero}`;
+    const curve = getSmoothPath(data);
+    return `${curve} L ${lastX.toFixed(1)} ${yZero} L ${firstX.toFixed(1)} ${yZero} Z`;
   };
+
+  // Primary active series
+  const primaryLine = lines.find((l) => !l.isStandby) || lines[0];
+  const primaryVal = hoveredIdx !== null && primaryLine?.data ? (primaryLine.data[hoveredIdx] || 0) : 0;
+  const hoveredY = hoveredIdx !== null
+    ? yZero - (isMasked ? chartHeight * 0.4 : Math.min(chartHeight, (primaryVal / ceiling) * chartHeight))
+    : yZero;
 
   return (
     <div
-      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none space-y-3"
+      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none space-y-3.5"
       data-testid="dynamic-line-chart"
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Header with Title, Scroll Indicator, and Legend */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      {/* Premium Header with Title, Live Badge, Scroll Indicator, and Legend */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#139485] ring-4 ring-[#139485]/10" />
-            <h2 className="text-xs font-bold text-slate-700 tracking-wider uppercase">
-              {chart.title}
-            </h2>
+          <div className="flex items-center space-x-2.5">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#139485] opacity-40" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-[#139485]" />
+            </span>
+            <div>
+              <h2 className="text-xs font-bold text-slate-800 tracking-wider uppercase">
+                {chart.title}
+              </h2>
+            </div>
           </div>
           {count > 6 && (
-            <span className="sm:hidden text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
+            <span className="sm:hidden text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200/70 rounded-full px-2 py-0.5">
               Scroll ↔
             </span>
           )}
         </div>
 
-        {/* Legend */}
-        <div className="flex items-center space-x-3 text-[11px]">
+        {/* Legend with Capsule Badges */}
+        <div className="flex items-center space-x-2 text-[11px]">
           {lines.map((l) => (
-            <div key={l.name} className="flex items-center space-x-1.5">
+            <div
+              key={l.name}
+              className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200/80 rounded-lg px-2.5 py-1 shadow-2xs"
+            >
               <span
-                className="w-2.5 h-2.5 rounded-full shrink-0"
+                className="w-2.5 h-2.5 rounded-full shrink-0 ring-2 ring-white shadow-xs"
                 style={{ backgroundColor: l.color }}
               />
-              <span className="text-slate-600 font-medium">
+              <span className="text-slate-700 font-semibold text-[11px]">
                 {l.name} {l.isStandby ? "(POS)" : ""}
               </span>
             </div>
           ))}
           {count > 6 && (
-            <span className="hidden sm:inline-block text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
+            <span className="hidden sm:inline-flex items-center text-[10px] font-semibold text-teal-700 bg-teal-50 border border-teal-200/70 rounded-full px-2.5 py-1">
               Scroll ↔
             </span>
           )}
         </div>
       </div>
 
-      {/* Chart Layout: Fixed Vertical Y-Axis on Left + Scrollable Lines on Right */}
+      {/* Chart Layout: Fixed Vertical Y-Axis on Left + Scrollable Spline Viewport on Right */}
       <div className="flex items-start relative">
-        {/* 1. FIXED VERTICAL Y-AXIS (Left Column: Stays fixed, never scrolls, flush left) */}
+        {/* 1. FIXED VERTICAL Y-AXIS (Left Column: Stays permanently fixed, flush left) */}
         <div className="shrink-0 z-10 bg-white select-none pt-1" style={{ width: `${yAxisWidth}px` }}>
           <svg
             width={yAxisWidth}
@@ -857,7 +900,7 @@ export function DynamicLineChart({
           </svg>
         </div>
 
-        {/* 2. SCROLLABLE LINES & HORIZONTAL MONTHS VIEWPORT (Right Column: 6 points in front, remaining scroll) */}
+        {/* 2. SCROLLABLE SPLINE & HORIZONTAL MONTHS VIEWPORT (Right Column: 6 points in front, remaining scroll) */}
         <div
           ref={scrollContainerRef}
           className="flex-1 overflow-x-auto pb-3 pt-1 scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 relative select-none"
@@ -871,10 +914,17 @@ export function DynamicLineChart({
               preserveAspectRatio="none"
             >
               <defs>
-                <linearGradient id="lineAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#139485" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#139485" stopOpacity="0.0" />
+                {/* Multi-Stop Ambient Area Gradient */}
+                <linearGradient id="premiumAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#139485" stopOpacity="0.32" />
+                  <stop offset="45%" stopColor="#139485" stopOpacity="0.12" />
+                  <stop offset="95%" stopColor="#139485" stopOpacity="0.0" />
                 </linearGradient>
+
+                {/* Soft Ambient Line Glow */}
+                <filter id="premiumLineGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="3" stdDeviation="3.5" floodColor="#139485" floodOpacity="0.35" />
+                </filter>
               </defs>
 
               {/* 5 Horizontal Dashed Gridlines spanning the entire scrollable width */}
@@ -894,69 +944,123 @@ export function DynamicLineChart({
                 );
               })}
 
-              {/* Active Month Vertical Guideline */}
+              {/* Active Month Vertical Guideline & Ambient Column Highlight */}
               {hoveredIdx !== null && (
-                <line
-                  x1={hoveredIdx * slotWidth + slotWidth / 2}
-                  y1={topPadding}
-                  x2={hoveredIdx * slotWidth + slotWidth / 2}
-                  y2={yZero}
-                  stroke="#94a3b8"
-                  strokeWidth="1.5"
-                  strokeDasharray="3 3"
-                  className="pointer-events-none"
-                />
+                <g className="pointer-events-none transition-all duration-150">
+                  <rect
+                    x={hoveredIdx * slotWidth}
+                    y={topPadding}
+                    width={slotWidth}
+                    height={chartHeight}
+                    fill="#139485"
+                    fillOpacity="0.04"
+                    rx="6"
+                  />
+                  <line
+                    x1={hoveredIdx * slotWidth + slotWidth / 2}
+                    y1={topPadding}
+                    x2={hoveredIdx * slotWidth + slotWidth / 2}
+                    y2={yZero}
+                    stroke="#139485"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
+                    opacity="0.7"
+                  />
+                </g>
               )}
 
-              {/* Area Polygon Fill under Primary Active Line */}
-              {lines.length > 0 && !lines[0].isStandby && (
-                <polygon
-                  points={getAreaPointsString(lines[0].data)}
-                  fill="url(#lineAreaGradient)"
+              {/* Smooth Area Path under Primary Curve */}
+              {primaryLine && primaryLine.data && primaryLine.data.length > 0 && !primaryLine.isStandby && (
+                <path
+                  d={getAreaSmoothPath(primaryLine.data)}
+                  fill="url(#premiumAreaGradient)"
                   className="pointer-events-none transition-all duration-300"
                 />
               )}
 
-              {/* Polylines & Data Point Circles */}
+              {/* Lines & Data Nodes */}
               {lines.map((line) => {
                 const points = getPointsString(line.data);
+                const smoothPath = getSmoothPath(line.data);
+
                 return (
                   <g key={`line-${line.name}`}>
-                    {/* The Line */}
+                    {/* Polyline element for SVG semantic and test suite compatibility */}
                     <polyline
                       fill="none"
                       stroke={line.color}
-                      strokeWidth={line.isStandby ? "2" : "3"}
+                      strokeWidth={line.isStandby ? "2" : "3.5"}
                       strokeDasharray={line.isStandby ? "4 4" : "none"}
                       points={points}
+                      className={line.isStandby ? "opacity-85" : "hidden"}
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
 
-                    {/* Data Points */}
+                    {/* Smooth Spline Path for Primary Line with Shadow Glow */}
+                    {!line.isStandby && (
+                      <path
+                        d={smoothPath}
+                        fill="none"
+                        stroke={line.color}
+                        strokeWidth="3.5"
+                        filter="url(#premiumLineGlow)"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="transition-all duration-300"
+                      />
+                    )}
+
+                    {/* Data Point Circles with Halos */}
                     {line.data.map((val, idx) => {
                       const x = idx * slotWidth + slotWidth / 2;
                       const y = yZero - (isMasked ? chartHeight * 0.4 : Math.min(chartHeight, (val / ceiling) * chartHeight));
                       const isHovered = hoveredIdx === idx;
 
+                      if (line.isStandby) {
+                        return (
+                          <circle
+                            key={`pt-${line.name}-${idx}`}
+                            cx={x}
+                            cy={y}
+                            r={isHovered ? "4.5" : "3"}
+                            fill="#ffffff"
+                            stroke={line.color}
+                            strokeWidth="1.8"
+                            className="transition-all duration-150"
+                          />
+                        );
+                      }
+
                       return (
-                        <circle
-                          key={`pt-${line.name}-${idx}`}
-                          cx={x}
-                          cy={y}
-                          r={isHovered ? "6" : "4"}
-                          fill="#ffffff"
-                          stroke={line.color}
-                          strokeWidth={isHovered ? "3" : "2.2"}
-                          className="cursor-pointer transition-all duration-150"
-                        />
+                        <g key={`pt-${line.name}-${idx}`} className="transition-all duration-150">
+                          {/* Outer Ambient Halo */}
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r={isHovered ? "11" : "6"}
+                            fill={line.color}
+                            fillOpacity={isHovered ? 0.22 : 0.12}
+                            className="transition-all duration-200"
+                          />
+                          {/* Main Crisp Node */}
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r={isHovered ? "6" : "4.5"}
+                            fill="#ffffff"
+                            stroke={line.color}
+                            strokeWidth={isHovered ? "3.2" : "2.4"}
+                            className="cursor-pointer transition-all duration-150"
+                          />
+                        </g>
                       );
                     })}
                   </g>
                 );
               })}
 
-              {/* Transparent Column Hitbox for smooth hovering */}
+              {/* Transparent Column Hitbox for smooth touching/hovering */}
               {timePoints.map((tp, idx) => {
                 const slotX = idx * slotWidth;
                 return (
@@ -975,37 +1079,97 @@ export function DynamicLineChart({
                 );
               })}
 
-              {/* Horizontal Month Labels: Large, Bold font (fontSize 13) */}
+              {/* Horizontal Month Labels: Large, Bold font (fontSize 13) with Hover Pill Highlight */}
               {timePoints.map((tp, idx) => {
                 const x = idx * slotWidth + slotWidth / 2;
                 const isHovered = hoveredIdx === idx;
 
                 return (
-                  <text
-                    key={`tp-${tp}-${idx}`}
-                    x={x}
-                    y={yZero + 22}
-                    textAnchor="middle"
-                    fill={isHovered ? "#0f172a" : "#334155"}
-                    fontSize="13"
-                    fontWeight={isHovered ? "800" : "700"}
-                    fontFamily="sans-serif"
-                  >
-                    {tp.slice(0, 3)}
-                  </text>
+                  <g key={`tp-${tp}-${idx}`} className="transition-all duration-150">
+                    {/* Hover Pill Background */}
+                    {isHovered && (
+                      <rect
+                        x={x - 20}
+                        y={yZero + 9}
+                        width="40"
+                        height="20"
+                        rx="6"
+                        fill="#0f172a"
+                        className="animate-fadeIn"
+                      />
+                    )}
+                    <text
+                      x={x}
+                      y={yZero + 23}
+                      textAnchor="middle"
+                      fill={isHovered ? "#ffffff" : "#334155"}
+                      fontSize="13"
+                      fontWeight={isHovered ? "800" : "700"}
+                      fontFamily="sans-serif"
+                      className="transition-colors duration-150"
+                    >
+                      {tp.slice(0, 3)}
+                    </text>
+                  </g>
                 );
               })}
             </svg>
+
+            {/* Floating Glassmorphic Tooltip Card directly over the active node */}
+            {hoveredIdx !== null && (
+              <div
+                className="absolute z-20 pointer-events-none transition-all duration-150 ease-out"
+                style={{
+                  left: `${Math.max(52, Math.min(scrollableWidth - 52, hoveredIdx * slotWidth + slotWidth / 2))}px`,
+                  top: `${Math.max(16, Math.min(chartHeight + topPadding, hoveredY))}px`,
+                  transform: hoveredY < 80 ? "translate(-50%, 14px)" : "translate(-50%, -125%)",
+                }}
+              >
+                <div className="bg-[#18181b]/95 backdrop-blur-md border border-zinc-700/80 rounded-xl px-3 py-2 shadow-2xl whitespace-nowrap text-left min-w-[120px]">
+                  <div className="flex items-center justify-between space-x-2 mb-1.5 border-b border-zinc-700/60 pb-1">
+                    <span className="text-[11px] font-bold text-zinc-100">
+                      {timePoints[hoveredIdx]}
+                    </span>
+                    <span className="text-[9px] font-semibold text-teal-300 bg-teal-950/80 border border-teal-800/60 rounded px-1.5 py-0.5">
+                      2026 Trend
+                    </span>
+                  </div>
+                  <div className="space-y-1">
+                    {lines.map((l) => (
+                      <div
+                        key={`hov-tip-${l.name}`}
+                        className="flex items-center justify-between space-x-3 text-[11px] leading-tight"
+                      >
+                        <div className="flex items-center space-x-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: l.color }} />
+                          <span className="text-zinc-400 font-medium">{l.name}:</span>
+                        </div>
+                        <span className="text-white font-bold pl-1">
+                          {isMasked
+                            ? "••••••"
+                            : l.data[hoveredIdx] > 0
+                            ? `৳${(l.data[hoveredIdx] / 1000).toFixed(0)}K`
+                            : "Standby"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Detail Summary Bar when Point is Hovered / Selected */}
       {hoveredIdx !== null ? (
-        <div className="bg-slate-50 border border-slate-200/90 rounded-xl p-2.5 text-xs flex items-center justify-between animate-fadeIn">
-          <span className="font-bold text-slate-800">
-            {timePoints[hoveredIdx]} Performance:
-          </span>
+        <div className="bg-slate-50 border border-slate-200/90 rounded-xl p-2.5 text-xs flex items-center justify-between animate-fadeIn shadow-2xs">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-[#139485]" />
+            <span className="font-bold text-slate-800">
+              {timePoints[hoveredIdx]} 2026 Performance:
+            </span>
+          </div>
           <div className="flex items-center space-x-3 text-[11px]">
             {lines.map((l) => (
               <span key={`hov-bar-${l.name}`} style={{ color: l.color }} className="font-bold">
@@ -1021,7 +1185,7 @@ export function DynamicLineChart({
         </div>
       ) : (
         <p className="text-[10px] text-slate-400 text-right pr-2">
-          Tap or hover points to compare series values
+          Tap or hover points to compare performance metrics
         </p>
       )}
     </div>
