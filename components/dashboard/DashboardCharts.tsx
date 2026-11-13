@@ -467,8 +467,6 @@ export function DynamicBarChart({
   const activeBarH = activeIdx !== null ? Math.max(8, (activeVal / ceiling) * chartHeight) : 0;
   const activeBarY = yZero - activeBarH;
 
-  const metricLabel = chart.title.toLowerCase().includes("sales") ? "Sales" : "Purchase";
-
   return (
     <div
       className="bg-white text-slate-800 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none"
@@ -635,10 +633,7 @@ export function DynamicBarChart({
                   </div>
                   <div className="flex items-center space-x-1.5 text-[11px] leading-none">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
-                    <span className="text-zinc-400 font-medium">
-                      {metricLabel}
-                    </span>
-                    <span className="text-white font-bold pl-1">
+                    <span className="text-white font-bold">
                       {formatTooltipVal(activeVal)}
                     </span>
                   </div>
