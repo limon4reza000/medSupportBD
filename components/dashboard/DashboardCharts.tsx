@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   TrendingUp,
   TrendingDown,
@@ -347,6 +347,24 @@ export function DynamicBarChart({
   isLoading?: boolean;
 }) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number>(270);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const updateWidth = () => {
+      if (el.clientWidth > 0) {
+        setContainerWidth(el.clientWidth);
+      }
+    };
+
+    updateWidth();
+    const ro = new ResizeObserver(updateWidth);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   if (isLoading) {
     return (
@@ -426,23 +444,26 @@ export function DynamicBarChart({
   // Dimensions
   const chartHeight = 210;
   const topPadding = 24;
-  const leftMargin = 72; // Generous space for larger Y-Axis labels (fontSize 14)
-  const rightMargin = 28;
   const yZero = topPadding + chartHeight;
   const svgHeight = yZero + 38;
 
+  // Y-axis fixed column width (flushed to the far left at red mark)
+  const yAxisWidth = 46;
+
   const count = chart.categories.length;
-  // Wide, thick bars matching reference UI with scrollable viewport
-  const barWidth = count >= 12 ? 44 : Math.max(42, Math.min(56, Math.floor(260 / count)));
-  const totalBarWidth = count * barWidth;
-  const gap = count >= 12 ? 22 : 28;
-  const svgWidth = Math.max(500, leftMargin + totalBarWidth + (count + 1) * gap + rightMargin);
-  const availableBarSpan = svgWidth - leftMargin - rightMargin;
+  // Exactly 6 bars visible in front when count > 6 (e.g. 12 months), remaining 6 bars scroll
+  const visibleBars = count > 6 ? 6 : Math.max(1, count);
+  // Slot width for each bar in pixels
+  const slotWidth = Math.max(40, Math.floor(containerWidth / visibleBars));
+  // Bar width is ~68% of slot width, capped between 26px and 40px
+  const barWidth = Math.max(26, Math.min(40, Math.floor(slotWidth * 0.68)));
+  // Total scrollable width: if count > 6, exactly slotWidth * count (e.g. 6 in front + 6 scrolled)
+  const scrollableWidth = count > 6 ? slotWidth * count : Math.max(containerWidth, slotWidth * count);
 
   const activeIdx = hoveredIdx !== null && hoveredIdx < count ? hoveredIdx : null;
   const activeVal = activeIdx !== null ? (seriesData[activeIdx] || 0) : 0;
   const activeCat = activeIdx !== null ? (chart.categories[activeIdx] || "") : "";
-  const activeBarX = activeIdx !== null ? (leftMargin + gap + activeIdx * (barWidth + gap)) : 0;
+  const activeBarCenterX = activeIdx !== null ? (activeIdx * slotWidth + slotWidth / 2) : 0;
   const activeBarH = activeIdx !== null ? Math.max(8, (activeVal / ceiling) * chartHeight) : 0;
   const activeBarY = yZero - activeBarH;
 
@@ -450,161 +471,181 @@ export function DynamicBarChart({
 
   return (
     <div
-      className="bg-white text-slate-800 rounded-2xl p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none"
+      className="bg-white text-slate-800 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-sm relative overflow-hidden select-none"
       data-testid="dynamic-bar-chart"
       role="graphics-document"
       aria-label={chart.title}
     >
-      {/* Clean Minimalist Header with Scrollable Indicator */}
+      {/* Clean Minimalist Header with Scroll Indicator */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center space-x-2.5">
+        <div className="flex items-center space-x-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[#205493] ring-4 ring-[#205493]/10" />
           <h2 className="text-xs font-bold text-slate-700 tracking-wider uppercase">
             {chart.title}
           </h2>
         </div>
-        {count >= 12 && (
+        {count > 6 && (
           <span className="text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-100 rounded-full px-2 py-0.5">
             Scroll ↔
           </span>
         )}
       </div>
 
-      {/* Scrollable Chart Viewport with Modern Subtle Scrollbar */}
-      <div
-        className="w-full overflow-x-auto pb-3 pt-1 scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 relative select-none"
-        onMouseLeave={() => setHoveredIdx(null)}
-      >
-        <div style={{ minWidth: `${svgWidth}px` }} className="relative">
+      {/* Chart Layout: Fixed Vertical Y-Axis on Left + Scrollable Bars on Right */}
+      <div className="flex items-start relative">
+        {/* 1. FIXED VERTICAL Y-AXIS (Left Column: Stays fixed, never scrolls, flush left at red mark) */}
+        <div className="shrink-0 z-10 bg-white select-none pt-1" style={{ width: `${yAxisWidth}px` }}>
           <svg
-            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-            className="w-full select-none"
-            style={{ minWidth: `${svgWidth}px`, height: `${svgHeight}px` }}
-            preserveAspectRatio="none"
+            width={yAxisWidth}
+            height={svgHeight}
+            className="overflow-visible select-none"
+            style={{ width: `${yAxisWidth}px`, height: `${svgHeight}px` }}
           >
-            {/* Defs for subtle shadow filter */}
-            <defs>
-              <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#205493" floodOpacity="0.25" />
-              </filter>
-            </defs>
-
-            {/* 5 Horizontal Grid Lines and Right-aligned Large Y-Axis Labels */}
             {yTicks.map((tickVal, i) => {
               const lineY = topPadding + i * (chartHeight / 4);
               return (
-                <g key={`ytick-${tickVal}-${i}`}>
-                  {/* Y-Axis Label: Larger, bolder and clear (fontSize 14) */}
-                  <text
-                    x={leftMargin - 12}
-                    y={lineY + 5}
-                    textAnchor="end"
-                    fill="#475569"
-                    fontSize="14"
-                    fontWeight="600"
-                    fontFamily="sans-serif"
-                  >
-                    {formatYLabel(tickVal)}
-                  </text>
-                  {/* Faint Horizontal Dashed Line */}
+                <text
+                  key={`ytick-fixed-${tickVal}-${i}`}
+                  x="0"
+                  y={lineY + 4}
+                  textAnchor="start"
+                  fill="#475569"
+                  fontSize="13"
+                  fontWeight="600"
+                  fontFamily="sans-serif"
+                >
+                  {formatYLabel(tickVal)}
+                </text>
+              );
+            })}
+          </svg>
+        </div>
+
+        {/* 2. SCROLLABLE BARS & HORIZONTAL MONTHS VIEWPORT (Right Column: 6 bars in front, remaining scroll) */}
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-x-auto pb-3 pt-1 scrollbar-thin scrollbar-track-slate-50 scrollbar-thumb-slate-300 hover:scrollbar-thumb-slate-400 relative select-none"
+          onMouseLeave={() => setHoveredIdx(null)}
+        >
+          <div style={{ minWidth: `${scrollableWidth}px` }} className="relative">
+            <svg
+              viewBox={`0 0 ${scrollableWidth} ${svgHeight}`}
+              className="w-full select-none"
+              style={{ minWidth: `${scrollableWidth}px`, height: `${svgHeight}px` }}
+              preserveAspectRatio="none"
+            >
+              {/* Defs for subtle shadow filter */}
+              <defs>
+                <filter id="barShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#205493" floodOpacity="0.25" />
+                </filter>
+              </defs>
+
+              {/* 5 Horizontal Dashed Gridlines spanning the entire scrollable width */}
+              {yTicks.map((tickVal, i) => {
+                const lineY = topPadding + i * (chartHeight / 4);
+                return (
                   <line
-                    x1={leftMargin}
+                    key={`gridline-${tickVal}-${i}`}
+                    x1="0"
                     y1={lineY}
-                    x2={svgWidth - rightMargin}
+                    x2={scrollableWidth}
                     y2={lineY}
                     stroke="#e2e8f0"
                     strokeWidth="1"
                     strokeDasharray="3 3"
                   />
-                </g>
-              );
-            })}
+                );
+              })}
 
-            {/* Bars */}
-            {chart.categories.map((cat, i) => {
-              const val = seriesData[i] || 0;
-              const barH = isMasked
-                ? chartHeight * 0.4
-                : Math.max(6, (val / ceiling) * chartHeight);
-              const x = leftMargin + gap + i * (barWidth + gap);
-              const y = yZero - barH;
-              const isHovered = hoveredIdx === i;
-              const hasHover = hoveredIdx !== null;
+              {/* Bars */}
+              {chart.categories.map((cat, i) => {
+                const val = seriesData[i] || 0;
+                const barH = isMasked
+                  ? chartHeight * 0.4
+                  : Math.max(6, (val / ceiling) * chartHeight);
+                const slotX = i * slotWidth;
+                const barX = slotX + Math.floor((slotWidth - barWidth) / 2);
+                const barCenterX = slotX + slotWidth / 2;
+                const y = yZero - barH;
+                const isHovered = hoveredIdx === i;
+                const hasHover = hoveredIdx !== null;
 
-              return (
-                <g
-                  key={`bar-${cat}-${i}`}
-                  className="cursor-pointer transition-all duration-200"
-                  onMouseEnter={() => setHoveredIdx(i)}
-                  onTouchStart={() => setHoveredIdx(i)}
-                  onClick={() => setHoveredIdx(i)}
-                >
-                  {/* Transparent Hover Hitbox Area for Smooth Interaction */}
-                  <rect
-                    x={x - 6}
-                    y={topPadding}
-                    width={barWidth + 12}
-                    height={chartHeight + 30}
-                    fill="transparent"
-                  />
-
-                  {/* The Bar: Solid Navy Blue with rounded corners and hover glow */}
-                  <rect
-                    x={x}
-                    y={y}
-                    width={barWidth}
-                    height={barH}
-                    rx="10"
-                    ry="10"
-                    fill={isHovered ? "#2b6cb0" : "#205493"}
-                    filter={isHovered ? "url(#barShadow)" : undefined}
-                    opacity={hasHover && !isHovered ? 0.75 : 1}
-                    className="transition-all duration-200 ease-out"
-                  />
-
-                  {/* X-Axis Category / Month Label: Larger, bolder font (fontSize 14) */}
-                  <text
-                    x={x + barWidth / 2}
-                    y={yZero + 24}
-                    textAnchor="middle"
-                    fill={isHovered ? "#0f172a" : "#334155"}
-                    fontSize="14"
-                    fontWeight={isHovered ? "800" : "700"}
-                    fontFamily="sans-serif"
+                return (
+                  <g
+                    key={`bar-${cat}-${i}`}
+                    className="cursor-pointer transition-all duration-200"
+                    onMouseEnter={() => setHoveredIdx(i)}
+                    onTouchStart={() => setHoveredIdx(i)}
+                    onClick={() => setHoveredIdx(i)}
                   >
-                    {cat.slice(0, 3)}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
+                    {/* Transparent Hover Hitbox Area for Smooth Interaction */}
+                    <rect
+                      x={slotX}
+                      y={topPadding}
+                      width={slotWidth}
+                      height={chartHeight + 35}
+                      fill="transparent"
+                    />
 
-          {/* Floating Tooltip Card (Refined Short & Compact per user request) */}
-          {activeIdx !== null && activeCat && (
-            <div
-              className="absolute z-10 pointer-events-none transition-all duration-150 ease-out"
-              style={{
-                left: `${Math.max(4, Math.min(96, ((activeBarX + barWidth / 2) / svgWidth) * 100))}%`,
-                top: `${Math.max(12, Math.min(85, (activeBarY / svgHeight) * 100))}%`,
-                transform: activeBarY < 65 ? "translate(-50%, 12px)" : "translate(-50%, -115%)",
-              }}
-            >
-              <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap">
-                <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-0.5">
-                  {activeCat}
-                </div>
-                <div className="flex items-center space-x-1.5 text-[11px] leading-none">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
-                  <span className="text-zinc-400 font-medium">
-                    {metricLabel}
-                  </span>
-                  <span className="text-white font-bold pl-1">
-                    {formatTooltipVal(activeVal)}
-                  </span>
+                    {/* The Bar: Solid Navy Blue with rounded corners and hover glow */}
+                    <rect
+                      x={barX}
+                      y={y}
+                      width={barWidth}
+                      height={barH}
+                      rx="10"
+                      ry="10"
+                      fill={isHovered ? "#2b6cb0" : "#205493"}
+                      filter={isHovered ? "url(#barShadow)" : undefined}
+                      opacity={hasHover && !isHovered ? 0.75 : 1}
+                      className="transition-all duration-200 ease-out"
+                    />
+
+                    {/* X-Axis Category / Month Label: Bold font (fontSize 13) */}
+                    <text
+                      x={barCenterX}
+                      y={yZero + 22}
+                      textAnchor="middle"
+                      fill={isHovered ? "#0f172a" : "#334155"}
+                      fontSize="13"
+                      fontWeight={isHovered ? "800" : "700"}
+                      fontFamily="sans-serif"
+                    >
+                      {cat.slice(0, 3)}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+
+            {/* Floating Tooltip Card (Refined Short & Compact per user request) */}
+            {activeIdx !== null && activeCat && (
+              <div
+                className="absolute z-10 pointer-events-none transition-all duration-150 ease-out"
+                style={{
+                  left: `${Math.max(48, Math.min(scrollableWidth - 48, activeBarCenterX))}px`,
+                  top: `${activeBarY}px`,
+                  transform: activeBarY < 65 ? "translate(-50%, 12px)" : "translate(-50%, -115%)",
+                }}
+              >
+                <div className="bg-[#1e1e1e]/95 backdrop-blur-sm border border-zinc-700/80 rounded-lg px-2.5 py-1.5 shadow-xl whitespace-nowrap">
+                  <div className="text-[10px] font-bold text-zinc-300 leading-tight mb-0.5">
+                    {activeCat}
+                  </div>
+                  <div className="flex items-center space-x-1.5 text-[11px] leading-none">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#205493] shrink-0" />
+                    <span className="text-zinc-400 font-medium">
+                      {metricLabel}
+                    </span>
+                    <span className="text-white font-bold pl-1">
+                      {formatTooltipVal(activeVal)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
